@@ -11,6 +11,8 @@ hr{
     color: #040316;
 }
 
+
+
 /* HEADER **/
 
 header{
@@ -65,14 +67,26 @@ main{
 
 footer{
     padding-top: 10px;
+    width: 100%;
     border-top: solid 2px #040316 ;
     margin-top: 20px;
+    position: fixed;
+    bottom: 10px;
 }
 
 .l_footer{
     display: flex;
     justify-content: space-around;
+    font-size: 15px;
+}
 
+.list-footer{
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.text-footer{
+    text-align: center;
 }
 
 
@@ -83,22 +97,26 @@ footer{
 h1{
     font-size: 30px;
     font-weight: normal;
+    margin: 10px;
 }
 
 h2{
     font-size: 25px;
     font-weight: normal;
+    margin: 10px;
 }
 
 h3{
     font-size: 20px;
     text-decoration: underline;
     font-weight: normal;
+    margin: 10px;
 }
 
 h4{
     font-size: 20px;
     font-weight: normal;
+    margin: 10px;
 }
 
 p{
