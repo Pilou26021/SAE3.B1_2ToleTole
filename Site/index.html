@@ -30,11 +30,53 @@
                 <div class="recherche_top">
                     <img src="img/Search.png" alt="Search">
                     <input class="input" placeholder="Votre recherche" type="text">
-                    <img src="img/filtre.png" alt="Filtre">
+                    <img src="img/filtre.png" alt="Filtre" id="filterBtn">
                 </div>
                 <hr>
                 <div>
                     <input class="button_1" type="submit" value="Recherche" >
+                </div>
+            </form>
+        </div>
+        <div id="filterForm" class="filter-form">
+            <h3>Appliquer des filtres</h3>
+            <form action="#">
+                <label for="category">Catégorie :</label>
+                <select class="choose" id="category" name="category">
+                    <option value="">--Choisissez une option--</option>
+                    <option value="Restauration">Restauration</option>
+                    <option value="Spectacles">Spectacles</option>
+                    <option value="Visites">Visites</option>
+                    <option value="Activités">Activités</option>
+                    <option value="Parcs">Parcs d’attractions</option>
+                </select>
+                <label for="lieux">Lieux :</label>
+                <div style="display: flex; align-items:center; justify-content: space-around;">
+                    <input class="input-filtre"  style="width: 60%;" type="text" placeholder="Lieux (Rennes) ">
+                    <input class="input-filtre"  style="width: 30%;" type="text" placeholder="Rayon (50km)" >
+                </div>
+
+                <label for="date">Date :</label>
+                <div style="display: flex; align-items:center; justify-content: space-around;">
+                    <input class="input-filtre"  style="width: 40%;" type="date" >
+                    <input class="input-filtre"  style="width: 40%;" type="date" >
+                </div>
+
+                <label for="priceRange">Gamme de prix :</label>
+                <select class="choose" id="priceRange" name="priceRange">
+                    <option value="low">0 - 100€</option>
+                    <option value="medium">100 - 500€</option>
+                    <option value="high">500€+</option>
+                </select>
+
+                <label for="sort">Trier par :</label>
+                <select  class="choose" id="sort" name="sort">
+                    <option value="popularity">Popularité</option>
+                    <option value="recent">Plus récent</option>
+                    <option value="price">Prix</option>
+                </select>
+                <div style="display: flex; justify-content: center;">
+                    <input class="button_1" type="submit" value="Appliquer">
                 </div>
             </form>
         </div>
@@ -75,6 +117,15 @@
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
         }
+
+        document.getElementById("filterBtn").addEventListener("click", function() {
+            var filterForm = document.getElementById("filterForm");
+            if (filterForm.style.display === "none" || filterForm.style.display === "") {
+                filterForm.style.display = "block";
+            } else {
+                filterForm.style.display = "none";
+            }
+        });
     </script> 
 </body>
 </html>
