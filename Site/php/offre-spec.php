@@ -90,9 +90,11 @@ $close_time = isset($_SESSION['close_time']) ? $_SESSION['close_time'] : '12:00'
             <div>
             <input type="text" name="indicationDuree" placeholder="Durée en minutes" value="120min" required>  
             </div>
+
+            <div>
             <h2>Capacité d'accueil</h2>
             <input type="number" name="capacitéAcceuil" placeholder="Capacité en nombre de personnes" value="<?= $capacitéAcceuil ?>" required>  
-
+            </div>
 
             <h2>Adresse/coordonnée</h2>
             <div>
