@@ -9,14 +9,18 @@
 <body>
     <header>
         <nav id="mySidenav" class="sidenav">
-            <a href="#" class="close"><img src="img/Menu.png" alt="image Menu" title="image menu"></a>
-            <ul class="sous">
-              <li><a href="#">A propos</a></li>
-              <li><a href="#">Nos services</a></li>
-              <li><a href="#">Témoignages</a></li>
-              <li><a href="#">Contact</a></li>
+            <div class="profil">
+                <img src="img/TripEnarvor.png" alt="" width="70px" height="70px">
+                <p>visiteurs</p>
+            </div>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <ul>
+                <li><a href="#">Mes likes</a></li>
+                <li><a href="#">Me Deconnecter</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
         </nav>
+        <span class="openbtn" onclick="openNav()">&#9776;</span>
         <img src="img/fond_remove.png" alt="logo site noir" title="logo site noir">
         <img src="img/User.png" alt="image user" title="image user" style="width: 30px; height: 30px;">
     </header>
@@ -62,6 +66,15 @@
             <p><img src="img/fond_remove.png" alt="PACT" width="35px" height="35px"> propulsé par <img src="img/TripEnarvor.png" alt="TripEnarvor" width="35px" height="35px">© 2024 PACT LLC Tous droits réservés.</p>
             <p>Cette version de notre site internet s'adresse aux personnes parlant Français en France.</p>
         </div>
-    </footer>  
+    </footer> 
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "300px";
+        }
+        
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script> 
 </body>
 </html>

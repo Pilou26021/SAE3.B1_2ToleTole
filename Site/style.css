@@ -27,6 +27,55 @@ header{
 
 /* MENU HEADER **/
 
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #F2F1E9;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    margin-right: 10px;
+}
+
+.profil{
+    margin: 10px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #040316;
+    display: block;
+    transition: 0.3s;
+}
+
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 30px;
+    cursor: pointer;
+    color: #040316;
+    border: none;
+    padding: 10px 15px;
+}
+
+.sidenav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
 
 
 /* MAIN **/
