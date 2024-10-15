@@ -85,52 +85,69 @@ $close_time = isset($_SESSION['close_time']) ? $_SESSION['close_time'] : '12:00'
                 <input type="time" name="close_time" id="close_time" value="<?= $close_time ?>" required>
             </div>
 
+            
+            <h2>Durée du spectacle</h2>
+            <div>
+            <input type="text" name="indicationDuree" placeholder="Durée en minutes" value="120min" required>  
+            </div>
+
+            <div>
+            <h2>Capacité d'accueil</h2>
+            <input type="number" name="capacitéAcceuil" placeholder="Capacité en nombre de personnes" value="<?= $capacitéAcceuil ?>" required>  
+            </div>
 
             <h2>Adresse/coordonnée</h2>
+            <div>
             <input type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
+            </div>
 
             <h2>Ajouter une image principale de l'offre</h2>
             <div class="image-upload">
                 <input type="file" name="offer_image" accept="image/*" required>
             </div>
 
-                        <h2>Horaires de la semaine</h2>
-            <div class="horaires-semaine">
-                <label for="lunch_open_time">Horaire de déjeuner (ouverture) :</label>
-                <input type="time" name="lunch_open_time" id="lunch_open_time" required>
+            <h2>Durée de la visite</h2>
+            <input type="text" name="indicationDuree" placeholder="Durée de la visite (ex: 1h, 2h)" required>
 
-                <label for="lunch_close_time">Horaire de déjeuner (fermeture) :</label>
-                <input type="time" name="lunch_close_time" id="lunch_close_time" required>
+            <h2>Visite guidée</h2>
+            <label>
+                <input type="radio" name="visiteGuidee" value="oui" required> Oui
+            </label>
+            <label>
+                <input type="radio" name="visiteGuidee" value="non"> Non
+            </label>
 
-                <label for="dinner_open_time">Horaire du dîner (ouverture) :</label>
-                <input type="time" name="dinner_open_time" id="dinner_open_time" required>
-
-                <label for="dinner_close_time">Horaire du dîner (fermeture) :</label>
-                <input type="time" name="dinner_close_time" id="dinner_close_time" required>
-                <br>
-                <label for="closed_days">Jours de fermeture :</label> 
-                <input type="text" name="closed_days" id="closed_days" placeholder="Ex: Lundi" required>
+            <h2>Langues proposées</h2>
+            <div class="langues">
+                <label><input type="checkbox" name="langues[]" value="Français"> Français</label>
+                <label><input type="checkbox" name="langues[]" value="Anglais"> Anglais</label>
+                <label><input type="checkbox" name="langues[]" value="Espagnol"> Espagnol</label>
+                <label><input type="checkbox" name="langues[]" value="Allemand"> Allemand</label>
+                <label><input type="checkbox" name="langues[]" value="Italien"> Italien</label>
+                <label><input type="checkbox" name="langues[]" value="Autre"> Autre</label>
+                <input type="text" name="autreLangue" placeholder="Préciser autre langue" style="display:none;" id="autreLangueInput">
             </div>
-
-            <h2>Gamme de prix</h2>
-            <input type="text" name="average_price" placeholder="Prix moyen par personne" required>
-
-            <h2>Carte du restaurant</h2>
-            <div class="image-upload">
-                <input type="file" name="menu_image" accept="image/*" required>
-            </div>
-
 
             <h2>Tags de l'offre</h2>
             <div class="tags">
-            <label><input type="checkbox" name="tags[]" value="Française"> Française</label>
-            <label><input type="checkbox" name="tags[]" value="Fruit de mer"> Fruit de mer</label>
-            <label><input type="checkbox" name="tags[]" value="Asiatique"> Asiatique</label>
-            <label><input type="checkbox" name="tags[]" value="Indienne"> Indienne</label>
-            <label><input type="checkbox" name="tags[]" value="Italienne"> Italienne</label>
-            <label><input type="checkbox" name="tags[]" value="Gastronomique"> Gastronomique</label>
-            <label><input type="checkbox" name="tags[]" value="Restauration rapide"> Restauration rapide</label>
-            <label><input type="checkbox" name="tags[]" value="Crêperie"> Crêperie</label>
+                <label><input type="checkbox" name="tags[]" value="Classique"> Classique</label>
+                <label><input type="checkbox" name="tags[]" value="Culturel"> Culturel</label>
+                <label><input type="checkbox" name="tags[]" value="Patrimoine"> Patrimoine</label>
+                <label><input type="checkbox" name="tags[]" value="Histoire"> Histoire</label>
+                <label><input type="checkbox" name="tags[]" value="Urbain"> Urbain</label>
+                <label><input type="checkbox" name="tags[]" value="Nature"> Nature</label>
+                <label><input type="checkbox" name="tags[]" value="Plein air"> Plein air</label>
+                <label><input type="checkbox" name="tags[]" value="Sport"> Sport</label>
+                <label><input type="checkbox" name="tags[]" value="Nautique"> Nautique</label>
+                <label><input type="checkbox" name="tags[]" value="Gastronomie"> Gastronomie</label>
+                <label><input type="checkbox" name="tags[]" value="Musée"> Musée</label>
+                <label><input type="checkbox" name="tags[]" value="Atelier"> Atelier</label>
+                <label><input type="checkbox" name="tags[]" value="Musique"> Musique</label>
+                <label><input type="checkbox" name="tags[]" value="Famille"> Famille</label>
+                <label><input type="checkbox" name="tags[]" value="Cinéma"> Cinéma</label>
+                <label><input type="checkbox" name="tags[]" value="Cirque"> Cirque</label>
+                <label><input type="checkbox" name="tags[]" value="Son et Lumière"> Son et Lumière</label>
+                <label><input type="checkbox" name="tags[]" value="Humour"> Humour</label>
             </div>
 
             <button type="submit" class="submit-btn">Créer une offre</button>
