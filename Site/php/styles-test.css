@@ -69,6 +69,23 @@ textarea {
     font-size: 0.9em;
 }
 
+input[type="radio"]:checked + .category {
+    background-color: #88b0a2;
+}
+
+input[type="radio"] {
+    appearance: none; /* Cacher le style par défaut */
+    -webkit-appearance: none; /* Pour les navigateurs WebKit */
+}
+
+input[type="radio"] + label {
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .category:hover {
     background-color: #88b0a2;
 }
@@ -126,4 +143,9 @@ textarea {
 
 .submit-btn:hover {
     background-color: #555;
+}
+
+.type-offre-text {
+    text-align: center;
+
 }
