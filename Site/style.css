@@ -507,34 +507,110 @@ height: 10px;
 display: block; /* Montre la coche lorsqu'il est sélectionné */
 }
 
-  
+
 .langues input[type="checkbox"] {
-    appearance: none; /* Retire le style par défaut de la checkbox */
-    width: 20px;
-    height: 20px;
-    border: 2px solid #a3d1c5; /* Vert de base */
-    border-radius: 4px;
-    background-color: white;
-    cursor: pointer;
-    position: relative;
-  }
+  appearance: none; /* Retire le style par défaut de la checkbox */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #a3d1c5; /* Vert de base */
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+}
+
+.langues input[type="checkbox"]:checked {
+  background-color: #88b0a2; /* Vert plus foncé lorsqu'il est sélectionné */
+  border-color: #88b0a2;
+}
+
+.langues input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  display: none;
+  top: 4px;
+  left: 4px;
+  width: 10px;
+  height: 10px;
+}
+
+.langues input[type="checkbox"]:checked::after {
+  display: block; /* Montre la coche lorsqu'il est sélectionné */
+}
   
-  .langues input[type="checkbox"]:checked {
-    background-color: #88b0a2; /* Vert plus foncé lorsqu'il est sélectionné */
-    border-color: #88b0a2;
-  }
-  
-  .langues input[type="checkbox"]::after {
-    content: '';
-    position: absolute;
-    display: none;
-    top: 4px;
-    left: 4px;
-    width: 10px;
-    height: 10px;
-  }
-  
-  .langues input[type="checkbox"]:checked::after {
-    display: block; /* Montre la coche lorsqu'il est sélectionné */
-  }
-  
+
+/** CONNEXION PRO */
+
+/*Corps de la page*/
+body.cp_mobile{
+  display: flex;                /* Utiliser Flexbox */
+  flex-direction: column;       /* Aligne les enfants en colonne */
+  justify-content: center;      /* Centre verticalement */
+  align-items: center;          /* Centre horizontalement */
+  height: 90vh;                /* Prend toute la hauteur de la fenêtre */
+  background-color: #F2F1E9;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}
+
+/*Grand titre*/
+h1.cp_mobile{
+  font-style: italic;
+  font-weight: lighter;
+  font-size: 30px;
+}
+
+/*Formulaire*/
+form.cp_mobile{
+  display: flex;                /* Utiliser Flexbox */
+  flex-direction: column;       /* Aligne les enfants en colonne */
+  justify-content: center;      /* Centre verticalement */
+  align-items: center;          /* Centre horizontalement */
+}
+
+/*Section regroupant les champs de saisie*/
+section.cp_mobile{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Champs de saisie*/
+section.cp_mobile input.cp_mobile{
+  height: 42px;
+  width: 312px;
+  border-color: #040316;
+  background-color: #F2F1E9;
+  border-radius: 10px;
+  text-align: center; 
+  font-size: 14px;
+}
+
+/*Case à cocher*/
+.cp_mobile_chkbox{
+  width: 20px;              /* Largeur de la checkbox */
+  height: 20px;             /* Hauteur de la checkbox */
+}
+
+/*Bouton submit*/
+.cp_mobile_btn{
+  width: 294px;
+  height: 56px;
+  border-radius: 20px;
+  border-color: #040316;
+  background-color: #F2F1E9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre */
+  margin: 40px;
+  font-size: 20px;
+}
+
+/*Bouton submit au survol*/
+.cp_mobile_btn:hover{
+  background-color: #040316;
+  color: #F2F1E9;
+}
+
+/*Liens hypertextes*/
+a.cp_mobile{
+  text-decoration: none;
+  color: #040316;
+}
