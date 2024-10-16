@@ -39,7 +39,7 @@
             </form>
         </div>
         <div id="filterForm" class="filter-form">
-            <h3>Appliquer des filtres</h3>
+            <h3> Filtres</h3>
             <form action="#">
                 <label for="category">Catégorie :</label>
                 <select class="choose" id="category" name="category">
@@ -50,31 +50,79 @@
                     <option value="Activités">Activités</option>
                     <option value="Parcs">Parcs d’attractions</option>
                 </select>
+
                 <label for="lieux">Lieux :</label>
                 <div style="display: flex; align-items:center; justify-content: space-around;">
                     <input class="input-filtre"  style="width: 60%;" type="text" placeholder="Lieux (Rennes) ">
-                    <input class="input-filtre"  style="width: 30%;" type="text" placeholder="Rayon (50km)" >
+                    <div class="slider-container" style="width: 30%;">
+                        <div class="price-label">
+                            Rayon: <span id="rayon-value">25</span>km
+                        </div>
+                        
+                        <input type="range" id="rayon-range" class="slider" min="0" max="100" step="5" value="25">
+                        
+                        <div class="range-values">
+                            <span class="range-value">0km</span>
+                            <span class="range-value">100km</span>
+                        </div>
+                    </div>
                 </div>
 
                 <label for="date">Date :</label>
                 <div style="display: flex; align-items:center; justify-content: space-around;">
-                    <input class="input-filtre"  style="width: 40%;" type="date" >
-                    <input class="input-filtre"  style="width: 40%;" type="date" >
+                    <input id="datedeb" class="input-filtre"  style="width: 40%;" type="date" >
+                    <input id="datefin" class="input-filtre"  style="width: 40%;" type="date" >
                 </div>
 
                 <label for="priceRange">Gamme de prix :</label>
-                <select class="choose" id="priceRange" name="priceRange">
-                    <option value="low">0 - 100€</option>
-                    <option value="medium">100 - 500€</option>
-                    <option value="high">500€+</option>
+                <div class="slider-container">
+                    <div class="price-label">
+                        Prix: <span id="price-value">500</span>€
+                    </div>
+                    
+                    <input type="range" id="price-range" class="slider" min="100" max="1000" step="50" value="500">
+                    
+                    <div class="range-values">
+                        <span class="range-value">100€</span>
+                        <span class="range-value">1000€</span>
+                    </div>
+                </div>
+
+
+                <label for="sort">Notes :</label>
+                <div style="display: flex; justify-content: space-around;">
+                    <select  class="choose" id="notemin" name="notemin" style="width: 30%; height: 30px;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <p>a</p>
+                    <select  class="choose" id="notemax" name="notemax" style="width: 30%; height: 30px;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <h3>Tri</h3>
+
+                <label for="TrieC">Tri par Prix  :</label>
+                <select class="choose" id="Tprix" name="Tprix">
+                    <option value="">--Choisissez une option--</option>
+                    <option value="CroissantP">Tri par ordre Croissant</option>
+                    <option value="DecroissantP">Tri par ordre Decroissant</option>
                 </select>
 
-                <label for="sort">Trier par :</label>
-                <select  class="choose" id="sort" name="sort">
-                    <option value="popularity">Popularité</option>
-                    <option value="recent">Plus récent</option>
-                    <option value="price">Prix</option>
+                <label for="TrieC">Tri par Notes  :</label>
+                <select class="choose" id="Tnote" name="Tnote">
+                    <option value="">--Choisissez une option--</option>
+                    <option value="CroissantN">Tri par ordre Croissant</option>
+                    <option value="DecroissantN">Tri par ordre Decroissant</option>
                 </select>
+
                 <div style="display: flex; justify-content: center;">
                     <input class="button_1" type="submit" value="Appliquer">
                 </div>
@@ -110,12 +158,39 @@
         </div>
     </footer> 
     <script>
+        const priceRange = document.getElementById("price-range");
+        const priceValue = document.getElementById("price-value");
+        const rayonRange = document.getElementById("rayon-range");
+        const rayonValue = document.getElementById("rayon-value");
+        const notemin = document.getElementById('notemin');
+        const notemax = document.getElementById('notemax');
+        const datedeb = document.getElementById('datedeb');
+        const datefin = document.getElementById('datefin');
+
         function openNav() {
             document.getElementById("mySidenav").style.width = "300px";
         }
         
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
+        }
+
+        function adjustValues() {
+            let minValue = parseInt(notemin.value);
+            let maxValue = parseInt(notemax.value);
+
+            if (minValue > maxValue) {
+                notemax.value = minValue;
+            }
+        }
+
+        function adjustDates() {
+            const startDate = new Date(datedeb.value);
+            const endDate = new Date(datefin.value);
+
+            if (startDate > endDate) {
+                datefin.value = datedeb.value; 
+            }
         }
 
         document.getElementById("filterBtn").addEventListener("click", function() {
@@ -126,6 +201,19 @@
                 filterForm.style.display = "none";
             }
         });
+
+        priceRange.addEventListener("input", function() {
+            priceValue.textContent = priceRange.value;
+        });
+
+        rayonRange.addEventListener("input", function() {
+            rayonValue.textContent = rayonRange.value;
+        });
+
+        notemin.addEventListener('change', adjustValues);
+        notemax.addEventListener('change', adjustValues);
+        datedeb.addEventListener('change', adjustDates);
+        datefin.addEventListener('change', adjustDates);
     </script> 
 </body>
 </html>
