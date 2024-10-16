@@ -8,7 +8,19 @@
 </head>
 <body>
     <header>
-        <img src="img/Menu.png" alt="image Menu" title="image menu">
+        <nav id="mySidenav" class="sidenav">
+            <div class="profil">
+                <img src="img/TripEnarvor.png" alt="" width="70px" height="70px">
+                <p>visiteurs</p>
+            </div>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <ul>
+                <li><a href="#">Mes likes</a></li>
+                <li><a href="#">Me Deconnecter</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <span class="openbtn" onclick="openNav()">&#9776;</span>
         <img src="img/fond_remove.png" alt="logo site noir" title="logo site noir">
         <img src="img/User.png" alt="image user" title="image user" style="width: 30px; height: 30px;">
     </header>
@@ -18,11 +30,53 @@
                 <div class="recherche_top">
                     <img src="img/Search.png" alt="Search">
                     <input class="input" placeholder="Votre recherche" type="text">
-                    <img src="img/filtre.png" alt="Filtre">
+                    <img src="img/filtre.png" alt="Filtre" id="filterBtn">
                 </div>
                 <hr>
                 <div>
-                    <input class="button_1" type="submit">
+                    <input class="button_1" type="submit" value="Recherche" >
+                </div>
+            </form>
+        </div>
+        <div id="filterForm" class="filter-form">
+            <h3>Appliquer des filtres</h3>
+            <form action="#">
+                <label for="category">Catégorie :</label>
+                <select class="choose" id="category" name="category">
+                    <option value="">--Choisissez une option--</option>
+                    <option value="Restauration">Restauration</option>
+                    <option value="Spectacles">Spectacles</option>
+                    <option value="Visites">Visites</option>
+                    <option value="Activités">Activités</option>
+                    <option value="Parcs">Parcs d’attractions</option>
+                </select>
+                <label for="lieux">Lieux :</label>
+                <div style="display: flex; align-items:center; justify-content: space-around;">
+                    <input class="input-filtre"  style="width: 60%;" type="text" placeholder="Lieux (Rennes) ">
+                    <input class="input-filtre"  style="width: 30%;" type="text" placeholder="Rayon (50km)" >
+                </div>
+
+                <label for="date">Date :</label>
+                <div style="display: flex; align-items:center; justify-content: space-around;">
+                    <input class="input-filtre"  style="width: 40%;" type="date" >
+                    <input class="input-filtre"  style="width: 40%;" type="date" >
+                </div>
+
+                <label for="priceRange">Gamme de prix :</label>
+                <select class="choose" id="priceRange" name="priceRange">
+                    <option value="low">0 - 100€</option>
+                    <option value="medium">100 - 500€</option>
+                    <option value="high">500€+</option>
+                </select>
+
+                <label for="sort">Trier par :</label>
+                <select  class="choose" id="sort" name="sort">
+                    <option value="popularity">Popularité</option>
+                    <option value="recent">Plus récent</option>
+                    <option value="price">Prix</option>
+                </select>
+                <div style="display: flex; justify-content: center;">
+                    <input class="button_1" type="submit" value="Appliquer">
                 </div>
             </form>
         </div>
@@ -31,18 +85,47 @@
         <div class="l_footer">
             <div class="l_footer_1" >
                 <h4>À propos de PACT</h4>
-                <ul>
-
+                <ul class="list-footer" >
+                    <li>Conditions d'utilisations</li>
+                    <li>Confidentialité et utilisation des cookies</li>
+                    <li>Mentions Légales</li>
+                    <li>Contactez-nous</li>
+                    <li>Ressources et règlements</li>
                 </ul>
             </div>
             <div class="l_footer_2">
                 <h4>Explorez</h4>
-                <ul>
+                <ul class="list-footer">
+                    <li>Ajouter une offre</li>
+                    <li>S’inscrire</li>
+                    <li>Nos offres</li>
+                    <li>Assistance</li>
 
                 </ul>
             </div>
         </div>
-    </footer>
-    
+        <div class="text-footer">
+            <p><img src="img/fond_remove.png" alt="PACT" width="35px" height="35px"> propulsé par <img src="img/TripEnarvor.png" alt="TripEnarvor" width="35px" height="35px">© 2024 PACT LLC Tous droits réservés.</p>
+            <p>Cette version de notre site internet s'adresse aux personnes parlant Français en France.</p>
+        </div>
+    </footer> 
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "300px";
+        }
+        
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+
+        document.getElementById("filterBtn").addEventListener("click", function() {
+            var filterForm = document.getElementById("filterForm");
+            if (filterForm.style.display === "none" || filterForm.style.display === "") {
+                filterForm.style.display = "block";
+            } else {
+                filterForm.style.display = "none";
+            }
+        });
+    </script> 
 </body>
 </html>
