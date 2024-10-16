@@ -79,6 +79,14 @@
                     }
                 ?></h3>
 
+                <!-- <h2>Type d'Offre</h2>
+                <label >
+                    <input class="visite" type="radio" name="type_offre" value="Standard" required> Standard
+                </label>
+                <label >
+                    <input class="visite" type="radio" name="type_offre" value="Premium" required> Premium
+                </label> -->
+
                 <h2>Résumé</h2>
                 <textarea class="textarea-creer_offre" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
                 <h2>Description détaillée</h2>
