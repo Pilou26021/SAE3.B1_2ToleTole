@@ -126,10 +126,10 @@
 
                     <h2>Visite guidée</h2>
                     <label >
-                        <input class="radiob" type="radio" name="visiteGuidee" value="oui" required> Oui
+                        <input class="visite" type="radio" name="visiteGuidee" value="oui" required> Oui
                     </label>
                     <label >
-                        <input class="radiob" type="radio" name="visiteGuidee" value="non" required> Non
+                        <input class="visite" type="radio" name="visiteGuidee" value="non" required> Non
                     </label>
 
                     <h2>Langues proposées</h2>
