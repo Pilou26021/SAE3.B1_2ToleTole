@@ -31,7 +31,7 @@
         <main class="creer-offre-main">
 
             <h2>Nom de l'offre</h2>
-            <input type="text" name="offer_name" placeholder="Cote de granite rose" <?php ?>required> 
+            <input class="zone-text" type="text" name="offer_name" placeholder="Cote de granite rose" required> 
             
             <form action="creer_offre.php" method="get" enctype="multipart/form-data"> 
                 <h2>Catégorie de l'offre</h2> 
@@ -87,8 +87,8 @@
                     } if($cat != '' && $cat != 'restauration') { ?>
                 <h2>Prix</h2>
                 <div class="price">
-                    <input type="text" name="adult_price" placeholder="Prix adult" value="" required>
-                    <input type="text" name="child_price" placeholder="Prix enfant (-18)" value="" required>
+                    <input class="zone-text" type="text" name="adult_price" placeholder="Prix adult" value="" required>
+                    <input class="zone-text" type="text" name="child_price" placeholder="Prix enfant (-18)" value="" required>
                 </div>  
                  <?php } if($cat != '' ) { ?>
 
@@ -100,9 +100,9 @@
                         <input type="checkbox" name="enReliefOffre" <?= $offer['enReliefOffre'] ? 'checked' : '' ?>>
                     </div>
                         <h2>Site web de l'offre</h2>
-                        <input type="url" name="website" placeholder="https://exemple.com" required>
+                        <input class="zone-text" type="url" name="website" placeholder="https://exemple.com" required>
                         <h2>Adresse/coordonnée</h2>
-                        <input type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
+                        <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
                         <h2>Ajouter une image principale de l'offre</h2>
                     <div class="image-upload">
                     <input type="file" name="offer_image" accept="image/*" required>
@@ -111,16 +111,16 @@
                 <?php } if ($cat == 'parc') {?>
                     <br>
                     <h2>Date d'ouverture</h2>
-                    <input type="date" name="dateOuverture" required>
+                    <input class="zone-date" type="date" name="dateOuverture" required>
                     <h2>Date de fermeture</h2>
-                    <input type="date" name="dateFermeture" required>
+                    <input class="zone-date" type="date" name="dateFermeture" required>
                     <br>
                     <h2>Carte du parc</h2>
                     <div class="image-upload">
                         <input type="file" name="carteParc" accept="image/*" required>
                     </div>
                     <h2>Nombre d'attractions disponibles</h2>
-                    <input type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required>
+                    <input class="zone-number" type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required>
 
                 <?php } if ($cat == 'visite') { ?>
 
@@ -166,19 +166,19 @@
                 <?php } if ($cat == 'spectacle') { ?>
 
                     <h2>Nombre d'attractions disponibles</h2>
-                    <input type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required>
+                    <input class="zone-number" type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required>
 
                 <?php } if ($cat != 'parc' && $cat != 'restauration' && $cat != '') { ?>
                         
 
                     <h2>Durée de l'activité (en heures)</h2>
-                    <input type="number" name="indicationDuree" placeholder="ex : 2 heures" required>
+                    <input class="zone-number" type="number" name="indicationDuree" placeholder="ex : 2 heures" required>
                     <br><br>
                 
 
                 <?php } if ($cat != 'spectacle' && $cat != 'visite' && $cat != 'restauration' && $cat != ''){?>
                     <h2>Âge minimum</h2>
-                    <input type="number" name="ageMinimum" placeholder="Âge minimum" required>
+                    <input class="zone-number" type="number" name="ageMinimum" placeholder="Âge minimum" required>
                     <br><br>
 
                 <?php } if ($cat == 'activite') { ?>
@@ -194,16 +194,16 @@
                     <input type="time" name="lunch_open_time" id="lunch_open_time" required>
                     <label for="lunch_close_time">Horaire de déjeuner (fermeture) :</label>
                     <input type="time" name="lunch_close_time" id="lunch_close_time" required>
-                    <label for="dinner_open_time">Horaire du dîner (ouverture) :</label>
-                    <input type="time" name="dinner_open_time" id="dinner_open_time" required>
+                    <label for="dinner_open_time">Horaire du dîner (ouverture) :</label> 
+                    <input type="time" name="dinner_open_time" id="dinner_open_time" required> <br>
                     <label for="dinner_close_time">Horaire du dîner (fermeture) :</label>
                     <input type="time" name="dinner_close_time" id="dinner_close_time" required>
                     <br>
                     <label for="closed_days">Jours de fermeture :</label> 
-                    <input type="text" name="closed_days" id="closed_days" placeholder="Ex: Lundi" required>
+                    <input class="zone-text" type="text" name="closed_days" id="closed_days" placeholder="Ex: Lundi" required>
                 </div>
                 <h2>Gamme de prix</h2>
-                <input type="text" name="average_price" placeholder="Prix moyen par personne" required>
+                <input class="zone-number" type="number" name="average_price" placeholder="Prix moyen par personne" required>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
                     <input type="file" name="menu_image" accept="image/*" required>
