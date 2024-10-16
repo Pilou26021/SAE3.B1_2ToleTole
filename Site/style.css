@@ -279,13 +279,48 @@ font-family: 'firasans';
 src:  url('./font/firasans-regular-webfont.woff2') format('woff2');
 }
 
+/** BOUTON CREER UNE OFFRE */
+
+.offer-btn {
+  display: flex;
+  align-items: center;
+  background-color: #F2F1E9; /* Couleur de fond du bouton */
+  border: 2px solid #31CEA6; /* Bordure verte */
+  border-radius: 20px; /* Coins arrondis */
+  color: black;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.offer-btn .icon {
+  display: inline-block;
+  margin-right: 10px;
+  background-color: white;
+  color: #31CEA6;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 2px 7px;
+  border: 2px solid #31CEA6;
+  border-radius: 50%;
+}
+
+.offer-btn:hover {
+  background-color: #F2F1E9; /* Couleur de fond au survol */
+  box-shadow: 4px 4px 10px #040316; /* Ombre plus prononcée au survol */
+}
+
+
 /***** CREER_OFFRE.PHP *****/
 
 .creer-offre-main {
 max-width: 360px;
 margin: 0 auto;
 padding: 20px;
-background-color: #fff;
+background-color: #F2F1E9;
 border: 1px solid #ccc;
 border-radius: 10px;
 }
@@ -299,7 +334,7 @@ margin-bottom: 15px;
 
 .category {
 background-color: #a3d1c5;
-color: #fff;
+color: #F2F1E9;
 border: none;
 border-radius: 5px;
 padding: 10px;
