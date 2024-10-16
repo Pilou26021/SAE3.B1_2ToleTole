@@ -7,23 +7,20 @@
     <title>Détail Offres</title>
 </head>
 <body>
-    <header>
-        <nav id="mySidenav" class="sidenav">
-            <div class="profil">
-                <img src="img/TripEnarvor.png" alt="" width="70px" height="70px">
-                <p>visiteurs</p>
-            </div>
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <ul>
-                <li><a href="#">Mes likes</a></li>
-                <li><a href="#">Me Deconnecter</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <span class="openbtn" onclick="openNav()">&#9776;</span>
-        <img src="img/fond_remove.png" alt="logo site noir" title="logo site noir">
-        <img src="img/User.png" alt="image user" title="image user" style="width: 30px; height: 30px;">
-    </header>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous">
+    </script>
+    <script> 
+        $(function(){
+        $("#header").load("./header.html"); 
+        $("#footer").load("footer.html"); 
+        });
+    </script> 
+
+    <div id="header"></div>
+
     <main>
         <div class="recherche">
             <form action="">
@@ -129,34 +126,9 @@
             </form>
         </div>
     </main>
-    <footer>
-        <div class="l_footer">
-            <div class="l_footer_1" >
-                <h4>À propos de PACT</h4>
-                <ul class="list-footer" >
-                    <li>Conditions d'utilisations</li>
-                    <li>Confidentialité et utilisation des cookies</li>
-                    <li>Mentions Légales</li>
-                    <li>Contactez-nous</li>
-                    <li>Ressources et règlements</li>
-                </ul>
-            </div>
-            <div class="l_footer_2">
-                <h4>Explorez</h4>
-                <ul class="list-footer">
-                    <li>Ajouter une offre</li>
-                    <li>S’inscrire</li>
-                    <li>Nos offres</li>
-                    <li>Assistance</li>
+    
+    <div id="footer"></div>
 
-                </ul>
-            </div>
-        </div>
-        <div class="text-footer">
-            <p><img src="img/fond_remove.png" alt="PACT" width="35px" height="35px"> propulsé par <img src="img/TripEnarvor.png" alt="TripEnarvor" width="35px" height="35px">© 2024 PACT LLC Tous droits réservés.</p>
-            <p>Cette version de notre site internet s'adresse aux personnes parlant Français en France.</p>
-        </div>
-    </footer> 
     <script src="script.js"></script> 
 </body>
 </html>

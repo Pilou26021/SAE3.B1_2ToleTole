@@ -39,24 +39,37 @@ h2 {
 
 input[type="text"],
 input[type="url"],
-textarea {
+
+.textarea-creer_offre {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-}
-
-textarea {
     resize: none;
 }
+
 
 .categories {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 15px;
+}
+
+.radiob {
+    background-color: #a3d1c5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.radiob:checked {
+    background-color: #88b0a2;
 }
 
 .category {
