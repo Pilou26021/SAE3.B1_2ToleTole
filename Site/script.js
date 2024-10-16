@@ -54,3 +54,32 @@ notemin.addEventListener('change', adjustValues);
 notemax.addEventListener('change', adjustValues);
 datedeb.addEventListener('change', adjustDates);
 datefin.addEventListener('change', adjustDates);
+
+/* CREER OFFRE */
+function checkNegativeValue(input) {
+    const errorMessage = document.getElementById('error-' + input.id);
+    if (input.value < 0) {
+        input.value = "";
+        errorMessage.style.display = 'block';
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+
+function preventInvalidChars(event) {
+    const invalidChars = ['-', '+'];
+    if (invalidChars.includes(event.key)) {
+        event.preventDefault();
+    }
+}
+
+function checkValidWebsite(input){
+    const errorMessage = document.getElementById('error-' + input.id);
+    const regex = /^(http[s]?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w.-]*)*\/?$/;
+    if (!regex.test(input.value)) {
+        errorMessage.style.display = 'block';
+        errorMessage.style.color = 'red';
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}

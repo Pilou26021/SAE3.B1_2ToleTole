@@ -1,6 +1,8 @@
 <?php
     session_start();
-    $cat = $_GET['categorie'];
+    if (isset($_GET)){
+        $cat = $_GET['categorie'];
+    }
 ?>
 
 
@@ -87,10 +89,13 @@
                     } if($cat != '' && $cat != 'restauration') { ?>
                 <h2>Prix</h2>
                 <div class="price">
-                    <input class="zone-text" type="text" name="adult_price" placeholder="Prix adult" value="" required>
-                    <input class="zone-text" type="text" name="child_price" placeholder="Prix enfant (-18)" value="" required>
+                    <input id="adult_price" class="zone-number" type="number" name="adult_price" placeholder="Prix adult" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <input id="child_price" class="zone-number" type="number" name="child_price" placeholder="Prix enfant (-18)" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                 </div>  
-                 <?php } if($cat != '' ) { ?>
+                <p id="error-adult_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                <p id="error-child_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                
+                <?php } if($cat != '' ) { ?>
 
                     <h2>Type de L'offre</h2>
                     <div class="type-offre">
@@ -100,7 +105,8 @@
                         <input type="checkbox" name="enReliefOffre" <?= $offer['enReliefOffre'] ? 'checked' : '' ?>>
                     </div>
                         <h2>Site web de l'offre</h2>
-                        <input class="zone-text" type="url" name="website" placeholder="https://exemple.com" required>
+                        <input id="website" class="zone-text" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
+                        <p id="error-website" style="color:red" >Veuillez entrez une adresse de site web valide.</p>
                         <h2>Adresse/coordonnée</h2>
                         <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
                         <h2>Ajouter une image principale de l'offre</h2>
@@ -120,9 +126,10 @@
                         <input type="file" name="carteParc" accept="image/*" required>
                     </div>
                     <h2>Nombre d'attractions disponibles</h2>
-                    <input class="zone-number" type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required>
+                    <input id="nbrAttractions" class="zone-number" type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-nbrAttractions" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
-                <?php } if ($cat == 'visite') { ?>
+                    <?php } if ($cat == 'visite') { ?>
 
                     <h2>Visite guidée</h2>
                     <label >
@@ -162,24 +169,19 @@
                         <input type="time" name="close_time" id="close_time" value="<?= $close_time ?>" required>
                     </div>
 
-
-                <?php } if ($cat == 'spectacle') { ?>
-
-                    <h2>Nombre d'attractions disponibles</h2>
-                    <input class="zone-number" type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required>
-
                 <?php } if ($cat != 'parc' && $cat != 'restauration' && $cat != '') { ?>
                         
 
                     <h2>Durée de l'activité (en heures)</h2>
-                    <input class="zone-number" type="number" name="indicationDuree" placeholder="ex : 2 heures" required>
-                    <br><br>
-                
+                    <input id="zone_duree_act" class="zone-number" type="number" name="indicationDuree" placeholder="ex : 2 heures" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-zone_duree_act" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                    <br>                
 
                 <?php } if ($cat != 'spectacle' && $cat != 'visite' && $cat != 'restauration' && $cat != ''){?>
                     <h2>Âge minimum</h2>
-                    <input class="zone-number" type="number" name="ageMinimum" placeholder="Âge minimum" required>
-                    <br><br>
+                    <input id="ageMinimum" class="zone-number" type="number" name="ageMinimum" placeholder="Âge minimum" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-ageMinimum" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                    <br>    
 
                 <?php } if ($cat == 'activite') { ?>
 
@@ -203,7 +205,8 @@
                     <input class="zone-text" type="text" name="closed_days" id="closed_days" placeholder="Ex: Lundi" required>
                 </div>
                 <h2>Gamme de prix</h2>
-                <input class="zone-number" type="number" name="average_price" placeholder="Prix moyen par personne" required>
+                <input id="gamme_prix" class="zone-number" type="number" name="average_price" placeholder="Prix moyen par personne" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
                     <input type="file" name="menu_image" accept="image/*" required>
