@@ -2,11 +2,11 @@
     session_start();
     if (isset($_POST)){
         //commun
-        $offer_name = $_POST['offer_name'];
+        $offerName = $_POST['offerName'];
         $summary = $_POST['summary'];
         $description = $_POST['description'];
-        $adult_price = $_POST['adult_price'];
-        $child_price = $_POST['child_price'];
+        $adultPrice = $_POST['adultPrice'];
+        $childPrice = $_POST['childPrice'];
         $aLaUneOffre = $_POST['aLaUneOffre'];
         $enReliefOffre = $_POST['enReliefOffre'];
         $website = $_POST['website'];
@@ -33,7 +33,7 @@
         $dinnerOpenTime = $_POST['dinnerOpenTime']; //time
         $dinnerCloseTime = $_POST['dinnerCloseTime']; //time
 
-        $closeDay = $_POST['closeDay'];
+        $closedDays = $_POST['closedDays'];
         $averagePrice = $_POST['averagePrice'];
         $menuImage = $_POST['menuImage'];
         $tags = $_POST['tags']; //Arraylist
