@@ -75,6 +75,24 @@
 
                 <?php if($cat != '')  { ?>
 
+                <!-- <?php if($_SESSION['typeCompte'] == 'proPrivee') {?> /!\ SPECULATION /!\
+                        <h2>Type d'Offre</h2>
+                        <label >
+                            <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
+                        </label>
+                        <label >
+                            <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
+                        </label>
+                    <?php } ?> -->
+
+                <h2>Type d'Offre</h2>
+                <label >
+                    <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
+                </label>
+                <label >
+                    <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
+                </label>
+
                 <h2>Nom de l'offre</h2>
                 <input class="zone-text" type="text" name="offerName" placeholder="Cote de granite rose" required> 
 
@@ -100,14 +118,6 @@
                             break;
                     }
                 ?></h3>
-
-                <!-- <h2>Type d'Offre</h2>
-                <label >
-                    <input class="visite" type="radio" name="type_offre" value="Standard" required> Standard
-                </label>
-                <label >
-                    <input class="visite" type="radio" name="type_offre" value="Premium" required> Premium
-                </label> -->
 
                 <h2>Résumé</h2>
                 <textarea class="textarea-creer_offre" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
