@@ -2,6 +2,8 @@
     session_start();
     if (isset($_POST)){
         //commun
+        $typeOffre = $_POST['typeOffre'];
+
         $offerName = $_POST['offerName'];
         $summary = $_POST['summary'];
         $description = $_POST['description'];
