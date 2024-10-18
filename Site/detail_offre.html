@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="body-detail">
     <script
         src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -20,17 +20,19 @@
         $("#footer").load("footer.html"); 
         });
     </script> 
-    
-    <header>
+
+    <div id="header"></div>
+
+    <main>
+        <article>
         <h1>Côte de granit rose</h1>
         <div class="rating">
             <span>⭐⭐⭐⭐☆</span>
             <p>10k Avis</p>
             <a href="#" class="report">signaler</a>
         </div>
-    </header>
+        </article>
 
-    <main>
         <section class="image-gallery">
             <img src="image1.jpg" alt="image1">
             <img src="image2.jpg" alt="image2">
@@ -62,7 +64,7 @@
                     <td>Gratuit</td>
                 </tr>
             </table>
-            <button>Accéder au site marchand</button>
+            <button class="button-detail">Accéder au site marchand</button>
         </section>
 
         <section class="reviews">
@@ -85,11 +87,10 @@
         </section>
     </main>
 
-    <footer>
-        <p>Contacte: coordonnées téléphoniques: 02 02 20 22 00</p>
-        <p>Adresse postale: 22300</p>
-        <p>site web: <a href="#">cotesdarmor.com</a></p>
-    </footer>
+    <div id="footer"></div>
+
+    <script src="script.js"></script>
+
 </body>
 
 </html>
