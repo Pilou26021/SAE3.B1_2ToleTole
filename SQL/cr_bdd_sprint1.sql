@@ -52,17 +52,12 @@ CREATE TABLE IF NOT EXISTS `_membre` (
 CREATE TABLE IF NOT EXISTS `_professionnelPublic` (
     `idProPublic` SERIAL PRIMARY KEY,
     `idPro` BIGINT UNSIGNED NOT NULL,
-    `listeIdOffresMiseEnAvant` TEXT NOT NULL,
-    `listeIdOffresHorsLigne` TEXT NOT NULL,
     FOREIGN KEY (`idPro`) REFERENCES `_professionnel`(`idPro`)
 );
 
 CREATE TABLE IF NOT EXISTS `_professionnelPrive` (
     `idProPrive` SERIAL PRIMARY KEY,
     `idPro` BIGINT UNSIGNED NOT NULL,
-    `listeIdOffresPremium` TEXT NOT NULL,
-    `listeIdOffresStandard` TEXT NOT NULL,
-    `listeIdOffresHorsLigne` TEXT NOT NULL,
     `coordBancairesIBAN` TEXT NOT NULL,
     `coordBancairesBIC` TEXT NOT NULL,
     FOREIGN KEY (`idPro`) REFERENCES `_professionnel`(`idPro`)
@@ -95,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `_avis` (
     `idOffre` BIGINT UNSIGNED NOT NULL,
     `noteAvis` INT NOT NULL,
     `commentaireAvis` TEXT NOT NULL,
+    `listeIdImage` TEXT NOT NULL,
     `idMembre` BIGINT UNSIGNED NOT NULL,
     `dateAvis` DATE NOT NULL,
     `dateVisiteAvis` DATE NOT NULL,
@@ -117,10 +113,6 @@ CREATE TABLE IF NOT EXISTS `_reponseAvis` (
 CREATE TABLE IF NOT EXISTS `_image` (
     `idImage` SERIAL PRIMARY KEY,
     `pathImage` TEXT NOT NULL,
-    `idOffre` BIGINT UNSIGNED,
-    `idAvis` BIGINT UNSIGNED,
-    FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
-    FOREIGN KEY (`idAvis`) REFERENCES `_avis`(`idAvis`)
 );
 
 -- 4. Créer les types spécifiques d'offres qui héritent de `_offre`
@@ -129,9 +121,8 @@ CREATE TABLE IF NOT EXISTS `_offreActivite` (
     `indicationDuree` DATE NOT NULL,
     `ageRequis` INT NOT NULL,
     `prestationIncluse` TEXT NOT NULL,
-    `idTage` BIGINT UNSIGNED NOT NULL,
+    `listeIdTag` TEXT NOT NULL,
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
-    FOREIGN KEY (`idTage`) REFERENCES `_tag`(`idTag`)
 );
 
 CREATE TABLE IF NOT EXISTS `_offreSpectacle` (
@@ -139,9 +130,8 @@ CREATE TABLE IF NOT EXISTS `_offreSpectacle` (
     `dateOffre` DATE NOT NULL,
     `indicationDuree` DATE NOT NULL,
     `capaciteAcceuil` INT NOT NULL,
-    `idTage` BIGINT UNSIGNED NOT NULL,
+    `listeIdTag` TEXT NOT NULL,
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
-    FOREIGN KEY (`idTage`) REFERENCES `_tag`(`idTag`)
 );
 
 CREATE TABLE IF NOT EXISTS `_offreParcAttraction` (
@@ -151,9 +141,8 @@ CREATE TABLE IF NOT EXISTS `_offreParcAttraction` (
     `carteParc` INT NOT NULL,
     `nbrAttraction` INT NOT NULL,
     `ageMinimun` INT NOT NULL,
-    `idTage` BIGINT UNSIGNED NOT NULL,
+    `listeIdTag` TEXT NOT NULL,
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
-    FOREIGN KEY (`idTage`) REFERENCES `_tag`(`idTag`)
 );
 
 CREATE TABLE IF NOT EXISTS `_offreVisite` (
@@ -161,9 +150,8 @@ CREATE TABLE IF NOT EXISTS `_offreVisite` (
     `dateOffre` DATE NOT NULL,
     `visiteGuidee` BOOLEAN NOT NULL,
     `langueProposees` BOOLEAN NOT NULL,
-    `idTage` BIGINT UNSIGNED NOT NULL,
+    `listeIdTag` TEXT NOT NULL,
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
-    FOREIGN KEY (`idTage`) REFERENCES `_tag`(`idTag`)
 );
 
 CREATE TABLE IF NOT EXISTS `_offreRestaurant` (
@@ -171,9 +159,8 @@ CREATE TABLE IF NOT EXISTS `_offreRestaurant` (
     `horaireSemaine` TEXT NOT NULL,
     `gammePrix` INT NOT NULL,
     `carteResto` INT NOT NULL,
-    `idTage` BIGINT UNSIGNED NOT NULL,
+    `listeIdTag` TEXT NOT NULL,
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
-    FOREIGN KEY (`idTage`) REFERENCES `_tag`(`idTag`)
 );
 
 
@@ -181,6 +168,7 @@ CREATE TABLE IF NOT EXISTS `_offreRestaurant` (
 CREATE TABLE IF NOT EXISTS `_facture` (
     `idFacture` SERIAL PRIMARY KEY,
     `idProPrive` BIGINT UNSIGNED NOT NULL,
+    `ìdConstPrix` BIGINT UNSIGNED NOT NULL,
     `dateFacture` DATE NOT NULL,
     `listeOffresSTD` TEXT NOT NULL,
     `listeOffresPREM` TEXT NOT NULL,
@@ -189,10 +177,19 @@ CREATE TABLE IF NOT EXISTS `_facture` (
     FOREIGN KEY (`idProPrive`) REFERENCES `_professionnelPrive`(`idProPrive`)
 );
 
-CREATE TABLE IF NOT EXISTS `constPrix` (
+CREATE TABLE IF NOT EXISTS `_constPrix` (
     `idConstPrix` SERIAL PRIMARY KEY,
     `prixSTD` FLOAT NOT NULL,
     `prixPREM` FLOAT NOT NULL,
     `prixALaUne` FLOAT NOT NULL,
     `prixEnRelief` FLOAT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS `_signalement`(
+    `idSignalement` SERIAL PRIMARY KEY,
+    `texteRaison` TEXT NOT NULL,
+    `idOffre` BIGINT UNSIGNED,
+    `idAvis` BIGINT UNSIGNED,
+    FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
+    FOREIGN KEY (`idAvis`) REFERENCES `_avis`(`idAvis`)
+)
