@@ -16,7 +16,7 @@ jobs:
     - name: Execute pull and deploy script
       run: |
         ssh debian@tole-tole.ventsdouest.dev << 'EOF'
-          cd /path/to/your/repository
+          cd /docker/sae/data/SAE3.B1_2ToleTole/
           git pull origin main
-          bash /path/to/your/script.sh
-        EOF
+          bash /docker/sae/data/html/autosetup.sh
+          EOF
