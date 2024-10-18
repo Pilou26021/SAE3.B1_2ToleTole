@@ -84,7 +84,7 @@
                 </label>
 
                 <h2>Nom de l'offre</h2>
-                <input class="zone-text" type="text" name="offer_name" placeholder="Cote de granite rose" required> 
+                <input class="zone-text" type="text" name="offerName" placeholder="Cote de granite rose" required> 
 
                 <h3 class="type-offre-text">Offre <?php 
                     switch($cat){
@@ -119,8 +119,8 @@
                     } if($cat != '' && $cat != 'restauration') { ?>
                 <h2>Prix</h2>
                 <div class="price">
-                    <input id="adult_price" class="zone-number" type="number" name="adult_price" placeholder="Prix adult" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
-                    <input id="child_price" class="zone-number" type="number" name="child_price" placeholder="Prix enfant (-18)" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adult" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <input id="child_price" class="zone-number" type="number" name="childPrice" placeholder="Prix enfant (-18)" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                 </div>  
                 <p id="error-adult_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <p id="error-child_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
@@ -171,12 +171,12 @@
 
                     <h2>Langues proposées</h2>
                     <div class="langues">
-                        <label><input type="checkbox" name="langues[]" value="Français"> Français</label>
-                        <label><input type="checkbox" name="langues[]" value="Anglais"> Anglais</label>
-                        <label><input type="checkbox" name="langues[]" value="Espagnol"> Espagnol</label>
-                        <label><input type="checkbox" name="langues[]" value="Allemand"> Allemand</label>
-                        <label><input type="checkbox" name="langues[]" value="Italien"> Italien</label>
-                        <label><input type="checkbox" name="langues[]" value="Autre"> Autre</label>
+                        <label><input type="checkbox" name="langues" value="Français"> Français</label>
+                        <label><input type="checkbox" name="langues" value="Anglais"> Anglais</label>
+                        <label><input type="checkbox" name="langues" value="Espagnol"> Espagnol</label>
+                        <label><input type="checkbox" name="langues" value="Allemand"> Allemand</label>
+                        <label><input type="checkbox" name="langues" value="Italien"> Italien</label>
+                        <label><input type="checkbox" name="langues" value="Autre"> Autre</label>
                         <input type="text" name="autreLangue" placeholder="Préciser autre langue" style="display:none;" id="autreLangueInput">
                     </div>
                 
@@ -194,9 +194,9 @@
                     </select>
                     <div class="hours">
                         <label for="open_time">Horaire d'ouverture:</label>
-                        <input type="time" name="open_time" id="open_time" value="<?= $open_time ?>" required>
+                        <input type="time" name="openTime" id="open_time" value="<?= $open_time ?>" required>
                         <label for="close_time">Horaire de fermeture:</label>
-                        <input type="time" name="close_time" id="close_time" value="<?= $close_time ?>" required>
+                        <input type="time" name="closeTime" id="close_time" value="<?= $close_time ?>" required>
                     </div>
 
                 <?php } if ($cat != 'parc' && $cat != 'restauration' && $cat != '') { ?>
@@ -223,58 +223,58 @@
                 <h2>Horaires de la semaine</h2>
                 <div class="horaires-semaine">
                     <label for="lunch_open_time">Horaire de déjeuner (ouverture) :</label>
-                    <input type="time" name="lunch_open_time" id="lunch_open_time" required>
+                    <input type="time" name="lunchOpenTime" id="lunch_open_time" required>
                     <label for="lunch_close_time">Horaire de déjeuner (fermeture) :</label>
-                    <input type="time" name="lunch_close_time" id="lunch_close_time" required>
+                    <input type="time" name="lunchCloseTime" id="lunch_close_time" required>
                     <label for="dinner_open_time">Horaire du dîner (ouverture) :</label> 
-                    <input type="time" name="dinner_open_time" id="dinner_open_time" required> <br>
+                    <input type="time" name="dinnerOpenTime" id="dinner_open_time" required> <br>
                     <label for="dinner_close_time">Horaire du dîner (fermeture) :</label>
-                    <input type="time" name="dinner_close_time" id="dinner_close_time" required>
+                    <input type="time" name="dinnerCloseTime" id="dinner_close_time" required>
                     <br>
                     <label for="closed_days">Jours de fermeture :</label> 
-                    <input class="zone-text" type="text" name="closed_days" id="closed_days" placeholder="Ex: Lundi" required>
+                    <input class="zone-text" type="text" name="closedDays" id="closed_days" placeholder="Ex: Lundi" required>
                 </div>
                 <h2>Gamme de prix</h2>
-                <input id="gamme_prix" class="zone-number" type="number" name="average_price" placeholder="Prix moyen par personne" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                <input id="gamme_prix" class="zone-number" type="number" name="averagePrice" placeholder="Prix moyen par personne" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                 <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
-                    <input type="file" name="menu_image" accept="image/*" required>
+                    <input type="file" name="menuImage" accept="image/*" required>
                 </div>
                 <h2>Tags de l'offre</h2>
                 <div class="tags">
-                    <label><input type="checkbox" name="tags[]" value="Française"> Française</label>
-                    <label><input type="checkbox" name="tags[]" value="Fruit de mer"> Fruit de mer</label>
-                    <label><input type="checkbox" name="tags[]" value="Asiatique"> Asiatique</label>
-                    <label><input type="checkbox" name="tags[]" value="Indienne"> Indienne</label>
-                    <label><input type="checkbox" name="tags[]" value="Italienne"> Italienne</label>
-                    <label><input type="checkbox" name="tags[]" value="Gastronomique"> Gastronomique</label>
-                    <label><input type="checkbox" name="tags[]" value="Restauration rapide"> Restauration rapide</label>
-                    <label><input type="checkbox" name="tags[]" value="Crêperie"> Crêperie</label>
+                    <label><input type="checkbox" name="tags" value="Française"> Française</label>
+                    <label><input type="checkbox" name="tags" value="Fruit de mer"> Fruit de mer</label>
+                    <label><input type="checkbox" name="tags" value="Asiatique"> Asiatique</label>
+                    <label><input type="checkbox" name="tags" value="Indienne"> Indienne</label>
+                    <label><input type="checkbox" name="tags" value="Italienne"> Italienne</label>
+                    <label><input type="checkbox" name="tags" value="Gastronomique"> Gastronomique</label>
+                    <label><input type="checkbox" name="tags" value="Restauration rapide"> Restauration rapide</label>
+                    <label><input type="checkbox" name="tags" value="Crêperie"> Crêperie</label>
                 </div>
                 <br>
 
                 <?php } if ($cat != 'restauration' && $cat != '') {?>
                     <h2>Tags de l'offre</h2>
                     <div class="tags">
-                        <label><input type="checkbox" name="tags[]" value="Classique"> Classique</label>
-                        <label><input type="checkbox" name="tags[]" value="Culturel"> Culturel</label>
-                        <label><input type="checkbox" name="tags[]" value="Patrimoine"> Patrimoine</label>
-                        <label><input type="checkbox" name="tags[]" value="Histoire"> Histoire</label>
-                        <label><input type="checkbox" name="tags[]" value="Urbain"> Urbain</label>
-                        <label><input type="checkbox" name="tags[]" value="Nature"> Nature</label>
-                        <label><input type="checkbox" name="tags[]" value="Plein air"> Plein air</label>
-                        <label><input type="checkbox" name="tags[]" value="Sport"> Sport</label>
-                        <label><input type="checkbox" name="tags[]" value="Nautique"> Nautique</label>
-                        <label><input type="checkbox" name="tags[]" value="Gastronomie"> Gastronomie</label>
-                        <label><input type="checkbox" name="tags[]" value="Musée"> Musée</label>
-                        <label><input type="checkbox" name="tags[]" value="Atelier"> Atelier</label>
-                        <label><input type="checkbox" name="tags[]" value="Musique"> Musique</label>
-                        <label><input type="checkbox" name="tags[]" value="Famille"> Famille</label>
-                        <label><input type="checkbox" name="tags[]" value="Cinéma"> Cinéma</label>
-                        <label><input type="checkbox" name="tags[]" value="Cirque"> Cirque</label>
-                        <label><input type="checkbox" name="tags[]" value="Son et Lumière"> Son et Lumière</label>
-                        <label><input type="checkbox" name="tags[]" value="Humour"> Humour</label>
+                        <label><input type="checkbox" name="tags" value="Classique"> Classique</label>
+                        <label><input type="checkbox" name="tags" value="Culturel"> Culturel</label>
+                        <label><input type="checkbox" name="tags" value="Patrimoine"> Patrimoine</label>
+                        <label><input type="checkbox" name="tags" value="Histoire"> Histoire</label>
+                        <label><input type="checkbox" name="tags" value="Urbain"> Urbain</label>
+                        <label><input type="checkbox" name="tags" value="Nature"> Nature</label>
+                        <label><input type="checkbox" name="tags" value="Plein air"> Plein air</label>
+                        <label><input type="checkbox" name="tags" value="Sport"> Sport</label>
+                        <label><input type="checkbox" name="tags" value="Nautique"> Nautique</label>
+                        <label><input type="checkbox" name="tags" value="Gastronomie"> Gastronomie</label>
+                        <label><input type="checkbox" name="tags" value="Musée"> Musée</label>
+                        <label><input type="checkbox" name="tags" value="Atelier"> Atelier</label>
+                        <label><input type="checkbox" name="tags" value="Musique"> Musique</label>
+                        <label><input type="checkbox" name="tags" value="Famille"> Famille</label>
+                        <label><input type="checkbox" name="tags" value="Cinéma"> Cinéma</label>
+                        <label><input type="checkbox" name="tags" value="Cirque"> Cirque</label>
+                        <label><input type="checkbox" name="tags" value="Son et Lumière"> Son et Lumière</label>
+                        <label><input type="checkbox" name="tags" value="Humour"> Humour</label>
                     </div>
                     <br>
 

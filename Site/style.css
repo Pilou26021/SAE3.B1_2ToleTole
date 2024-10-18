@@ -666,3 +666,151 @@ a.cp_mobile{
   text-decoration: none;
   color: #040316;
 }
+
+
+/** PAGE DETAIL OFFRE*/
+
+.article-detail {
+  text-align: center;
+}
+
+.article-detail h1 {
+  font-size: 1.5em;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rating span {
+  font-size: 1.5em;
+}
+
+.rating p {
+  margin-left: 10px;
+}
+
+.report {
+  margin-left: 10px;
+  color: red;
+  text-decoration: none;
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.image-gallery img {
+  width: 30%;
+  border-radius: 5px;
+}
+
+.details {
+  margin-top: 20px;
+}
+
+.details h2 {
+  font-size: 1.2em;
+}
+
+.map {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.map img {
+  width: 40%;
+}
+
+.opening-hours {
+  width: 50%;
+  text-align: right;
+}
+
+.pricing {
+  margin-top: 20px;
+}
+
+.pricing table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.pricing th, .pricing td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.button-detail {
+  display: block;
+  width: 100%;
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.button-detail:hover {
+  background-color: darkgreen;
+}
+
+.reviews {
+  margin-top: 20px;
+}
+
+.review-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.review {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Media query for mobile screens */
+@media (max-width: 360px) {
+  .body-detail {
+      padding: 10px;
+  }
+
+  .image-gallery {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .image-gallery img {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+
+  .map {
+      flex-direction: column;
+  }
+
+  .map img, .opening-hours {
+      width: 100%;
+      text-align: center;
+  }
+
+  .pricing table, .pricing button {
+      width: 100%;
+  }
+
+  .review-summary {
+      flex-direction: column;
+      align-items: center;
+  }
+}

@@ -1,0 +1,22 @@
+name: Auto Pull on Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: debian-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    - name: Execute pull and deploy script
+      run: |
+        ssh debian@tole-tole.ventsdouest.dev << 'EOF'
+          cd /path/to/your/repository
+          git pull origin main
+          bash /path/to/your/script.sh
+        EOF
