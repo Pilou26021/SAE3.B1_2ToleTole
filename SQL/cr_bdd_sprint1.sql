@@ -186,6 +186,7 @@ CREATE TABLE IF NOT EXISTS `_constPrix` (
     `prixEnRelief` FLOAT NOT NULL
 );
 
+-- 6. signalement
 CREATE TABLE IF NOT EXISTS `_signalement`(
     `idSignalement` SERIAL PRIMARY KEY,
     `texteRaison` TEXT NOT NULL,
