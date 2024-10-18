@@ -31,9 +31,6 @@
         <div id="header"></div>
 
         <main class="creer-offre-main">
-
-            <h2>Nom de l'offre</h2>
-            <input class="zone-text" type="text" name="offer_name" placeholder="Cote de granite rose" required> 
             
             <form action="creer_offre.php" method="get" enctype="multipart/form-data"> 
                 <h2>Catégorie de l'offre</h2> 
@@ -52,9 +49,34 @@
                 </div>
             </form>
 
-            <form action="submit_offer.php" method="post" enctype="multipart/form-data">
+            <form action="send_offer.php" method="post" enctype="multipart/form-data">
+
+                <?php 
+                    switch($cat){
+                        case 'restauration':
+                            ?><input value="restauration" type="text" name="categorie" style="display:none"><?php
+                            break;
+                        case 'spectacle':
+                            ?><input value="spectacle" type="text" name="categorie" style="display:none"><?php
+                            break;
+                        case 'visite':
+                            ?><input value="visite" type="text" name="categorie" style="display:none"><?php
+                            break;
+                        case 'activite':
+                            ?><input value="activite"  type="text" name="categorie" style="display:none"><?php
+                            break;
+                        case 'parc':
+                            ?><input value="parc" type="text" name="categorie" style="display:none"><?php
+                            break;
+                        case '':
+                            break;
+                    }
+                ?>
 
                 <?php if($cat != '')  { ?>
+
+                <h2>Nom de l'offre</h2>
+                <input class="zone-text" type="text" name="offer_name" placeholder="Cote de granite rose" required> 
 
                 <h3 class="type-offre-text">Offre <?php 
                     switch($cat){
