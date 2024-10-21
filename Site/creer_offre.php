@@ -75,7 +75,7 @@
 
                 <?php if($cat != '')  { ?>
 
-                <!-- <?php if($_SESSION['typeCompte'] == 'proPrivee') {?> /!\ SPECULATION /!\
+                <!-- ?php if($_SESSION['typeCompte'] == 'proPrivee') {?> /!\ SPECULATION /!\
                         <h2>Type d'Offre</h2>
                         <label >
                             <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
@@ -83,7 +83,7 @@
                         <label >
                             <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
                         </label>
-                    <?php } ?> -->
+                    ?php } ?> -->
 
                 <h2>Type d'Offre</h2>
                 <label >

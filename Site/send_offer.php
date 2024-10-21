@@ -1,6 +1,10 @@
 <?php
     session_start();
     if (isset($_POST)){
+
+        //categorie
+        $cat = $_POST['categorie'];
+
         //commun
         $typeOffre = $_POST['typeOffre'];
 
@@ -15,7 +19,8 @@
         $adress = $_POST['adress'];
 
         //existe pas pour toute offre :
-        $dateOuverture = $_POST['dateOuverture'];
+        $dateOuverture = $_POST['dateOuverture']; //time
+        print_r($dateOuverture);
         $dateFermeture = $_POST['dateFermeture'];
         $carteParc  = $_POST['carteParc'];
         $nbrAttractions = $_POST['nbrAttrations'];
@@ -40,7 +45,12 @@
         $menuImage = $_POST['menuImage'];
         $tags = $_POST['tags']; //Arraylist
 
-        print_r($_POST['categorie']);
+        include '../SQL/connection_local.php';
+        $sql = "INSERT INTO `offres` (`typeOffre`, `offerName`,  `summary`, `description`, `adultPrice`, `childPrice`, `aLaUneOffre `, `enReliefOffre`, `website`, `adress`, ";
+        if ($cat == 'restauration'){
+            
+        }
+        
 
     }
 ?>
