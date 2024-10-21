@@ -21,13 +21,18 @@ CREATE TABLE IF NOT EXISTS `_tag` (
     `typeRestauration` BOOLEAN NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS `_image` (
+    `idImage` SERIAL PRIMARY KEY,
+    `pathImage` TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS `_compte` (
     `idCompte` SERIAL PRIMARY KEY,
     `nomCompte` TEXT NOT NULL,
     `prenomCompte` TEXT NOT NULL,
     `mailCompte` TEXT NOT NULL,
     `numTelCompte` TEXT NOT NULL,
-    `idImagePdp` BIGINT NOT NULL,
+    `idImagePdp` BIGINT UNSIGNED NOT NULL,
     `hashMdpCompte` TEXT NOT NULL,
     `dateCreationCompte` DATE NOT NULL,
     `dateDerniereConnexionCompte` DATE NOT NULL,
@@ -40,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `_professionnel` (
     `idCompte` BIGINT UNSIGNED NOT NULL,
     `denominationPro` TEXT NOT NULL,
     `numSirenPro` TEXT NOT NULL,
-    CONSTRAINT `pk_professionnel` PRIMARY KEY (`idPro`, `idCompte`),
+    CONSTRAINT `unique_professionnel` UNIQUE (`idPro`, `idCompte`),
     FOREIGN KEY (`idCompte`) REFERENCES `_compte`(`idCompte`)
 );
 
@@ -48,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `_membre` (
     `idMembre` SERIAL PRIMARY KEY,
     `idCompte` BIGINT UNSIGNED NOT NULL,
     `dateNaissanceMembre` DATE NOT NULL,
-    CONSTRAINT `pk_membre` PRIMARY KEY (`idMembre`, `idCompte`),
+    CONSTRAINT `unique_membre` UNIQUE (`idMembre`, `idCompte`),
     FOREIGN KEY (`idCompte`) REFERENCES `_compte`(`idCompte`)
 );
 
@@ -57,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `_professionnelPublic` (
     `idPro` BIGINT UNSIGNED NOT NULL,
     `listeIdOffresMiseEnAvant` TEXT NOT NULL,
     `listeIdOffresHorsLigne` TEXT NOT NULL,
-    CONSTRAINT `pk_professionnelPublic` PRIMARY KEY (`idProPublic`, `idPro`),
+    CONSTRAINT `unique_professionnelPublic` UNIQUE (`idProPublic`, `idPro`),
     FOREIGN KEY (`idPro`) REFERENCES `_professionnel`(`idPro`)
 );
 
@@ -66,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `_professionnelPrive` (
     `idPro` BIGINT UNSIGNED NOT NULL,
     `coordBancairesIBAN` TEXT NOT NULL,
     `coordBancairesBIC` TEXT NOT NULL,
-    CONSTRAINT `pk_professionnelPrive` PRIMARY KEY (`idProPrive`, `idPro`),
+    CONSTRAINT `_professionnelPrive` UNIQUE (`idProPrive`, `idPro`),
     FOREIGN KEY (`idPro`) REFERENCES `_professionnel`(`idPro`)
 );
 
@@ -101,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `_avis` (
     `dateVisiteAvis` DATE NOT NULL,
     `blacklistAvis` BOOLEAN NOT NULL,
     `reponsePro` BOOLEAN NOT NULL,
-    CONSTRAINT `pk_avis` PRIMARY KEY (`idAvis`, `idOffre`, `idMembre`),
+    CONSTRAINT `unique_avis` UNIQUE (`idAvis`, `idOffre`, `idMembre`),
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
     FOREIGN KEY (`idMembre`) REFERENCES `_membre`(`idMembre`)
 );
@@ -109,19 +114,19 @@ CREATE TABLE IF NOT EXISTS `_avis` (
 CREATE TABLE IF NOT EXISTS `_signalement` (
     `idSignalement` SERIAL PRIMARY KEY,
     `raison` TEXT NOT NULL
-)
+);
 
 CREATE TABLE IF NOT EXISTS `_alerter-offre` (
-    `idSignalement` SERIAL PRIMARY KEY,
+    `idSignalement` BIGINT UNSIGNED NOT NULL,
     `idOffre` BIGINT UNSIGNED NOT NULL,
-    CONSTRAINT `pk_alerter` PRIMARY KEY (`idAlerterOffre`, `idOffre`),
+    CONSTRAINT `pk_alerter` PRIMARY KEY (`idSignalement`, `idOffre`),
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`)
 );
 
 CREATE TABLE IF NOT EXISTS `_alerter-avis` (
-    `idSignalement` SERIAL PRIMARY KEY,
+    `idSignalement` BIGINT UNSIGNED NOT NULL,
     `idAvis` BIGINT UNSIGNED NOT NULL,
-    CONSTRAINT `pk_alerter` PRIMARY KEY (`idAlerterAvis`, `idAvis`),
+    CONSTRAINT `pk_alerter` PRIMARY KEY (`idSignalement`, `idAvis`),
     FOREIGN KEY (`idAvis`) REFERENCES `_avis`(`idAvis`)
 );  
 
@@ -131,13 +136,8 @@ CREATE TABLE IF NOT EXISTS `_reponseAvis` (
     `idAvis` BIGINT UNSIGNED NOT NULL,
     `texteReponse` TEXT NOT NULL,
     `dateReponse` DATE NOT NULL,
-    CONSTRAINT `pk_reponse` PRIMARY KEY (`idReponseAvis`, `idAvis`),
-    FOREIGN KEY (`idAvis`) REFERENCES `_avis`(`idAvis`),
-);
-
-CREATE TABLE IF NOT EXISTS `_image` (
-    `idImage` SERIAL PRIMARY KEY,
-    `pathImage` TEXT NOT NULL
+    CONSTRAINT `unique_reponse` UNIQUE (`idReponseAvis`, `idAvis`),
+    FOREIGN KEY (`idAvis`) REFERENCES `_avis`(`idAvis`)
 );
 
 CREATE TABLE IF NOT EXISTS `_afficherImageOffre` (
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `_imageImageAvis` (
 -- 4. Créer les types spécifiques d'offres qui héritent de `_offre`
 CREATE TABLE IF NOT EXISTS `_offreActivite` (
     `idOffre` BIGINT UNSIGNED NOT NULL,
-    `indicationDuree` DATE NOT NULL,
+    `indicationDuree` TEXT NOT NULL,
     `ageRequis` INT NOT NULL,
     `prestationIncluse` TEXT NOT NULL,
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`)
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `_offreActivite` (
 CREATE TABLE IF NOT EXISTS `_offreSpectacle` (
     `idOffre` BIGINT UNSIGNED NOT NULL,
     `dateOffre` DATE NOT NULL,
-    `indicationDuree` DATE NOT NULL,
+    `indicationDuree` TEXT NOT NULL,
     `capaciteAcceuil` INT NOT NULL,
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`)
 );
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `_theme` (
     CONSTRAINT `pk_theme` PRIMARY KEY (`idOffre`, `idTag`),
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`),
     FOREIGN KEY (`idTag`) REFERENCES `_tag`(`idTag`)
-)
+);
 
 -- 5. Créer les autres tables liées
 CREATE TABLE IF NOT EXISTS `_facture` (
