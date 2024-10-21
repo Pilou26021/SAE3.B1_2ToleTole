@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS cr_bdd_sprint1;
-CREATE DATABASE IF NOT EXISTS cr_bdd_sprint1;
+DROP DATABASE IF EXISTS sae;
+CREATE DATABASE IF NOT EXISTS sae;
 
-USE cr_bdd_sprint1;
+USE sae;
 
 -- 1. Créer les tables indépendantes
 CREATE TABLE IF NOT EXISTS `_adresse` (
@@ -60,8 +60,6 @@ CREATE TABLE IF NOT EXISTS `_membre` (
 CREATE TABLE IF NOT EXISTS `_professionnelPublic` (
     `idProPublic` SERIAL PRIMARY KEY,
     `idPro` BIGINT UNSIGNED NOT NULL,
-    `listeIdOffresMiseEnAvant` TEXT NOT NULL,
-    `listeIdOffresHorsLigne` TEXT NOT NULL,
     CONSTRAINT `unique_professionnelPublic` UNIQUE (`idProPublic`, `idPro`),
     FOREIGN KEY (`idPro`) REFERENCES `_professionnel`(`idPro`)
 );
@@ -199,12 +197,6 @@ CREATE TABLE IF NOT EXISTS `_offreRestaurant` (
     FOREIGN KEY (`idOffre`) REFERENCES `_offre`(`idOffre`)
 );
 
-CREATE TABLE IF NOT EXISTS `_tag` (
-    `idTag` SERIAL PRIMARY KEY,
-    `typeTag` TEXT NOT NULL,
-    `typeRestauration` BOOLEAN NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS `_theme` (
     `idOffre` BIGINT UNSIGNED NOT NULL,
     `idTag` BIGINT UNSIGNED NOT NULL,
@@ -224,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `_facture` (
     FOREIGN KEY (`idProPrive`) REFERENCES `_professionnelPrive`(`idProPrive`)
 );
 
-CREATE TABLE IF NOT EXISTS `constPrix` (
+CREATE TABLE IF NOT EXISTS `_constPrix` (
     `idConstPrix` SERIAL PRIMARY KEY,
     `prixSTD` FLOAT NOT NULL,
     `prixPREM` FLOAT NOT NULL,

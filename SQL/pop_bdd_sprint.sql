@@ -1,4 +1,4 @@
-USE cr_bdd_sprint1;
+USE sae;
 
 -- 1. Insérer des données dans `_image`
 INSERT INTO `_image` (pathImage) VALUES 
@@ -27,9 +27,9 @@ INSERT INTO `_membre` (idCompte, dateNaissanceMembre) VALUES
 (2, '1985-07-22');
 
 -- 6. Insérer des données dans `_professionnelPublic`
-INSERT INTO `_professionnelPublic` (idPro, listeIdOffresMiseEnAvant, listeIdOffresHorsLigne) VALUES 
-(1, '1,2', '3,4'),
-(2, '5,6', '7,8');
+INSERT INTO `_professionnelPublic` (idPro) VALUES 
+(1),
+(2);
 
 -- 7. Insérer des données dans `_professionnelPrive`
 INSERT INTO `_professionnelPrive` (idPro, coordBancairesIBAN, coordBancairesBIC) VALUES 
@@ -117,7 +117,7 @@ INSERT INTO `_facture` (idProPrive, idConstPrix, dateFacture, montantHT, montant
 (2, 2, '2024-02-01', 200.0, 240.0);
 
 -- 24. Insérer des données dans `constPrix`
-INSERT INTO `constPrix` (prixSTD, prixPREM, prixALaUne, prixEnRelief) VALUES 
+INSERT INTO `_constPrix` (prixSTD, prixPREM, prixALaUne, prixEnRelief) VALUES 
 (10.0, 20.0, 30.0, 40.0);
 
 -- 25. Insérer des données dans `_paiement`
