@@ -166,7 +166,7 @@ CREATE TABLE sae._offreActivite (
 CREATE TABLE sae._offreSpectacle (
     idOffre BIGINT NOT NULL,
     dateOffre DATE NOT NULL CHECK (dateOffre >= NOW()),
-    indicationDuree TEXT NOT NULL,
+    indicationDuree INT NOT NULL,
     capaciteAcceuil INT NOT NULL,
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre)
 );

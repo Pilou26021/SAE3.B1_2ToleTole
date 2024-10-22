@@ -80,8 +80,8 @@ INSERT INTO _imageImageAvis (idImage, idAvis) VALUES
 
 -- 16. Insérer des données dans `_offreActivite`
 INSERT INTO _offreActivite (idOffre, indicationDuree, ageRequis, prestationIncluse) VALUES 
-(1, '2 heures', 12, 'Guide inclus'),
-(2, '3 heures', 10, 'Collation incluse');
+(1, 2, 12, 'Guide inclus'),
+(2, 3, 10, 'Collation incluse');
 
 -- 17. Insérer des données dans `_offreSpectacle`
 INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
