@@ -1,5 +1,5 @@
 -- Utiliser le schéma `sae`
-SET SCHEMA 'sae';
+SET SCHEMA 'public';
 
 -- 1. Insérer des données dans `_image`
 INSERT INTO _image (pathImage) VALUES 
@@ -9,8 +9,8 @@ INSERT INTO _image (pathImage) VALUES
 
 -- 2. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
-('Smith', 'John', 'john.smith@example.com', '0123456789', 1, 'hashedPassword123', '2023-01-15', '2025-01-15'),
-('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 2, 'hashedPassword456', '2023-02-20', '2025-02-20');
+('Smith', 'John', 'john.smith@example.com', '0123456789', 1, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
+('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 2, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', '2023-02-20', '2025-02-20');
 
 -- 3. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 

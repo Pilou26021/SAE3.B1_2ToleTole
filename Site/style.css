@@ -667,6 +667,13 @@ a.cp_mobile{
   color: #040316;
 }
 
+/*Messages d'erreurs rouges pastels*/
+p.cp_mobile_erreur {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 
 /** PAGE DETAIL OFFRE*/
 
