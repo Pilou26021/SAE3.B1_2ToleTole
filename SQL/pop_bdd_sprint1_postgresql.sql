@@ -1,5 +1,5 @@
 -- Utiliser le schéma `sae`
-SET search_path TO sae;
+SET SCHEMA 'sae';
 
 -- 1. Insérer des données dans `_image`
 INSERT INTO _image (pathImage) VALUES 
@@ -70,7 +70,8 @@ INSERT INTO _reponseAvis (idAvis, texteReponse, dateReponse) VALUES
 -- 14. Insérer des données dans `_afficherImageOffre`
 INSERT INTO _afficherImageOffre (idImage, idOffre) VALUES 
 (1, 1),
-(2, 2);
+(2, 2),
+(3, 1);
 
 -- 15. Insérer des données dans `_imageImageAvis`
 INSERT INTO _imageImageAvis (idImage, idAvis) VALUES 
