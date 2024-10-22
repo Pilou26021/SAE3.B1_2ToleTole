@@ -3,7 +3,14 @@
     if (isset($_GET)){
         $cat = $_GET['categorie'];
     }
-    // include '../SQL/connection_local.php';
+    include '../SQL/connection_local.php';
+
+    $sql = "SELECT * from sae._offre";
+    foreach($conn->query($sql) as $row) {
+        echo "<pre>"; // pour la version navigateur (présentation brute)
+        print_r($row);
+        echo "</pre>";
+    }
 
 ?>
 
@@ -119,6 +126,7 @@
                 <?php } else {
                         ?> <h2>Veuillez choisir une catégorie pour votre offre.</h2> <?php
                     } if($cat != '' && $cat != 'restauration') { ?>
+
                 <h2>Prix</h2>
                 <div class="price">
                     <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adulte" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
@@ -129,6 +137,12 @@
                 
                 <?php } if($cat != '' ) { ?>
 
+                    <h2>Prix minimum de l'offre</h2>
+                    <div class ="price">
+                        <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    </div>
+                    <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+
                     <h2>Type de L'offre</h2>
                     <div class="type-offre">
                         <label for="aLaUneOffre">À la une</label>
@@ -136,15 +150,23 @@
                         <label for="enReliefOffre">En relief</label>
                         <input type="checkbox" name="enReliefOffre" <?= $offer['enReliefOffre'] ? 'checked' : '' ?>>
                     </div>
-                        <h2>Site web de l'offre</h2>
-                        <input id="website" class="zone-text" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
-                        <p id="error-website" style="color:red" >Veuillez entrez une adresse de site web valide.</p>
-                        <h2>Adresse/coordonnée</h2>
-                        <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
-                        <h2>Ajouter une image principale de l'offre</h2>
+
+                    <h2>Condition d'accessibilité</h2>
+                    <div>
+                        <textarea class="textarea-creer_offre" name="conditionAccessibilite" rows="4" placeholder="Accessible en fauteuil roulant..." required></textarea>
+                    </div>
+
+                    <h2>Site web de l'offre</h2>
+                    <input id="website" class="zone-text" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
+                    <p id="error-website" style="color:red" >Veuillez entrez une adresse de site web valide.</p>
+                    
+                    <h2>Adresse/coordonnée</h2>
+                    <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
+                    
+                    <h2>Ajouter une image principale de l'offre</h2>
                     <div class="image-upload">
-                    <input type="file" name="offer_image" accept="image/*" required>
-                </div>
+                        <input type="file" name="offer_image" accept="image/*" required>
+                    </div>
 
                 <?php } if ($cat == 'parc') {?>
                     <br>
