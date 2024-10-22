@@ -80,12 +80,12 @@ CREATE TABLE sae._offre (
     titreOffre VARCHAR(255) NOT NULL,
     resumeOffre TEXT NOT NULL,
     descriptionOffre TEXT NOT NULL,
-    prixMinOffre FLOAT NOT NULL,
+    prixMinOffre FLOAT NOT NULL CHECK (prixMinOffre >= 0),
     aLaUneOffre BOOLEAN NOT NULL,
     enReliefOffre BOOLEAN NOT NULL,
-    typeOffre INT NOT NULL,
+    typeOffre INT NOT NULL CHECK (typeOffre >= 0 AND typeOffre <= 2),
     siteWebOffre TEXT NOT NULL,
-    noteMoyenneOffre FLOAT NOT NULL,
+    noteMoyenneOffre FLOAT NOT NULL DEFAULT 0 CHECK (noteMoyenneOffre >= 0 AND noteMoyenneOffre <= 5),
     commentaireBlacklistable BOOLEAN NOT NULL,
     dateCreationOffre DATE NOT NULL,
     conditionAccessibilite TEXT NOT NULL,
@@ -158,7 +158,7 @@ CREATE TABLE sae._imageImageAvis (
 CREATE TABLE sae._offreActivite (
     idOffre BIGINT NOT NULL,
     indicationDuree TEXT NOT NULL,
-    ageRequis INT NOT NULL,
+    ageRequis INT NOT NULL CHECK (ageRequis >= 0 AND ageRequis <= 99),
     prestationIncluse TEXT NOT NULL,
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre)
 );
@@ -231,3 +231,51 @@ CREATE TABLE sae._paiement (
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre),
     FOREIGN KEY (idFacture) REFERENCES sae._facture(idFacture)
 );
+
+-- vue offre avec adresse
+CREATE VIEW sae.offreAdresse AS
+SELECT o.idOffre, a.numRue, a.supplementAdresse, a.adresse, a.codePostal, a.ville, a.departement, a.pays
+FROM sae._offre o
+JOIN sae._adresse a ON o.idAdresse = a.idAdresse;
+
+-- vue offre id et image
+CREATE VIEW sae.offreImage AS
+SELECT o.idOffre, i.pathImage
+FROM sae._offre o
+JOIN sae._afficherImageOffre aio ON o.idOffre = aio.idOffre
+JOIN sae._image i ON aio.idImage = i.idImage;
+
+-- trigger pour mettre à jour la note moyenne de l'offre
+CREATE OR REPLACE FUNCTION update_note_moyenne_offre()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE sae._offre
+    SET noteMoyenneOffre = (SELECT AVG(noteAvis) FROM sae._avis WHERE idOffre = NEW.idOffre)
+    WHERE idOffre = NEW.idOffre;
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- Trigger commentaire blacklistable si offre type 2 alors commentaire blacklistable
+CREATE OR REPLACE FUNCTION update_commentaire_blacklistable()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE sae._offre
+    SET commentaireBlacklistable = TRUE
+    WHERE idOffre = NEW.idOffre AND typeOffre = 2;
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- date de création de l'offre
+CREATE OR REPLACE FUNCTION update_date_creation_offre()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE sae._offre
+    SET dateCreationOffre = NOW()
+    WHERE idOffre = NEW.idOffre;
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
