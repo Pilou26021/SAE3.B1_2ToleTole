@@ -38,7 +38,7 @@ INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) V
 (2, 'FR7630006000019876543210987', 'BIC54321XXX');
 
 -- 8. Insérer des données dans `_offre`
-INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commenaiteBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
+INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
 (1, 1, 'Offre de service 1', 'Résumé 1', 'Description de l offre 1', 100.0, TRUE, FALSE, 1, 'https://ilovemyself.com',4.5, FALSE, '2023-05-01', 'Accessible', FALSE),
 (2, 2, 'Offre de service 2', 'Résumé 2', 'Description de l offre 2', 200.0, FALSE, TRUE, 2, 'https://pnevot.com',4.0, TRUE, '2023-06-01', 'Non accessible', TRUE);
 
