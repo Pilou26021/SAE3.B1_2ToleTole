@@ -84,6 +84,7 @@ CREATE TABLE sae._offre (
     aLaUneOffre BOOLEAN NOT NULL,
     enReliefOffre BOOLEAN NOT NULL,
     typeOffre INT NOT NULL,
+    siteWebOffre TEXT NOT NULL,
     noteMoyenneOffre FLOAT NOT NULL,
     commenaiteBlacklistable BOOLEAN NOT NULL,
     dateCreationOffre DATE NOT NULL,
