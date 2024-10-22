@@ -177,7 +177,7 @@ CREATE TABLE public._offreParcAttraction (
     dateFermeture DATE NOT NULL CHECK (dateFermeture >= NOW()),
     carteParc INT NOT NULL,
     nbrAttraction INT NOT NULL,
-    ageMinimun INT NOT NULL CHECK (ageMinimun >= 0 AND ageMinimun <= 99),
+    ageMinimum INT NOT NULL CHECK (ageMinimum >= 0 AND ageMinimum <= 99),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
 );
 

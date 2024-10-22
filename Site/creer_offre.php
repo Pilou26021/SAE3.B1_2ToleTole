@@ -255,7 +255,7 @@
                     <input type="time" name="dinnerCloseTime" id="dinner_close_time" required>
                     <br>
                     <label for="closed_days">Jours de fermeture :</label> 
-                    <input class="zone-text" type="text" name="closedDays" id="closed_days" placeholder="Ex: Lundi" required>
+                    <input class="zone-text" type="text" name="closedDays" id="closed_days" placeholder="Ex: Lundi">
                 </div>
                 <h2>Gamme de prix</h2>
                 <input id="gamme_prix" class="zone-number" type="number" name="averagePrice" placeholder="Prix moyen par personne" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
