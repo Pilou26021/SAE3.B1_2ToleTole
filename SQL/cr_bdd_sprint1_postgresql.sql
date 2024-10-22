@@ -33,7 +33,7 @@ CREATE TABLE sae._compte (
     numTelCompte TEXT NOT NULL,
     idImagePdp BIGINT NOT NULL,
     hashMdpCompte TEXT NOT NULL,
-    dateCreationCompte DATE NOT NULL,
+    dateCreationCompte DATE DEFAULT NOW(),
     dateDerniereConnexionCompte DATE NOT NULL,
     FOREIGN KEY (idImagePdp) REFERENCES sae._image(idImage)
 );
@@ -43,7 +43,7 @@ CREATE TABLE sae._professionnel (
     idPro SERIAL PRIMARY KEY,
     idCompte BIGINT NOT NULL,
     denominationPro TEXT NOT NULL,
-    numSirenPro TEXT NOT NULL,
+    numSirenPro TEXT NOT NULL CHECK (9 <= LENGTH(numSirenPro) AND LENGTH(numSirenPro) <= 14),
     CONSTRAINT unique_professionnel UNIQUE (idPro, idCompte),
     FOREIGN KEY (idCompte) REFERENCES sae._compte(idCompte)
 );
@@ -66,8 +66,8 @@ CREATE TABLE sae._professionnelPublic (
 CREATE TABLE sae._professionnelPrive (
     idProPrive SERIAL PRIMARY KEY,
     idPro BIGINT NOT NULL,
-    coordBancairesIBAN TEXT NOT NULL,
-    coordBancairesBIC TEXT NOT NULL,
+    coordBancairesIBAN TEXT NOT NULL CHECK (16 <= LENGTH(coordBancairesIBAN) AND LENGTH(coordBancairesIBAN) <= 34),
+    coordBancairesBIC TEXT NOT NULL CHECK (8 <= LENGTH(coordBancairesBIC) AND LENGTH(coordBancairesBIC) <= 11),
     CONSTRAINT unique_professionnelPrive UNIQUE (idProPrive, idPro),
     FOREIGN KEY (idPro) REFERENCES sae._professionnel(idPro)
 );
@@ -165,7 +165,7 @@ CREATE TABLE sae._offreActivite (
 
 CREATE TABLE sae._offreSpectacle (
     idOffre BIGINT NOT NULL,
-    dateOffre DATE NOT NULL,
+    dateOffre DATE NOT NULL CHECK (dateOffre >= NOW()),
     indicationDuree TEXT NOT NULL,
     capaciteAcceuil INT NOT NULL,
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre)
@@ -173,11 +173,11 @@ CREATE TABLE sae._offreSpectacle (
 
 CREATE TABLE sae._offreParcAttraction (
     idOffre BIGINT NOT NULL,
-    dateOuverture DATE NOT NULL,
-    dateFermeture DATE NOT NULL,
+    dateOuverture DATE NOT NULL CHECK (dateOuverture >= NOW()),
+    dateFermeture DATE NOT NULL CHECK (dateFermeture >= NOW()),
     carteParc INT NOT NULL,
     nbrAttraction INT NOT NULL,
-    ageMinimun INT NOT NULL,
+    ageMinimun INT NOT NULL CHECK (ageMinimun >= 0 AND ageMinimun <= 99),
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre)
 );
 
@@ -185,7 +185,7 @@ CREATE TABLE sae._offreVisite (
     idOffre BIGINT NOT NULL,
     dateOffre DATE NOT NULL,
     visiteGuidee BOOLEAN NOT NULL,
-    langueProposees BOOLEAN NOT NULL,
+    langueProposees TEXT NOT NULL,
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre)
 );
 
@@ -256,6 +256,12 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
+CREATE TRIGGER trg_update_note_moyenne_offre
+AFTER INSERT
+ON sae._avis
+FOR EACH ROW
+EXECUTE FUNCTION update_note_moyenne_offre();
+
 -- Trigger commentaire blacklistable si offre type 2 alors commentaire blacklistable
 CREATE OR REPLACE FUNCTION update_commentaire_blacklistable()
 RETURNS TRIGGER AS $$
@@ -266,6 +272,12 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER trg_update_commentaire_blacklistable
+AFTER INSERT
+ON sae._avis
+FOR EACH ROW
+EXECUTE FUNCTION update_commentaire_blacklistable();
 
 -- date de création de l'offre
 CREATE OR REPLACE FUNCTION update_date_creation_offre()
@@ -278,4 +290,62 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
+-- trigger pour mettre en place la facturation (calcul du montant TTC, HT)
+CREATE OR REPLACE FUNCTION facturation()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO sae._facture (idProPrive, idConstPrix, dateFacture, montantHT, montantTTC)
+    VALUES (NEW.idProPropose, 1, NOW(), NEW.prixMinOffre, NEW.prixMinOffre * 1.2);
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
 
+-- vue professionel public
+CREATE VIEW sae.professionnelPublic AS
+SELECT p.idPro, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp
+FROM sae._professionnel p
+JOIN sae._compte c ON p.idCompte = c.idCompte;
+
+-- vue professionnel privé
+CREATE VIEW sae.professionnelPrive AS
+SELECT p.idPro, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, pp.coordBancairesIBAN, pp.coordBancairesBIC
+FROM sae._professionnel p
+JOIN sae._compte c ON p.idCompte = c.idCompte
+JOIN sae._professionnelPrive pp ON p.idPro = pp.idPro;
+
+-- vue membre
+CREATE VIEW sae.membre AS
+SELECT m.idMembre, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, m.dateNaissanceMembre
+FROM sae._membre m
+JOIN sae._compte c ON m.idCompte = c.idCompte;
+
+-- vue avis avec leur réponse
+CREATE VIEW sae.avisReponse AS
+SELECT a.idAvis, a.idOffre, a.noteAvis, a.commentaireAvis, a.idMembre, a.dateAvis, a.dateVisiteAvis, a.blacklistAvis, a.reponsePro, r.texteReponse, r.dateReponse
+FROM sae._avis a
+LEFT JOIN sae._reponseAvis r ON a.idAvis = r.idAvis;
+
+-- vue avis avec leurs images
+CREATE VIEW sae.avisImage AS
+SELECT a.idAvis, a.idOffre, i.pathImage
+FROM sae._avis a
+JOIN sae._imageImageAvis iia ON a.idAvis = iia.idAvis
+JOIN sae._image i ON iia.idImage = i.idImage;
+
+-- trigger pour mettre à jour la date de dernière connexion du compte
+CREATE OR REPLACE FUNCTION update_date_derniere_connexion_compte()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE sae._compte
+    SET dateDerniereConnexionCompte = NOW()
+    WHERE idCompte = NEW.idCompte;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER trg_update_date_derniere_connexion_compte
+AFTER INSERT OR UPDATE
+ON sae._compte
+FOR EACH ROW
+EXECUTE FUNCTION update_date_derniere_connexion_compte();
