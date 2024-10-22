@@ -39,8 +39,8 @@ INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) V
 
 -- 8. Insérer des données dans `_offre`
 INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, noteMoyenneOffre, commenaiteBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
-(1, 1, 'Offre de service 1', 'Résumé 1', 'Description de l\'offre 1', 100.0, TRUE, FALSE, 1, 4.5, FALSE, '2023-05-01', 'Accessible', FALSE),
-(2, 2, 'Offre de service 2', 'Résumé 2', 'Description de l\'offre 2', 200.0, FALSE, TRUE, 2, 4.0, TRUE, '2023-06-01', 'Non accessible', TRUE);
+(1, 1, 'Offre de service 1', 'Résumé 1', 'Description de l offre 1', 100.0, TRUE, FALSE, 1, 4.5, FALSE, '2023-05-01', 'Accessible', FALSE),
+(2, 2, 'Offre de service 2', 'Résumé 2', 'Description de l offre 2', 200.0, FALSE, TRUE, 2, 4.0, TRUE, '2023-06-01', 'Non accessible', TRUE);
 
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 
