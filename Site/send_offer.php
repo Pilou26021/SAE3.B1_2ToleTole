@@ -2,9 +2,14 @@
     session_start();
     if (isset($_POST)){
 
+        include('../SQL/connection_local.php');
+        
+        
         //categorie
         $cat = $_POST['categorie'];
         $idProPropose = 1; //val par defaut pour test
+        $idAdresse = 1; //val par defaut pour test
+        $noteMoyenneOffre = 0; //val par defaut pour noteMoyenneOffre
 
         //commun
         $typeOffre = $_POST['typeOffre'];
@@ -13,11 +18,14 @@
         else { $typeOffre = 0; }
         $commBlacklistables = false;
         if ($typeOffre == 2){ $commBlacklistables = true; } //si offre en premium les comms sont blacklistables
+
+        $conditionAccessibilite = $_POST['conditionAccessibilite'];
         $horsLigne = false; //par défaut l'offre est en ligne
 
         $offerName = $_POST['offerName']; //déjà une String
         $summary = $_POST['summary']; //déjà une String
         $description = $_POST['description']; //déjà une String
+        $minPrice = $_POST['minPrice'];
 
         $adultPrice = $_POST['adultPrice'];
         $childPrice = $_POST['childPrice'];
@@ -29,7 +37,7 @@
         //existe pas pour toute offre :
         $dateOuverture = $_POST['dateOuverture']; //time
         $dateFermeture = $_POST['dateFermeture'];
-        $carteParc  = $_POST['carteParc'];
+        $carteParc  = "carteParc";
         $nbrAttractions = $_POST['nbrAttrations'];
 
         $visiteGuidee = $_POST['visiteGuidee']; //bool
@@ -43,63 +51,122 @@
         $prestationIncluse = $_POST['prestationIncluse']; //text
 
         //restauration
+        $carteResto = "menuImage";
         //horairesSemaine
         $lunchOpenTime = $_POST['lunchOpenTime']; //time
         $lunchCloseTime = $_POST['lunchCloseTime']; //time
         $dinnerOpenTime = $_POST['dinnerOpenTime']; //time
         $dinnerCloseTime = $_POST['dinnerCloseTime']; //time
         $horairesSemaine = "{1:$lunchOpenTime, 2:$lunchCloseTime, 3:$dinnerOpenTime, 4:$dinnerCloseTime}";
-
         $closedDays = $_POST['closedDays'];
-        $averagePrice = $_POST['averagePrice'];
-        $menuImage = $_POST['menuImage'];
+
+        $gammePrix = intval($_POST['averagePrice']);
+        if ($gammePrix < 25 ){ $gammePrix = 0; } //changer par la valeur à entrer dans la BDD
+        else if ($gammePrix >= 25 || $gammePrix <= 40) { $gammePrix = 1; }
+        else if ($gammePrix > 40) { $gammePrix = 2; }
+        else { $gammePrix = 2; }
 
         $tags = $_POST['tags']; //Arraylist
 
-        // include '../SQL/connection_local.php';
+        $sql = "INSERT INTO sae._offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne)";
+        $sql .= " VALUES (:idProPropose, :idAdresse, :offerName, :summary, :description, :prixMinOffre, :aLaUneOffre, :enReliefOffre, :typeOffre, :website, :noteMoyenneOffre, :commBlacklistables, NOW(), :conditionAccessibilite, :horsLigne)";
+        try {
+            $stmt = $conn->prepare($sql);
+            
+            // Lier les paramètres
+            //commun
+            $stmt->bindParam(':idProPropose', $idProPropose);
+            $stmt->bindParam(':idAdresse', $idAdresse);
+            $stmt->bindParam(':offerName', $offerName);
+            $stmt->bindParam(':summary', $summary);
+            $stmt->bindParam(':description', $description);
+            $stmt->bindParam(':prixMinOffre', $minPrice);
+            $stmt->bindParam(':aLaUneOffre', $aLaUneOffre);
+            $stmt->bindParam(':enReliefOffre', $enReliefOffre);
+            $stmt->bindParam(':typeOffre', $typeOffre);
+            $stmt->bindParam(':website', $website);
+            $stmt->bindParam(':noteMoyenneOffre', $noteMoyenneOffre);
+            $stmt->bindParam(':commBlacklistables', $commBlacklistables, PDO::PARAM_BOOL);
+            //conditions d'accessibilité NOW()
+            $stmt->bindParam(':conditionAccessibilite', $conditionAccessibilite);
+            $stmt->bindParam(':horsLigne', $horsLigne, PDO::PARAM_BOOL);
+        
+            // Exécuter la requête
+            $stmt->execute();
+            echo "Requête bien envoyée";
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
 
+        $idOffre = $conn->lastInsertId();
+
+        uploadImage($carteResto);
+        $idCarteResto = $conn->lastInsertId();
+        
         if ($cat == 'restauration') {
-            $sql = "INSERT INTO restaurant (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, noteMoyenneOffre, commentairesBlacklistable, siteWebOffre, dateCreationOffre, conditionAccessibilite, horsLigne, horairesSemaine, joursFermeture, prixMoyen, imageMenu, tags) ";
-            $sql .= "VALUES (:idProPropose, :idAdresse, :offerName, :summary, :description, :adultPrice, :aLaUneOffre, :enReliefOffre, :typeOffre, :noteMoyenneOffre, :commBlacklistables, :website, NOW(), :conditionAccessibilite, :horsLigne, :horairesSemaine, :closedDays, :averagePrice, :menuImage, :tags)";
-            
             try {
-                $stmt = $conn->prepare($sql);
+                $sql = "INSERT INTO sae._offrerestaurant (idOffre, horaireSemaine, gammePrix, carteResto)";
+                $sql .= " VALUES (:idOffre, :horaireSemaine, :gammePrix, :carteResto)";
                 
-                // Lier les paramètres
-                $stmt->bindParam(':idProPropose', $idProPropose);
-                $stmt->bindParam(':idAdresse', $idAdresse); // Assurez-vous de définir $idAdresse
-                $stmt->bindParam(':offerName', $offerName);
-                $stmt->bindParam(':summary', $summary);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':adultPrice', $adultPrice);
-                $stmt->bindParam(':aLaUneOffre', $aLaUneOffre);
-                $stmt->bindParam(':enReliefOffre', $enReliefOffre);
-                $stmt->bindParam(':typeOffre', $typeOffre);
-                $stmt->bindParam(':noteMoyenneOffre', $noteMoyenneOffre); // Assurez-vous de définir $noteMoyenneOffre
-                $stmt->bindParam(':commBlacklistables', $commBlacklistables, PDO::PARAM_BOOL);
-                $stmt->bindParam(':website', $website);
-                $stmt->bindParam(':conditionAccessibilite', $conditionAccessibilite); // Assurez-vous de définir $conditionAccessibilite
-                $stmt->bindParam(':horsLigne', $horsLigne, PDO::PARAM_BOOL);
-                $stmt->bindParam(':horairesSemaine', $horairesSemaine);
-                $stmt->bindParam(':closedDays', $closedDays);
-                $stmt->bindParam(':averagePrice', $averagePrice);
-                $stmt->bindParam(':menuImage', $menuImage);
-                $stmt->bindParam(':tags', $tags);
-            
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':idOffre', $idOffre);
+                $stmt->bindParam(':horaireSemaine', $horaireSemaine);
+                $stmt->bindParam(':gammePrix', $gammePrix);
+                $stmt->bindParam(':carteResto', $idCarteResto);
+
                 // Exécuter la requête
                 $stmt->execute();
-                echo "New record created successfully";
+                echo "Requête bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
-        
+            
         }
 
-        if ($cat == 'visite'){
+    }
 
+
+    function uploadImage($name){
+        // Dossier où les images seront stockées
+        $targetDir = "./img/uploaded/";
+        $targetFile = $targetDir . basename(date("Y-m-d H:i:s"));
+        $uploadOk = 1;
+
+        // Vérifie si le fichier est une image réelle
+        $check = getimagesize($_FILES["$name"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            echo "Le fichier n'est pas une image.";
+            $uploadOk = 0;
         }
-        
 
+        // Si le fichier est valide, essaye de l'uploader
+        if ($uploadOk == 1) {
+            if (move_uploaded_file($_FILES["$name"]["tmp_name"], $targetFile)) {
+                echo "L'image " . basename($_FILES["$name"]["name"]) . " a été uploadée.";
+
+                // Connexion à la base de données et insertion du chemin de l'image
+                $sql = "INSERT INTO sae._image (pathImage) VALUES (:pathImage)";
+
+                try {
+                    global $conn;
+                    $stmt = $conn->prepare($sql); 
+                    // Lier le paramètre :pathImage
+                    $stmt->bindParam(':pathImage', $targetFile);
+                    // Exécuter la requête
+                    $stmt->execute();
+                    echo "Chemin de l'image enregistré avec succès dans la base de données.";
+                } catch (PDOException $e) {
+                    echo "Erreur : " . $e->getMessage();
+                }
+
+            } else {
+                echo "Désolé, une erreur est survenue lors de l'upload de votre image.";
+            }
+        } else {
+            echo "Désolé, votre fichier n'a pas pu être uploadé.";
+        }
     }
 ?>
 
