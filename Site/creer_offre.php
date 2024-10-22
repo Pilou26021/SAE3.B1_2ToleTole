@@ -3,6 +3,8 @@
     if (isset($_GET)){
         $cat = $_GET['categorie'];
     }
+    // include '../SQL/connection_local.php';
+
 ?>
 
 
@@ -75,16 +77,6 @@
 
                 <?php if($cat != '')  { ?>
 
-                <!-- ?php if($_SESSION['typeCompte'] == 'proPrivee') {?> /!\ SPECULATION /!\
-                        <h2>Type d'Offre</h2>
-                        <label >
-                            <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
-                        </label>
-                        <label >
-                            <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
-                        </label>
-                    ?php } ?> -->
-
                 <h2>Type d'Offre</h2>
                 <label >
                     <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
@@ -129,7 +121,7 @@
                     } if($cat != '' && $cat != 'restauration') { ?>
                 <h2>Prix</h2>
                 <div class="price">
-                    <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adult" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adulte" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <input id="child_price" class="zone-number" type="number" name="childPrice" placeholder="Prix enfant (-18)" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                 </div>  
                 <p id="error-adult_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
