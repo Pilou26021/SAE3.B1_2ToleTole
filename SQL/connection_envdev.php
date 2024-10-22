@@ -1,16 +1,20 @@
 <?php 
 // on va get les variables d'environnement depuis le fichier .env
-$servername = getenv('DB_HOST');
+$servername = 'localhost';
 $username = getenv('DB_USER');
-$password = getenv('MARIADB_PASSWORD');
+$password = getenv('DB_ROOT_PASSWORD');
 $dbname = getenv('DB_NAME');
+$port = getenv('PGDB_PORT');
 
-// Connection à la bdd
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Connexion à la base de données PostgreSQL
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
 
-// Vérification de la connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Vérification de la connexion
+if (!$conn) {
+    die("Connection failed: " . pg_last_error());
 }
 echo "Connected successfully";
-?>
+
+// Fermer la connexion quand elle n'est plus nécessaire
+pg_close($conn);
+
