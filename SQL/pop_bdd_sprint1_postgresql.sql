@@ -85,8 +85,8 @@ INSERT INTO _offreActivite (idOffre, indicationDuree, ageRequis, prestationInclu
 
 -- 17. Insérer des données dans `_offreSpectacle`
 INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
-(1, '2025-06-01', '2 heures', 100),
-(2, '2025-07-01', '1 heure', 50);
+(1, '2025-06-01', 2, 100),
+(2, '2025-07-01', 1, 50);
 
 -- 18. Insérer des données dans `_offreParcAttraction`
 INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimun) VALUES 

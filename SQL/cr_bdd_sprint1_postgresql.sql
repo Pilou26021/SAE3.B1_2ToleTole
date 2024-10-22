@@ -157,8 +157,8 @@ CREATE TABLE sae._imageImageAvis (
 -- 4. Créer les types spécifiques d'offres qui héritent de sae._offre
 CREATE TABLE sae._offreActivite (
     idOffre BIGINT NOT NULL,
-    indicationDuree TEXT NOT NULL,
-    ageRequis INT NOT NULL CHECK (ageRequis >= 0 AND ageRequis <= 99),
+    indicationDuree INT NOT NULL,
+    ageMinimum INT NOT NULL CHECK (ageMinimum >= 0 AND ageMinimum <= 99),
     prestationIncluse TEXT NOT NULL,
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre)
 );
@@ -177,7 +177,7 @@ CREATE TABLE sae._offreParcAttraction (
     dateFermeture DATE NOT NULL CHECK (dateFermeture >= NOW()),
     carteParc INT NOT NULL,
     nbrAttraction INT NOT NULL,
-    ageMinimun INT NOT NULL CHECK (ageMinimun >= 0 AND ageMinimun <= 99),
+    ageMinimum INT NOT NULL CHECK (ageMinimum >= 0 AND ageMinimum <= 99),
     FOREIGN KEY (idOffre) REFERENCES sae._offre(idOffre)
 );
 
