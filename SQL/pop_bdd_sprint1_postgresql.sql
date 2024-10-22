@@ -79,7 +79,7 @@ INSERT INTO _imageImageAvis (idImage, idAvis) VALUES
 (2, 2);
 
 -- 16. Insérer des données dans `_offreActivite`
-INSERT INTO _offreActivite (idOffre, indicationDuree, ageRequis, prestationIncluse) VALUES 
+INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncluse) VALUES 
 (1, 2, 12, 'Guide inclus'),
 (2, 3, 10, 'Collation incluse');
 
@@ -89,7 +89,7 @@ INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceui
 (2, '2025-07-01', 1, 50);
 
 -- 18. Insérer des données dans `_offreParcAttraction`
-INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimun) VALUES 
+INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum) VALUES 
 (1, '2025-06-01', '2025-06-30', 5, 10, 3),
 (2, '2025-07-01', '2025-07-31', 10, 20, 5);
 
