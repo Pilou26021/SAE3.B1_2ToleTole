@@ -1,21 +1,26 @@
 <?php
+    error_reporting(E_ALL ^ E_WARNING);
+    
     session_start();
+    
     if (isset($_POST)){
 
-        include('../SQL/connection_local.php');
-        
+        include('../SQL/connection_local.php');       
         
         //categorie
         $cat = $_POST['categorie'];
         $idProPropose = 1; //val par defaut pour test
         $idAdresse = 1; //val par defaut pour test
         $noteMoyenneOffre = 0; //val par defaut pour noteMoyenneOffre
+        $imageOffre = "imageOffre"; //name de l'image de l'offre 
 
         //commun
+        $dateOffre = $_POST['dateOffre'];
         $typeOffre = $_POST['typeOffre'];
         if($typeOffre == 'Standard'){ $typeOffre = 1; } //on assigne la valeur à envoyer à la BDD (int)
         else if ($typeOffre == 'Premium') { $typeOffre = 2; }
         else { $typeOffre = 0; }
+
         $commBlacklistables = false;
         if ($typeOffre == 2){ $commBlacklistables = true; } //si offre en premium les comms sont blacklistables
 
@@ -29,8 +34,15 @@
 
         $adultPrice = $_POST['adultPrice'];
         $childPrice = $_POST['childPrice'];
+
+
+        //BUGGED A MORT
         $aLaUneOffre = $_POST['aLaUneOffre'];
         $enReliefOffre = $_POST['enReliefOffre'];
+        $aLaUneOffre = true;
+        $enReliefOffre = true;
+
+        //site et adresse
         $website = $_POST['website'];
         $adress = $_POST['adress'];
 
@@ -57,7 +69,7 @@
         $lunchCloseTime = $_POST['lunchCloseTime']; //time
         $dinnerOpenTime = $_POST['dinnerOpenTime']; //time
         $dinnerCloseTime = $_POST['dinnerCloseTime']; //time
-        $horairesSemaine = "{1:$lunchOpenTime, 2:$lunchCloseTime, 3:$dinnerOpenTime, 4:$dinnerCloseTime}";
+        $horaireSemaine = "{1:$lunchOpenTime, 2:$lunchCloseTime, 3:$dinnerOpenTime, 4:$dinnerCloseTime}";
         $closedDays = $_POST['closedDays'];
 
         $gammePrix = intval($_POST['averagePrice']);
@@ -93,19 +105,18 @@
         
             // Exécuter la requête
             $stmt->execute();
-            echo "Requête bien envoyée";
+            echo "Requête Offre bien envoyée";
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
 
         $idOffre = $conn->lastInsertId();
-
-        uploadImage($carteResto);
-        $idCarteResto = $conn->lastInsertId();
+        $idImageOffre = uploadimage($imageOffre);
+        $idCarteResto = uploadImage($carteResto);
         
         if ($cat == 'restauration') {
             try {
-                $sql = "INSERT INTO sae._offrerestaurant (idOffre, horaireSemaine, gammePrix, carteResto)";
+                $sql = "INSERT INTO sae._offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto)";
                 $sql .= " VALUES (:idOffre, :horaireSemaine, :gammePrix, :carteResto)";
                 
                 $stmt = $conn->prepare($sql);
@@ -116,58 +127,107 @@
 
                 // Exécuter la requête
                 $stmt->execute();
-                echo "Requête bien envoyée";
+                echo "Requête restauration bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
             
+        } else if ($cat == 'spectacle'){
+            try {
+                $sql = "INSERT INTO sae._offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil)";
+                $sql .= " VALUES (:idOffre, :dateOffre, :indicationDuree, :capaciteAcceuil)";
+                
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':idOffre', $idOffre);
+                $stmt->bindParam(':dateOffre', $dateOffre);
+                $stmt->bindParam(':indicationDuree', $gammePrix);
+                $stmt->bindParam(':capaciteAcceuil', $idCarteResto);
+
+                // Exécuter la requête
+                $stmt->execute();
+                echo "Requête spectacle bien envoyée";
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
         }
+
+        try {
+            $sql = "INSERT INTO sae._afficherImageOffre (idImage, idOffre) VALUES (:idImage, :idOffre)";
+            
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':idImage', $idImageOffre);
+            $stmt->bindParam(':idOffre', $idOffre);
+            // Exécuter la requête
+            $stmt->execute();
+            echo "Requête lien Image Offre bien envoyée";
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }        
 
     }
 
 
-    function uploadImage($name){
+
+
+
+
+
+    // Fonction pour uploader une image
+    function uploadImage($name) {
+        global $conn;
+
+        // Obtenir le prochain ID d'image en fonction du nombre d'images dans la base de données
+        $sql = "SELECT COUNT(*) FROM sae._image";
+        $id = $conn->query($sql);
+        $count = $id->fetchColumn() + 1; // Incrémenter le count pour générer un nouvel ID
+        $idImage = $count;
+        $nom_image = "image" . strval($count);
+
         // Dossier où les images seront stockées
         $targetDir = "./img/uploaded/";
-        $targetFile = $targetDir . basename(date("Y-m-d H:i:s"));
+        $targetFile = $targetDir . basename($nom_image);
         $uploadOk = 1;
 
-        // Vérifie si le fichier est une image réelle
-        $check = getimagesize($_FILES["$name"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            echo "Le fichier n'est pas une image.";
-            $uploadOk = 0;
-        }
-
-        // Si le fichier est valide, essaye de l'uploader
-        if ($uploadOk == 1) {
-            if (move_uploaded_file($_FILES["$name"]["tmp_name"], $targetFile)) {
-                echo "L'image " . basename($_FILES["$name"]["name"]) . " a été uploadée.";
-
-                // Connexion à la base de données et insertion du chemin de l'image
-                $sql = "INSERT INTO sae._image (pathImage) VALUES (:pathImage)";
-
-                try {
-                    global $conn;
-                    $stmt = $conn->prepare($sql); 
-                    // Lier le paramètre :pathImage
-                    $stmt->bindParam(':pathImage', $targetFile);
-                    // Exécuter la requête
-                    $stmt->execute();
-                    echo "Chemin de l'image enregistré avec succès dans la base de données.";
-                } catch (PDOException $e) {
-                    echo "Erreur : " . $e->getMessage();
-                }
-
+        // Vérification de l'existence du fichier
+        if (isset($_FILES[$name]) && $_FILES[$name]['tmp_name'] !== '') {
+            // Vérifie si le fichier est une image réelle
+            $check = getimagesize($_FILES[$name]['tmp_name']);
+            if ($check !== false) {
+                $uploadOk = 1;
             } else {
-                echo "Désolé, une erreur est survenue lors de l'upload de votre image.";
+                echo "Le fichier n'est pas une image.";
+                $uploadOk = 0;
+            }
+
+            // Si le fichier est valide, essaye de l'uploader
+            if ($uploadOk == 1) {
+                if (move_uploaded_file($_FILES[$name]['tmp_name'], $targetFile)) {
+                    echo "L'image " . basename($_FILES[$name]['name']) . " a été uploadée.";
+
+                    // Insertion du chemin de l'image dans la base de données
+                    $sql = "INSERT INTO sae._image (pathImage) VALUES (:pathImage)";
+                    try {
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindParam(':pathImage', $targetFile);
+                        $stmt->execute();
+                        echo "Chemin de l'image enregistré avec succès dans la base de données.";
+                    } catch (PDOException $e) {
+                        echo "Erreur : " . $e->getMessage();
+                    }
+                } else {
+                    echo "Désolé, une erreur est survenue lors de l'upload de votre image.";
+                }
+            } else {
+                echo "Désolé, votre fichier n'a pas pu être uploadé.";
             }
         } else {
-            echo "Désolé, votre fichier n'a pas pu être uploadé.";
+            echo "Aucun fichier sélectionné ou le fichier n'a pas été téléchargé correctement.";
         }
+
+        return $idImage;
     }
+
+
 ?>
 
 

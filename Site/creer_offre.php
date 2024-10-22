@@ -1,16 +1,12 @@
 <?php
+    error_reporting(E_ALL ^ E_WARNING);
+
     session_start();
+
     if (isset($_GET)){
         $cat = $_GET['categorie'];
     }
     include '../SQL/connection_local.php';
-
-    $sql = "SELECT * from sae._offre";
-    foreach($conn->query($sql) as $row) {
-        echo "<pre>"; // pour la version navigateur (présentation brute)
-        print_r($row);
-        echo "</pre>";
-    }
 
 ?>
 
@@ -146,9 +142,9 @@
                     <h2>Type de L'offre</h2>
                     <div class="type-offre">
                         <label for="aLaUneOffre">À la une</label>
-                        <input type="checkbox" name="aLaUneOffre" <?= $offer['aLaUneOffre'] ? 'checked' : '' ?>>
+                        <input type="checkbox" name="aLaUneOffre" value="false">
                         <label for="enReliefOffre">En relief</label>
-                        <input type="checkbox" name="enReliefOffre" <?= $offer['enReliefOffre'] ? 'checked' : '' ?>>
+                        <input type="checkbox" name="enReliefOffre" value="false">
                     </div>
 
                     <h2>Condition d'accessibilité</h2>
@@ -163,9 +159,9 @@
                     <h2>Adresse/coordonnée</h2>
                     <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
                     
-                    <h2>Ajouter une image principale de l'offre</h2>
+                    <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
-                        <input type="file" name="offer_image" accept="image/*" required>
+                        <input type="file" name="imageOffre" accept="image/*" required>
                     </div>
 
                 <?php } if ($cat == 'parc') {?>
@@ -204,7 +200,7 @@
                         <input type="text" name="autreLangue" placeholder="Préciser autre langue" style="display:none;" id="autreLangueInput">
                     </div>
                 
-                <?php } if( $cat != '' && $cat == 'activite' || $cat == 'spectacle' || $cat == 'visite') { ?>
+                <?php } if( $cat != '' && $cat == 'activite' || $cat == 'visite') { ?>
                     <h2>Périodes d'ouverture</h2>
                     <label for="day">Jour d'ouverture</label>
                     <select name="day" id="day" required>
@@ -223,6 +219,9 @@
                         <input type="time" name="closeTime" id="close_time" value="<?= $close_time ?>" required>
                     </div>
 
+                <?php } if ($cat == "spectacle") { ?>
+                    <h2>Date de l'offre</h2>
+                    <input type="date" name="dateOffre">
                 <?php } if ($cat != 'parc' && $cat != 'restauration' && $cat != '') { ?>
                         
 
