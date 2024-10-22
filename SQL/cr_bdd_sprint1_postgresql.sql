@@ -157,8 +157,8 @@ CREATE TABLE public._imageImageAvis (
 -- 4. Créer les types spécifiques d'offres qui héritent de public._offre
 CREATE TABLE public._offreActivite (
     idOffre BIGINT NOT NULL,
-    indicationDuree TEXT NOT NULL,
-    ageRequis INT NOT NULL CHECK (ageRequis >= 0 AND ageRequis <= 99),
+    indicationDuree INT NOT NULL,
+    ageMinimum INT NOT NULL CHECK (ageMinimum >= 0 AND ageMinimum <= 99),
     prestationIncluse TEXT NOT NULL,
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
 );
@@ -166,7 +166,7 @@ CREATE TABLE public._offreActivite (
 CREATE TABLE public._offreSpectacle (
     idOffre BIGINT NOT NULL,
     dateOffre DATE NOT NULL CHECK (dateOffre >= NOW()),
-    indicationDuree TEXT NOT NULL,
+    indicationDuree INT NOT NULL,
     capaciteAcceuil INT NOT NULL,
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
 );

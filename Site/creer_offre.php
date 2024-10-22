@@ -1,16 +1,12 @@
 <?php
+    error_reporting(E_ALL ^ E_WARNING);
+
     session_start();
+
     if (isset($_GET)){
         $cat = $_GET['categorie'];
     }
     include '../SQL/connection_local.php';
-
-    $sql = "SELECT * from sae._offre";
-    foreach($conn->query($sql) as $row) {
-        echo "<pre>"; // pour la version navigateur (présentation brute)
-        print_r($row);
-        echo "</pre>";
-    }
 
 ?>
 
@@ -146,9 +142,9 @@
                     <h2>Type de L'offre</h2>
                     <div class="type-offre">
                         <label for="aLaUneOffre">À la une</label>
-                        <input type="checkbox" name="aLaUneOffre" <?= $offer['aLaUneOffre'] ? 'checked' : '' ?>>
+                        <input type="checkbox" name="aLaUneOffre" value="false">
                         <label for="enReliefOffre">En relief</label>
-                        <input type="checkbox" name="enReliefOffre" <?= $offer['enReliefOffre'] ? 'checked' : '' ?>>
+                        <input type="checkbox" name="enReliefOffre" value="false">
                     </div>
 
                     <h2>Condition d'accessibilité</h2>
@@ -163,9 +159,9 @@
                     <h2>Adresse/coordonnée</h2>
                     <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
                     
-                    <h2>Ajouter une image principale de l'offre</h2>
+                    <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
-                        <input type="file" name="offer_image" accept="image/*" required>
+                        <input type="file" name="imageOffre" accept="image/*" required>
                     </div>
 
                 <?php } if ($cat == 'parc') {?>
@@ -180,8 +176,8 @@
                         <input type="file" name="carteParc" accept="image/*" required>
                     </div>
                     <h2>Nombre d'attractions disponibles</h2>
-                    <input id="nbrAttractions" class="zone-number" type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
-                    <p id="error-nbrAttractions" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                    <input id="nbrAttraction" class="zone-number" type="number" name="nbrAttraction" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-nbrAttraction" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
                     <?php } if ($cat == 'visite') { ?>
 
@@ -195,35 +191,38 @@
 
                     <h2>Langues proposées</h2>
                     <div class="langues">
-                        <label><input type="checkbox" name="langues" value="Français"> Français</label>
-                        <label><input type="checkbox" name="langues" value="Anglais"> Anglais</label>
-                        <label><input type="checkbox" name="langues" value="Espagnol"> Espagnol</label>
-                        <label><input type="checkbox" name="langues" value="Allemand"> Allemand</label>
-                        <label><input type="checkbox" name="langues" value="Italien"> Italien</label>
-                        <label><input type="checkbox" name="langues" value="Autre"> Autre</label>
-                        <input type="text" name="autreLangue" placeholder="Préciser autre langue" style="display:none;" id="autreLangueInput">
+                        <label><input type="checkbox" name="langues[]" value="Français"> Français</label>
+                        <label><input type="checkbox" name="langues[]" value="Anglais"> Anglais</label>
+                        <label><input type="checkbox" name="langues[]" value="Espagnol"> Espagnol</label>
+                        <label><input type="checkbox" name="langues[]" value="Allemand"> Allemand</label>
+                        <label><input type="checkbox" name="langues[]" value="Italien"> Italien</label>
+                        <label><input type="checkbox" name="langues[]" value="Autre" id="autreCheckbox"> Autre</label>
                     </div>
-                
-                <?php } if( $cat != '' && $cat == 'activite' || $cat == 'spectacle' || $cat == 'visite') { ?>
-                    <h2>Périodes d'ouverture</h2>
-                    <label for="day">Jour d'ouverture</label>
-                    <select name="day" id="day" required>
-                        <option value="Lundi" <?= $selected_day == 'Lundi' ? 'selected' : '' ?>>Lundi</option>
-                        <option value="Mardi" <?= $selected_day == 'Mardi' ? 'selected' : '' ?>>Mardi</option>
-                        <option value="Mercredi" <?= $selected_day == 'Mercredi' ? 'selected' : '' ?>>Mercredi</option>
-                        <option value="Jeudi" <?= $selected_day == 'Jeudi' ? 'selected' : '' ?>>Jeudi</option>
-                        <option value="Vendredi" <?= $selected_day == 'Vendredi' ? 'selected' : '' ?>>Vendredi</option>
-                        <option value="Samedi" <?= $selected_day == 'Samedi' ? 'selected' : '' ?>>Samedi</option>
-                        <option value="Dimanche" <?= $selected_day == 'Dimanche' ? 'selected' : '' ?>>Dimanche</option>
-                    </select>
-                    <div class="hours">
-                        <label for="open_time">Horaire d'ouverture:</label>
-                        <input type="time" name="openTime" id="open_time" value="<?= $open_time ?>" required>
-                        <label for="close_time">Horaire de fermeture:</label>
-                        <input type="time" name="closeTime" id="close_time" value="<?= $close_time ?>" required>
-                    </div>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="autreLangue" placeholder="Préciser les autres langues" style="display:none;" id="autreLangueInput">
 
-                <?php } if ($cat != 'parc' && $cat != 'restauration' && $cat != '') { ?>
+                    <script>
+                        //check si autreLangueInput est coché si oui affiché le bloc de texte supplémentaire
+                        document.getElementById('autreCheckbox').addEventListener('change', function() {
+                            var inputAutreLangue = document.getElementById('autreLangueInput');
+                            if (this.checked) {
+                                inputAutreLangue.style.display = 'block'; // Affiche l'input texte
+                            } else {
+                                inputAutreLangue.style.display = 'none';  // Masque l'input texte
+                            }
+                        });
+                    </script>
+
+                <?php } if ($cat == "spectacle" || $cat == "visite" || $cat == "activite") { ?>
+                    <h2>Date de l'offre</h2>
+                    <input type="date" name="dateOffre">
+
+                <?php } if ($cat == "spectacle") { ?>
+                
+                    <h2>Capacité d'acceuil</h2>
+                    <input id="cap_acceuil" class="zone-number" type="number" name="capaciteAcceuil" placeholder="ex : 300 personnes" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-cap_acceuil" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+
+                <?php } if ($cat == 'spectacle' || $cat == 'activite') { ?>
                         
 
                     <h2>Durée de l'activité (en heures)</h2>
@@ -240,7 +239,7 @@
                 <?php } if ($cat == 'activite') { ?>
 
                     <h2>Prestations incluses</h2>
-                    <textarea class="textarea-creer_offre" name="prestationIncluses"  placeholder="Détail des prestations incluses..." required></textarea>
+                    <textarea class="textarea-creer_offre" name="prestationIncluse"  placeholder="Détail des prestations incluses..." required></textarea>
 
                 <?php } if($cat == 'restauration') { ?>
 
