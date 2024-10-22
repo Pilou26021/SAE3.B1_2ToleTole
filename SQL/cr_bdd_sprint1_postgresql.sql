@@ -332,20 +332,3 @@ FROM sae._avis a
 JOIN sae._imageImageAvis iia ON a.idAvis = iia.idAvis
 JOIN sae._image i ON iia.idImage = i.idImage;
 
--- trigger pour mettre à jour la date de dernière connexion du compte
-CREATE OR REPLACE FUNCTION update_date_derniere_connexion_compte()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE sae._compte
-    SET dateDerniereConnexionCompte = NOW()
-    WHERE idCompte = NEW.idCompte;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER trg_update_date_derniere_connexion_compte
-AFTER INSERT OR UPDATE
-ON sae._compte
-FOR EACH ROW
-EXECUTE FUNCTION update_date_derniere_connexion_compte();
