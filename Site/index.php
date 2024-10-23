@@ -10,7 +10,7 @@ ob_start();
     <link rel="stylesheet" href="./style.css">
     <title>Offres</title>
     <?php 
-        include("connec.php");
+        include("../SQL/connection_local.php");
 
         $professionel = false;
         $membre = false;
@@ -71,8 +71,7 @@ ob_start();
         crossorigin="anonymous">
     </script>
     <script> 
-        $(function(){
-             $("#header").load("./header.php"); 
+        $(function(){ 
             $("#footer").load("footer.html"); 
         });
     </script> 
