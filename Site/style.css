@@ -821,3 +821,87 @@ p.cp_mobile_erreur {
       align-items: center;
   }
 }
+
+/* STYLE OFFRE */
+
+/* Conteneur principal pour toutes les offres */
+.offres-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  align-items: center;
+}
+
+/* Style de la carte de chaque offre */
+.offre-card {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.offre-card:hover {
+  transform: scale(1.05);
+}
+
+/* Conteneur de l'image de l'offre */
+.offre-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.offre-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Style des informations de l'offre */
+.offre-details {
+  padding: 15px;
+  text-align: left;
+}
+
+.offre-titre {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.offre-resume {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.offre-prix {
+  font-size: 1.2em;
+  color: #27ae60;
+  font-weight: bold;
+}
+.offres-display{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+/* Media query pour les écrans de plus de 800px */
+@media (min-width: 800px) {
+  .offres-display {
+    justify-content: left;
+  }
+
+  
+}

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,9 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Offres</title>
+    <?php 
+        include("connec.php");
+
+        $professionel = false;
+        $membre = false;
+
+        if (isset($_SESSION['membre'])) {
+            $membre = true;
+            $idmembre = $_SESSION['membre'];
+        } elseif (isset($_SESSION['professionnel'])) {
+            $professionel = true;
+            $idpro = $_SESSION['professionnel'];
+        }
+
+        // Construction de la requête SQL en fonction du type d'utilisateur
+        if ($professionel) {
+            // Si professionnel, n'afficher que ses offres
+            $sql = "
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage
+                FROM public._offre o
+                JOIN (
+                    SELECT idOffre, MIN(idImage) AS firstImage
+                    FROM public._afficherImageOffre
+                    GROUP BY idOffre
+                ) a ON o.idOffre = a.idOffre
+                JOIN public._image i ON a.firstImage = i.idImage
+                WHERE o.idProPropose = :idpro -- Correspond au professionnel
+                ORDER BY o.idOffre
+            ";
+        } else {
+            // Sinon, afficher toutes les offres pour les visiteurs/membres
+            $sql = "
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage
+                FROM public._offre o
+                JOIN (
+                    SELECT idOffre, MIN(idImage) AS firstImage
+                    FROM public._afficherImageOffre
+                    GROUP BY idOffre
+                ) a ON o.idOffre = a.idOffre
+                JOIN public._image i ON a.firstImage = i.idImage
+                ORDER BY o.idOffre
+            ";
+        }
+
+        // Préparer et exécuter la requête
+        $stmt = $conn->prepare($sql);
+
+        if ($professionel) {
+            $stmt->bindValue(':idpro', $idpro, PDO::PARAM_INT);  // Lier l'idPro si l'utilisateur est professionnel
+        }
+
+        $stmt->execute();
+        $offres = $stmt->fetchAll();
+    ?>
 </head>
 <body>
-    <?php include("header.php"); ?>
     <script
         src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -15,12 +69,20 @@
     </script>
     <script> 
         $(function(){
-        $("#footer").load("footer.html"); 
+             $("#header").load("./header.php"); 
+            $("#footer").load("footer.html"); 
         });
     </script> 
+
     <div id="header"></div>
 
     <main>
+        <?php if ($professionel): ?>
+            <!-- Afficher un bouton de création d'offre pour les professionnels -->
+            <button class="offer-btn">
+                <span class="icon">+</span> Créer une nouvelle offre
+            </button>
+        <?php endif; ?>
         <div class="recherche">
             <form action="">
                 <div class="recherche_top">
@@ -123,6 +185,33 @@
                     <input class="button_1" type="submit" value="Appliquer">
                 </div>
             </form>
+        </div>
+
+        <div class="offres-display">
+            <?php if (count($offres) > 0): ?>
+                <div class="offres-container">
+                    <?php foreach ($offres as $offre): ?>
+                        <div class="offre-card">
+                            <div class="offre-image-container">
+                                <!-- Affichage de l'image -->
+                                <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                            </div>
+                            <div class="offre-details">
+                                <!-- Titre de l'offre -->
+                                <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                
+                                <!-- Résumé de l'offre -->
+                                <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
+                                
+                                <!-- Prix minimum de l'offre -->
+                                <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p>Aucune offre disponible pour le moment.</p>
+            <?php endif; ?>
         </div>
     </main>
     
