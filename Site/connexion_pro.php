@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start(); // Démarre la session
 
 include '../SQL/connection_local.php';

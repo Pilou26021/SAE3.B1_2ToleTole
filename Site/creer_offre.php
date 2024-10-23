@@ -1,7 +1,20 @@
 <?php
-
     error_reporting(E_ALL ^ E_WARNING);
+
+    //start session
+    ob_start();
+    session_start();
+
+    //connecteur pour requête
     include '../SQL/connection_local.php';
+
+    // On vérifie si l'utilisateur est connecté. Il peut être connecté en tant que membre ou professionnel. Si il n'est pas connecté alors il sera visiteur.
+    if (isset($_SESSION['professionnel'])) {
+        $professionel = true;
+        $idProPropose = $_SESSION['professionnel'];
+    } else {
+        ?> <script>window.location.replace('index.php');</script> <!-- Redirection en quittant la page actuelle --> <?php
+    }
 
     //récupération de la catégorie dans le GET
     if (isset($_GET)){
@@ -161,7 +174,8 @@
                     <input type="text" width="100%" class="textarea-creer_offre" name="adresse" placeholder="rue Edouard Branly" required>
 
                     <h2>Numéro de la rue</h2>
-                    <input type="number" width="100%" class="zone-text" name="adNumRue" placeholder="13" required>
+                    <input id="adNumRue" type="number" width="100%" class="zone-text" name="adNumRue" placeholder="13" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-adNumRue" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
                     <h2>Adresse supplémentaire</h2>
                     <input type="text" width="100%" class="textarea-creer_offre" name="supAdresse" placeholder="Batîment 4bis, Appartemment 105" required>

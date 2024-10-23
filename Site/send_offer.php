@@ -1,16 +1,25 @@
 <?php
     error_reporting(E_ALL ^ E_WARNING);
-    
+    ob_start();
     session_start();
+
+    // On vérifie si l'utilisateur est connecté. Il peut être connecté en tant que membre ou professionnel. Si il n'est pas connecté alors il sera visiteur.
+    if (isset($_SESSION['professionnel'])) {
+        $professionel = true;
+        //récupération de l'id du pro
+        $idProPropose = $_SESSION['professionnel'];
+    } else {
+        ?> <script>window.location.replace('index.php');</script> <!-- Redirection en quittant la page actuelle --> <?php
+    }
     
     if (isset($_POST)){
 
+        // connecteur pour requête
         include('../SQL/connection_local.php');       
         
         // Catégorie
         $cat = $_POST['categorie'];
         // $idProPropose = $_SESSION['professionnel']; //Récupération de l'id du Pro dans la sessions
-        $idProPropose = 1; //défaut
         $noteMoyenneOffre = 0; // Valeur par défaut pour la note moyenne de l'offre
         $imageOffre = "imageOffre"; // Nom de l'image de l'offre
 
@@ -464,6 +473,13 @@
         <div id="footer"></div>
 
         <script src="./script.js" ></script>
+
+        <script>
+            setTimeout(function() {
+                window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
+            }, 3000); // 3000 millisecondes = 3 secondes
+        </script>
+
 
 
     </body>

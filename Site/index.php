@@ -81,9 +81,9 @@ ob_start();
     <main>
         <?php if ($professionel): ?>
             <!-- Afficher un bouton de création d'offre pour les professionnels -->
-            <button class="offer-btn">
+            <a href="creer_offre.php"> <button class="offer-btn">
                 <span class="icon">+</span> Créer une nouvelle offre
-            </button>
+            </button> </a>
         <?php endif; ?>
         <div class="recherche">
             <form action="">
