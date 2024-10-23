@@ -1,15 +1,14 @@
 <?php
+
     error_reporting(E_ALL ^ E_WARNING);
+    include '../SQL/connection_local.php';
 
-    session_start();
-
+    //récupération de la catégorie dans le GET
     if (isset($_GET)){
         $cat = $_GET['categorie'];
     }
-    include '../SQL/connection_local.php';
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">

@@ -7,91 +7,116 @@
 
         include('../SQL/connection_local.php');       
         
-        //categorie
+        // Catégorie
         $cat = $_POST['categorie'];
-        $idProPropose = 1; //val par defaut pour test
-        $idAdresse = 1; //val par defaut pour test
-        $noteMoyenneOffre = 0; //val par defaut pour noteMoyenneOffre
-        $imageOffre = "imageOffre"; //name de l'image de l'offre 
+        // $idProPropose = $_SESSION['professionnel']; //Récupération de l'id du Pro dans la sessions
+        $idProPropose = 0;
+        $idAdresse = 1; // Valeur par défaut pour le test
+        $noteMoyenneOffre = 0; // Valeur par défaut pour la note moyenne de l'offre
+        $imageOffre = "imageOffre"; // Nom de l'image de l'offre
 
-        //commun
-        $dateOffre = $_POST['dateOffre'];
-        $typeOffre = $_POST['typeOffre'];
-        if($typeOffre == 'Standard'){ $typeOffre = 1; } //on assigne la valeur à envoyer à la BDD (int)
-        else if ($typeOffre == 'Premium') { $typeOffre = 2; }
-        else { $typeOffre = 0; }
-
-        $commBlacklistables = false;
-        if ($typeOffre == 2){ $commBlacklistables = true; } //si offre en premium les comms sont blacklistables
-
-        $conditionAccessibilite = $_POST['conditionAccessibilite'];
-        $horsLigne = false; //par défaut l'offre est en ligne
-
-        $offerName = $_POST['offerName']; //déjà une String
-        $summary = $_POST['summary']; //déjà une String
-        $description = $_POST['description']; //déjà une String
+        // Informations communes
+        $offerName = $_POST['offerName'];
+        $summary = $_POST['summary'];
+        $description = $_POST['description'];
         $minPrice = $_POST['minPrice'];
-
         $adultPrice = $_POST['adultPrice'];
         $childPrice = $_POST['childPrice'];
+        $dateOffre = $_POST['dateOffre'];
+        $typeOffre = $_POST['typeOffre'];
+        $conditionAccessibilite = $_POST['conditionAccessibilite'];
 
+        //par défaut les commentaires ne sont pas blacklistables
+        $commBlacklistables = false;
+        // Détermination du type d'offre (1: Standard, 2: Premium, 0: Normal)
+        switch ($typeOffre) {
+            case 'Standard':
+                $typeOffre = 1;
+                break;
+            case 'Premium':
+                $typeOffre = 2;
+                $commBlacklistables = true; // Les commentaires sont blacklistables en Premium
+                break;
+            default:
+                $typeOffre = 0;
+        }
+
+        // Accessibilité et statut
+        $horsLigne = false; // Par défaut, l'offre est en ligne
+
+        // Options supplémentaires
         $aLaUneOffre = isset($_POST['aLaUneOffre']) ? true : false;
         $enReliefOffre = isset($_POST['enReliefOffre']) ? true : false;
 
-        //site et adresse
+        // Site web et adresse
         $website = $_POST['website'];
         $adress = $_POST['adress'];
 
-        //existe pas pour toute offre :
-        $dateOuverture = $_POST['dateOuverture']; //time
+        // Informations parcs
+        $dateOuverture = $_POST['dateOuverture'];
         $dateFermeture = $_POST['dateFermeture'];
-        $carteParc  = "carteParc";
         $nbrAttraction = $_POST['nbrAttraction'];
+        $carteParc = "carteParc";
 
-        $visiteGuidee = $_POST['visiteGuidee']; //bool
-        if ($visiteGuidee == "oui") { $visiteGuidee = true; } else { $visiteGuidee = false; }
+        // Visite
+        $visiteGuidee = ($_POST['visiteGuidee'] == "oui") ? true : false;
 
-        $langues = $_POST['langues']; //Arraylist
-        $autreLangue = $_POST['autreLangue']; //text
-        if ($langues != NULL) {
-            foreach ($langues as $langue){
-                $string_langues .= $langue . ", ";
-            }
-            $string_langues = substr($string_langues, 0, -2); //retire les deux derniers caractères ", " après la dernière langue
+        // Traitement des langues (ArrayList)
+        $langues = $_POST['langues'];
+        $autreLangue = $_POST['autreLangue'];
+        $string_langues = "";
+
+        if (!empty($langues)) {
+            $string_langues = implode(", ", $langues);
+            
+            // Gestion de l'option "Autre"
             if (in_array("Autre", $langues)) {
-                $string_langues = substr($string_langues, 0, -7); //retire ", Autre" après la dernière langue
-                $string_langues .= " , Autres langues : " . $autreLangue; //string complet
+                $string_langues = str_replace(", Autre", "", $string_langues);
+                $string_langues .= ", Autres langues : " . $autreLangue;
             }
         }
 
+        // Informations sur les horaires
         $day = $_POST['day'];
         $openTime = $_POST['openTime'];
         $closeTime = $_POST['closeTime'];
         $indicationDuree = $_POST['indicationDuree'];
         $ageMinimum = $_POST['ageMinimum'];
-        $prestationIncluse = $_POST['prestationIncluse']; //text
+        $prestationIncluse = $_POST['prestationIncluse'];
 
-        //restauration
+        // Images supplémentaires
         $carteResto = "menuImage";
-        //horairesSemaine
-        $lunchOpenTime = $_POST['lunchOpenTime']; //time
-        $lunchCloseTime = $_POST['lunchCloseTime']; //time
-        $dinnerOpenTime = $_POST['dinnerOpenTime']; //time
-        $dinnerCloseTime = $_POST['dinnerCloseTime']; //time
-        $horaireSemaine = "{1:$lunchOpenTime, 2:$lunchCloseTime, 3:$dinnerOpenTime, 4:$dinnerCloseTime}";
+
+        // Horaires de la semaine
+        $lunchOpenTime = $_POST['lunchOpenTime'];
+        $lunchCloseTime = $_POST['lunchCloseTime'];
+        $dinnerOpenTime = $_POST['dinnerOpenTime'];
+        $dinnerCloseTime = $_POST['dinnerCloseTime'];
+        $horaireSemaine = json_encode([
+            "lunchOpen" => $lunchOpenTime,
+            "lunchClose" => $lunchCloseTime,
+            "dinnerOpen" => $dinnerOpenTime,
+            "dinnerClose" => $dinnerCloseTime
+        ]);
+
         $closedDays = $_POST['closedDays'];
 
+        // Détermination de la gamme de prix (0: <25, 1: 25-40, 2: >40)
         $gammePrix = intval($_POST['averagePrice']);
-        if ($gammePrix < 25 ){ $gammePrix = 0; } //changer par la valeur à entrer dans la BDD
-        else if ($gammePrix >= 25 || $gammePrix <= 40) { $gammePrix = 1; }
-        else if ($gammePrix > 40) { $gammePrix = 2; }
-        else { $gammePrix = 2; }
 
-        //spectacle
+        if ($gammePrix < 25) {
+            $gammePrix = 0;
+        } elseif ($gammePrix <= 40) {
+            $gammePrix = 1;
+        } else {
+            $gammePrix = 2;
+        }
+
+        // Spectacle
         $capaciteAcceuil = intval($_POST['capaciteAcceuil']);
 
-        //tags
-        $tags = $_POST['tags']; //Arraylist
+        // Tags (ArrayList)
+        $tags = $_POST['tags'];
 
         $sql = "INSERT INTO public._offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne)";
         $sql .= " VALUES (:idProPropose, :idAdresse, :offerName, :summary, :description, :prixMinOffre, :aLaUneOffre, :enReliefOffre, :typeOffre, :website, :noteMoyenneOffre, :commBlacklistables, NOW(), :conditionAccessibilite, :horsLigne)";
