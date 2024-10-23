@@ -15,13 +15,12 @@ try {
     
     // Définir le mode d'erreur de PDO sur Exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    echo "Connected successfully";
-
 } catch (PDOException $e) {
     // Gestion des erreurs de connexion
     die("Connection failed: " . $e->getMessage());
 }
 
-// Fermer la connexion quand elle n'est plus nécessaire
-$conn = null;
+// On se place sur le schema sae
+$sql = "SET SCHEMA 'public';";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
