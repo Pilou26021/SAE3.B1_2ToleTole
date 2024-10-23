@@ -36,7 +36,7 @@ if (isset($_SESSION['membre'])) {
                 array(4) { ["nomcompte"]=> string(5) "Smith" ["prenomcompte"]=> string(4) "John" ["mailcompte"]=> string(22) "john.smith@example.com" ["pathimage"]=> string(18) "path/to/image1.jpg" }
                 */
                 ?>
-                <img src="img/<?= $result['pathimage'] ?>" alt="" width="70px" height="70px">
+                <img src="<?= $result['pathimage'] ?>" alt="" width="70px" height="70px">
                 <p><?= $result['prenomcompte'] . ' ' . $result['nomcompte'] ?></p>
                 <p><?= $result['mailcompte'] ?></p>
                 <p>Professionnel</p>
