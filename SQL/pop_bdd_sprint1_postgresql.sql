@@ -3,9 +3,9 @@ SET SCHEMA 'public';
 
 -- 1. Insérer des données dans `_image`
 INSERT INTO _image (pathImage) VALUES 
-('path/to/image1.jpg'),
-('path/to/image2.jpg'),
-('path/to/image3.jpg');
+('./img/uploaded/image1.png'),
+('./img/uploaded/image2.png'),
+('./img/uploaded/image3.png');
 
 -- 2. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
