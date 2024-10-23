@@ -1,10 +1,10 @@
 <?php 
 // on va get les variables d'environnement depuis le fichier .env
 $servername = 'dbadmin-tole-tole.ventsdouest.dev';
-$username = getenv('DB_USER');
-$password = getenv('DB_ROOT_PASSWORD');
-$dbname = getenv('DB_NAME');
-$port = getenv('PGDB_PORT');
+$username = getenv('sae');
+$password = getenv('barclay-ass1ed-laSer');
+$dbname = getenv('sae');
+$port = getenv('5432');
 $driver = "pgsql";
 
 // Connexion à la base de données PostgreSQL
