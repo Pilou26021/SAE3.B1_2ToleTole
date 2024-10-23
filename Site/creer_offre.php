@@ -267,40 +267,41 @@
                 </div>
                 <h2>Tags de l'offre</h2>
                 <div class="tags">
-                    <label><input type="checkbox" name="tags" value="Française"> Française</label>
-                    <label><input type="checkbox" name="tags" value="Fruit de mer"> Fruit de mer</label>
-                    <label><input type="checkbox" name="tags" value="Asiatique"> Asiatique</label>
-                    <label><input type="checkbox" name="tags" value="Indienne"> Indienne</label>
-                    <label><input type="checkbox" name="tags" value="Italienne"> Italienne</label>
-                    <label><input type="checkbox" name="tags" value="Gastronomique"> Gastronomique</label>
-                    <label><input type="checkbox" name="tags" value="Restauration rapide"> Restauration rapide</label>
-                    <label><input type="checkbox" name="tags" value="Crêperie"> Crêperie</label>
+                    <label><input type="checkbox" name="tags[]" value="Française"> Française</label>
+                    <label><input type="checkbox" name="tags[]" value="Fruit de mer"> Fruit de mer</label>
+                    <label><input type="checkbox" name="tags[]" value="Asiatique"> Asiatique</label>
+                    <label><input type="checkbox" name="tags[]" value="Indienne"> Indienne</label>
+                    <label><input type="checkbox" name="tags[]" value="Italienne"> Italienne</label>
+                    <label><input type="checkbox" name="tags[]" value="Gastronomique"> Gastronomique</label>
+                    <label><input type="checkbox" name="tags[]" value="Restauration rapide"> Restauration rapide</label>
+                    <label><input type="checkbox" name="tags[]" value="Crêperie"> Crêperie</label>
                 </div>
                 <br>
 
-                <?php } if ($cat != 'restauration' && $cat != '') {?>
-                    <h2>Tags de l'offre</h2>
-                    <div class="tags">
-                        <label><input type="checkbox" name="tags" value="Classique"> Classique</label>
-                        <label><input type="checkbox" name="tags" value="Culturel"> Culturel</label>
-                        <label><input type="checkbox" name="tags" value="Patrimoine"> Patrimoine</label>
-                        <label><input type="checkbox" name="tags" value="Histoire"> Histoire</label>
-                        <label><input type="checkbox" name="tags" value="Urbain"> Urbain</label>
-                        <label><input type="checkbox" name="tags" value="Nature"> Nature</label>
-                        <label><input type="checkbox" name="tags" value="Plein air"> Plein air</label>
-                        <label><input type="checkbox" name="tags" value="Sport"> Sport</label>
-                        <label><input type="checkbox" name="tags" value="Nautique"> Nautique</label>
-                        <label><input type="checkbox" name="tags" value="Gastronomie"> Gastronomie</label>
-                        <label><input type="checkbox" name="tags" value="Musée"> Musée</label>
-                        <label><input type="checkbox" name="tags" value="Atelier"> Atelier</label>
-                        <label><input type="checkbox" name="tags" value="Musique"> Musique</label>
-                        <label><input type="checkbox" name="tags" value="Famille"> Famille</label>
-                        <label><input type="checkbox" name="tags" value="Cinéma"> Cinéma</label>
-                        <label><input type="checkbox" name="tags" value="Cirque"> Cirque</label>
-                        <label><input type="checkbox" name="tags" value="Son et Lumière"> Son et Lumière</label>
-                        <label><input type="checkbox" name="tags" value="Humour"> Humour</label>
-                    </div>
-                    <br>
+                <?php } if ($cat != 'restauration' && $cat != '') { ?>
+                <h2>Tags de l'offre</h2>
+                <div class="tags">
+                    <label><input type="checkbox" name="tags[]" value="Classique"> Classique</label>
+                    <label><input type="checkbox" name="tags[]" value="Culturel"> Culturel</label>
+                    <label><input type="checkbox" name="tags[]" value="Patrimoine"> Patrimoine</label>
+                    <label><input type="checkbox" name="tags[]" value="Histoire"> Histoire</label>
+                    <label><input type="checkbox" name="tags[]" value="Urbain"> Urbain</label>
+                    <label><input type="checkbox" name="tags[]" value="Nature"> Nature</label>
+                    <label><input type="checkbox" name="tags[]" value="Plein air"> Plein air</label>
+                    <label><input type="checkbox" name="tags[]" value="Sport"> Sport</label>
+                    <label><input type="checkbox" name="tags[]" value="Nautique"> Nautique</label>
+                    <label><input type="checkbox" name="tags[]" value="Gastronomie"> Gastronomie</label>
+                    <label><input type="checkbox" name="tags[]" value="Musée"> Musée</label>
+                    <label><input type="checkbox" name="tags[]" value="Atelier"> Atelier</label>
+                    <label><input type="checkbox" name="tags[]" value="Musique"> Musique</label>
+                    <label><input type="checkbox" name="tags[]" value="Famille"> Famille</label>
+                    <label><input type="checkbox" name="tags[]" value="Cinéma"> Cinéma</label>
+                    <label><input type="checkbox" name="tags[]" value="Cirque"> Cirque</label>
+                    <label><input type="checkbox" name="tags[]" value="Son et Lumière"> Son et Lumière</label>
+                    <label><input type="checkbox" name="tags[]" value="Humour"> Humour</label>
+                </div>
+                <br>
+
 
                 <?php } if ($cat != '' ){ ?>
                 <button type="submit" class="submit-btn">Créer une offre</button>
