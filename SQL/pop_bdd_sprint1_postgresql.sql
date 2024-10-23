@@ -105,8 +105,35 @@ INSERT INTO _offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto) VA
 
 -- 21. Insérer des données dans `_tag`
 INSERT INTO _tag (typeTag, typeRestauration) VALUES 
-('Vegan', TRUE),
-('Végétarien', TRUE);
+-- Tag restauration :
+('Française', TRUE),
+('Fruit de mer', TRUE),
+('Asiatique', TRUE),
+('Indienne', TRUE),
+('Italienne', TRUE),
+('Gastronomique', TRUE),
+('Restauration rapide', TRUE),
+('Crêperie', TRUE),
+--Tag autres :
+('Classique', FALSE),
+('Culturel', FALSE),
+('Patrimoine', FALSE),
+('Histoire', FALSE),
+('Urbain', FALSE),
+('Nature', FALSE),
+('Plein air', FALSE),
+('Sport', FALSE),
+('Nautique', FALSE),
+('Gastronomie', FALSE),
+('Musée', FALSE),
+('Atelier', FALSE),
+('Musique', FALSE),
+('Famille', FALSE),
+('Cinéma', FALSE),
+('Cirque', FALSE),
+('Son et Lumière', FALSE),
+('Humour', FALSE);
+
 
 -- 22. Insérer des données dans `_theme`
 INSERT INTO _theme (idOffre, idTag) VALUES 
