@@ -1,5 +1,6 @@
 <?php
 // Page de déconnexion
+ob_start();
 session_start();
 session_destroy();
 
@@ -36,9 +37,11 @@ session_destroy();
 <body>
     <p class="deconnexion-message">Vous avez été déconnecté. À bientôt !</p>
     <p class="deconnexion-message">Si vous n'êtes pas redirigé dans 3 secondes, <a href="index.php">cliquez ici.</a></p>
-    <?php
-    // redirection vers la page d'accueil après 3 secondes
-    header("refresh:3;url=index.php");
-    ?>
+    <script>
+        // redirige vers index.php après 3 secondes en js
+        setTimeout(() => {
+            window.location.href = 'index.php';
+        }, 3000);
+    </script>
 </body>
 </html>

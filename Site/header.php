@@ -1,7 +1,9 @@
 <?php
-include '../SQL/connection_local.php';
 // Création de la session
+ob_start();
 session_start();
+
+include '../SQL/connection_local.php';
 
 $professionel = false;
 $membre = false;
@@ -66,5 +68,7 @@ if (isset($_SESSION['membre'])) {
 
     <span class="openbtn" onclick="openNav()">&#9776;</span>
     <img src="img/fond_remove.png" alt="logo site noir" title="logo site noir">
-    <a href="connexion_pro.html"><img src="<?php if ($professionel || $membre) echo $result['pathimage']; else echo 'img/User.png'; ?>" alt="image user" title="image user" style="width: 50px; height: 50px;"></a>
+    <a href="connexion_pro.html">
+        <img src="<?php echo (!empty($professionel) || !empty($membre)) ? $result['pathimage'] : './img/User.png'; ?>" alt="image user" title="image user" style="width: 50px; height: 50px;">
+    </a>
 </header>
