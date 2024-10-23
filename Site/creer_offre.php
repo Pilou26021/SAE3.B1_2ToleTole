@@ -1,8 +1,13 @@
 <?php
+    error_reporting(E_ALL ^ E_WARNING);
+
     session_start();
+
     if (isset($_GET)){
         $cat = $_GET['categorie'];
     }
+    include '../SQL/connection_local.php';
+
 ?>
 
 
@@ -75,16 +80,6 @@
 
                 <?php if($cat != '')  { ?>
 
-                <!-- <?php if($_SESSION['typeCompte'] == 'proPrivee') {?> /!\ SPECULATION /!\
-                        <h2>Type d'Offre</h2>
-                        <label >
-                            <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
-                        </label>
-                        <label >
-                            <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
-                        </label>
-                    <?php } ?> -->
-
                 <h2>Type d'Offre</h2>
                 <label >
                     <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
@@ -127,9 +122,10 @@
                 <?php } else {
                         ?> <h2>Veuillez choisir une catégorie pour votre offre.</h2> <?php
                     } if($cat != '' && $cat != 'restauration') { ?>
+
                 <h2>Prix</h2>
                 <div class="price">
-                    <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adult" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adulte" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <input id="child_price" class="zone-number" type="number" name="childPrice" placeholder="Prix enfant (-18)" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                 </div>  
                 <p id="error-adult_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
@@ -137,22 +133,36 @@
                 
                 <?php } if($cat != '' ) { ?>
 
+                    <h2>Prix minimum de l'offre</h2>
+                    <div class ="price">
+                        <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    </div>
+                    <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+
                     <h2>Type de L'offre</h2>
                     <div class="type-offre">
                         <label for="aLaUneOffre">À la une</label>
-                        <input type="checkbox" name="aLaUneOffre" <?= $offer['aLaUneOffre'] ? 'checked' : '' ?>>
+                        <input type="checkbox" name="aLaUneOffre" value="false">
                         <label for="enReliefOffre">En relief</label>
-                        <input type="checkbox" name="enReliefOffre" <?= $offer['enReliefOffre'] ? 'checked' : '' ?>>
+                        <input type="checkbox" name="enReliefOffre" value="false">
                     </div>
-                        <h2>Site web de l'offre</h2>
-                        <input id="website" class="zone-text" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
-                        <p id="error-website" style="color:red" >Veuillez entrez une adresse de site web valide.</p>
-                        <h2>Adresse/coordonnée</h2>
-                        <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
-                        <h2>Ajouter une image principale de l'offre</h2>
+
+                    <h2>Condition d'accessibilité</h2>
+                    <div>
+                        <textarea class="textarea-creer_offre" name="conditionAccessibilite" rows="4" placeholder="Accessible en fauteuil roulant..." required></textarea>
+                    </div>
+
+                    <h2>Site web de l'offre</h2>
+                    <input id="website" class="zone-text" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
+                    <p id="error-website" style="color:red" >Veuillez entrez une adresse de site web valide.</p>
+                    
+                    <h2>Adresse/coordonnée</h2>
+                    <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
+                    
+                    <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
-                    <input type="file" name="offer_image" accept="image/*" required>
-                </div>
+                        <input type="file" name="imageOffre" accept="image/*" required>
+                    </div>
 
                 <?php } if ($cat == 'parc') {?>
                     <br>
@@ -166,8 +176,8 @@
                         <input type="file" name="carteParc" accept="image/*" required>
                     </div>
                     <h2>Nombre d'attractions disponibles</h2>
-                    <input id="nbrAttractions" class="zone-number" type="number" name="nbrAttractions" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
-                    <p id="error-nbrAttractions" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                    <input id="nbrAttraction" class="zone-number" type="number" name="nbrAttraction" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-nbrAttraction" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
                     <?php } if ($cat == 'visite') { ?>
 
@@ -181,35 +191,38 @@
 
                     <h2>Langues proposées</h2>
                     <div class="langues">
-                        <label><input type="checkbox" name="langues" value="Français"> Français</label>
-                        <label><input type="checkbox" name="langues" value="Anglais"> Anglais</label>
-                        <label><input type="checkbox" name="langues" value="Espagnol"> Espagnol</label>
-                        <label><input type="checkbox" name="langues" value="Allemand"> Allemand</label>
-                        <label><input type="checkbox" name="langues" value="Italien"> Italien</label>
-                        <label><input type="checkbox" name="langues" value="Autre"> Autre</label>
-                        <input type="text" name="autreLangue" placeholder="Préciser autre langue" style="display:none;" id="autreLangueInput">
+                        <label><input type="checkbox" name="langues[]" value="Français"> Français</label>
+                        <label><input type="checkbox" name="langues[]" value="Anglais"> Anglais</label>
+                        <label><input type="checkbox" name="langues[]" value="Espagnol"> Espagnol</label>
+                        <label><input type="checkbox" name="langues[]" value="Allemand"> Allemand</label>
+                        <label><input type="checkbox" name="langues[]" value="Italien"> Italien</label>
+                        <label><input type="checkbox" name="langues[]" value="Autre" id="autreCheckbox"> Autre</label>
                     </div>
-                
-                <?php } if( $cat != '' && $cat == 'activite' || $cat == 'spectacle' || $cat == 'visite') { ?>
-                    <h2>Périodes d'ouverture</h2>
-                    <label for="day">Jour d'ouverture</label>
-                    <select name="day" id="day" required>
-                        <option value="Lundi" <?= $selected_day == 'Lundi' ? 'selected' : '' ?>>Lundi</option>
-                        <option value="Mardi" <?= $selected_day == 'Mardi' ? 'selected' : '' ?>>Mardi</option>
-                        <option value="Mercredi" <?= $selected_day == 'Mercredi' ? 'selected' : '' ?>>Mercredi</option>
-                        <option value="Jeudi" <?= $selected_day == 'Jeudi' ? 'selected' : '' ?>>Jeudi</option>
-                        <option value="Vendredi" <?= $selected_day == 'Vendredi' ? 'selected' : '' ?>>Vendredi</option>
-                        <option value="Samedi" <?= $selected_day == 'Samedi' ? 'selected' : '' ?>>Samedi</option>
-                        <option value="Dimanche" <?= $selected_day == 'Dimanche' ? 'selected' : '' ?>>Dimanche</option>
-                    </select>
-                    <div class="hours">
-                        <label for="open_time">Horaire d'ouverture:</label>
-                        <input type="time" name="openTime" id="open_time" value="<?= $open_time ?>" required>
-                        <label for="close_time">Horaire de fermeture:</label>
-                        <input type="time" name="closeTime" id="close_time" value="<?= $close_time ?>" required>
-                    </div>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="autreLangue" placeholder="Préciser les autres langues" style="display:none;" id="autreLangueInput">
 
-                <?php } if ($cat != 'parc' && $cat != 'restauration' && $cat != '') { ?>
+                    <script>
+                        //check si autreLangueInput est coché si oui affiché le bloc de texte supplémentaire
+                        document.getElementById('autreCheckbox').addEventListener('change', function() {
+                            var inputAutreLangue = document.getElementById('autreLangueInput');
+                            if (this.checked) {
+                                inputAutreLangue.style.display = 'block'; // Affiche l'input texte
+                            } else {
+                                inputAutreLangue.style.display = 'none';  // Masque l'input texte
+                            }
+                        });
+                    </script>
+
+                <?php } if ($cat == "spectacle" || $cat == "visite" || $cat == "activite") { ?>
+                    <h2>Date de l'offre</h2>
+                    <input type="date" name="dateOffre">
+
+                <?php } if ($cat == "spectacle") { ?>
+                
+                    <h2>Capacité d'acceuil</h2>
+                    <input id="cap_acceuil" class="zone-number" type="number" name="capaciteAcceuil" placeholder="ex : 300 personnes" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <p id="error-cap_acceuil" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+
+                <?php } if ($cat == 'spectacle' || $cat == 'activite') { ?>
                         
 
                     <h2>Durée de l'activité (en heures)</h2>
@@ -226,7 +239,7 @@
                 <?php } if ($cat == 'activite') { ?>
 
                     <h2>Prestations incluses</h2>
-                    <textarea class="textarea-creer_offre" name="prestationIncluses"  placeholder="Détail des prestations incluses..." required></textarea>
+                    <textarea class="textarea-creer_offre" name="prestationIncluse"  placeholder="Détail des prestations incluses..." required></textarea>
 
                 <?php } if($cat == 'restauration') { ?>
 
@@ -242,7 +255,7 @@
                     <input type="time" name="dinnerCloseTime" id="dinner_close_time" required>
                     <br>
                     <label for="closed_days">Jours de fermeture :</label> 
-                    <input class="zone-text" type="text" name="closedDays" id="closed_days" placeholder="Ex: Lundi" required>
+                    <input class="zone-text" type="text" name="closedDays" id="closed_days" placeholder="Ex: Lundi">
                 </div>
                 <h2>Gamme de prix</h2>
                 <input id="gamme_prix" class="zone-number" type="number" name="averagePrice" placeholder="Prix moyen par personne" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">

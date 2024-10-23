@@ -14,11 +14,10 @@
     </script>
     <script> 
         $(function(){
-        $("#header").load("./header.html"); 
         $("#footer").load("footer.html"); 
         });
     </script> 
-
+    <?php include 'header.php'; ?>
     <div id="header"></div>
 
     <main>
