@@ -58,7 +58,7 @@
                 $string_langues .= $langue . ", ";
             }
             $string_langues = substr($string_langues, 0, -2); //retire les deux derniers caractères ", " après la dernière langue
-            if ($langues[5] == "Autre") {
+            if (in_array("Autre", $langues)) {
                 $string_langues = substr($string_langues, 0, -7); //retire ", Autre" après la dernière langue
                 $string_langues .= " , Autres langues : " . $autreLangue; //string complet
             }
