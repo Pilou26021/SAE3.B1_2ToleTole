@@ -35,12 +35,8 @@
         $adultPrice = $_POST['adultPrice'];
         $childPrice = $_POST['childPrice'];
 
-
-        //BUGGED A MORT
-        $aLaUneOffre = $_POST['aLaUneOffre'];
-        $enReliefOffre = $_POST['enReliefOffre'];
-        $aLaUneOffre = true;
-        $enReliefOffre = true;
+        $aLaUneOffre = isset($_POST['aLaUneOffre']) ? true : false;
+        $enReliefOffre = isset($_POST['enReliefOffre']) ? true : false;
 
         //site et adresse
         $website = $_POST['website'];
@@ -57,14 +53,15 @@
 
         $langues = $_POST['langues']; //Arraylist
         $autreLangue = $_POST['autreLangue']; //text
-
-        foreach ($langues as $langue){
-            $string_langues .= $langue . ", ";
-        }
-        $string_langues = substr($string_langues, 0, -2); //retire les deux derniers caractères ", " après la dernière langue
-        if ($langues[5] == "Autre") {
-            $string_langues = substr($string_langues, 0, -7); //retire ", Autre" après la dernière langue
-            $string_langues .= " , Autres langues : " . $autreLangue; //string complet
+        if ($langues != NULL) {
+            foreach ($langues as $langue){
+                $string_langues .= $langue . ", ";
+            }
+            $string_langues = substr($string_langues, 0, -2); //retire les deux derniers caractères ", " après la dernière langue
+            if ($langues[5] == "Autre") {
+                $string_langues = substr($string_langues, 0, -7); //retire ", Autre" après la dernière langue
+                $string_langues .= " , Autres langues : " . $autreLangue; //string complet
+            }
         }
 
         $day = $_POST['day'];
@@ -95,7 +92,7 @@
 
         $tags = $_POST['tags']; //Arraylist
 
-        $sql = "INSERT INTO sae._offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne)";
+        $sql = "INSERT INTO public._offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne)";
         $sql .= " VALUES (:idProPropose, :idAdresse, :offerName, :summary, :description, :prixMinOffre, :aLaUneOffre, :enReliefOffre, :typeOffre, :website, :noteMoyenneOffre, :commBlacklistables, NOW(), :conditionAccessibilite, :horsLigne)";
         try {
             $stmt = $conn->prepare($sql);
@@ -108,8 +105,8 @@
             $stmt->bindParam(':summary', $summary);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':prixMinOffre', $minPrice);
-            $stmt->bindParam(':aLaUneOffre', $aLaUneOffre);
-            $stmt->bindParam(':enReliefOffre', $enReliefOffre);
+            $stmt->bindParam(':aLaUneOffre', $aLaUneOffre, PDO::PARAM_BOOL);
+            $stmt->bindParam(':enReliefOffre', $enReliefOffre, PDO::PARAM_BOOL);
             $stmt->bindParam(':typeOffre', $typeOffre);
             $stmt->bindParam(':website', $website);
             $stmt->bindParam(':noteMoyenneOffre', $noteMoyenneOffre);
@@ -133,7 +130,7 @@
             $idCarteResto = uploadImage($carteResto);
 
             try {
-                $sql = "INSERT INTO sae._offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto)";
+                $sql = "INSERT INTO public._offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto)";
                 $sql .= " VALUES (:idOffre, :horaireSemaine, :gammePrix, :carteResto)";
                 
                 $stmt = $conn->prepare($sql);
@@ -151,7 +148,7 @@
             
         } else if ($cat == 'spectacle'){ //requête si l'offre est un spectacle
             try {
-                $sql = "INSERT INTO sae._offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil)";
+                $sql = "INSERT INTO public._offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil)";
                 $sql .= " VALUES (:idOffre, :dateOffre, :indicationDuree, :capaciteAcceuil)";
                 
                 $stmt = $conn->prepare($sql);
@@ -169,7 +166,7 @@
 
         } else if ($cat == 'visite'){ //requête si l'offre est une visite
             try {
-                $sql = "INSERT INTO sae._offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees)";
+                $sql = "INSERT INTO public._offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees)";
                 $sql .= " VALUES (:idOffre, :dateOffre, :visiteGuidee, :langueProposees)";
                 
                 $stmt = $conn->prepare($sql);
@@ -187,7 +184,7 @@
 
         } else if ($cat == 'activite'){
             try {
-                $sql = "INSERT INTO sae._offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncluse)";
+                $sql = "INSERT INTO public._offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncluse)";
                 $sql .= " VALUES (:idOffre, :indicationDuree, :ageMinimum, :prestationIncluse)";
                 
                 $stmt = $conn->prepare($sql);
@@ -208,7 +205,7 @@
             $idCarteParc = uploadImage($carteParc);
 
             try {
-                $sql = "INSERT INTO sae._offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum)";
+                $sql = "INSERT INTO public._offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum)";
                 $sql .= " VALUES (:idOffre, :dateOuverture, :dateFermeture, :carteParc, :nbrAttraction, :ageMinimum)";
                 
                 $stmt = $conn->prepare($sql);
@@ -231,7 +228,7 @@
 
         //lien entre l'id de l'image de l'offre et l'id de l'offre
         try {
-            $sql = "INSERT INTO sae._afficherImageOffre (idImage, idOffre) VALUES (:idImage, :idOffre)";
+            $sql = "INSERT INTO public._afficherImageOffre (idImage, idOffre) VALUES (:idImage, :idOffre)";
             
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':idImage', $idImageOffre);
@@ -256,7 +253,7 @@
         global $conn;
 
         // Obtenir le prochain ID d'image en fonction du nombre d'images dans la base de données
-        $sql = "SELECT COUNT(*) FROM sae._image";
+        $sql = "SELECT COUNT(*) FROM public._image";
         $id = $conn->query($sql);
         $count = $id->fetchColumn() + 1; // Incrémenter le count pour générer un nouvel ID
         $idImage = $count;
@@ -264,7 +261,7 @@
 
         // Dossier où les images seront stockées
         $targetDir = "./img/uploaded/";
-        $targetFile = $targetDir . basename($nom_image);
+        $targetFile = $targetDir . basename($nom_image)  . ".png";
         $uploadOk = 1;
 
         // Vérification de l'existence du fichier
@@ -282,10 +279,10 @@
             if ($uploadOk == 1) {
 
                 if (move_uploaded_file($_FILES[$name]['tmp_name'], $targetFile)) {
-                    echo "L'image " . basename($_FILES[$name]['name'] . ".png") . " a été uploadée.";
+                    echo "L'image " . basename($_FILES[$name]['name']) . " a été uploadée.";
 
                     // Insertion du chemin de l'image dans la base de données
-                    $sql = "INSERT INTO sae._image (pathImage) VALUES (:pathImage)";
+                    $sql = "INSERT INTO public._image (pathImage) VALUES (:pathImage)";
                     try {
                         $stmt = $conn->prepare($sql);
                         $stmt->bindParam(':pathImage', $targetFile);
@@ -328,7 +325,7 @@
         </script>
         <script> 
             $(function(){
-            $("#header").load("./header.html"); 
+            $("#header").load("./header.php"); 
             $("#footer").load("footer.html"); 
             });
         </script> 

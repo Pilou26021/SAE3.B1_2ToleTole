@@ -28,7 +28,7 @@
         </script>
         <script> 
             $(function(){
-            $("#header").load("./header.html"); 
+            $("#header").load("./header.php"); 
             $("#footer").load("footer.html"); 
             });
         </script> 
@@ -142,9 +142,10 @@
                     <h2>Type de L'offre</h2>
                     <div class="type-offre">
                         <label for="aLaUneOffre">À la une</label>
-                        <input type="checkbox" name="aLaUneOffre" value="false">
+                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre">
+                        
                         <label for="enReliefOffre">En relief</label>
-                        <input type="checkbox" name="enReliefOffre" value="false">
+                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre">
                     </div>
 
                     <h2>Condition d'accessibilité</h2>
@@ -161,7 +162,7 @@
                     
                     <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
-                        <input type="file" name="imageOffre" accept="image/*" required>
+                        <input type="file" name="imageOffre" accept=".png, .jpg, .jpeg" required>
                     </div>
 
                 <?php } if ($cat == 'parc') {?>
@@ -173,7 +174,7 @@
                     <br>
                     <h2>Carte du parc</h2>
                     <div class="image-upload">
-                        <input type="file" name="carteParc" accept="image/*" required>
+                        <input type="file" name="carteParc" accept=".png, .jpg, .jpeg" required>
                     </div>
                     <h2>Nombre d'attractions disponibles</h2>
                     <input id="nbrAttraction" class="zone-number" type="number" name="nbrAttraction" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
@@ -262,7 +263,7 @@
                 <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
-                    <input type="file" name="menuImage" accept="image/*" required>
+                    <input type="file" name="menuImage" accept=".png, .jpg, .jpeg" required>
                 </div>
                 <h2>Tags de l'offre</h2>
                 <div class="tags">
