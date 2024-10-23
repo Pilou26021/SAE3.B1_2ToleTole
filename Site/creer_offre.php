@@ -155,10 +155,29 @@
                     <h2>Site web de l'offre</h2>
                     <input id="website" class="zone-text" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
                     <p id="error-website" style="color:red" >Veuillez entrez une adresse de site web valide.</p>
-                    
-                    <h2>Adresse/coordonnée</h2>
-                    <input class="zone-text" type="url" name="address" placeholder="https://google.fr/maps/place/..." required>
-                    
+
+
+                    <h2>Adresse</h2>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="adresse" placeholder="rue Edouard Branly" required>
+
+                    <h2>Numéro de la rue</h2>
+                    <input type="number" width="100%" class="zone-text" name="adNumRue" placeholder="13" required>
+
+                    <h2>Adresse supplémentaire</h2>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="supAdresse" placeholder="Batîment 4bis, Appartemment 105" required>
+
+                    <h2>Code Postal</h2>
+                    <input type="number" width="100%" class="zone-text" name="adCodePostal" placeholder="22300" required>
+
+                    <h2>Ville</h2>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="adVille" placeholder="Guimguamp" required>
+
+                    <h2>Département</h2>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="adDepartement" placeholder="Côtes d'armor" required>
+
+                    <h2>Pays</h2>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="adPays" placeholder="France" required>
+
                     <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
                         <input type="file" name="imageOffre" accept=".png, .jpg, .jpeg" required>
@@ -301,7 +320,6 @@
                 </div>
                 <br>
 
-
                 <?php } if ($cat != '' ){ ?>
                 <button type="submit" class="submit-btn">Créer une offre</button>
                 <?php } ?>
@@ -312,7 +330,5 @@
 
         <script src="./script.js" ></script>
 
-
     </body>
-
 </html>

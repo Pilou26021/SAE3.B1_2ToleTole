@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+include "header.php";
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
