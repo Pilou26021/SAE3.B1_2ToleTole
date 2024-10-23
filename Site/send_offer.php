@@ -90,6 +90,7 @@
         //spectacle
         $capaciteAcceuil = intval($_POST['capaciteAcceuil']);
 
+        //tags
         $tags = $_POST['tags']; //Arraylist
 
         $sql = "INSERT INTO public._offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne)";
@@ -124,6 +125,30 @@
 
         $idOffre = $conn->lastInsertId();
         $idImageOffre = uploadimage($imageOffre);
+
+        foreach ($tags as $key => $value) {
+
+            $idTag = getTagIdByValue("$value");
+
+            //lien des tags à l'offre
+            $sql = "INSERT INTO public._theme (idOffre, idTag)";
+            $sql .= " VALUES (:idOffre, :idTag)";
+            try {
+                $stmt = $conn->prepare($sql);
+                
+                // Lier les paramètres
+                //commun
+                $stmt->bindParam(':idOffre', $idOffre);
+                $stmt->bindParam(':idTag', $idTag);
+            
+                // Exécuter la requête
+                $stmt->execute();
+                echo "<br>Requête lien Offre/Tag bien envoyée";
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+
+        }   
         
         if ($cat == 'restauration') { //requête si l'offre est de restauration
 
@@ -303,6 +328,38 @@
 
         return $idImage;
     }
+
+    
+    function getTagIdByValue($value) {
+        $sql_get = "SELECT idTag FROM public._tag WHERE typeTag = :typeTag";
+
+        global $conn;
+
+        try {
+            // Préparation de la requête
+            $stmt = $conn->prepare($sql_get);
+            
+            // Liaison du paramètre
+            $stmt->bindParam(':typeTag', $value, PDO::PARAM_STR);
+            
+            // Exécution de la requête
+            $stmt->execute();
+            
+            // Vérification si un résultat a été trouvé
+            if ($stmt->rowCount() > 0) {
+                // Récupération de l'ID du tag
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result['idtag']; // Retourne l'ID
+            } else {
+                return null; // Aucun tag trouvé
+            }
+        } catch (PDOException $e) {
+            // Gestion d'erreur
+            echo "<br>Erreur lors de la récupération de l'ID du tag : " . $e->getMessage();
+            return -1; // En cas d'erreur, retourne -1
+        }
+    }
+    
 
 
 ?>

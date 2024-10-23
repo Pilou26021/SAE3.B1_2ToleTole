@@ -69,5 +69,5 @@ if (isset($_SESSION['membre'])) {
 
     <span class="openbtn" onclick="openNav()">&#9776;</span>
     <img src="img/fond_remove.png" alt="logo site noir" title="logo site noir">
-    <a href="connexion_pro.html"><img src="<?php echo ($professionel || $membre) ? $result['pathimage'] : 'img/User.png'; ?>" alt="image user" title="image user" style="width: 30px; height: 30px;"></a>
+    <a href="connexion_pro.html"><img src="img/User.png" alt="image user" title="image user" style="width: 30px; height: 30px;"></a>
 </header>
