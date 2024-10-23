@@ -1,11 +1,11 @@
 <?php
 include '../SQL/connection_local.php';
-
 // Création de la session
 session_start();
 
 $professionel = false;
 $membre = false;
+
 
 // On vérifie si l'utilisateur est connecté. Il peut être connecté en tant que membre ou professionnel. Si il n'est pas connecté alors il sera visiteur.
 if (isset($_SESSION['membre'])) {
@@ -17,9 +17,6 @@ if (isset($_SESSION['membre'])) {
 }
 
 ?>
-
-
-
 <header>
     <nav id="mySidenav" class="sidenav">
         <div class="profil">
