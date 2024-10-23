@@ -10,8 +10,7 @@
         // Catégorie
         $cat = $_POST['categorie'];
         // $idProPropose = $_SESSION['professionnel']; //Récupération de l'id du Pro dans la sessions
-        $idProPropose = 0;
-        $idAdresse = 1; // Valeur par défaut pour le test
+        $idProPropose = 1; //défaut
         $noteMoyenneOffre = 0; // Valeur par défaut pour la note moyenne de l'offre
         $imageOffre = "imageOffre"; // Nom de l'image de l'offre
 
@@ -48,9 +47,17 @@
         $aLaUneOffre = isset($_POST['aLaUneOffre']) ? true : false;
         $enReliefOffre = isset($_POST['enReliefOffre']) ? true : false;
 
-        // Site web et adresse
+        // Site web
         $website = $_POST['website'];
-        $adress = $_POST['adress'];
+
+        //Adresse
+        $adNumRue = $_POST['adNumRue'];
+        $adresse = $_POST['adresse'];
+        $supAdresse = $_POST['supAdresse'];
+        $adCodePostal = $_POST['adCodePostal'];
+        $adVille = $_POST['adVille'];
+        $adDepartement = $_POST['adDepartement'];
+        $adPays = $_POST['adPays'];
 
         // Informations parcs
         $dateOuverture = $_POST['dateOuverture'];
@@ -117,6 +124,8 @@
 
         // Tags (ArrayList)
         $tags = $_POST['tags'];
+
+        $idAdresse = insererAdresse($adNumRue, $supAdresse, $adresse, $adCodePostal, $adVille, $adDepartement, $adPays);
 
         $sql = "INSERT INTO public._offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne)";
         $sql .= " VALUES (:idProPropose, :idAdresse, :offerName, :summary, :description, :prixMinOffre, :aLaUneOffre, :enReliefOffre, :typeOffre, :website, :noteMoyenneOffre, :commBlacklistables, NOW(), :conditionAccessibilite, :horsLigne)";
@@ -275,7 +284,6 @@
 
         }
 
-
         //lien entre l'id de l'image de l'offre et l'id de l'offre
         try {
             $sql = "INSERT INTO public._afficherImageOffre (idImage, idOffre) VALUES (:idImage, :idOffre)";
@@ -288,15 +296,48 @@
             echo "<br>Requête lien Image Offre bien envoyée";
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
-        }        
+        }
 
     }
 
+    function insererAdresse($numRue, $supplementAdresse, $adresse, $codePostal, $ville, $departement, $pays) {
+        global $conn;
 
+        try {
+            // Préparer la requête d'insertion
+            $sql = "INSERT INTO public._adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) 
+                    VALUES (:numRue, :supplementAdresse, :adresse, :codePostal, :ville, :departement, :pays)";
+            
+            // Préparation de la requête
+            $stmt = $conn->prepare($sql);
+            
+            // Liaison des paramètres aux valeurs
+            $stmt->bindParam(':numRue', $numRue);
+            $stmt->bindParam(':supplementAdresse', $supplementAdresse);
+            $stmt->bindParam(':adresse', $adresse);
+            $stmt->bindParam(':codePostal', $codePostal);
+            $stmt->bindParam(':ville', $ville);
+            $stmt->bindParam(':departement', $departement);
+            $stmt->bindParam(':pays', $pays);
+            
+            // Exécuter la requête
+            $stmt->execute();
+            
+            // Récupérer l'ID de l'adresse insérée
+            $idAdresse = $conn->lastInsertId();
+    
+            //réussite
+            echo "<br>Adresse bien insérer dans la bdd.";
 
-
-
-
+            // Retourner l'ID de l'adresse
+            return $idAdresse;
+    
+        } catch (PDOException $e) {
+            // Affichage du message d'erreur
+            echo "Erreur lors de l'insertion de l'adresse : " . $e->getMessage();
+            return false; // En cas d'erreur, on retourne false
+        }
+    }    
 
     // Fonction pour uploader une image
     function uploadImage($name) {
@@ -329,7 +370,7 @@
             if ($uploadOk == 1) {
 
                 if (move_uploaded_file($_FILES[$name]['tmp_name'], $targetFile)) {
-                    echo "L'image " . basename($_FILES[$name]['name']) . " a été uploadée.";
+                    echo "<br>L'image " . basename($_FILES[$name]['name']) . " a été uploadée.";
 
                     // Insertion du chemin de l'image dans la base de données
                     $sql = "INSERT INTO public._image (pathImage) VALUES (:pathImage)";
@@ -339,7 +380,7 @@
                         $stmt->execute();
                         echo "<br>Chemin de l'image enregistré avec succès dans la base de données.";
                     } catch (PDOException $e) {
-                        echo "Erreur : " . $e->getMessage();
+                        echo "<br>Erreur : " . $e->getMessage();
                     }
                 } else {
                     echo "<br>Désolé, une erreur est survenue lors de l'upload de votre image.";
@@ -353,11 +394,9 @@
 
         return $idImage;
     }
-
     
     function getTagIdByValue($value) {
         $sql_get = "SELECT idTag FROM public._tag WHERE typeTag = :typeTag";
-
         global $conn;
 
         try {
@@ -381,7 +420,7 @@
         } catch (PDOException $e) {
             // Gestion d'erreur
             echo "<br>Erreur lors de la récupération de l'ID du tag : " . $e->getMessage();
-            return -1; // En cas d'erreur, retourne -1
+            return false; // En cas d'erreur, retourne false
         }
     }
     
