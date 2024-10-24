@@ -90,46 +90,7 @@
         echo "<script>window.location.replace('index.php');</script>";
         exit();
     }
-
-    // Mise à jour de l'offre
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    }
 ?>
-
-            <?php 
-                // Parcourir les offres
-                echo "<h2>Détails de l'offre</h2>";
-                echo "<ul>";
-                foreach ($offre as $key => $value) {
-                    echo "<li><strong>$key</strong>: $value</li>";
-                }
-                echo "</ul>";
-
-                // Parcourir les détails de l'offre
-                echo "<h2>Détails supplémentaires de l'offre</h2>";
-                echo "<ul>";
-                foreach ($offreDetails as $key => $value) {
-                    echo "<li><strong>$key</strong>: $value</li>";
-                }
-                echo "</ul>";
-
-                // Parcourir les détails de l'adresse
-                echo "<h2>Adresse</h2>";
-                echo "<ul>";
-                foreach ($adresse as $key => $value) {
-                    echo "<li><strong>$key</strong>: $value</li>";
-                }
-                echo "</ul>";
-
-                // Parcourir les tags
-                echo "<h2>Tags</h2>";
-                echo "<ul>";
-                foreach ($tags as $key => $tag) {
-                    echo "<li><strong>$key</strong>: $tag</li>";
-                }
-                echo "</ul>";
-            ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -155,7 +116,7 @@
     <div id="header"></div>
     <main class="creer-offre-main">
         <h1>Modifier l'offre</h1>
-        <form method="POST">
+        <form method="post" action="update_offer.php" enctype="multipart/form-data">
             <h2>Type d'Offre</h2>
             <?php if ($offre['typeoffre'] === 1): ?>
                 <label>
@@ -226,7 +187,7 @@
 
             <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
             <div class="image-upload">
-                <input type="file" name="imageOffre" accept=".png, .jpg, .jpeg" required>
+                <input type="file" name="imageOffre" accept=".png, .jpg, .jpeg">
             </div>
 
             <?php if ($cat === 'parc') : ?>
@@ -239,7 +200,7 @@
                 <br>
                 <h2>Carte du parc</h2>
                 <div class="image-upload">
-                    <input type="file" name="carteParc" accept=".png, .jpg, .jpeg" required>
+                    <input type="file" name="carteParc" accept=".png, .jpg, .jpeg">
                 </div>
 
                 <h2>Nombre d'attractions disponibles</h2>
@@ -379,9 +340,8 @@
                 <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
-                    <input type="file" name="menuImage" accept=".png, .jpg, .jpeg" required>
+                    <input type="file" name="menuImage" accept=".png, .jpg, .jpeg">
                 </div>
-
 
                 <h2>Tags de l'offre</h2>
                 <div class="tags">
