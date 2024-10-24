@@ -30,7 +30,7 @@
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -126,6 +126,7 @@
                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
                     </div>
                     <p class="offre-resume-detail"><strong>Résumé:</strong> <?= htmlspecialchars($offre['resumeoffre']) ?></p>
+                    <p class="offre-resume-detail"><strong>Description:</strong> <?= htmlspecialchars($offre['descriptionoffre']) ?></p>
 
                     <p class="adresse-detail">Localisation de l'offre</p>
                     <div id="map" style="display:flex;align-items:center;justify-content:center;">
