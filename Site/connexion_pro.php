@@ -41,8 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <body class="cp_mobile">
         <div style="display: flex; justify-content: left; width: 100%;">
-            <a style="text-decoration: none; font-size: 30px; color: #040316;" onclick="history.back();">&#8617;</a>
+            <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
         </div>
+
 
         <!-- Logo -->
         <img src="img/fond_remove_big.png" alt="Logo" style="width: 230px; height: auto;">
