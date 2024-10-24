@@ -293,13 +293,16 @@
                                             <tr>
                                                 <th>Horaire semaine</th>
                                                 <th>Gamme de prix</th>
-                                                <th>Carte resto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><?php echo "Déjeuner : " . $horaires['lunchOpen'] . " - " . $horaires['lunchClose'] . "<br>Dîner : " . $horaires['dinnerOpen'] . " - " . $horaires['dinnerClose']; ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['gammeprix']); ?></td>
+                                                <?php
+                                                // si 1 alors on remplace par €, si 2 alors on remplace par €€, si 3 alors on remplace par €€€
+                                                $gammePrix = str_repeat('€', $offreDetails['gammeprix']);
+                                                ?>
+                                                <td><?php echo htmlspecialchars($gammePrix); ?></td>
                                             </tr>
                                         </tbody>
                                     </table>

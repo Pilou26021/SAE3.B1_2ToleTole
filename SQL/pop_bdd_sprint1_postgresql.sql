@@ -6,7 +6,8 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image1.png'),
 ('./img/uploaded/image2.png'),
 ('./img/uploaded/image3.png'),
-('./img/uploaded/image4.png');
+('./img/uploaded/image4.png'),
+('./img/uploaded/image5.png');
 
 -- 2. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
@@ -89,13 +90,13 @@ INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncl
 (2, 3, 10, 'Collation incluse');
 
 -- 17. Insérer des données dans `_offreSpectacle`
-INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
+-- INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
 
 -- 18. Insérer des données dans `_offreParcAttraction`
-INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum) VALUES 
+-- INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum) VALUES 
 
 -- 19. Insérer des données dans `_offreVisite`
-INSERT INTO _offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees) VALUES 
+-- INSERT INTO _offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees) VALUES 
 
 -- 20. Insérer des données dans `_offreRestaurant`
 INSERT INTO _offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto) VALUES 
