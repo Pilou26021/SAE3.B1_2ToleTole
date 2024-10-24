@@ -117,6 +117,10 @@
     <main class="creer-offre-main">
         <h1>Modifier l'offre</h1>
         <form method="post" action="update_offer.php" enctype="multipart/form-data">
+            <?php 
+                // Envoie de l'ID de l'offre dans le post
+                echo '<input type="hidden" name="idOffre" value="' . $idOffre . '">';
+            ?>
             <h2>Type d'Offre</h2>
             <?php if ($offre['typeoffre'] === 1): ?>
                 <label>
