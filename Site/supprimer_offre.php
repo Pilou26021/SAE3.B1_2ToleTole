@@ -28,7 +28,7 @@
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             $bonPro = $result['exists'];
         } catch (PDOException $e) {
-            echo "<br>Error: " . $e->getMessage();
+            //echo "<br>Error: " . $e->getMessage();
         }
 
         ?>
@@ -67,7 +67,7 @@
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 $categorie = $result['categorie'];
             } catch (PDOException $e) {
-                echo "<br>Error: " . $e->getMessage();
+                //echo "<br>Error: " . $e->getMessage();
             }
 
             switch ($categorie) {
@@ -110,7 +110,7 @@
                     $stmt->bindParam(':idTag', $idTag);
                     $stmt->execute();
                 }
-                echo "Tags supprimés avec succès.";
+                //echo "<br>Tags supprimés avec succès.";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -124,9 +124,9 @@
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 $idImage = $result['idimage'];
-                echo "<br>ID de l'image: " . $idImage;
+                //echo "<br>ID de l'image: " . $idImage;
             } catch (PDOException $e) {
-                echo "<br>Error: " . $e->getMessage();
+                //echo "<br>Error: " . $e->getMessage();
             }
 
             unlink("./img/uploaded/image" . strval($idImage) . ".png");
@@ -137,9 +137,9 @@
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':idoffre', $idOffre);
                 $stmt->execute();
-                echo "<br>Offre supprimée avec succès de _afficherimageoffre";
+                //echo "<br>Offre supprimée avec succès de _afficherimageoffre";
             } catch (PDOException $e) {
-                echo "<br>Error: " . $e->getMessage();
+                //echo "<br>Error: " . $e->getMessage();
             }
 
             //delete de _image
@@ -148,9 +148,9 @@
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':idimage', $idImage);
                 $stmt->execute();
-                echo "<br>Lien de l'image supprimée de _image";
+                //echo "<br>Lien de l'image supprimée de _image";
             } catch (PDOException $e) {
-                echo "<br>Error: " . $e->getMessage();
+                //echo "<br>Error: " . $e->getMessage();
             }
 
             if ($categorie == 'activite') { //delete de _offreactivite
@@ -159,9 +159,9 @@
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':idoffre', $idOffre);
                     $stmt->execute();
-                    echo "<br>Offre supprimée avec succès de _offreactivite";
+                    //echo "<br>Offre supprimée avec succès de _offreactivite";
                 } catch (PDOException $e) {
-                    echo "<br>Error: " . $e->getMessage();
+                    //echo "<br>Error: " . $e->getMessage();
                 }
             } else if ($categorie == 'parc') { //delete de _offreparcattraction
                 $sql = "DELETE FROM public._offreparcattraction WHERE idoffre = :idoffre";
@@ -169,9 +169,9 @@
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':idoffre', $idOffre);
                     $stmt->execute();
-                    echo "<br>Offre supprimée avec succès de _offreparcattraction";
+                    //echo "<br>Offre supprimée avec succès de _offreparcattraction";
                 } catch (PDOException $e) {
-                    echo "<br>Error: " . $e->getMessage();
+                    //echo "<br>Error: " . $e->getMessage();
                 }
             } else if ($categorie == 'restauration') { //delete de _offrerestaaurant
                 $sql = "DELETE FROM public._offrerestaaurant WHERE idoffre = :idoffre";
@@ -179,9 +179,9 @@
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':idoffre', $idOffre);
                     $stmt->execute();
-                    echo "<br>Offre supprimée avec succès de _offrerestaaurant";
+                    //echo "<br>Offre supprimée avec succès de _offrerestaaurant";
                 } catch (PDOException $e) {
-                    echo "<br>Error: " . $e->getMessage();
+                    //echo "<br>Error: " . $e->getMessage();
                 }
             } else if ($categorie == 'spectacle') { //delete de _offrespectacle
                 $sql = "DELETE FROM public._offrespectacle WHERE idoffre = :idoffre";
@@ -189,9 +189,9 @@
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':idoffre', $idOffre);
                     $stmt->execute();
-                    echo "<br>Offre supprimée avec succès de _offrespectacle";
+                    //echo "<br>Offre supprimée avec succès de _offrespectacle";
                 } catch (PDOException $e) {
-                    echo "<br>Error: " . $e->getMessage();
+                    //echo "<br>Error: " . $e->getMessage();
                 }
             } else if ($categorie == 'visite') { //delete de _offrevisite
                 $sql = "DELETE FROM public._offrevisite WHERE idoffre = :idoffre";
@@ -199,9 +199,9 @@
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':idoffre', $idOffre);
                     $stmt->execute();
-                    echo "<br>Offre supprimée avec succès de _offrevisite";
+                    //echo "<br>Offre supprimée avec succès de _offrevisite";
                 } catch (PDOException $e) {
-                    echo "<br>Error: " . $e->getMessage();
+                    //echo "<br>Error: " . $e->getMessage();
                 }
 
             }
@@ -212,9 +212,9 @@
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':idoffre', $idOffre);
                 $stmt->execute();
-                echo "<br>Offre supprimée avec succès de _offre";
+                //echo "<br>Offre supprimée avec succès de _offre";
             } catch (PDOException $e) {
-                echo "<br>Error: " . $e->getMessage();
+                //echo "<br>Error: " . $e->getMessage();
             }
 
         }
@@ -241,11 +241,11 @@
         <div id="footer"></div>
 
         <script src="./script.js" ></script>
-        <!--<script>
+        <script>
             setTimeout(function() {
                 window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
             }, 3000); // 3000 millisecondes = 3 secondes
-        </script>-->
+        </script>
 
     </body>
 

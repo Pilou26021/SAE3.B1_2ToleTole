@@ -161,7 +161,7 @@
         
             // Exécuter la requête
             $stmt->execute();
-            echo "<br>Requête Offre bien envoyée";
+            //echo "<brRequête Offre bien envoyée";
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -186,7 +186,7 @@
             
                 // Exécuter la requête
                 $stmt->execute();
-                echo "<br>Requête lien Offre/Tag bien envoyée";
+                //echo "<brRequête lien Offre/Tag bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -209,7 +209,7 @@
 
                 // Exécuter la requête
                 $stmt->execute();
-                echo "<br>Requête restauration bien envoyée";
+                //echo "<brRequête restauration bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -227,7 +227,7 @@
 
                 // Exécuter la requête
                 $stmt->execute();
-                echo "<br>Requête spectacle bien envoyée";
+                //echo "<brRequête spectacle bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -245,7 +245,7 @@
 
                 // Exécuter la requête
                 $stmt->execute();
-                echo "<br>Requête visite bien envoyée";
+                //echo "<brRequête visite bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -263,7 +263,7 @@
 
                 // Exécuter la requête
                 $stmt->execute();
-                echo "<br>Requête visite bien envoyée";
+                //echo "<brRequête visite bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -286,7 +286,7 @@
 
                 // Exécuter la requête
                 $stmt->execute();
-                echo "<br>Requête visite bien envoyée";
+                //echo "<brRequête visite bien envoyée";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -302,7 +302,7 @@
             $stmt->bindParam(':idOffre', $idOffre);
             // Exécuter la requête
             $stmt->execute();
-            echo "<br>Requête lien Image Offre bien envoyée";
+            //echo "<brRequête lien Image Offre bien envoyée";
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -336,7 +336,7 @@
             $idAdresse = $conn->lastInsertId();
     
             //réussite
-            echo "<br>Adresse bien insérer dans la bdd.";
+            //echo "<brAdresse bien insérer dans la bdd.";
 
             // Retourner l'ID de l'adresse
             return $idAdresse;
@@ -362,7 +362,7 @@
             
         } catch (PDOException $e) {
             // Gestion d'erreur
-            echo "<br>Erreur lors de la récupération de l'incrément : " . $e->getMessage();
+            //echo "<brErreur lors de la récupération de l'incrément : " . $e->getMessage();
         }
         
         $idImage = $last_value + 1; // Incrémenter l'ID pour la nouvelle image
@@ -388,7 +388,7 @@
             if ($uploadOk == 1) {
 
                 if (move_uploaded_file($_FILES[$name]['tmp_name'], $targetFile)) {
-                    echo "<br>L'image " . basename($_FILES[$name]['name']) . " a été uploadée.";
+                    //echo "<brL'image " . basename($_FILES[$name]['name']) . " a été uploadée.";
 
                     // Insertion du chemin de l'image dans la base de données
                     $sql = "INSERT INTO public._image (pathImage) VALUES (:pathImage)";
@@ -396,18 +396,18 @@
                         $stmt = $conn->prepare($sql);
                         $stmt->bindParam(':pathImage', $targetFile);
                         $stmt->execute();
-                        echo "<br>Chemin de l'image enregistré avec succès dans la base de données.";
+                        //echo "<brChemin de l'image enregistré avec succès dans la base de données.";
                     } catch (PDOException $e) {
-                        echo "<br>Erreur : " . $e->getMessage();
+                        //echo "<brErreur : " . $e->getMessage();
                     }
                 } else {
-                    echo "<br>Désolé, une erreur est survenue lors de l'upload de votre image.";
+                    //echo "<brDésolé, une erreur est survenue lors de l'upload de votre image.";
                 }
             } else {
-                echo "<br>Désolé, votre fichier n'a pas pu être uploadé.";
+                //echo "<brDésolé, votre fichier n'a pas pu être uploadé.";
             }
         } else {
-            echo "<br>Aucun fichier sélectionné ou le fichier n'a pas été téléchargé correctement.";
+            //echo "<brAucun fichier sélectionné ou le fichier n'a pas été téléchargé correctement.";
         }
 
         return $idImage;
@@ -438,7 +438,7 @@
             }
         } catch (PDOException $e) {
             // Gestion d'erreur
-            echo "<br>Erreur lors de la récupération de l'ID du tag : " . $e->getMessage();
+            //echo "<brErreur lors de la récupération de l'ID du tag : " . $e->getMessage();
             return false; // En cas d'erreur, retourne false
         }
     }
@@ -484,11 +484,11 @@
 
         <script src="./script.js" ></script>
 
-        <!--<script>
+        <script>
             setTimeout(function() {
                 window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
             }, 3000); // 3000 millisecondes = 3 secondes
-        </script>-->
+        </script>
 
 
 
