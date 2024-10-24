@@ -15,8 +15,8 @@ INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImageP
 
 -- 3. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
-(12, 'Apt 5', 'Rue de la Paix', 75000, 'Paris', 'Ile-de-France', 'France'),
-(21, '', 'Avenue des Champs-Elysées', 75008, 'Paris', 'Ile-de-France', 'France');
+(17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'),
+(1, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France');
 
 -- 4. Insérer des données dans `_professionnel`
 INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES 
