@@ -136,13 +136,13 @@
                         ?> <h2>Veuillez choisir une catégorie pour votre offre.</h2> <?php
                     } if($cat != '' && $cat != 'restauration') { ?>
 
-                <h2>Prix</h2>
+                <!--<h2>Prix</h2>
                 <div class="price">
                     <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adulte" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <input id="child_price" class="zone-number" type="number" name="childPrice" placeholder="Prix enfant (-18)" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                 </div>  
                 <p id="error-adult_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
-                <p id="error-child_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                <p id="error-child_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>-->
                 
                 <?php } if($cat != '' ) { ?>
 

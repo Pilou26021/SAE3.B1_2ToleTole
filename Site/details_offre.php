@@ -99,17 +99,22 @@
         $adresse_offre = $recherche_adresse->fetch();
 
 
-        $rue = $adresse_offre["numrue"]; // Nom de la rue
+        $rue = $adresse_offre["numrue"]; // Numéro de la rue
         $code_postal = $adresse_offre["codepostal"]; // Code postal
-        $ville = $adresse_offre["ville"]; // Ville
-        $departement = $adresse_offre["departement"]; // Département (ex : Californie)
-        $pays = $adresse_offre["pays"]; // Pays
+        $ville = ucfirst($adresse_offre["ville"]); // Ville + passage en majuscule
+        $departement = ucfirst($adresse_offre["departement"]); // Département (ex : Bretagne) + passage en majuscule
+        $pays = ucfirst($adresse_offre["pays"]); // Pays + passage en majuscule
         $supplement = $adresse_offre["supplementadresse"];
         
         // Adresse pour l'affichage sur la carte
         $adresse = trim("$rue, $code_postal $ville, $departement, $pays");
         // Adresse plus complète pour l'utilisateur
-        $adresseComplete = trim("$rue, $supplement, $code_postal $ville, $departement, $pays");
+        if (trim($supplement) == '') { // si il n'y a pas de supplément on ne l'ajoute pas à la string final
+            $adresseComplete = trim("$rue, $code_postal $ville, $departement, $pays");
+        } else {
+            $adresseComplete = trim("$rue, $supplement, $code_postal $ville, $departement, $pays");
+        }
+
         ?>
         
         <main>
