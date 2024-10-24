@@ -49,19 +49,19 @@ if (isset($_SESSION['membre'])) {
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <ul>
             <?php if ($professionel): ?>
-                <li><a href="#">Mon compte</a></li>
-                <li><a href="#">Mes offres</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="monCompte.php">Mon compte</a></li>
+                <!-- <li><a href="#">Mes offres</a></li> -->
+                <li><a href="contact.php">Contact</a></li>
                 <li><a href="deconnexion.php">Déconnexion</a></li>
             <?php elseif ($membre): ?>
                 <li><a href="#">Mon compte</a></li>
                 <li><a href="#">Mes réservations</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="contact.php">Contact</a></li>
                 <li><a href="deconnexion.php">Déconnexion</a></li>
             <?php else: ?>
                 <li><a href="connexion_pro.php">Me Connecter</a></li>
-                <li><a href="#">M'inscrire</a></li>
-                <li><a href="#">Contact</a></li>
+                <!-- <li><a href="#">M'inscrire</a></li> -->
+                <li><a href="contact.php">Contact</a></li>
             <?php endif; ?>
         </ul>
     </nav>

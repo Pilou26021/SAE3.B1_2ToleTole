@@ -85,7 +85,8 @@ ob_start();
                 <span class="icon">+</span> Créer une nouvelle offre
             </button> </a>
         <?php endif; ?>
-        <div class="recherche">
+
+        <!-- <div class="recherche">
             <form action="">
                 <div class="recherche_top">
                     <img src="img/Search.png" alt="Search">
@@ -97,7 +98,7 @@ ob_start();
                     <input class="button_1" type="submit" value="Recherche" >
                 </div>
             </form>
-        </div>
+        </div> -->
         <div id="filterForm" class="filter-form">
             <h3> Filtres</h3>
             <form action="#">
