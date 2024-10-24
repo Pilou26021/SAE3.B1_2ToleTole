@@ -27,7 +27,7 @@ ob_start();
         if ($professionel) {
             // Si professionnel, n'afficher que ses offres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
@@ -41,7 +41,7 @@ ob_start();
         } else {
             // Sinon, afficher toutes les offres pour les visiteurs/membres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
@@ -194,22 +194,26 @@ ob_start();
             <?php if (count($offres) > 0): ?>
                 <div class="offres-container">
                     <?php foreach ($offres as $offre): ?>
-                        <div class="offre-card">
-                            <div class="offre-image-container">
-                                <!-- Affichage de l'image -->
-                                <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
-                            </div>
-                            <div class="offre-details">
-                                <!-- Titre de l'offre -->
-                                <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
-                                
-                                <!-- Résumé de l'offre -->
-                                <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
-                                
-                                <!-- Prix minimum de l'offre -->
-                                <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
-                            </div>
-                        </div>
+                        <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
+                            <a <?php if ($professionel && $offre['horsligne']) { echo 'style="opacity: 0.5;text-decoration:none;"';  } ?> style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                                <div class="offre-card">
+                                    <div class="offre-image-container">
+                                        <!-- Affichage de l'image -->
+                                        <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                    </div>
+                                    <div class="offre-details">
+                                        <!-- Titre de l'offre -->
+                                        <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                        
+                                        <!-- Résumé de l'offre -->
+                                        <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
+                                        
+                                        <!-- Prix minimum de l'offre -->
+                                        <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                                    </div>
+                                </div>
+                            </a>
+                        <?php } ?>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
