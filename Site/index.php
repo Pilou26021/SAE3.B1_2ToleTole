@@ -10,7 +10,7 @@ ob_start();
     <link rel="stylesheet" href="./style.css">
     <title>Offres</title>
     <?php 
-        include("../SQL/connection_local.php");
+        include "./SQL/connection_envdev.php";
 
         $professionel = false;
         $membre = false;

@@ -2,7 +2,7 @@
 ob_start();
 session_start(); // Démarre la session
 
-include '../SQL/connection_local.php';
+include './SQL/connection_envdev.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des données du formulaire

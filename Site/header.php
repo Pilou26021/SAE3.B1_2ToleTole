@@ -3,7 +3,7 @@
 ob_start();
 session_start();
 
-include '../SQL/connection_local.php';
+include './SQL/connection_local.php';
 
 $professionel = false;
 $membre = false;

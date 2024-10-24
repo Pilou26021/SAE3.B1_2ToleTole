@@ -11,7 +11,7 @@
     }
 
     if (isset($_POST)) {
-        include('../SQL/connection_local.php');
+        include "./SQL/connection_envdev.php";   
         $idOffre = $_POST['idOffre']; // ID de l'offre à modifier
         $cat = $_POST['categorie'];
         $offerName = $_POST['offerName'];
