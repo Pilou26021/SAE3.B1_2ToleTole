@@ -244,8 +244,8 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
                                                 <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
                                             </tr>
                                         </tbody>
@@ -266,8 +266,8 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
                                                 <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
                                             </tr>
                                         </tbody>
@@ -300,7 +300,6 @@
                                             <tr>
                                                 <td><?php echo "Déjeuner : " . $horaires['lunchOpen'] . " - " . $horaires['lunchClose'] . "<br>Dîner : " . $horaires['dinnerOpen'] . " - " . $horaires['dinnerClose']; ?></td>
                                                 <td><?php echo htmlspecialchars($offreDetails['gammeprix']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['carteresto']); ?></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -321,8 +320,8 @@
                                         <tbody>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['capaciteacceuil']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                <td><?php echo htmlspecialchars($offreDetails['capaciteacceuil']); ?> personnes</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -444,7 +443,7 @@
         </script>
 
         <div id="footer"></div>
-        
+
         <script src="script.js"></script> 
     </body>
 </html>

@@ -5,7 +5,8 @@ SET SCHEMA 'public';
 INSERT INTO _image (pathImage) VALUES 
 ('./img/uploaded/image1.png'),
 ('./img/uploaded/image2.png'),
-('./img/uploaded/image3.png');
+('./img/uploaded/image3.png'),
+('./img/uploaded/image4.png');
 
 -- 2. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
@@ -16,7 +17,8 @@ INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImageP
 -- 3. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
 (17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'),
-(1, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France');
+(1, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'),
+(4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France');
 
 -- 4. Insérer des données dans `_professionnel`
 INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES 
@@ -26,8 +28,8 @@ INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES
 
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, dateNaissanceMembre) VALUES 
-(1, '1990-05-12'),
-(2, '1985-07-22');
+(1, '1990-01-01'),
+(2, '1995-05-05');
 
 -- 6. Insérer des données dans `_professionnelPublic`
 INSERT INTO _professionnelPublic (idPro) VALUES 
@@ -42,7 +44,8 @@ INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) V
 -- 8. Insérer des données dans `_offre`
 INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
 (3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 20, TRUE, FALSE, 1, 'https://ilovemyself.com',4.5, FALSE, '2023-05-01', 'Accessible', FALSE),
-(2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 10, FALSE, TRUE, 2, 'https://pnevot.com',4.0, TRUE, '2023-06-01', 'Non accessible', FALSE);
+(2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 10, FALSE, TRUE, 2, 'https://pnevot.com',4.0, TRUE, '2023-06-01', 'Non accessible', FALSE),
+(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 1, FALSE, FALSE, 1, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE);
 
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 
@@ -73,7 +76,7 @@ INSERT INTO _reponseAvis (idAvis, texteReponse, dateReponse) VALUES
 INSERT INTO _afficherImageOffre (idImage, idOffre) VALUES 
 (1, 1),
 (2, 2),
-(3, 1);
+(5, 3);
 
 -- 15. Insérer des données dans `_imageImageAvis`
 INSERT INTO _imageImageAvis (idImage, idAvis) VALUES 
@@ -87,23 +90,16 @@ INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncl
 
 -- 17. Insérer des données dans `_offreSpectacle`
 INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
-(1, '2025-06-01', 2, 100),
-(2, '2025-07-01', 1, 50);
 
 -- 18. Insérer des données dans `_offreParcAttraction`
 INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum) VALUES 
-(1, '2025-06-01', '2025-06-30', 5, 10, 3),
-(2, '2025-07-01', '2025-07-31', 10, 20, 5);
 
 -- 19. Insérer des données dans `_offreVisite`
 INSERT INTO _offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees) VALUES 
-(1, '2025-06-01', TRUE, TRUE),
-(2, '2025-07-01', FALSE, TRUE);
 
 -- 20. Insérer des données dans `_offreRestaurant`
 INSERT INTO _offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto) VALUES 
-(1, '9h - 22h', 30, 1),
-(2, '10h - 23h', 50, 2);
+(3, '{"lunchOpen":"11:30","lunchClose":"13:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4');
 
 -- 21. Insérer des données dans `_tag`
 INSERT INTO _tag (typeTag, typeRestauration) VALUES 
