@@ -351,6 +351,7 @@ JOIN public._image i ON c.idImagePdp = i.idImage;
 -- _offrerestaurant	= 3
 -- _offrespectacle = 4
 -- _offrevisite	= 5
+DROP FUNCTION trouver_categorie_offre(integer);
 CREATE OR REPLACE FUNCTION trouver_categorie_offre(id_Offre INTEGER)
 RETURNS INTEGER AS $$
 DECLARE
