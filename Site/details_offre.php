@@ -123,7 +123,7 @@
 
                     <p>Localisation de l'offre</p>
                     <div id="map" style="display:flex;align-items:center;justify-content:center;">
-                        <h2 id="text-chargement" >Chargement de la carte</h2>
+                        <h2 id="text-chargement" style="margin:20px;">Chargement de la carte</h2>
                     </div>
                     <p><?php echo $adresseComplete ?><p>
 
@@ -281,9 +281,6 @@
             }
 
             geocode(adresse).then(data => {
-                const loadingText = document.querySelector('#text-chargement'); // Sélectionne le paragraphe avec l'ID
-                loadingText.style.display = 'block'; // Affiche le texte de chargement
-                
                 if (data && data.length > 0) {
                     const lat = data[0].lat;
                     const lon = data[0].lon;
@@ -297,18 +294,19 @@
                         .bindPopup(adresse)
                         .openPopup();
 
-                    // Cacher le texte de chargement une fois la carte chargée
-                    map.on('load', function() {
-                        loadingText.style.display = 'none';
-                    });
+                    // Stoppe l'animation et cache le texte de chargement après le chargement de la carte
+                    clearInterval(loadingAnimation);
+                    document.querySelector('#text-chargement').style.display = 'none';
                 } else {
-                    loadingText.textContent = 'Adresse non trouvée.'; // Change le texte si l'adresse n'est pas trouvée
+                    clearInterval(loadingAnimation); // Arrête l'animation ici
+                    document.querySelector('#text-chargement').textContent = 'Adresse non trouvée.'; // Change le texte si l'adresse n'est pas trouvée
                 }
             }).catch(error => {
                 console.error('Erreur de géocodage:', error);
-                const loadingText = document.querySelector('#text-chargement');
-                loadingText.textContent = 'Erreur lors du chargement de la carte.'; // Change le texte en cas d'erreur
+                clearInterval(loadingAnimation); // Arrête l'animation en cas d'erreur
+                document.querySelector('#text-chargement').textContent = 'Erreur lors du chargement de la carte.'; // Change le texte en cas d'erreur
             });
+
         </script>
 
         <script src="script.js"></script> 
