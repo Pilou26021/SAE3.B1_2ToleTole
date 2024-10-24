@@ -958,6 +958,7 @@ section.details_offre_mobile_tarifs {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 20px;
 }
 
 section.details_offre_mobile_tarifs table {
@@ -1015,6 +1016,75 @@ td {
 	.offres-display {
 		justify-content: left;
 	}
+}
 
+.details_offre_mobile {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 20px;
+}
 
+.details_offre_mobile table {
+	width: 100%;
+	max-width: 600px; /* Largeur maximale de la table */
+	margin: auto;
+	border-collapse: collapse;
+	background-color: #F2F1E9;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	text-align: center;
+	border: #36D673;
+	border-radius: 2px;
+	table-layout: fixed;
+}
+
+.details_offre_mobile td, .details_offre_mobile th {
+	padding: 10px;
+	border-right: 2px solid #36D673; /* Couleur de la ligne de séparation */
+}
+
+.details_offre_mobile td:last-child, .details_offre_mobile th:last-child {
+	border-right: none; /* Supprime la ligne de séparation pour la dernière colonne */
+}
+
+.details_offre_mobile td {
+	white-space: nowrap; 
+}
+
+.adresse-detail {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	font-size: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.offre-resume-detail {
+	font-size: 16px;
+	color: #040316;
+	margin-bottom: 10px;
+}
+
+.detail-btn-container {
+    text-align: center; /* Centre le contenu du conteneur */
+    margin: 20px 0; /* Ajoute un peu d'espace en haut et en bas */
+}
+
+.detail-offer-btn {
+    background-color: #36D673;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.detail-offer-btn:hover {
+    background-color: #2bb85f; /* Changement de couleur au survol */
 }

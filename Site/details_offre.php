@@ -30,7 +30,7 @@
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, o.horsligne, i.pathimage
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -101,18 +101,19 @@
 
         $rue = $adresse_offre["numrue"]; // Numéro de la rue
         $code_postal = $adresse_offre["codepostal"]; // Code postal
+        $adresserue = $adresse_offre["adresse"]; // Adresse
         $ville = ucfirst($adresse_offre["ville"]); // Ville + passage en majuscule
         $departement = ucfirst($adresse_offre["departement"]); // Département (ex : Bretagne) + passage en majuscule
         $pays = ucfirst($adresse_offre["pays"]); // Pays + passage en majuscule
         $supplement = $adresse_offre["supplementadresse"];
         
         // Adresse pour l'affichage sur la carte
-        $adresse = trim("$rue, $code_postal $ville, $departement, $pays");
+        $adresse = trim("$rue $adresserue, $code_postal $ville, $departement, $pays");
         // Adresse plus complète pour l'utilisateur
         if (trim($supplement) == '') { // si il n'y a pas de supplément on ne l'ajoute pas à la string final
-            $adresseComplete = trim("$rue, $code_postal $ville, $departement, $pays");
+            $adresseComplete = trim("$rue $adresserue, $code_postal $ville, $departement, $pays");
         } else {
-            $adresseComplete = trim("$rue, $supplement, $code_postal $ville, $departement, $pays");
+            $adresseComplete = trim("$rue $adresserue, $supplement, $code_postal $ville, $departement, $pays");
         }
 
         ?>
@@ -124,13 +125,13 @@
                     <div class="offre-image-container">
                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
                     </div>
-                    <p class="offre-resume"><strong>Résumé:</strong> <?= htmlspecialchars($offre['resumeoffre']) ?></p>
+                    <p class="offre-resume-detail"><strong>Résumé:</strong> <?= htmlspecialchars($offre['resumeoffre']) ?></p>
 
-                    <p>Localisation de l'offre</p>
+                    <p class="adresse-detail">Localisation de l'offre</p>
                     <div id="map" style="display:flex;align-items:center;justify-content:center;">
                         <h2 id="text-chargement" >Chargement de la carte</h2>
                     </div>
-                    <p><?php echo $adresseComplete ?><p>
+                    <p class="adresse-detail"><?php echo $adresseComplete ?><p>
 
                     <section class="details_offre_mobile_tarifs">
                         <table>
@@ -147,82 +148,202 @@
                         </table>
                     </section>
 
+                    <div class="detail-btn-container">
+                        <a href="<?php echo $offre['siteweboffre']; ?>"  target="_blank" class="detail-offre-btn">
+                            <button class="detail-offer-btn">Site web de l'offre</button>
+                        </a>
+                    </div>
+
                     <?php
                 
                         // 1) On cherche d'abord dans quelle table se trouve l'ID Offre
-                        $tables = [
-                            '_offreactivite',
-                            '_offreparcattraction',
-                            '_offrerestaurant',
-                            '_offrespectacle',
-                            '_offrevisite'
-                        ];
+                        $stmt = $conn->prepare("SELECT public.trouver_categorie_offre(:idoffre)");
+                        $stmt->execute([':idoffre' => (int)$idoffre]);  // Assurez-vous que $idoffre est un entier
+                        $categorie = $stmt->fetchColumn();   
 
-                        foreach ($tables as $table) {
+                        // On récupère les détails de l'offre en fonction de la catégorie
+                        switch ($categorie) {
+                            case 1:
+                                $stmt = $conn->prepare("SELECT * FROM public._offreactivite WHERE idoffre = :idoffre");
+                                $stmt->execute([':idoffre' => $idoffre]);
+                                $offreDetails = $stmt->fetch();
+                                $cat = 'activite';
+                                break;
+                            case 2:
+                                $stmt = $conn->prepare("SELECT * FROM public._offreparcattraction WHERE idoffre = :idoffre");
+                                $stmt->execute([':idoffre' => $idoffre]);
+                                $offreDetails = $stmt->fetch();
+                                $cat = 'parc';
+                                break;
+                            case 3:
+                                $stmt = $conn->prepare("SELECT * FROM public._offrerestaurant WHERE idoffre = :idoffre");
+                                $stmt->execute([':idoffre' => $idoffre]);
+                                $offreDetails = $stmt->fetch();
+                                $cat = 'restauration';
+                                break;
+                            case 4:
+                                $stmt = $conn->prepare("SELECT * FROM public._offrespectacle WHERE idoffre = :idoffre");
+                                $stmt->execute([':idoffre' => $idoffre]);
+                                $offreDetails = $stmt->fetch();
+                                $cat = 'spectacle';
+                                break;
+                            case 5:
+                                $stmt = $conn->prepare("SELECT * FROM public._offrevisite WHERE idoffre = :idoffre");
+                                $stmt->execute([':idoffre' => $idoffre]);
+                                $offreDetails = $stmt->fetch();
+                                $cat = 'visite';
+                                break;
+                            default:
+                                $offreDetails = null;
+                                break;
 
-                            $chercher_table = $conn->prepare("SELECT 1 FROM public.$table WHERE idoffre = :idoffre LIMIT 1");
-                            $chercher_table-> bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                            $chercher_table-> execute();
-
-                            if ($chercher_table->rowCount() > 0) {
-                                $table_trouvee = $table; // Enregistrer la table trouvée
-                                break; // Sortir de la boucle
-                            }
                         }
 
-                        // 2) On en déduit le champ qui contient la donnée qui nous intéresse
-                        switch ($table_trouvee) {
-                            case '_offreactivite':
-                                $champ = 'indicationduree';
-                                $duree = $conn->prepare("SELECT $champ FROM public.$table_trouvee WHERE idoffre = :idoffre LIMIT 1");
-                                $duree-> bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                                $duree-> execute();
-
-                                $duree_trouvee = $duree->fetch(PDO::FETCH_ASSOC);
-                                
-                                echo "<p> Durée de l'activité: " . $duree_trouvee["indicationduree"] . "h" . "<p>";
-                                break;
-                                
-                            case '_offreparcattraction':
-                                $champ_1 = 'dateouverture';
-                                $champ_2 = 'datefermeture';
-                                $duree = $conn->prepare("SELECT $champ_1, $champ_2 FROM sae._offreparcattraction WHERE idoffre = :idoffre LIMIT 1");
-                                $duree-> bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                                $duree-> execute();
-                                
-                                $duree_trouvee = $duree->fetch(PDO::FETCH_ASSOC);
-                                
-                                echo "<p> Date d'ouverture: " . $duree_trouvee["dateouverture"] ."<p>";
-                                echo "<p> Date de fermeture: " . $duree_trouvee["datefermeture"] ."<p>";
-                                break;
+                        // 2) On affiche les détails de l'offre
+                        /*
+                        _offreactivite:
+                        idoffre,indicationduree,ageminimum,prestationincluse
                         
-                            case '_offrerestaurant':
-                                $champ = 'horairesemaine';
-                                $duree = $conn->prepare("SELECT $champ FROM sae._offrerestaurant WHERE idoffre = :idoffre LIMIT 1");
-                                $duree-> bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                                $duree-> execute();
-                                
-                                $duree_trouvee = $duree->fetch(PDO::FETCH_ASSOC);
-
-                                echo "<p> Horaires hebdomadaires: " . $duree_trouvee["horairesemaine"] ."<p>";
-                                break;
+                        _offreparcattraction:
+                        idoffre,indicationduree,ageminimum,prestationincluse
                         
-                            case '_offrespectacle':
-                            case '_offrevisite':
-                                $champ = 'dateoffre';
-                                $duree = $conn->prepare("SELECT $champ FROM sae.$table_trouvee WHERE idoffre = :idoffre LIMIT 1");
-                                $duree-> bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                                $duree-> execute();
-                                
-                                $duree_trouvee = $duree->fetch(PDO::FETCH_ASSOC);
+                        _offrerestaurant:
+                        idoffre,horairesemaine,gammeprix,carteresto
+                        horairesemaine est dans ce format : {"lunchOpen":"12:30","lunchClose":"14:00","dinnerOpen":"22:00","dinnerClose":"00:00"}
 
-                                echo "<p> Date de l'offre: " . $duree_trouvee["dateoffre"] ."<p>";
-                                break;
-                        }
+                        _offrespectacle:
+                        idoffre,dateoffre,indicationduree,capaciteacceuil
 
+                        _offrevisite:
+                        idoffre,dateoffre,visiteguidee,langueproposees
+                        */    
                     ?>
 
+                    <?php
+                    if ($offreDetails) { switch ($cat) {
+                            case 'activite':
+                            ?>
+                                <section class="details_offre_mobile">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Indication de durée</th>
+                                                <th>Age minimum</th>
+                                                <th>Prestation incluse</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                        <?php 
+                            break;
+                            case 'parc':
+                        ?>
+                                <section class="details_offre_mobile">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Indication de durée</th>
+                                                <th>Age minimum</th>
+                                                <th>Prestation incluse</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                        <?php
+                            break;
+                            case 'restauration':
+                                $horaires = json_decode($offreDetails['horairesemaine'], true);
+                        ?>
+                                <section class="details_offre_mobile">
+                                    <!-- On affiche la carte du restaurant -->
+                                    <?php
+                                    $stmt = $conn->prepare("SELECT pathimage FROM public._image WHERE idimage = :idimage");
+                                    $stmt->execute([':idimage' => $offreDetails['carteresto']]);
+                                    $imagecarteresto = $stmt->fetchColumn();
+                                    ?>
+                                    <h2>Carte du restaurant</h2>
+                                    <img src="<?php echo $imagecarteresto; ?>" alt="Carte du restaurant" style="width:100%;max-width:500px; margin-bottom: 20px;">
 
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Horaire semaine</th>
+                                                <th>Gamme de prix</th>
+                                                <th>Carte resto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><?php echo "Déjeuner : " . $horaires['lunchOpen'] . " - " . $horaires['lunchClose'] . "<br>Dîner : " . $horaires['dinnerOpen'] . " - " . $horaires['dinnerClose']; ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['gammeprix']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['carteresto']); ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                        <?php
+                            break;
+                            case 'spectacle':
+                        ?>
+                                <section class="details_offre_mobile">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Date de l'offre</th>
+                                                <th>Indication de durée</th>
+                                                <th>Capacité d'accueil</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['capaciteacceuil']); ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                        <?php
+                            break;
+                            case 'visite':
+                        ?>
+                                <section class="details_offre_mobile">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Date de l'offre</th>
+                                                <th>Visite guidée</th>
+                                                <th>Langues proposées</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['visiteguidee']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['langueproposees']); ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                        <?php
+                            break;
+                        }
+                    }
+                    ?>
 
                     <?php if ($professionel) { ?>
                         <!-- Bouton pour passer l'offre hors ligne ou remettre en ligne -->
@@ -315,4 +436,5 @@
 
         <script src="script.js"></script> 
     </body>
+    <?php include "footer.html"; ?>
 </html>
