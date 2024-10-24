@@ -351,25 +351,25 @@ JOIN public._image i ON c.idImagePdp = i.idImage;
 -- _offrerestaurant	= 3
 -- _offrespectacle = 4
 -- _offrevisite	= 5
-CREATE OR REPLACE FUNCTION trouver_categorie_offre(idOffre INTEGER)
+CREATE OR REPLACE FUNCTION trouver_categorie_offre(id_Offre INTEGER)
 RETURNS INTEGER AS $$
 DECLARE
     categorie INTEGER;
 BEGIN
     -- Vérification si l'offre se trouve dans _offreactivite
-    IF EXISTS (SELECT 1 FROM _offreactivite WHERE idOffre = idOffre) THEN
+    IF EXISTS (SELECT 1 FROM _offreactivite WHERE idOffre = id_Offre) THEN
         categorie := 1;
     -- Vérification si l'offre se trouve dans _offreparcattraction
-    ELSIF EXISTS (SELECT 1 FROM _offreparcattraction WHERE idOffre = idOffre) THEN
+    ELSIF EXISTS (SELECT 1 FROM _offreparcattraction WHERE idOffre = id_Offre) THEN
         categorie := 2;
     -- Vérification si l'offre se trouve dans _offrerestaurant
-    ELSIF EXISTS (SELECT 1 FROM _offrerestaurant WHERE idOffre = idOffre) THEN
+    ELSIF EXISTS (SELECT 1 FROM _offrerestaurant WHERE idOffre = id_Offre) THEN
         categorie := 3;
     -- Vérification si l'offre se trouve dans _offrespectacle
-    ELSIF EXISTS (SELECT 1 FROM _offrespectacle WHERE idOffre = idOffre) THEN
+    ELSIF EXISTS (SELECT 1 FROM _offrespectacle WHERE idOffre = id_Offre) THEN
         categorie := 4;
     -- Vérification si l'offre se trouve dans _offrevisite
-    ELSIF EXISTS (SELECT 1 FROM _offrevisite WHERE idOffre = idOffre) THEN
+    ELSIF EXISTS (SELECT 1 FROM _offrevisite WHERE idOffre = id_Offre) THEN
         categorie := 5;
     ELSE
         categorie := NULL;  -- Si l'offre ne se trouve dans aucune catégorie
@@ -377,4 +377,4 @@ BEGIN
 
     RETURN categorie;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE 'plpgsql';
