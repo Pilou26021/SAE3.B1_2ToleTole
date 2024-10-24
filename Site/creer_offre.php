@@ -93,6 +93,29 @@
 
                 <?php if($cat != '')  { ?>
 
+                <h3 class="type-offre-text">Offre <?php 
+                switch($cat){
+                    case 'restauration':
+                        echo 'de restaurant';
+                        break;
+                    case 'spectacle':
+                        echo 'de spectacle';
+                        break;
+                    case 'visite':
+                        echo 'de visite';
+                        break;
+                    case 'activite':
+                        echo 'd\'activité';
+                        break;
+                    case 'parc':
+                        echo 'de parc d\'attraction';
+                        break;
+                    default:
+                        echo 'erreur';
+                        break;
+                }
+                ?></h3><br>
+
                 <h2>Type d'Offre</h2>
                 <label >
                     <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
@@ -103,29 +126,6 @@
 
                 <h2>Nom de l'offre</h2>
                 <input class="zone-text" type="text" name="offerName" placeholder="Cote de granite rose" required> 
-
-                <h3 class="type-offre-text">Offre <?php 
-                    switch($cat){
-                        case 'restauration':
-                            echo 'de restaurant';
-                            break;
-                        case 'spectacle':
-                            echo 'de spectacle';
-                            break;
-                        case 'visite':
-                            echo 'de visite';
-                            break;
-                        case 'activite':
-                            echo 'd\'activité';
-                            break;
-                        case 'parc':
-                            echo 'de parc d\'attraction';
-                            break;
-                        default:
-                            echo 'erreur';
-                            break;
-                    }
-                ?></h3>
 
                 <h2>Résumé</h2>
                 <textarea class="textarea-creer_offre" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
@@ -167,28 +167,29 @@
                     </div>
 
                     <h2>Site web de l'offre</h2>
-                    <input id="website" class="zone-text" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
-                    <p id="error-website" style="color:red" >Veuillez entrez une adresse de site web valide.</p>
+                    <input id="website" class="textarea-creer_offre" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
+                    <p id="error-website" style="color:red; display:none;" >Veuillez entrez une adresse de site web valide.</p>
 
 
                     <h2>Adresse</h2>
-                    <input type="text" width="100%" class="textarea-creer_offre" name="adresse" placeholder="rue Edouard Branly" required>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="adresse" placeholder="Rue Edouard Branly" required>
 
                     <h2>Numéro de la rue</h2>
-                    <input id="adNumRue" type="number" width="100%" class="zone-text" name="adNumRue" placeholder="13" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <input id="adNumRue" type="number" width="100%" class="textarea-creer_offre" name="adNumRue" placeholder="13" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <p id="error-adNumRue" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
                     <h2>Adresse supplémentaire</h2>
-                    <input type="text" width="100%" class="textarea-creer_offre" name="supAdresse" placeholder="Batîment 4bis, Appartemment 105" required>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="supAdresse" placeholder="Bâtiment 4bis, Appartemment 105" required>
 
                     <h2>Code Postal</h2>
-                    <input type="number" width="100%" class="zone-text" name="adCodePostal" placeholder="22300" required>
+                    <input id="adCodePostal" type="number" width="100%" class="textarea-creer_offre" name="adCodePostal" placeholder="22300" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event); checkCodePostal(this)">
+                    <p id="error-adCodePostal" style="color:red; display:none;">Un code postal doit être positif et comprendre 5 chiffres</p>
 
                     <h2>Ville</h2>
-                    <input type="text" width="100%" class="textarea-creer_offre" name="adVille" placeholder="Guimguamp" required>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="adVille" placeholder="Guimgamp" required>
 
                     <h2>Département</h2>
-                    <input type="text" width="100%" class="textarea-creer_offre" name="adDepartement" placeholder="Côtes d'armor" required>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="adDepartement" placeholder="Côtes-d'Armor" required>
 
                     <h2>Pays</h2>
                     <input type="text" width="100%" class="textarea-creer_offre" name="adPays" placeholder="France" required>

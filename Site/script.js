@@ -61,6 +61,7 @@ function checkNegativeValue(input) {
     if (input.value < 0) {
         input.value = "";
         errorMessage.style.display = 'block';
+        errorMessage.style.color = 'red';
     } else {
         errorMessage.style.display = 'none';
     }
@@ -81,5 +82,24 @@ function checkValidWebsite(input){
         errorMessage.style.color = 'red';
     } else {
         errorMessage.style.display = 'none';
+    }
+}
+
+function checkCodePostal(input) {
+    const maxLength = 4;
+    let value = input.value;
+
+    // Affiche le message d'erreur si le code postal est trop long
+    const errorElement = document.getElementById('error-' + input.id);
+    if (value.length > maxLength) {
+        errorElement.style.display = 'block';
+        errorMessage.style.color = 'red';
+    } else {
+        errorElement.style.display = 'none';
+    }
+
+    // Efface les caractères en trop après l'affichage du message d'erreur
+    if (value.length > maxLength) {
+        input.value = value.slice(0, maxLength);
     }
 }

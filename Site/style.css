@@ -1,908 +1,910 @@
 /* CORPS **/
 
 body{
-padding: 10px;
-background-color: #F2F1E9;
-font-family: regular;
-}
-
-hr{
-margin: 5px;
-color: #040316;
-}
-
-
-
-/* HEADER **/
-
-header{
-display: flex;
-height: 50px;
-justify-content: space-between;
-align-items: center;
-padding-bottom: 10px;
-border-bottom: solid 2px #040316 ;
-margin-bottom: 20px;
-}
-
-/* MENU HEADER **/
-
-.sidenav {
-height: 100%;
-width: 0;
-position: fixed;
-z-index: 1;
-top: 0;
-left: 0;
-background-color: #F2F1E9;
-overflow-x: hidden;
-transition: 0.5s;
-padding-top: 60px;
-margin-right: 10px;
-}
-
-.profil{
-margin: 10px;
-}
-
-.sidenav a {
-padding: 8px 8px 8px 32px;
-text-decoration: none;
-font-size: 20px;
-color: #040316;
-display: block;
-transition: 0.3s;
-}
-
-
-.sidenav .closebtn {
-position: absolute;
-top: 0;
-right: 25px;
-font-size: 36px;
-margin-left: 50px;
-}
-
-.openbtn {
-font-size: 30px;
-cursor: pointer;
-color: #040316;
-border: none;
-padding: 10px 15px;
-}
-
-.sidenav ul {
-margin: 0;
-padding: 0;
-list-style: none;
-}
-
-/* MENU FILTRE **/
-
-.input-filtre{
-border: solid 1px #040316 ;
-border-radius: 10px;
-padding: 5px;
-background-color: #F2F1E9;
-}
-
-.choose{
-padding: 5px;
-border-radius: 10px;
-background-color: #F2F1E9;
-border-color: #040316;
-}
-.filter-form {
-display: none;
-margin: 20px auto;
-padding: 20px;
-width: 80%;
-background-color: #F2F1E9;
-box-shadow: 0px 0px 15px #040316;
-border-radius: 10px;
-}
-
-.filter-form h3 {
-text-align: center;
-}
-
-.filter-form form {
-display: flex;
-flex-direction: column;
-gap: 10px;
-}
-
-.filter-form label {
-font-size: 16px;
-}
-
-/*Slider**/
-
-.slider-container {
-text-align: center;
-}
-.price-label {
-font-size: 10px;
-margin-bottom: 5px;
-}
-.slider {
-width: 100%;
-margin-bottom: 5px;
-}
-.range-values {
-display: flex;
-justify-content: space-between;
-}
-.range-value {
-font-size: 10px;
-}
-
-
-
-
-/* MAIN **/
-
-main{
-display: flex;
-flex-direction: column;
-align-items: center;
-}
-
-.recherche{
-width: 80%;
-text-align: center;
-box-shadow: 0px 0px 15px #040316;
-border-radius: 10px;
-padding: 10px ;
-}
-
-.recherche_top{
-display: flex; 
-justify-content: space-around; 
-}
-
-.input{
-border: none;
-background-color: #F2F1E9;
-width:200px;
-}
-
-.button_1{
-height: 30px;
-font-family: medium;
-width: 70%;
-background-color: #31CEA6;
-border: none;
-border-radius: 10px;
-color: #F2F1E9;
-font-size: 15px;
-
-}
-
-
-/* FOOTER **/
-
-footer{
-padding-top: 10px;
-width: 100%;
-border-top: solid 2px #040316 ;
-margin-top: 20px;
-}
-
-.l_footer{
-display: flex;
-justify-content: space-around;
-font-size: 15px;
-}
-
-.list-footer{
-list-style-type: none;
-padding-left: 20px;
-}
-
-.text-footer{
-text-align: center;
-}
-
-@media (min-width : 800px) {
-.recherche{
-width: 40%;
-}
-.input{
-width: 400px;
-}
-.price-label {
-font-size: 15px;
-}
-
-.range-value {
-font-size: 15px;
-}
-}
-
-
-
-/* POLICE D'ECRITURE **/
-
-
-h1{
-font-size: 30px;
-font-weight: normal;
-margin: 10px;
-}
-
-h2{
-font-size: 25px;
-font-weight: normal;
-margin: 10px;
-}
-
-h3{
-font-size: 20px;
-text-decoration: underline;
-font-weight: normal;
-margin: 10px;
-}
-
-h4{
-font-size: 20px;
-font-weight: normal;
-margin: 10px;
-}
-
-p{
-font-size: 15px;
-}
-
-@font-face {
-font-family: 'light';
-src:  url('./font/montserrat-light-webfont.woff2') format('woff2');
-}
-@font-face {
-font-family: 'regular';
-src:  url('./font/montserrat-regular-webfont.woff2') format('woff2');
-}
-@font-face {
-font-family: 'medium';
-src:  url('./font/montserrat-medium-webfont.woff2') format('woff2');
-}
-@font-face {
-font-family: 'semibold';
-src:  url('./font/montserrat-semibold-webfont.woff2') format('woff2');
-}
-@font-face {
-font-family: 'bold';
-src:  url('./font/montserrat-bold-webfont.woff2') format('woff2');
-}
-@font-face {
-font-family: 'firasans';
-src:  url('./font/firasans-regular-webfont.woff2') format('woff2');
-}
-
-/** BOUTON CREER UNE OFFRE */
-
-.offer-btn {
-  display: flex;
-  align-items: center;
-  background-color: #F2F1E9; /* Couleur de fond du bouton */
-  border: 2px solid #31CEA6; /* Bordure verte */
-  border-radius: 20px; /* Coins arrondis */
-  color: black;
-  padding: 10px 20px;
-  font-size: 15px;
-  cursor: pointer;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre */
-  transition: all 0.3s ease;
-  margin-bottom: 20px;
-}
-
-.offer-btn .icon {
-  display: inline-block;
-  margin-right: 10px;
-  background-color: white;
-  color: #31CEA6;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 2px 7px;
-  border: 2px solid #31CEA6;
-  border-radius: 50%;
-}
-
-.offer-btn:hover {
-  background-color: #F2F1E9; /* Couleur de fond au survol */
-  box-shadow: 4px 4px 10px #040316; /* Ombre plus prononcée au survol */
-}
-
-
-/***** CREER_OFFRE.PHP *****/
-
-.creer-offre-main {
-max-width: 360px;
-margin: 0 auto;
-padding: 20px;
-background-color: #F2F1E9;
-border: 1px solid #ccc;
-border-radius: 10px;
-}
-
-.categories {
-display: flex;
-flex-wrap: wrap;
-gap: 10px;
-margin-bottom: 15px;
-}
-
-.category {
-background-color: #a3d1c5;
-color: #F2F1E9;
-border: none;
-border-radius: 5px;
-padding: 10px;
-cursor: pointer;
-font-size: 0.9em;
-}
-
-input[type="radio"]:checked + .category {
-background-color: #88b0a2;
-}
-
-input[type="radio"] {
-appearance: none; /* Cacher le style par défaut */
--webkit-appearance: none; /* Pour les navigateurs WebKit */
-}
-
-input[type="radio"] + label {
-display: inline-block;
-padding: 10px;
-border: 1px solid #ccc;
-border-radius: 5px;
-cursor: pointer;
-}
-
-.category:hover {
-background-color: #88b0a2;
-}
-
-.price {
-display: flex;
-justify-content: space-between;
-gap: 10px;
-}
-
-.price input {
-flex: 1;
-}
-
-.hours {
-display: flex;
-justify-content: space-between;
-gap: 10px;
-margin-bottom: 15px;
-}
-
-.hours label {
-flex: 1;
-}
-
-.hours input {
-flex: 1;
-}
-
-.continuous {
-margin-bottom: 15px;
-}
-
-.image-upload {
-display: flex;
-justify-content: center;
-align-items: center;
-height: 150px;
-background-color: #a3d1c5;
-border-radius: 5px;
-cursor: pointer;
-}
-
-.submit-btn {
-display: block;
-width: 100%;
-padding: 15px;
-background-color: #333;
-color: #fff;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-font-size: 1.1em;
-}
-
-.submit-btn:hover {
-background-color: #555;
-}
-
-.type-offre-text {
-text-align: center;
-
-}
-
-.textarea-creer_offre {
-width: 90%;
-padding: 10px;
-margin-bottom: 15px;
-border: 1px solid #040316;
-border-radius: 5px;
-font-size: 1em;
-resize: none;
-}
-
-.creer-offre-main h2 {
-margin-left: 0;
-}
-
-.zone-text {
-width: 90%;
-padding: 10px;
-border: 1px solid #040316;
-resize: none;
-border-radius: 5px;
-
-}
-
-.zone-date {
-width: 30%;
-padding: 10px;
-border: 1px solid #040316;
-resize: none;
-border-radius: 5px;
-}
-
-.zone-number {
-width: 50%;
-padding: 10px;
-border: 1px solid #040316;
-resize: none;
-border-radius: 5px;
-}
-
-.tags {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-gap: 10px;
-padding: 10px;
-}
-
-.tags label {
-display: flex;
-align-items: center;
-font-size: 16px;
-cursor: pointer;
-}
-
-.tags input[type="checkbox"] {
-margin-right: 8px;
-}
-
-.langues {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-gap: 10px;
-padding: 10px;
-}
-
-.langues label {
-display: flex;
-align-items: center;
-font-size: 16px;
-cursor: pointer;
-}
-
-.langues input[type="checkbox"] {
-margin-right: 8px;
-}
-
-.tags input[type="checkbox"] {
-appearance: none; /* Retire le style par défaut de la checkbox */
-width: 20px;
-height: 20px;
-border: 2px solid #a3d1c5; /* Vert de base */
-border-radius: 4px;
-background-color: white;
-cursor: pointer;
-position: relative;
-}
-
-.tags input[type="checkbox"]:checked {
-background-color: #88b0a2; /* Vert plus foncé lorsqu'il est sélectionné */
-border-color: #88b0a2;
-}
-
-.tags input[type="checkbox"]::after {
-content: '';
-position: absolute;
-display: none;
-top: 4px;
-left: 4px;
-width: 10px;
-height: 10px;
-}
-
-.tags input[type="checkbox"]:checked::after {
-display: block; /* Montre la coche lorsqu'il est sélectionné */
-}
-
-
-.langues input[type="checkbox"] {
-appearance: none; /* Retire le style par défaut de la checkbox */
-width: 20px;
-height: 20px;
-border: 2px solid #a3d1c5; /* Vert de base */
-border-radius: 4px;
-background-color: white;
-cursor: pointer;
-position: relative;
-}
-
-.langues input[type="checkbox"]:checked {
-background-color: #88b0a2; /* Vert plus foncé lorsqu'il est sélectionné */
-border-color: #88b0a2;
-}
-
-.langues input[type="checkbox"]::after {
-content: '';
-position: absolute;
-display: none;
-top: 4px;
-left: 4px;
-width: 10px;
-height: 10px;
-}
-
-.langues input[type="checkbox"]:checked::after {
-display: block; /* Montre la coche lorsqu'il est sélectionné */
-}
-
-
-.visite {
-appearance: none; /* Retire le style par défaut du bouton radio */
-width: 20px;
-height: 20px;
-border: 2px solid #1f8a70; /* Bordure verte de base */
-border-radius: 50%; /* Pour que le bouton soit rond */
-background-color: white;
-cursor: pointer;
-position: relative;
-}
-
-.visite:checked {
-background-color: #1f8a70; /* Fond vert plus foncé lorsqu'il est sélectionné */
-border-color: #146a51;
-}
-
-.visite::after {
-content: '';
-position: absolute;
-display: none;
-top: 4px;
-left: 4px;
-width: 10px;
-height: 10px;
-border-radius: 50%;
-}
-
-.visite:checked::after {
-display: block; /* Affiche le point blanc lorsqu'il est sélectionné */
-}
-
-/** CONNEXION PRO */
-
-/*Corps de la page*/
-body.cp_mobile{
-  display: flex;                /* Utiliser Flexbox */
-  flex-direction: column;       /* Aligne les enfants en colonne */
-  justify-content: center;      /* Centre verticalement */
-  align-items: center;          /* Centre horizontalement */
-  height: 90vh;                /* Prend toute la hauteur de la fenêtre */
+  padding: 10px;
   background-color: #F2F1E9;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-}
-
-/*Grand titre*/
-h1.cp_mobile{
-  font-style: italic;
-  font-weight: lighter;
-  font-size: 30px;
-}
-
-/*Formulaire*/
-form.cp_mobile{
-  display: flex;                /* Utiliser Flexbox */
-  flex-direction: column;       /* Aligne les enfants en colonne */
-  justify-content: center;      /* Centre verticalement */
-  align-items: center;          /* Centre horizontalement */
-}
-
-/*Section regroupant les champs de saisie*/
-section.cp_mobile{
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-/* Champs de saisie*/
-section.cp_mobile input.cp_mobile{
-  height: 42px;
-  width: 312px;
-  border-color: #040316;
-  background-color: #F2F1E9;
-  border-radius: 10px;
-  text-align: center; 
-  font-size: 14px;
-}
-
-/*Case à cocher*/
-.cp_mobile_chkbox{
-  width: 20px;              /* Largeur de la checkbox */
-  height: 20px;             /* Hauteur de la checkbox */
-}
-
-/*Bouton submit*/
-.cp_mobile_btn{
-  width: 294px;
-  height: 56px;
-  border-radius: 20px;
-  border-color: #040316;
-  background-color: #F2F1E9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre */
-  margin: 40px;
-  font-size: 20px;
-}
-
-/*Bouton submit au survol*/
-.cp_mobile_btn:hover{
-  background-color: #040316;
-  color: #F2F1E9;
-}
-
-/*Liens hypertextes*/
-a.cp_mobile{
-  text-decoration: none;
+  font-family: regular;
+  }
+  
+  hr{
+  margin: 5px;
   color: #040316;
-}
-
-/*Messages d'erreurs rouges pastels*/
-p.cp_mobile_erreur {
-  color: red;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-
-/** PAGE DETAIL OFFRE*/
-
-.article-detail {
-  text-align: center;
-}
-
-.article-detail h1 {
-  font-size: 1.5em;
-}
-
-.rating {
+  }
+  
+  
+  
+  /* HEADER **/
+  
+  header{
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.rating span {
-  font-size: 1.5em;
-}
-
-.rating p {
-  margin-left: 10px;
-}
-
-.report {
-  margin-left: 10px;
-  color: red;
-  text-decoration: none;
-}
-
-.image-gallery {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.image-gallery img {
-  width: 30%;
-  border-radius: 5px;
-}
-
-.details {
-  margin-top: 20px;
-}
-
-.details h2 {
-  font-size: 1.2em;
-}
-
-.map {
-  display: flex;
+  height: 50px;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
-}
-
-.map img {
-  width: 40%;
-}
-
-.opening-hours {
-  width: 50%;
-  text-align: right;
-}
-
-.pricing {
-  margin-top: 20px;
-}
-
-.pricing table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-}
-
-.pricing th, .pricing td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-}
-
-.button-detail {
-  display: block;
-  width: 100%;
-  background-color: green;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.button-detail:hover {
-  background-color: darkgreen;
-}
-
-.reviews {
-  margin-top: 20px;
-}
-
-.review-summary {
-  display: flex;
-  justify-content: space-around;
+  padding-bottom: 10px;
+  border-bottom: solid 2px #040316 ;
   margin-bottom: 20px;
-}
-
-.review {
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-/* Media query for mobile screens */
-@media (max-width: 360px) {
-  .body-detail {
-      padding: 10px;
   }
-
-  .image-gallery {
-      flex-direction: column;
-      align-items: center;
+  
+  /* MENU HEADER **/
+  
+  .sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #F2F1E9;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  margin-right: 10px;
   }
-
-  .image-gallery img {
-      width: 100%;
-      margin-bottom: 10px;
+  
+  .profil{
+  margin: 10px;
   }
-
-  .map {
-      flex-direction: column;
+  
+  .sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #040316;
+  display: block;
+  transition: 0.3s;
   }
-
-  .map img, .opening-hours {
-      width: 100%;
-      text-align: center;
+  
+  
+  .sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
   }
-
-  .pricing table, .pricing button {
-      width: 100%;
+  
+  .openbtn {
+  font-size: 30px;
+  cursor: pointer;
+  color: #040316;
+  border: none;
+  padding: 10px 15px;
   }
-
-  .review-summary {
-      flex-direction: column;
-      align-items: center;
+  
+  .sidenav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   }
-}
-
-/* STYLE OFFRE */
-
-/* Conteneur principal pour toutes les offres */
-.offres-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  
+  /* MENU FILTRE **/
+  
+  .input-filtre{
+  border: solid 1px #040316 ;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #F2F1E9;
+  }
+  
+  .choose{
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #F2F1E9;
+  border-color: #040316;
+  }
+  .filter-form {
+  display: none;
+  margin: 20px auto;
   padding: 20px;
-  align-items: center;
-}
-
-/* Style de la carte de chaque offre */
-.offre-card {
+  width: 80%;
+  background-color: #F2F1E9;
+  box-shadow: 0px 0px 15px #040316;
+  border-radius: 10px;
+  }
+  
+  .filter-form h3 {
+  text-align: center;
+  }
+  
+  .filter-form form {
   display: flex;
   flex-direction: column;
-  width: 320px;
-  border: 1px solid #e0e0e0;
+  gap: 10px;
+  }
+  
+  .filter-form label {
+  font-size: 16px;
+  }
+  
+  /*Slider**/
+  
+  .slider-container {
+  text-align: center;
+  }
+  .price-label {
+  font-size: 10px;
+  margin-bottom: 5px;
+  }
+  .slider {
+  width: 100%;
+  margin-bottom: 5px;
+  }
+  .range-values {
+  display: flex;
+  justify-content: space-between;
+  }
+  .range-value {
+  font-size: 10px;
+  }
+  
+  
+  
+  
+  /* MAIN **/
+  
+  main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+  
+  .recherche{
+  width: 80%;
+  text-align: center;
+  box-shadow: 0px 0px 15px #040316;
   border-radius: 10px;
-  overflow: hidden;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.offre-card:hover {
-  transform: scale(1.05);
-}
-
-/* Conteneur de l'image de l'offre */
-.offre-image-container {
+  padding: 10px ;
+  }
+  
+  .recherche_top{
+  display: flex; 
+  justify-content: space-around; 
+  }
+  
+  .input{
+  border: none;
+  background-color: #F2F1E9;
+  width:200px;
+  }
+  
+  .button_1{
+  height: 30px;
+  font-family: medium;
+  width: 70%;
+  background-color: #31CEA6;
+  border: none;
+  border-radius: 10px;
+  color: #F2F1E9;
+  font-size: 15px;
+  
+  }
+  
+  
+  /* FOOTER **/
+  
+  footer{
+  padding-top: 10px;
   width: 100%;
-  height: 200px;
-  overflow: hidden;
-}
-
-.offre-image {
+  border-top: solid 2px #040316 ;
+  margin-top: 20px;
+  }
+  
+  .l_footer{
+  display: flex;
+  justify-content: space-around;
+  font-size: 15px;
+  }
+  
+  .list-footer{
+  list-style-type: none;
+  padding-left: 20px;
+  }
+  
+  .text-footer{
+  text-align: center;
+  }
+  
+  @media (min-width : 800px) {
+  .recherche{
+  width: 40%;
+  }
+  .input{
+  width: 400px;
+  }
+  .price-label {
+  font-size: 15px;
+  }
+  
+  .range-value {
+  font-size: 15px;
+  }
+  }
+  
+  
+  
+  /* POLICE D'ECRITURE **/
+  
+  
+  h1{
+  font-size: 30px;
+  font-weight: normal;
+  margin: 10px;
+  }
+  
+  h2{
+  font-size: 25px;
+  font-weight: normal;
+  margin: 10px;
+  }
+  
+  h3{
+  font-size: 20px;
+  text-decoration: underline;
+  font-weight: normal;
+  margin: 10px;
+  }
+  
+  h4{
+  font-size: 20px;
+  font-weight: normal;
+  margin: 10px;
+  }
+  
+  p{
+  font-size: 15px;
+  }
+  
+  @font-face {
+  font-family: 'light';
+  src:  url('./font/montserrat-light-webfont.woff2') format('woff2');
+  }
+  @font-face {
+  font-family: 'regular';
+  src:  url('./font/montserrat-regular-webfont.woff2') format('woff2');
+  }
+  @font-face {
+  font-family: 'medium';
+  src:  url('./font/montserrat-medium-webfont.woff2') format('woff2');
+  }
+  @font-face {
+  font-family: 'semibold';
+  src:  url('./font/montserrat-semibold-webfont.woff2') format('woff2');
+  }
+  @font-face {
+  font-family: 'bold';
+  src:  url('./font/montserrat-bold-webfont.woff2') format('woff2');
+  }
+  @font-face {
+  font-family: 'firasans';
+  src:  url('./font/firasans-regular-webfont.woff2') format('woff2');
+  }
+  
+  /** BOUTON CREER UNE OFFRE */
+  
+  .offer-btn {
+    display: flex;
+    align-items: center;
+    background-color: #F2F1E9; /* Couleur de fond du bouton */
+    border: 2px solid #31CEA6; /* Bordure verte */
+    border-radius: 20px; /* Coins arrondis */
+    color: black;
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre */
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    text-decoration: none;
+  }
+  
+  .offer-btn .icon {
+    display: inline-block;
+    margin-right: 10px;
+    background-color: white;
+    color: #31CEA6;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 2px 7px;
+    border: 2px solid #31CEA6;
+    border-radius: 50%;
+  }
+  
+  .offer-btn:hover {
+    background-color: #F2F1E9; /* Couleur de fond au survol */
+    box-shadow: 4px 4px 10px #040316; /* Ombre plus prononcée au survol */
+  }
+  
+  
+  /***** CREER_OFFRE.PHP *****/
+  
+  .creer-offre-main {
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #F2F1E9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  }
+  
+  .categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+  }
+  
+  .category {
+  background-color: #a3d1c5;
+  color: #F2F1E9;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+  }
+  
+  input[type="radio"]:checked + .category {
+  background-color: #88b0a2;
+  }
+  
+  input[type="radio"] {
+  appearance: none; /* Cacher le style par défaut */
+  -webkit-appearance: none; /* Pour les navigateurs WebKit */
+  }
+  
+  input[type="radio"] + label {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  }
+  
+  .category:hover {
+  background-color: #88b0a2;
+  }
+  
+  .price {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  }
+  
+  .price input {
+  flex: 1;
+  }
+  
+  .hours {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+  }
+  
+  .hours label {
+  flex: 1;
+  }
+  
+  .hours input {
+  flex: 1;
+  }
+  
+  .continuous {
+  margin-bottom: 15px;
+  }
+  
+  .image-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  background-color: #a3d1c5;
+  border-radius: 5px;
+  cursor: pointer;
+  }
+  
+  .submit-btn {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Style des informations de l'offre */
-.offre-details {
   padding: 15px;
-  text-align: left;
-}
-
-.offre-titre {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
-  margin-left: 0;
-}
-
-.offre-resume {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  }
+  
+  .submit-btn:hover {
+  background-color: #555;
+  }
+  
+  .type-offre-text {
+  text-align: center;
+  
+  }
+  
+  .textarea-creer_offre {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #040316;
+  border-radius: 5px;
   font-size: 1em;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-.offre-prix {
-  font-size: 1.2em;
-  color: #27ae60;
-  font-weight: bold;
-}
-.offres-display{
-  width: 100%;
+  resize: none;
+  }
+  
+  .creer-offre-main h2 {
+  margin-left: 0;
+  }
+  
+  .zone-text {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #040316;
+  resize: none;
+  border-radius: 5px;
+  
+  }
+  
+  .zone-date {
+  width: 30%;
+  padding: 10px;
+  border: 1px solid #040316;
+  resize: none;
+  border-radius: 5px;
+  }
+  
+  .zone-number {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #040316;
+  resize: none;
+  border-radius: 5px;
+  }
+  
+  .tags {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  }
+  
+  .tags label {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-}
-
-/* Media query pour les écrans de plus de 800px */
-@media (min-width: 800px) {
-  .offres-display {
-    justify-content: left;
+  font-size: 16px;
+  cursor: pointer;
   }
-
   
-}
+  .tags input[type="checkbox"] {
+  margin-right: 8px;
+  }
+  
+  .langues {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  }
+  
+  .langues label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  }
+  
+  .langues input[type="checkbox"] {
+  margin-right: 8px;
+  }
+  
+  .tags input[type="checkbox"] {
+  appearance: none; /* Retire le style par défaut de la checkbox */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #a3d1c5; /* Vert de base */
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  }
+  
+  .tags input[type="checkbox"]:checked {
+  background-color: #88b0a2; /* Vert plus foncé lorsqu'il est sélectionné */
+  border-color: #88b0a2;
+  }
+  
+  .tags input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  display: none;
+  top: 4px;
+  left: 4px;
+  width: 10px;
+  height: 10px;
+  }
+  
+  .tags input[type="checkbox"]:checked::after {
+  display: block; /* Montre la coche lorsqu'il est sélectionné */
+  }
+  
+  
+  .langues input[type="checkbox"] {
+  appearance: none; /* Retire le style par défaut de la checkbox */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #a3d1c5; /* Vert de base */
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  }
+  
+  .langues input[type="checkbox"]:checked {
+  background-color: #88b0a2; /* Vert plus foncé lorsqu'il est sélectionné */
+  border-color: #88b0a2;
+  }
+  
+  .langues input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  display: none;
+  top: 4px;
+  left: 4px;
+  width: 10px;
+  height: 10px;
+  }
+  
+  .langues input[type="checkbox"]:checked::after {
+  display: block; /* Montre la coche lorsqu'il est sélectionné */
+  }
+  
+  
+  .visite {
+  appearance: none; /* Retire le style par défaut du bouton radio */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #1f8a70; /* Bordure verte de base */
+  border-radius: 50%; /* Pour que le bouton soit rond */
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  }
+  
+  .visite:checked {
+  background-color: #1f8a70; /* Fond vert plus foncé lorsqu'il est sélectionné */
+  border-color: #146a51;
+  }
+  
+  .visite::after {
+  content: '';
+  position: absolute;
+  display: none;
+  top: 4px;
+  left: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  }
+  
+  .visite:checked::after {
+  display: block; /* Affiche le point blanc lorsqu'il est sélectionné */
+  }
+  
+  /** CONNEXION PRO */
+  
+  /*Corps de la page*/
+  body.cp_mobile{
+    display: flex;                /* Utiliser Flexbox */
+    flex-direction: column;       /* Aligne les enfants en colonne */
+    justify-content: center;      /* Centre verticalement */
+    align-items: center;          /* Centre horizontalement */
+    height: 90vh;                /* Prend toute la hauteur de la fenêtre */
+    background-color: #F2F1E9;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+  }
+  
+  /*Grand titre*/
+  h1.cp_mobile{
+    font-style: italic;
+    font-weight: lighter;
+    font-size: 30px;
+  }
+  
+  /*Formulaire*/
+  form.cp_mobile{
+    display: flex;                /* Utiliser Flexbox */
+    flex-direction: column;       /* Aligne les enfants en colonne */
+    justify-content: center;      /* Centre verticalement */
+    align-items: center;          /* Centre horizontalement */
+  }
+  
+  /*Section regroupant les champs de saisie*/
+  section.cp_mobile{
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Champs de saisie*/
+  section.cp_mobile input.cp_mobile{
+    height: 42px;
+    width: 312px;
+    border-color: #040316;
+    background-color: #F2F1E9;
+    border-radius: 10px;
+    text-align: center; 
+    font-size: 14px;
+  }
+  
+  /*Case à cocher*/
+  .cp_mobile_chkbox{
+    width: 20px;              /* Largeur de la checkbox */
+    height: 20px;             /* Hauteur de la checkbox */
+  }
+  
+  /*Bouton submit*/
+  .cp_mobile_btn{
+    width: 294px;
+    height: 56px;
+    border-radius: 20px;
+    border-color: #040316;
+    background-color: #F2F1E9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre */
+    margin: 40px;
+    font-size: 20px;
+  }
+  
+  /*Bouton submit au survol*/
+  .cp_mobile_btn:hover{
+    background-color: #040316;
+    color: #F2F1E9;
+  }
+  
+  /*Liens hypertextes*/
+  a.cp_mobile{
+    text-decoration: none;
+    color: #040316;
+  }
+  
+  /*Messages d'erreurs rouges pastels*/
+  p.cp_mobile_erreur {
+    color: red;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  
+  /** PAGE DETAIL OFFRE*/
+  
+  .article-detail {
+    text-align: center;
+  }
+  
+  .article-detail h1 {
+    font-size: 1.5em;
+  }
+  
+  .rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .rating span {
+    font-size: 1.5em;
+  }
+  
+  .rating p {
+    margin-left: 10px;
+  }
+  
+  .report {
+    margin-left: 10px;
+    color: red;
+    text-decoration: none;
+  }
+  
+  .image-gallery {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .image-gallery img {
+    width: 30%;
+    border-radius: 5px;
+  }
+  
+  .details {
+    margin-top: 20px;
+  }
+  
+  .details h2 {
+    font-size: 1.2em;
+  }
+  
+  .map {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .map img {
+    width: 40%;
+  }
+  
+  .opening-hours {
+    width: 50%;
+    text-align: right;
+  }
+  
+  .pricing {
+    margin-top: 20px;
+  }
+  
+  .pricing table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  
+  .pricing th, .pricing td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .button-detail {
+    display: block;
+    width: 100%;
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .button-detail:hover {
+    background-color: darkgreen;
+  }
+  
+  .reviews {
+    margin-top: 20px;
+  }
+  
+  .review-summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .review {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Media query for mobile screens */
+  @media (max-width: 360px) {
+    .body-detail {
+        padding: 10px;
+    }
+  
+    .image-gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+  
+    .image-gallery img {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+  
+    .map {
+        flex-direction: column;
+    }
+  
+    .map img, .opening-hours {
+        width: 100%;
+        text-align: center;
+    }
+  
+    .pricing table, .pricing button {
+        width: 100%;
+    }
+  
+    .review-summary {
+        flex-direction: column;
+        align-items: center;
+    }
+  }
+  
+  /* STYLE OFFRE */
+  
+  /* Conteneur principal pour toutes les offres */
+  .offres-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    align-items: center;
+  }
+  
+  /* Style de la carte de chaque offre */
+  .offre-card {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .offre-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Conteneur de l'image de l'offre */
+  .offre-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .offre-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Style des informations de l'offre */
+  .offre-details {
+    padding: 15px;
+    text-align: left;
+  }
+  
+  .offre-titre {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    margin-left: 0;
+  }
+  
+  .offre-resume {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .offre-prix {
+    font-size: 1.2em;
+    color: #27ae60;
+    font-weight: bold;
+  }
+  .offres-display{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  
+  /* Media query pour les écrans de plus de 800px */
+  @media (min-width: 800px) {
+    .offres-display {
+      justify-content: left;
+    }
+  
+    
+  }
+  
