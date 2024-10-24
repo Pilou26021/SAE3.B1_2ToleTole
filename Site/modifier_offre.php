@@ -81,6 +81,11 @@
         $stmt->execute([':idAdresse' => $offre['idadresse']]);
         $adresse = $stmt->fetch();
 
+        $stmt = $conn->prepare("SELECT typetag FROM public.offreTag WHERE idOffre = :idOffre");
+        $stmt->execute([':idOffre' => $idOffre]);
+        $tags = $stmt->fetchAll();
+        $existingTags = array_column($tags, 'typetag'); // Récupère uniquement les valeurs des tags
+
     } else {
         echo "<script>window.location.replace('index.php');</script>";
         exit();
@@ -92,8 +97,6 @@
     }
 ?>
 
- <!-- on pré-remplit les champs avec les valeurs actuelles de l'offre -->
-            <!-- si offre standard on propose de pouvoir changer vers l'offre premium  mais pas l'inverse -->
             <?php 
                 // Parcourir les offres
                 echo "<h2>Détails de l'offre</h2>";
@@ -116,6 +119,14 @@
                 echo "<ul>";
                 foreach ($adresse as $key => $value) {
                     echo "<li><strong>$key</strong>: $value</li>";
+                }
+                echo "</ul>";
+
+                // Parcourir les tags
+                echo "<h2>Tags</h2>";
+                echo "<ul>";
+                foreach ($tags as $key => $tag) {
+                    echo "<li><strong>$key</strong>: $tag</li>";
                 }
                 echo "</ul>";
             ?>
@@ -252,17 +263,60 @@
                 </label>
             <?php endif; ?>
             <?php if ($cat === 'visite') : ?>
+                <?php
+                    $languestring = $offreDetails['langueproposees'];
+
+                    // Séparer les langues standards
+                    $languestableau = explode(',', $languestring);
+
+                    // Créer un tableau pour les langues standard
+                    $languesStandard = ['Français', 'Anglais', 'Espagnol', 'Allemand', 'Italien'];
+                    $offreLangues = [];
+
+                    // Remplir le tableau d'offres avec les langues standards
+                    foreach ($languestableau as $langue) {
+                        $langue = trim($langue); // Nettoyer l'espace autour de chaque langue
+                        if (in_array($langue, $languesStandard)) {
+                            $offreLangues[] = $langue; // Ajouter au tableau d'offres si c'est une langue standard
+                        }
+                    }
+
+                    // Vérifier s'il y a des autres langues
+                    $languesautres = [];
+                    foreach ($languestableau as $langue) {
+                        if (strpos($langue, 'Autres langues :')) {
+                            $languesautres[] = trim(substr($langue, strpos($langue, ':') + 1)); // Extraire les autres langues
+                        }
+                    }
+                ?>
+
                 <h2>Langues proposées</h2>
                 <div class="langues">
-                    <label><input type="checkbox" name="langues[]" value="Français"> Français</label>
-                    <label><input type="checkbox" name="langues[]" value="Anglais"> Anglais</label>
-                    <label><input type="checkbox" name="langues[]" value="Espagnol"> Espagnol</label>
-                    <label><input type="checkbox" name="langues[]" value="Allemand"> Allemand</label>
-                    <label><input type="checkbox" name="langues[]" value="Italien"> Italien</label>
-                    <label><input type="checkbox" name="langues[]" value="Autre" id="autreCheckbox"> Autre</label>
+                    <label><input type="checkbox" name="langues[]" value="Français" <?= in_array('Français', $offreLangues) ? 'checked' : ''; ?>> Français</label>
+                    <label><input type="checkbox" name="langues[]" value="Anglais" <?= in_array('Anglais', $offreLangues) ? 'checked' : ''; ?>> Anglais</label>
+                    <label><input type="checkbox" name="langues[]" value="Espagnol" <?= in_array('Espagnol', $offreLangues) ? 'checked' : ''; ?>> Espagnol</label>
+                    <label><input type="checkbox" name="langues[]" value="Allemand" <?= in_array('Allemand', $offreLangues) ? 'checked' : ''; ?>> Allemand</label>
+                    <label><input type="checkbox" name="langues[]" value="Italien" <?= in_array('Italien', $offreLangues) ? 'checked' : ''; ?>> Italien</label>
+                    <label><input type="checkbox" name="langues[]" value="Autre" id="autreCheckbox" <?= !empty($languesautres) ? 'checked' : ''; ?>> Autre</label>
                 </div>
-                <input type="text" width="100%" class="textarea-creer_offre" name="autreLangue" placeholder="Préciser les autres langues" style="display:none;" id="autreLangueInput">
+                <input type="text" width="100%" class="textarea-creer_offre" name="autreLangue" placeholder="Préciser les autres langues" style="display: <?= !empty($languesautres) ? 'block' : 'none'; ?>;" id="autreLangueInput" value="<?= htmlspecialchars(implode(', ', $languesautres)); ?>">
 
+                <script>
+                    // Vérifiez si "Autre" est coché pour afficher le champ de texte correspondant
+                    document.getElementById('autreCheckbox').addEventListener('change', function() {
+                        var inputAutreLangue = document.getElementById('autreLangueInput');
+                        if (this.checked) {
+                            inputAutreLangue.style.display = 'block'; // Affiche l'input texte
+                        } else {
+                            inputAutreLangue.style.display = 'none';  // Masque l'input texte
+                        }
+                    });
+
+                    // Affichez le champ de texte si "Autre" était déjà coché
+                    if (document.getElementById('autreCheckbox').checked) {
+                        document.getElementById('autreLangueInput').style.display = 'block';
+                    }
+                </script>
 
             <?php endif; ?>
             <?php if ($cat === 'spectacle' || $cat === 'visite' || $cat === 'activite') : ?>
@@ -271,20 +325,100 @@
             <?php endif; ?>
             <?php if ($cat === 'spectacle') { ?>
 
+                <h2>Capacité d'acceuil</h2>
+                <input id="cap_acceuil" class="zone-number" type="number" name="capaciteAcceuil" placeholder="ex : 300 personnes" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)" value="<?= htmlspecialchars($offreDetails['capaciteacceuil']) ?>">
+                <p id="error-cap_acceuil" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+
             <?php } if ($cat ===  'spectacle' || $cat === 'activite') { ?>
 
+                <h2>Durée de l'activité (en heures)</h2>
+                <input id="zone_duree_act" class="zone-number" type="number" name="indicationDuree" placeholder="ex : 2 heures" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)" value="<?= htmlspecialchars($offreDetails['indicationduree']) ?>">
+                <p id="error-zone_duree_act" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                <br>  
 
             <?php } if ($cat != 'spectacle' && $cat != 'visite' && $cat != 'restauration' && $cat != '') {?>
 
+                <h2>Âge minimum</h2>
+                <input id="ageMinimum" class="zone-number" type="number" name="ageMinimum" placeholder="Âge minimum" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)" value="<?= htmlspecialchars($offreDetails['ageminimum']) ?>">
+                <p id="error-ageMinimum" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                <br>    
 
             <?php } if ($cat == 'activite') { ?>
 
+                <h2>Prestations incluses</h2>
+                <textarea class="textarea-creer_offre" name="prestationIncluse"  placeholder="Détail des prestations incluses..." required></textarea>
 
             <?php } if($cat == 'restauration') { ?>
+                <?php 
+                    $offreDetails['horairesemaine'] = json_decode($offreDetails['horairesemaine'], true);
+                    // On obtient : Array ( [lunchOpen] => 11:30 [lunchClose] => 14:00 [dinnerOpen] => 22:00 [dinnerClose] => 00:00 ) 
+                ?>
 
+                <h2>Horaires de la semaine</h2>
+                <div class="horaires-semaine">
+                    <label for="lunch_open_time">Horaire de déjeuner (ouverture) :</label>
+                    <input type="time" name="lunchOpenTime" id="lunch_open_time" value="<?= isset($offreDetails['horairesemaine']['lunchOpen']) ? htmlspecialchars($offreDetails['horairesemaine']['lunchOpen']) : ''; ?>" required>
+                        
+                    <label for="lunch_close_time">Horaire de déjeuner (fermeture) :</label>
+                    <input type="time" name="lunchCloseTime" id="lunch_close_time" value="<?= isset($offreDetails['horairesemaine']['lunchClose']) ? htmlspecialchars($offreDetails['horairesemaine']['lunchClose']) : ''; ?>" required>
+                        
+                    <label for="dinner_open_time">Horaire du dîner (ouverture) :</label> 
+                    <input type="time" name="dinnerOpenTime" id="dinner_open_time" value="<?= isset($offreDetails['horairesemaine']['dinnerOpen']) ? htmlspecialchars($offreDetails['horairesemaine']['dinnerOpen']) : ''; ?>" required>
+                        
+                    <br>
+                    <label for="dinner_close_time">Horaire du dîner (fermeture) :</label>
+                    <input type="time" name="dinnerCloseTime" id="dinner_close_time" value="<?= isset($offreDetails['horairesemaine']['dinnerClose']) ? htmlspecialchars($offreDetails['horairesemaine']['dinnerClose']) : ''; ?>" required>
+                    <br>
+                        
+                    <!-- <label for="closed_days">Jours de fermeture :</label> 
+                    <input class="zone-text" type="text" name="closedDays" id="closed_days" placeholder="Ex: Lundi" value="<?= isset($offreDetails['closedDays']) ? htmlspecialchars($offreDetails['closedDays']) : ''; ?>"> -->
+                </div>
+
+                <h2>Gamme de prix</h2>
+                <input id="gamme_prix" class="zone-number" type="number" name="averagePrice" placeholder="Prix moyen par personne" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)" value="<?= htmlspecialchars($offreDetails['gammeprix']) ?>">
+                <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                <h2>Carte du restaurant</h2>
+                <div class="image-upload">
+                    <input type="file" name="menuImage" accept=".png, .jpg, .jpeg" required>
+                </div>
+
+
+                <h2>Tags de l'offre</h2>
+                <div class="tags">
+                    <label><input type="checkbox" name="tags[]" value="Française" <?= in_array('Française', $existingTags) ? 'checked' : ''; ?>> Française</label>
+                    <label><input type="checkbox" name="tags[]" value="Fruit de mer" <?= in_array('Fruit de mer', $existingTags) ? 'checked' : ''; ?>> Fruit de mer</label>
+                    <label><input type="checkbox" name="tags[]" value="Asiatique" <?= in_array('Asiatique', $existingTags) ? 'checked' : ''; ?>> Asiatique</label>
+                    <label><input type="checkbox" name="tags[]" value="Indienne" <?= in_array('Indienne', $existingTags) ? 'checked' : ''; ?>> Indienne</label>
+                    <label><input type="checkbox" name="tags[]" value="Italienne" <?= in_array('Italienne', $existingTags) ? 'checked' : ''; ?>> Italienne</label>
+                    <label><input type="checkbox" name="tags[]" value="Gastronomique" <?= in_array('Gastronomique', $existingTags) ? 'checked' : ''; ?>> Gastronomique</label>
+                    <label><input type="checkbox" name="tags[]" value="Restauration rapide" <?= in_array('Restauration rapide', $existingTags) ? 'checked' : ''; ?>> Restauration rapide</label>
+                    <label><input type="checkbox" name="tags[]" value="Crêperie" <?= in_array('Crêperie', $existingTags) ? 'checked' : ''; ?>> Crêperie</label>
+                </div>
+                <br>
 
             <?php } if ($cat != 'restauration') : ?>
-                
+                <h2>Tags de l'offre</h2>
+                <div class="tags">
+                    <label><input type="checkbox" name="tags[]" value="Classique" <?= in_array('Classique', $existingTags) ? 'checked' : ''; ?>> Classique</label>
+                    <label><input type="checkbox" name="tags[]" value="Culturel" <?= in_array('Culturel', $existingTags) ? 'checked' : ''; ?>> Culturel</label>
+                    <label><input type="checkbox" name="tags[]" value="Patrimoine" <?= in_array('Patrimoine', $existingTags) ? 'checked' : ''; ?>> Patrimoine</label>
+                    <label><input type="checkbox" name="tags[]" value="Histoire" <?= in_array('Histoire', $existingTags) ? 'checked' : ''; ?>> Histoire</label>
+                    <label><input type="checkbox" name="tags[]" value="Urbain" <?= in_array('Urbain', $existingTags) ? 'checked' : ''; ?>> Urbain</label>
+                    <label><input type="checkbox" name="tags[]" value="Nature" <?= in_array('Nature', $existingTags) ? 'checked' : ''; ?>> Nature</label>
+                    <label><input type="checkbox" name="tags[]" value="Plein air" <?= in_array('Plein air', $existingTags) ? 'checked' : ''; ?>> Plein air</label>
+                    <label><input type="checkbox" name="tags[]" value="Sport" <?= in_array('Sport', $existingTags) ? 'checked' : ''; ?>> Sport</label>
+                    <label><input type="checkbox" name="tags[]" value="Nautique" <?= in_array('Nautique', $existingTags) ? 'checked' : ''; ?>> Nautique</label>
+                    <label><input type="checkbox" name="tags[]" value="Gastronomie" <?= in_array('Gastronomie', $existingTags) ? 'checked' : ''; ?>> Gastronomie</label>
+                    <label><input type="checkbox" name="tags[]" value="Musée" <?= in_array('Musée', $existingTags) ? 'checked' : ''; ?>> Musée</label>
+                    <label><input type="checkbox" name="tags[]" value="Atelier" <?= in_array('Atelier', $existingTags) ? 'checked' : ''; ?>> Atelier</label>
+                    <label><input type="checkbox" name="tags[]" value="Musique" <?= in_array('Musique', $existingTags) ? 'checked' : ''; ?>> Musique</label>
+                    <label><input type="checkbox" name="tags[]" value="Famille" <?= in_array('Famille', $existingTags) ? 'checked' : ''; ?>> Famille</label>
+                    <label><input type="checkbox" name="tags[]" value="Cinéma" <?= in_array('Cinéma', $existingTags) ? 'checked' : ''; ?>> Cinéma</label>
+                    <label><input type="checkbox" name="tags[]" value="Cirque" <?= in_array('Cirque', $existingTags) ? 'checked' : ''; ?>> Cirque</label>
+                    <label><input type="checkbox" name="tags[]" value="Son et Lumière" <?= in_array('Son et Lumière', $existingTags) ? 'checked' : ''; ?>> Son et Lumière</label>
+                    <label><input type="checkbox" name="tags[]" value="Humour" <?= in_array('Humour', $existingTags) ? 'checked' : ''; ?>> Humour</label>
+                </div>
+                <br>
 
             <?php endif; ?>
             <button type="submit" class="submit-btn">Mettre à jour</button>

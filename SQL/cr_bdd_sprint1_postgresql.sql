@@ -378,3 +378,10 @@ BEGIN
     RETURN categorie;
 END;
 $$ LANGUAGE 'plpgsql';
+
+-- vue pour voir les tags d'une offre
+CREATE VIEW public.offreTag AS
+SELECT o.idOffre, t.typeTag, t.typeRestauration
+FROM public._offre o
+JOIN public._theme th ON o.idOffre = th.idOffre
+JOIN public._tag t ON th.idTag = t.idTag;
