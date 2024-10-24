@@ -142,6 +142,17 @@
                 echo "<br>Error: " . $e->getMessage();
             }
 
+            //delete de _image
+            $sql = "DELETE FROM public._image WHERE idimage = :idimage";
+            try {
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':idimage', $idImage);
+                $stmt->execute();
+                echo "<br>Lien de l'image supprimée de _image";
+            } catch (PDOException $e) {
+                echo "<br>Error: " . $e->getMessage();
+            }
+
             if ($categorie == 'activite') { //delete de _offreactivite
                 $sql = "DELETE FROM public._offreactivite WHERE idoffre = :idoffre";
                 try {

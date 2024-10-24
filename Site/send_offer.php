@@ -352,11 +352,20 @@
     function uploadImage($name) {
         global $conn;
 
-        // Obtenir l'ID d'image le plus élevé
-        $sql = "SELECT COALESCE(MAX(idImage), 0) FROM public._image";
-        $id = $conn->query($sql);
-        $maxId = $id->fetchColumn();
-        $idImage = $maxId + 1; // Incrémenter l'ID pour la nouvelle image
+        // Obtenir l'ID d'image le plus élevé grâce à la séquence d'incrémentation
+        try {
+
+            $sql = "SELECT last_value FROM public._image_idimage_seq";
+            // Récupération de la dernière valeur de la séquence
+            $stmt = $conn->query($sql);
+            $last_value = $stmt->fetchColumn();
+            
+        } catch (PDOException $e) {
+            // Gestion d'erreur
+            echo "<br>Erreur lors de la récupération de l'incrément : " . $e->getMessage();
+        }
+        
+        $idImage = $last_value + 1; // Incrémenter l'ID pour la nouvelle image
         $nom_image = "image" . strval($idImage);
 
         // Dossier où les images seront stockées
@@ -475,11 +484,11 @@
 
         <script src="./script.js" ></script>
 
-        <script>
+        <!--<script>
             setTimeout(function() {
                 window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
             }, 3000); // 3000 millisecondes = 3 secondes
-        </script>
+        </script>-->
 
 
 

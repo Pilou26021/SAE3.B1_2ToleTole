@@ -2,6 +2,9 @@
     error_reporting(E_ALL ^ E_WARNING);
     ob_start();
     session_start();
+    
+    //include du header
+    include "header.php";
 
     // Inclusion du fichier de connexion à la base de données
     include('../SQL/connection_local.php');
@@ -109,7 +112,6 @@
     </script>
     <script> 
         $(function(){
-            $("#header").load("./header.php"); 
             $("#footer").load("footer.html"); 
         });
     </script> 
@@ -392,5 +394,8 @@
         </form>
     </main>
     <div id="footer"></div>
+
+    <script src="script.js"></script> 
+
 </body>
 </html>
