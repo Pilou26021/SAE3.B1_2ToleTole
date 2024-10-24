@@ -195,11 +195,15 @@ ob_start();
                 <div class="offres-container">
                     <?php foreach ($offres as $offre): ?>
                         <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
-                            <a <?php if ($professionel && $offre['horsligne']) { echo 'style="opacity: 0.5;text-decoration:none;"';  } ?> style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                            <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
                                 <div class="offre-card">
-                                    <div class="offre-image-container">
+                                    <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                        <?php if ($professionel && $offre['horsligne']) { ?>
+                                            <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
+                                            <div class="offre-hors-ligne">Hors ligne</div>
+                                        <?php } ?>
                                     </div>
                                     <div class="offre-details">
                                         <!-- Titre de l'offre -->
