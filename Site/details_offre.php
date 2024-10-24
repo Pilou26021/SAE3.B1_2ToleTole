@@ -123,7 +123,7 @@
 
                     <p>Localisation de l'offre</p>
                     <div id="map" style="display:flex;align-items:center;justify-content:center;">
-                        <h2 id="text-chargement" style="margin:20px;">Chargement de la carte</h2>
+                        <h2 id="text-chargement" >Chargement de la carte</h2>
                     </div>
                     <p><?php echo $adresseComplete ?><p>
 
@@ -265,7 +265,6 @@
 
             // Démarre l'animation des points de suspension
             const loadingAnimation = animateLoadingText();
-
 
             //MAP
             const adresse = "<?php echo addslashes($adresse); ?>"; // Passer l'adresse assemblée à JavaScript
