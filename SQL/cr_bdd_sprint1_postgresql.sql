@@ -346,13 +346,11 @@ JOIN public._professionnel p ON c.idCompte = p.idCompte
 JOIN public._image i ON c.idImagePdp = i.idImage;
 
 -- trouver catégorie d'offre
--- on doit vérifier si l'offre se trouve dans : 
--- _offreactivite	
--- _offreparcattraction	
--- _offrerestaurant	
--- _offrespectacle		
--- _offrevisite	
--- retourne une valeur entre 1 et 5
+-- _offreactivite = 1
+-- _offreparcattraction = 2	
+-- _offrerestaurant	= 3
+-- _offrespectacle = 4
+-- _offrevisite	= 5
 CREATE OR REPLACE FUNCTION trouver_categorie_offre(idOffre INTEGER)
 RETURNS INTEGER AS $$
 DECLARE
