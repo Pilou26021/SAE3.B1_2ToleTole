@@ -179,7 +179,7 @@
                     <p id="error-adNumRue" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
                     <h2>Adresse supplémentaire</h2>
-                    <input type="text" width="100%" class="textarea-creer_offre" name="supAdresse" placeholder="Bâtiment 4bis, Appartemment 105" required>
+                    <input type="text" width="100%" class="textarea-creer_offre" name="supAdresse" placeholder="Bâtiment 4bis, Appartemment 105">
 
                     <h2>Code Postal</h2>
                     <input id="adCodePostal" type="number" width="100%" class="textarea-creer_offre" name="adCodePostal" placeholder="22300" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event); checkCodePostal(this)">

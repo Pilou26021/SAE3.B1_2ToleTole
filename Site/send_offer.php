@@ -352,12 +352,12 @@
     function uploadImage($name) {
         global $conn;
 
-        // Obtenir le prochain ID d'image en fonction du nombre d'images dans la base de données
-        $sql = "SELECT COUNT(*) FROM public._image";
+        // Obtenir l'ID d'image le plus élevé
+        $sql = "SELECT COALESCE(MAX(idImage), 0) FROM public._image";
         $id = $conn->query($sql);
-        $count = $id->fetchColumn() + 1; // Incrémenter le count pour générer un nouvel ID
-        $idImage = $count;
-        $nom_image = "image" . strval($count);
+        $maxId = $id->fetchColumn();
+        $idImage = $maxId + 1; // Incrémenter l'ID pour la nouvelle image
+        $nom_image = "image" . strval($idImage);
 
         // Dossier où les images seront stockées
         $targetDir = "./img/uploaded/";
@@ -403,6 +403,7 @@
 
         return $idImage;
     }
+
     
     function getTagIdByValue($value) {
         $sql_get = "SELECT idTag FROM public._tag WHERE typeTag = :typeTag";
