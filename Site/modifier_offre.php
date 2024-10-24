@@ -30,7 +30,8 @@
         // Appelle de la fonction trouver_categorie_offre dans la base de données
         $stmt = $conn->prepare("SELECT public.trouver_categorie_offre(:idOffre)");
         $stmt->execute([':idOffre' => (int)$idOffre]);  // Assurez-vous que $idOffre est un entier
-        $categorie = $stmt->fetchColumn();        
+        $categorie = $stmt->fetchColumn();   
+
         
         // catégorie de l'offre varie entre 1 et 5
         /*
@@ -120,6 +121,8 @@
             <?php 
                 // Envoie de l'ID de l'offre dans le post
                 echo '<input type="hidden" name="idOffre" value="' . $idOffre . '">';
+                // envoie de categorie dans le post
+                echo '<input type="hidden" name="categorie" value="' . $cat . '">';
             ?>
             <h2>Type d'Offre</h2>
             <?php if ($offre['typeoffre'] === 1): ?>

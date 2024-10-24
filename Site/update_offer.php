@@ -12,13 +12,12 @@
 
     if (isset($_POST)) {
         include('../SQL/connection_local.php');
-        
         $idOffre = $_POST['idOffre']; // ID de l'offre à modifier
         $cat = $_POST['categorie'];
         $offerName = $_POST['offerName'];
         $summary = $_POST['summary'];
         $description = $_POST['description'];
-        $minPrice = $_POST['minPrice'];
+        $minPrice = $_POST['min_price'];
         $dateOffre = $_POST['dateOffre'];
         $typeOffre = $_POST['typeOffre'];
         // Si typeOffre est 'Standard' alors typeOffre = 1, si typeOffre est 'Premium' alors typeOffre = 2
@@ -31,6 +30,9 @@
         $aLaUneOffre = isset($_POST['aLaUneOffre']) ? true : false;
         $enReliefOffre = isset($_POST['enReliefOffre']) ? true : false;
         $website = $_POST['website'];
+
+        // Tags
+        $tags = $_POST['tags'];
 
         // Adresse
         $adNumRue = $_POST['adNumRue'];
@@ -50,9 +52,11 @@
         $stmt->bindParam(':adVille', $adVille);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $result['idadresse'];
+        
 
         if ($result) {
-            $idAdresse = $result['idAdresse'];
+            $idAdresse = $result;
         } else {
             // Insertion de la nouvelle adresse
             $idAdresse = insererAdresse($adNumRue, $supAdresse, $adresse, $adCodePostal, $adVille, $adDepartement, $adPays);
@@ -63,6 +67,12 @@
         // Gestion de l'image
         if (!empty($_FILES['imageOffre']['name'])) {
             $idImageOffre = uploadImage('imageOffre');
+            // Insérer l'image dans la table _afficherimageoffre
+            $sql = "UPDATE public._afficherimageoffre SET idImage = :idImage WHERE idOffre = :idOffre";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':idImage', $idImageOffre);
+            $stmt->bindParam(':idOffre', $idOffre);
+            $stmt->execute();
         } else {
             // Conserver l'ancienne image si aucune nouvelle image n'est envoyée
             $sql = "SELECT idimage FROM public._afficherimageoffre WHERE idOffre = :idOffre";
@@ -73,29 +83,29 @@
             $idImageOffre = $result['idImage'];
         }
 
-
         // Mise à jour de l'offre
         $sql = "UPDATE public._offre 
-                SET idAdresse = :idAdresse, titreOffre = :offerName, resumeOffre = :summary, descriptionOffre = :description, prixMinOffre = :prixMinOffre, aLaUneOffre = :aLaUneOffre, enReliefOffre = :enReliefOffre, typeOffre = :typeOffre, siteWebOffre = :website, conditionAccessibilite = :conditionAccessibilite
-                WHERE idOffre = :idOffre";
+        SET idAdresse = :idAdresse, titreOffre = :offerName, resumeOffre = :summary, descriptionOffre = :description, prixMinOffre = :prixMinOffre, aLaUneOffre = :aLaUneOffre, enReliefOffre = :enReliefOffre, typeOffre = :typeOffre, siteWebOffre = :website, conditionAccessibilite = :conditionAccessibilite
+        WHERE idOffre = :idOffre";
+
         try {
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':idAdresse', $idAdresse);
-            $stmt->bindParam(':offerName', $offerName);
-            $stmt->bindParam(':summary', $summary);
-            $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':prixMinOffre', $minPrice);
-            $stmt->bindParam(':aLaUneOffre', $aLaUneOffre, PDO::PARAM_BOOL);
-            $stmt->bindParam(':enReliefOffre', $enReliefOffre, PDO::PARAM_BOOL);
-            $stmt->bindParam(':typeOffre', $typeOffre);
-            $stmt->bindParam(':website', $website);
-            $stmt->bindParam(':conditionAccessibilite', $conditionAccessibilite);
-            $stmt->bindParam(':idOffre', $idOffre);
-            
-            $stmt->execute();
-            echo "Offre modifiée avec succès";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':idAdresse', $idAdresse);
+        $stmt->bindParam(':offerName', $offerName);
+        $stmt->bindParam(':summary', $summary);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':prixMinOffre', $minPrice);
+        $stmt->bindParam(':aLaUneOffre', $aLaUneOffre, PDO::PARAM_BOOL);
+        $stmt->bindParam(':enReliefOffre', $enReliefOffre, PDO::PARAM_BOOL);
+        $stmt->bindParam(':typeOffre', $typeOffre);
+        $stmt->bindParam(':website', $website);
+        $stmt->bindParam(':conditionAccessibilite', $conditionAccessibilite);
+        $stmt->bindParam(':idOffre', $idOffre);
+
+        $stmt->execute();
+        $success = true; // Déclare une variable de succès
         } catch (PDOException $e) {
-            echo "Erreur : " . $e->getMessage();
+        echo "Erreur lors de la mise à jour de l'offre : " . $e->getMessage();
         }
 
         // Mise à jour des catégories spécifiques (par exemple, si c'est une offre de restauration)
@@ -109,7 +119,7 @@
                 "dinnerOpen" => $_POST['dinnerOpenTime'],
                 "dinnerClose" => $_POST['dinnerCloseTime']
             ]);
-            $stmt->bindParam(':horaireSemaine', $horaireSemaine);
+            $stmt->bindParam(':horaireSemaine', $horaireSemaine); 
             $stmt->bindParam(':gammePrix', $_POST['averagePrice']);
             $stmt->bindParam(':carteResto', $idCarteResto);
             $stmt->bindParam(':idOffre', $idOffre);
@@ -157,19 +167,33 @@
         $stmt->bindParam(':idOffre', $idOffre);
         $stmt->execute();
 
-        // Mise à jour des tags
         foreach ($tags as $key => $value) {
             $idTag = getTagIdByValue("$value");
-            $sql = "INSERT INTO public._theme (idOffre, idTag) VALUES (:idOffre, :idTag)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':idOffre', $idOffre);
-            $stmt->bindParam(':idTag', $idTag);
-            $stmt->execute();
-        }
+
+            //lien des tags à l'offre
+            $sql = "INSERT INTO public._theme (idOffre, idTag)";
+            $sql .= " VALUES (:idOffre, :idTag)";
+            try {
+                $stmt = $conn->prepare($sql);
+                
+                // Lier les paramètres
+                //commun
+                $stmt->bindParam(':idOffre', $idOffre);
+                $stmt->bindParam(':idTag', $idTag);
+            
+                // Exécuter la requête
+                $stmt->execute();
+                // echo "<br>Requête lien Offre/Tag bien envoyée";
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+
+        }   
     }
+
     function insererAdresse($numRue, $supplementAdresse, $adresse, $codePostal, $ville, $departement, $pays) {
         global $conn;
-
+    
         try {
             // Préparer la requête d'insertion
             $sql = "INSERT INTO public._adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) 
@@ -193,9 +217,9 @@
             // Récupérer l'ID de l'adresse insérée
             $idAdresse = $conn->lastInsertId();
     
-            //réussite
-            echo "<br>Adresse bien insérer dans la bdd.";
-
+            // réussite
+            // echo "<br>Adresse bien insérée dans la BDD.";
+    
             // Retourner l'ID de l'adresse
             return $idAdresse;
     
@@ -204,7 +228,92 @@
             echo "Erreur lors de l'insertion de l'adresse : " . $e->getMessage();
             return false; // En cas d'erreur, on retourne false
         }
-    }    
+    }
+
+    // Fonction pour uploader une image
+    function uploadImage($name) {
+        global $conn;
+
+        // Obtenir l'ID d'image le plus élevé
+        $sql = "SELECT COALESCE(MAX(idImage), 0) FROM public._image";
+        $id = $conn->query($sql);
+        $maxId = $id->fetchColumn();
+        $idImage = $maxId + 1; // Incrémenter l'ID pour la nouvelle image
+        $nom_image = "image" . strval($idImage);
+
+        // Dossier où les images seront stockées
+        $targetDir = "./img/uploaded/";
+        $targetFile = $targetDir . basename($nom_image)  . ".png";
+        $uploadOk = 1;
+
+        // Vérification de l'existence du fichier
+        if (isset($_FILES[$name]) && $_FILES[$name]['tmp_name'] !== '') {
+            // Vérifie si le fichier est une image réelle
+            $check = getimagesize($_FILES[$name]['tmp_name']);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                echo "Le fichier n'est pas une image.";
+                $uploadOk = 0;
+            }
+
+            // Si le fichier est valide, essaye de l'uploader
+            if ($uploadOk == 1) {
+
+                if (move_uploaded_file($_FILES[$name]['tmp_name'], $targetFile)) {
+                    // echo "<br>L'image " . basename($_FILES[$name]['name']) . " a été uploadée.";
+
+                    // Insertion du chemin de l'image dans la base de données
+                    $sql = "INSERT INTO public._image (pathImage) VALUES (:pathImage)";
+                    try {
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindParam(':pathImage', $targetFile);
+                        $stmt->execute();
+                        // echo "<br>Chemin de l'image enregistré avec succès dans la base de données.";
+                    } catch (PDOException $e) {
+                        echo "<br>Erreur : " . $e->getMessage();
+                    }
+                } else {
+                    echo "<br>Désolé, une erreur est survenue lors de l'upload de votre image.";
+                }
+            } else {
+                echo "<br>Désolé, votre fichier n'a pas pu être uploadé.";
+            }
+        } else {
+            echo "<br>Aucun fichier sélectionné ou le fichier n'a pas été téléchargé correctement.";
+        }
+
+        return $idImage;
+    }
+        
+    function getTagIdByValue($value) {
+        $sql_get = "SELECT idTag FROM public._tag WHERE typeTag = :typeTag";
+        global $conn;
+
+        try {
+            // Préparation de la requête
+            $stmt = $conn->prepare($sql_get);
+            
+            // Liaison du paramètre
+            $stmt->bindParam(':typeTag', $value, PDO::PARAM_STR);
+            
+            // Exécution de la requête
+            $stmt->execute();
+            
+            // Vérification si un résultat a été trouvé
+            if ($stmt->rowCount() > 0) {
+                // Récupération de l'ID du tag
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result['idtag']; // Retourne l'ID
+            } else {
+                return null; // Aucun tag trouvé
+            }
+        } catch (PDOException $e) {
+            // Gestion d'erreur
+            echo "<br>Erreur lors de la récupération de l'ID du tag : " . $e->getMessage();
+            return false; // En cas d'erreur, retourne false
+        }
+    }
 ?>
 
 
@@ -236,7 +345,7 @@
         <main>
             <?php 
                 if ("no error"){ //TODO
-                    echo "<h1>VOTRE EST BIEN MODIFIEE !</h1>";
+                    echo "<h1>VOTRE OFFRE EST BIEN MODIFIEE !</h1>";
                 }
             ?>
         </main>
@@ -248,7 +357,7 @@
         <script>
             setTimeout(function() {
                 window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
-            }, 3000000); // 3000 millisecondes = 3 secondes
+            }, 300000); // 3000 millisecondes = 3 secondes
         </script>
 
 
