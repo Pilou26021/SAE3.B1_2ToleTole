@@ -214,6 +214,13 @@ ob_start();
                                         
                                         <!-- Prix minimum de l'offre -->
                                         <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                                       
+                                       <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
+                                       <?php if ($professionel) { ?>
+                                            <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
+                                            <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                                        <?php } ?>
+
                                     </div>
                                 </div>
                             </a>

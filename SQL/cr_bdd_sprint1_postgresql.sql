@@ -344,3 +344,39 @@ SELECT c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.
 FROM public._compte c
 JOIN public._professionnel p ON c.idCompte = p.idCompte
 JOIN public._image i ON c.idImagePdp = i.idImage;
+
+-- trouver catégorie d'offre
+-- on doit vérifier si l'offre se trouve dans : 
+-- _offreactivite	
+-- _offreparcattraction	
+-- _offrerestaurant	
+-- _offrespectacle		
+-- _offrevisite	
+-- retourne une valeur entre 1 et 5
+CREATE OR REPLACE FUNCTION trouver_categorie_offre(idOffre INTEGER)
+RETURNS INTEGER AS $$
+DECLARE
+    categorie INTEGER;
+BEGIN
+    -- Vérification si l'offre se trouve dans _offreactivite
+    IF EXISTS (SELECT 1 FROM _offreactivite WHERE idOffre = idOffre) THEN
+        categorie := 1;
+    -- Vérification si l'offre se trouve dans _offreparcattraction
+    ELSIF EXISTS (SELECT 1 FROM _offreparcattraction WHERE idOffre = idOffre) THEN
+        categorie := 2;
+    -- Vérification si l'offre se trouve dans _offrerestaurant
+    ELSIF EXISTS (SELECT 1 FROM _offrerestaurant WHERE idOffre = idOffre) THEN
+        categorie := 3;
+    -- Vérification si l'offre se trouve dans _offrespectacle
+    ELSIF EXISTS (SELECT 1 FROM _offrespectacle WHERE idOffre = idOffre) THEN
+        categorie := 4;
+    -- Vérification si l'offre se trouve dans _offrevisite
+    ELSIF EXISTS (SELECT 1 FROM _offrevisite WHERE idOffre = idOffre) THEN
+        categorie := 5;
+    ELSE
+        categorie := NULL;  -- Si l'offre ne se trouve dans aucune catégorie
+    END IF;
+
+    RETURN categorie;
+END;
+$$ LANGUAGE plpgsql;

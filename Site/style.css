@@ -866,6 +866,34 @@ body{
     justify-content: center;
     font-size: 2em;
   }
+
+  .bouton-modifier-offre{
+    background-color: #31CEA6;
+    color: #F2F1E9;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    text-decoration: none;
+  }
+
+  .bouton-supprimer-offre{
+    background-color: #FF0000;
+    color: #F2F1E9;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    text-decoration: none;
+  }
   
   /* Conteneur de l'image de l'offre */
   .offre-image-container {
