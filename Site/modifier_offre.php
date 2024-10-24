@@ -22,7 +22,11 @@
         $offre = $stmt->fetch();
 
         // Récupération des détails dans sa catégorie
-        $themeoffre = 0;
+        // Appelle de la fonction trouver_categorie_offre dans la base de données
+        $stmt = $conn->prepare("SELECT public.trouver_categorie_offre(:idOffre)");
+        $stmt->execute([':idOffre' => (int)$idOffre]);  // Assurez-vous que $idOffre est un entier
+        $categorie = $stmt->fetchColumn();        
+        print_r($categorie);
 
         if (!$offre) {
             echo "<script>window.location.replace('index.php');</script>";
