@@ -1,7 +1,7 @@
 <?php 
     include "header.php";
     ob_start();
-    include("../SQL/connection_local.php");
+    include "./SQL/connection_local.php";
 
     $professionel = false;
     $membre = false;

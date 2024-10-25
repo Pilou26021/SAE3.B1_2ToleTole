@@ -1,7 +1,7 @@
 <?php 
-    include "header.php";
     ob_start();
-    include("../SQL/connection_local.php");
+    include "header.php";
+    include "../SQL/connection_local.php";
 
     $professionel = false;
     $membre = false;
@@ -22,15 +22,24 @@
         <title>Détails de l'Offre</title>
     </head>
     <body>
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous">
+        </script>
+        <script> 
+            $(function(){
+                $("#footer").load("footer.html"); 
+            });
+        </script> 
         <?php 
-
             // Vérification de l'ID de l'offre dans l'URL
             if (isset($_GET['idoffre'])) {
                 $idoffre = intval($_GET['idoffre']);
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -126,6 +135,7 @@
                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
                     </div>
                     <p class="offre-resume-detail"><strong>Résumé:</strong> <?= htmlspecialchars($offre['resumeoffre']) ?></p>
+                    <p class="offre-resume-detail"><strong>Description:</strong> <?= htmlspecialchars($offre['descriptionoffre']) ?></p>
 
                     <p class="adresse-detail">Localisation de l'offre</p>
                     <div id="map" style="display:flex;align-items:center;justify-content:center;">
@@ -159,7 +169,7 @@
                         // 1) On cherche d'abord dans quelle table se trouve l'ID Offre
                         $stmt = $conn->prepare("SELECT public.trouver_categorie_offre(:idoffre)");
                         $stmt->execute([':idoffre' => (int)$idoffre]);  // Assurez-vous que $idoffre est un entier
-                        $categorie = $stmt->fetchColumn();   
+                        $categorie = $stmt->fetchColumn();
 
                         // On récupère les détails de l'offre en fonction de la catégorie
                         switch ($categorie) {
@@ -234,8 +244,8 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
                                                 <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
                                             </tr>
                                         </tbody>
@@ -256,8 +266,8 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
                                                 <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
                                             </tr>
                                         </tbody>
@@ -283,14 +293,16 @@
                                             <tr>
                                                 <th>Horaire semaine</th>
                                                 <th>Gamme de prix</th>
-                                                <th>Carte resto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td><?php echo "Déjeuner : " . $horaires['lunchOpen'] . " - " . $horaires['lunchClose'] . "<br>Dîner : " . $horaires['dinnerOpen'] . " - " . $horaires['dinnerClose']; ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['gammeprix']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['carteresto']); ?></td>
+                                                <?php
+                                                // si 1 alors on remplace par €, si 2 alors on remplace par €€, si 3 alors on remplace par €€€
+                                                $gammePrix = str_repeat('€', $offreDetails['gammeprix']);
+                                                ?>
+                                                <td><?php echo htmlspecialchars($gammePrix); ?></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -311,8 +323,8 @@
                                         <tbody>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['capaciteacceuil']); ?></td>
+                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                <td><?php echo htmlspecialchars($offreDetails['capaciteacceuil']); ?> personnes</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -431,10 +443,10 @@
                 clearInterval(loadingAnimation); // Arrête l'animation en cas d'erreur
                 document.querySelector('#text-chargement').textContent = 'Erreur lors du chargement de la carte.'; // Change le texte en cas d'erreur
             });
-
         </script>
+
+        <div id="footer"></div>
 
         <script src="script.js"></script> 
     </body>
-    <?php include "footer.html"; ?>
 </html>

@@ -351,7 +351,7 @@ JOIN public._image i ON c.idImagePdp = i.idImage;
 -- _offrerestaurant	= 3
 -- _offrespectacle = 4
 -- _offrevisite	= 5
-CREATE OR REPLACE FUNCTION trouver_categorie_offre(id_Offre INTEGER)
+CREATE OR REPLACE FUNCTION public.trouver_categorie_offre(id_Offre INTEGER)
 RETURNS INTEGER AS $$
 DECLARE
     categorie INTEGER;
@@ -378,6 +378,7 @@ BEGIN
     RETURN categorie;
 END;
 $$ LANGUAGE 'plpgsql';
+GRANT EXECUTE ON FUNCTION public.trouver_categorie_offre(integer) TO public;
 
 -- vue pour voir les tags d'une offre
 CREATE VIEW public.offreTag AS

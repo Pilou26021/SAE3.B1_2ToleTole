@@ -7,7 +7,7 @@
     include "header.php";
 
     // Inclusion du fichier de connexion à la base de données
-    include('../SQL/connection_local.php');
+    include "../SQL/connection_local.php";   
 
     // Vérification si l'utilisateur est connecté et que l'offre lui appartient
     if (!isset($_SESSION['professionnel'])) {

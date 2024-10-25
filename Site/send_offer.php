@@ -15,7 +15,7 @@
     if (isset($_POST)){
 
         // connecteur pour requête
-        include('../SQL/connection_local.php');       
+        include "../SQL/connection_local.php";          
         
         // Catégorie
         $cat = $_POST['categorie'];

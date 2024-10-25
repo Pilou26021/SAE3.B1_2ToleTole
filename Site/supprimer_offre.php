@@ -4,7 +4,7 @@
     session_start();
 
     // connecteur pour requête
-    include('../SQL/connection_local.php');
+    include "../SQL/connection_local.php";   
 
     // On vérifie si l'utilisateur est connecté. Il peut être connecté en tant que membre ou professionnel. Si il n'est pas connecté alors il sera visiteur.
     if (isset($_SESSION['professionnel'])) {

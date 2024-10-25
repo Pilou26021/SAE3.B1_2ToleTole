@@ -4,6 +4,12 @@ session_start(); // Démarre la session
 
 include '../SQL/connection_local.php';
 
+if (isset($_SESSION['professionnel'])) {
+    // Si l'utilisateur est déjà connecté, le rediriger vers la page d'accueil
+    header('Location: index.php');
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des données du formulaire
     $email = $_POST['email_cp_mob'];
