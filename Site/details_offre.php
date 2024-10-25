@@ -169,7 +169,7 @@
                         // 1) On cherche d'abord dans quelle table se trouve l'ID Offre
                         $stmt = $conn->prepare("SELECT public.trouver_categorie_offre(:idoffre)");
                         $stmt->execute([':idoffre' => (int)$idoffre]);  // Assurez-vous que $idoffre est un entier
-                        $categorie = $stmt->fetchColumn();   
+                        $categorie = $stmt->fetchColumn();
 
                         // On récupère les détails de l'offre en fonction de la catégorie
                         switch ($categorie) {
