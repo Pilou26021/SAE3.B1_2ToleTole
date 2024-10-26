@@ -129,9 +129,12 @@
         
         <main>
             <?php if ($offre): ?>
+                <!-- <div style=" position:sticky; top:20px; left:20px; width: 100%;">
+                        <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
+                </div> -->
                 <div class="offre-detail-container">
                     <h1 class="offre-titre"><?= htmlspecialchars($offre['titreoffre']) ?></h1>
-                    <div class="offre-image-container">
+                    <div class="offre-image-container" style="text-align:center;">
                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
                     </div>
                     <p class="offre-resume-detail"><strong>Résumé:</strong> <?= htmlspecialchars($offre['resumeoffre']) ?></p>

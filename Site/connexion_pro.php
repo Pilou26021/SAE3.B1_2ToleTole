@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <body class="cp_mobile">
-        <div style="display: flex; justify-content: left; width: 100%;">
+        <div style=" position:sticky; top:20px; width: 100%;">
             <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
         </div>
 
