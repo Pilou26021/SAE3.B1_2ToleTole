@@ -15,6 +15,7 @@ session_destroy();
         html, body {
             height: 100%;
             margin: 0;
+            background-color:#F2F1E9;
         }
 
         .deconnexion-message {
