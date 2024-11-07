@@ -1,8 +1,14 @@
 FROM r408-php:ctrltp-apache-pdo
 
-RUN http_proxy=http://129.20.239.11:3128 apt-get update
-RUN http_proxy=http://129.20.239.11:3128 apt-get install -y libpq-dev
+ENV http_proxy=http://129.20.239.11:3128
+ENV https_proxy=https://129.20.239.11:3128
+RUN apt-get update && apt-get install -y git libpq-dev
 RUN docker-php-ext-install pdo_pgsql
+
+RUN git config --global http.proxy $http_proxy
+RUN git config --global https.proxy $https_proxy
+RUN git config --global init.defaultBranch main
+
 WORKDIR /var/www/html
 RUN rm -rf img
 COPY marche_pas.nepastoucher ./index.php
