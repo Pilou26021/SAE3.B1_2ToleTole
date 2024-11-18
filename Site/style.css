@@ -1090,6 +1090,12 @@ td {
 
 
 
+/* Assure-toi que le parent a une position relative */
+.dropdown {
+    position: relative;
+    width: 70%;
+}
+
 /* Style du bouton du dropdown */
 .dropdown-btn {
     width: 100%;
@@ -1103,34 +1109,21 @@ td {
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
-    padding-right: 40px; /* Espace pour la flèche */
-    text-align: left; /* Aligner le texte à gauche */
-    position: relative;
+    text-align: center; /* Aligner le texte à gauche */
 }
 
-/* Flèche à droite du bouton */
-.arrow {
-    position: absolute;
-    right: 10px;
-    top: 0px;
-    border: solid #040316;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 5px;
-    transform: rotate(45deg); /* Flèche pointant vers le bas par défaut */
-    transition: transform 0.3s ease; /* Animation pour changer la direction */
-}
+
 
 /* Style du menu déroulant */
 .dropdown-content {
     display: none;
-    position: absolute;
-    background-color: #f9f9f9;
+    position: absolute; /* Position absolue pour se positionner par rapport au parent */
+    background-color: white;
     min-width: 200px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
-    z-index: 1;
+    z-index: 1; /* Augmenter le z-index pour s'assurer qu'il soit au-dessus */
     border-radius: 5px;
-    text-align: left;
+    text-align: left; /* Aligner les options à gauche */
 }
 
 /* Style des options du menu déroulant */
@@ -1140,19 +1133,20 @@ td {
     display: block;
     color: black;
     font-size: 16px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+    background-color: white;
+    border-bottom: 1px solid white;
+    text-align: left; /* Aligner les textes des options à gauche */
 }
 
 /* Style au survol des options */
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+	color: #31CEA6;
+	font-size: large;
 }
 
 /* Effet de survol sur le bouton */
 .dropdown:hover .dropdown-btn {
     border-color: #31CEA6;
-    background-color: #EAE9FC;
+    background-color: white; /* Changement de couleur de fond */
     outline: none;
 }

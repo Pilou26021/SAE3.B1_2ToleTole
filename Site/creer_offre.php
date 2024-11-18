@@ -71,21 +71,17 @@
             <label for="categorie">Choisissez une catégorie :</label>
             <br><br>
             <div class="dropdown" onmouseover="showDropdown()" onmouseout="hideDropdown()">
-                <button class="dropdown-btn" id="dropdown-btn">
-                    <?php echo ($cat == '') ? '---' : ucfirst($cat); ?>
-                    <span class="arrow"></span> <!-- Flèche -->
-                </button>
+                <button class="dropdown-btn" id="dropdown-btn"><?php echo ($cat == '') ? '---' : ucfirst($cat); ?></button>
                 <div class="dropdown-content" id="dropdown-content">
                     <a href="creer_offre.php">---</a>
                     <a href="creer_offre.php?categorie=restauration">Restauration</a>
-                    <a href="creer_offre.php?categorie=spectacle">Spectacles</a>
-                    <a href="creer_offre.php?categorie=visite">Visites</a>
-                    <a href="creer_offre.php?categorie=activite">Activités</a>
-                    <a href="creer_offre.php?categorie=parc">Parcs d’attractions</a>
+                    <a href="creer_offre.php?categorie=spectacle" >Spectacles</a>
+                    <a href="creer_offre.php?categorie=visite" >Visites</a>
+                    <a href="creer_offre.php?categorie=activite" >Activités</a>
+                    <a href="creer_offre.php?categorie=parc" >Parcs d’attractions</a>
                 </div>
             </div>
-
-
+            
             <br>
                 <?php 
                     switch($cat){
