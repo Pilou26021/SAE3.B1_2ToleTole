@@ -2,7 +2,8 @@ FROM r408-php:ctrltp-apache-pdo
 
 ENV http_proxy=http://129.20.239.11:3128
 ENV https_proxy=https://129.20.239.11:3128
-RUN apt-get update && apt-get install -y git libpq-dev
+RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y libpq-dev
 RUN docker-php-ext-install pdo_pgsql
 
 RUN git config --global http.proxy $http_proxy
