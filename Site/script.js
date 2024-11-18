@@ -113,11 +113,42 @@ function updateCategory() {
 // Fonction pour afficher le dropdown
 function showDropdown() {
     document.getElementById("dropdown-content").style.display = "block";
-    document.querySelector(".arrow").style.transform = "rotate(-135deg)"; // Flèche pointant vers le haut
 }
 
 // Fonction pour cacher le dropdown
 function hideDropdown() {
     document.getElementById("dropdown-content").style.display = "none";
-    document.querySelector(".arrow").style.transform = "rotate(45deg)"; // Flèche pointant vers le bas
+}
+
+//changer le texte du bouton quand on hover sur une option
+function changeButtonText(element) {
+    document.getElementById("dropdown-btn").innerText = element.innerText;
+}
+
+function getTextFromCat(cat){
+    switch (cat) {
+        case 'restauration':
+            return "Restauration";
+        case 'spectacle':
+            return "Spectacle";
+        case 'visite':
+            return "Visite";
+        case 'activite':
+            return "Activité";
+        case 'parc':
+            return "Parc d'attractions";
+        default :
+            return "---";
+    }
+}
+
+function resetButtonText(cat) {
+    console.log(cat);
+    let urlParams = new URLSearchParams(window.location.search);
+    let catJS = urlParams.get('categorie');
+    if(catJS == "restauration" || catJS == "spectacle" || catJS == "activite" || catJS == "parc" || catJS == "visite") {
+        document.getElementById("dropdown-btn").innerText = getTextFromCat(catJS);
+    } else {
+        document.getElementById("dropdown-btn").innerText = "Choisir une catégorie";
+    }
 }

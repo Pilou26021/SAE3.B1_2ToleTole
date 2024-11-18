@@ -21,6 +21,52 @@
         $cat = $_GET['categorie'];
     }
 
+    function isCatValid($cat){
+        switch ($cat) {
+            case 'restauration':
+                return true;
+                break;
+            case 'spectacle':
+                return true;
+                break;
+            case 'visite':
+                return true;
+                break;
+            case 'activite':
+                return true;
+                break;
+            case 'parc':
+                return true;
+                break;
+            default :
+                return false;
+                break;
+        }
+    }
+
+    function getTextFromCat($cat){
+        switch ($cat) {
+            case 'restauration':
+                return "Restauration";
+                break;
+            case 'spectacle':
+                return "Spectacle";
+                break;
+            case 'visite':
+                return "Visite";
+                break;
+            case 'activite':
+                return "Activité";
+                break;
+            case 'parc':
+                return "Parc d'attractions";
+                break;
+            default :
+                return "---";
+                break;
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -71,16 +117,17 @@
             <label for="categorie">Choisissez une catégorie :</label>
             <br><br>
             <div class="dropdown" onmouseover="showDropdown()" onmouseout="hideDropdown()">
-                <button class="dropdown-btn" id="dropdown-btn"><?php echo ($cat == '') ? '---' : ucfirst($cat); ?></button>
+                <button class="dropdown-btn" id="dropdown-btn"><?php if(isCatValid($cat)) { echo getTextFromCat($cat); } else {echo "Choisir une catégorie";} ?></button>
+                
                 <div class="dropdown-content" id="dropdown-content">
-                    <a href="creer_offre.php">---</a>
-                    <a href="creer_offre.php?categorie=restauration">Restauration</a>
-                    <a href="creer_offre.php?categorie=spectacle" >Spectacles</a>
-                    <a href="creer_offre.php?categorie=visite" >Visites</a>
-                    <a href="creer_offre.php?categorie=activite" >Activités</a>
-                    <a href="creer_offre.php?categorie=parc" >Parcs d’attractions</a>
+                    <a href="creer_offre.php?categorie=restauration" onmouseover="changeButtonText(this)" onmouseout="resetButtonText(<?php $cat ?>)" >Restauration</a>
+                    <a href="creer_offre.php?categorie=spectacle" onmouseover="changeButtonText(this)" onmouseout="resetButtonText(<?php $cat ?>)">Spectacle</a>
+                    <a href="creer_offre.php?categorie=visite" onmouseover="changeButtonText(this)" onmouseout="resetButtonText(<?php $cat ?>)">Visite</a>
+                    <a href="creer_offre.php?categorie=activite" onmouseover="changeButtonText(this)" onmouseout="resetButtonText(<?php $cat ?>)">Activité</a>
+                    <a href="creer_offre.php?categorie=parc" onmouseover="changeButtonText(this)" onmouseout="resetButtonText(<?php $cat ?>)">Parc d’attractions</a>
                 </div>
             </div>
+
             
             <br>
                 <?php 
@@ -177,9 +224,7 @@
                     </div>
 
                     <h2>Condition d'accessibilité</h2>
-                    <div>
-                        <textarea class="textarea-creer_offre" name="conditionAccessibilite" rows="4" placeholder="Accessible en fauteuil roulant..." required></textarea>
-                    </div>
+                    <textarea class="textarea-creer_offre" name="conditionAccessibilite" rows="4" placeholder="Accessible en fauteuil roulant..." required></textarea>
 
                     <h2>Site web de l'offre</h2>
                     <input id="website" class="textarea-creer_offre" type="url" name="website" placeholder="https://exemple.com" required oninput="checkValidWebsite(this)">
