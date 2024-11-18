@@ -1087,3 +1087,72 @@ td {
 .detail-offer-btn:hover {
     background-color: #2bb85f; /* Changement de couleur au survol */
 }
+
+
+
+/* Style du bouton du dropdown */
+.dropdown-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #040316;
+    border-radius: 10px;
+    background-color: #F2F1E9;
+    color: #040316;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    padding-right: 40px; /* Espace pour la flèche */
+    text-align: left; /* Aligner le texte à gauche */
+    position: relative;
+}
+
+/* Flèche à droite du bouton */
+.arrow {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    border: solid #040316;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 5px;
+    transform: rotate(45deg); /* Flèche pointant vers le bas par défaut */
+    transition: transform 0.3s ease; /* Animation pour changer la direction */
+}
+
+/* Style du menu déroulant */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    border-radius: 5px;
+    text-align: left;
+}
+
+/* Style des options du menu déroulant */
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: black;
+    font-size: 16px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Style au survol des options */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Effet de survol sur le bouton */
+.dropdown:hover .dropdown-btn {
+    border-color: #31CEA6;
+    background-color: #EAE9FC;
+    outline: none;
+}

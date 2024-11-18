@@ -103,3 +103,21 @@ function checkCodePostal(input) {
         input.value = value.slice(0, maxLength);
     }
 }
+
+//update la catégorie après le click dans le dropdown
+function updateCategory() {
+    var selectedCategory = document.getElementById('categorie').value;
+    window.location.href = 'creer_offre.php?categorie=' + selectedCategory;
+}
+
+// Fonction pour afficher le dropdown
+function showDropdown() {
+    document.getElementById("dropdown-content").style.display = "block";
+    document.querySelector(".arrow").style.transform = "rotate(-135deg)"; // Flèche pointant vers le haut
+}
+
+// Fonction pour cacher le dropdown
+function hideDropdown() {
+    document.getElementById("dropdown-content").style.display = "none";
+    document.querySelector(".arrow").style.transform = "rotate(45deg)"; // Flèche pointant vers le bas
+}

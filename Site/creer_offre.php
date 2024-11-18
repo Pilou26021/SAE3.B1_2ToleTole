@@ -50,7 +50,7 @@
 
         <main class="creer-offre-main">
             
-            <form action="creer_offre.php" method="get" enctype="multipart/form-data"> 
+            <!-- <form action="creer_offre.php" method="get" enctype="multipart/form-data"> 
                 <h2>Catégorie de l'offre</h2> 
                 <div class="categories">
                     <input type="radio" name="categorie" value="restauration" id="cat-restauration" required>
@@ -67,8 +67,26 @@
                 </div>
             </form>
 
-            <form action="send_offer.php" method="post" enctype="multipart/form-data">
+            <form action="send_offer.php" method="post" enctype="multipart/form-data"> -->
+            <label for="categorie">Choisissez une catégorie :</label>
+            <br><br>
+            <div class="dropdown" onmouseover="showDropdown()" onmouseout="hideDropdown()">
+                <button class="dropdown-btn" id="dropdown-btn">
+                    <?php echo ($cat == '') ? '---' : ucfirst($cat); ?>
+                    <span class="arrow"></span> <!-- Flèche -->
+                </button>
+                <div class="dropdown-content" id="dropdown-content">
+                    <a href="creer_offre.php">---</a>
+                    <a href="creer_offre.php?categorie=restauration">Restauration</a>
+                    <a href="creer_offre.php?categorie=spectacle">Spectacles</a>
+                    <a href="creer_offre.php?categorie=visite">Visites</a>
+                    <a href="creer_offre.php?categorie=activite">Activités</a>
+                    <a href="creer_offre.php?categorie=parc">Parcs d’attractions</a>
+                </div>
+            </div>
 
+
+            <br>
                 <?php 
                     switch($cat){
                         case 'restauration':
@@ -86,7 +104,8 @@
                         case 'parc':
                             ?><input value="parc" type="text" name="categorie" style="display:none"><?php
                             break;
-                        case '':
+                        default :
+                            $cat = ''; // si la catégorie n'est pas valide on met une valeur ""
                             break;
                     }
                 ?>
