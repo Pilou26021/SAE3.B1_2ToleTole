@@ -412,6 +412,7 @@ input[type="radio"]+label {
 
 .image-upload {
 	display: flex;
+	width: 100%;
 	justify-content: center;
 	align-items: center;
 	height: 150px;
@@ -483,6 +484,7 @@ input[type="radio"]+label {
 .tags {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	width: 100%;
 	gap: 10px;
 	padding: 10px;
 }
@@ -521,7 +523,7 @@ input[type="radio"]+label {
 	/* Retire le style par défaut de la checkbox */
 	width: 20px;
 	height: 20px;
-	border: 2px solid #a3d1c5;
+	border: 2px solid #1f8a70;
 	/* Vert de base */
 	border-radius: 4px;
 	background-color: white;
@@ -530,9 +532,9 @@ input[type="radio"]+label {
 }
 
 .tags input[type="checkbox"]:checked {
-	background-color: #88b0a2;
+	background-color: #1f8a70;
 	/* Vert plus foncé lorsqu'il est sélectionné */
-	border-color: #88b0a2;
+	border-color: #146a51;
 }
 
 .tags input[type="checkbox"]::after {
@@ -1090,6 +1092,10 @@ td {
 
 
 
+
+
+
+/*** DROPDOWN ***/
 /* Assure-toi que le parent a une position relative */
 .dropdown {
     position: relative;
@@ -1112,18 +1118,17 @@ td {
     text-align: center; /* Aligner le texte à gauche */
 }
 
-
-
 /* Style du menu déroulant */
 .dropdown-content {
     display: none;
-    position: absolute; /* Position absolue pour se positionner par rapport au parent */
+    position: absolute; /* position absolue pour se positionner par rapport au parent */
     background-color: white;
     min-width: 200px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
-    z-index: 1; /* Augmenter le z-index pour s'assurer qu'il soit au-dessus */
+    z-index: 1; /* on augmente le z-index pour s'assurer qu'il soit au-dessus des autres éléments de la page*/
     border-radius: 5px;
     text-align: left; /* Aligner les options à gauche */
+	transition: opacity 0.3s ease, transform 5s ease;
 }
 
 /* Style des options du menu déroulant */

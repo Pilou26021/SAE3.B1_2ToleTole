@@ -484,14 +484,6 @@
 
         <script src="./script.js" ></script>
 
-        <script>
-            setTimeout(function() {
-                window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
-            }, 3000); // 3000 millisecondes = 3 secondes
-        </script>
-
-
-
     </body>
 
 </html>

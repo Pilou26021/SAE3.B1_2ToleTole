@@ -95,25 +95,8 @@
         <div id="header"></div>
 
         <main class="creer-offre-main">
-            
-            <!-- <form action="creer_offre.php" method="get" enctype="multipart/form-data"> 
-                <h2>Catégorie de l'offre</h2> 
-                <div class="categories">
-                    <input type="radio" name="categorie" value="restauration" id="cat-restauration" required>
-                    <label class="category" for="cat-restauration">Restauration</label>
-                    <input type="radio" name="categorie" value="spectacle" id="cat-spectacles" required>
-                    <label class="category" for="cat-spectacles">Spectacles</label>  
-                    <input type="radio" name="categorie" value="visite" id="cat-visites" required>
-                    <label class="category" for="cat-visites">Visites</label>
-                    <input type="radio" name="categorie" value="activite" id="cat-activites" required>
-                    <label class="category" for="cat-activites">Activités</label>
-                    <input type="radio" name="categorie" value="parc" id="cat-parcs" required>
-                    <label class="category" for="cat-parcs">Parcs d’attractions</label>
-                    <input class="submit-btn" type="submit" value="Choisir cette catégorie">
-                </div>
-            </form>
 
-            <form action="send_offer.php" method="post" enctype="multipart/form-data"> -->
+            <!-- Dropdown -->
             <label for="categorie">Choisissez une catégorie :</label>
             <br><br>
             <div class="dropdown" onmouseover="showDropdown()" onmouseout="hideDropdown()">
