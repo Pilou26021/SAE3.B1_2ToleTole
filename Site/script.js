@@ -152,3 +152,43 @@ function resetButtonText(cat) {
         document.getElementById("dropdown-btn").innerText = "Choisir une catégorie";
     }
 }
+
+async function applyFilters() {
+    // Récupérer les valeurs des filtres
+    const category = document.getElementById('category').value;
+    const lieux = document.getElementById('lieux').value;
+
+
+    // Préparer les données pour l'envoi
+    const filters = new URLSearchParams();
+    filters.append('category', category);
+    filters.append('lieux', lieux);
+
+    try {
+        // Utiliser fetch pour envoyer les filtres et récupérer les résultats
+        const response = await fetch('ajax_filtres.php?' + filters.toString(), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        // Vérifier la réponse
+        if (response.ok) {
+            // Récupérer le contenu et l'injecter dans le DOM
+            const data = await response.text();
+            document.querySelector('.offres-display').innerHTML = data;
+        } else {
+            throw new Error('Erreur lors de la récupération des résultats.');
+        }
+    } catch (error) {
+        console.error('Erreur AJAX:', error);
+    }
+}
+
+// Ajouter des écouteurs d'événements pour chaque filtre
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('category').addEventListener('change', applyFilters);
+    document.getElementById('lieux').addEventListener('input', applyFilters);
+});
+

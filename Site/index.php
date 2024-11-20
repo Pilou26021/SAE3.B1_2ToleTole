@@ -81,12 +81,13 @@ ob_start();
     <main>
         <?php if ($professionel): ?>
             <!-- Afficher un bouton de création d'offre pour les professionnels -->
-            <a style="text-decoration:none;" href="creer_offre.php"> <button class="offer-btn">
+            <a style="text-decoration:none;" href="creer_offre.php"> 
+            <button class="offer-btn">
                 <span class="icon">+</span> Créer une nouvelle offre
             </button> </a>
         <?php endif; ?>
 
-        <!-- <div class="recherche">
+        <div class="recherche">
             <form action="">
                 <div class="recherche_top">
                     <img src="img/Search.png" alt="Search">
@@ -98,7 +99,7 @@ ob_start();
                     <input class="button_1" type="submit" value="Recherche" >
                 </div>
             </form>
-        </div> -->
+        </div>
         <div id="filterForm" class="filter-form">
             <h3> Filtres</h3>
             <form action="#">
@@ -114,7 +115,7 @@ ob_start();
 
                 <label for="lieux">Lieux :</label>
                 <div style="display: flex; align-items:center; justify-content: space-around;">
-                    <input class="input-filtre"  style="width: 60%;" type="text" placeholder="Lieux (Rennes) ">
+                    <input class="input-filtre" id="lieux" style="width: 60%;" type="text" placeholder="Lieux (Rennes) ">
                     <div class="slider-container" style="width: 30%;">
                         <div class="price-label">
                             Rayon: <span id="rayon-value">25</span>km
@@ -141,7 +142,7 @@ ob_start();
                         Prix: <span id="price-value">500</span>€
                     </div>
                     
-                    <input type="range" id="price-range" class="slider" min="100" max="1000" step="50" value="500">
+                    <input type="range" id="price-range" class="slider" min="100" max="1000" step="20" value="500">
                     
                     <div class="range-values">
                         <span class="range-value">100€</span>
@@ -184,9 +185,6 @@ ob_start();
                     <option value="DecroissantN">Tri par ordre Decroissant</option>
                 </select>
 
-                <div style="display: flex; justify-content: center;">
-                    <input class="button_1" type="submit" value="Appliquer">
-                </div>
             </form>
         </div>
 

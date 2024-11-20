@@ -205,7 +205,7 @@ CREATE TABLE public._theme (
     FOREIGN KEY (idTag) REFERENCES public._tag(idTag)
 );
 
--- 5. Tables liées au système de facturation
+-- 5. Créer les autres tables liées
 CREATE TABLE public._facture (
     idFacture SERIAL PRIMARY KEY,
     idProPrive BIGINT NOT NULL,
@@ -227,13 +227,10 @@ CREATE TABLE public._constPrix (
 CREATE TABLE public._paiement (
     idOffre BIGINT NOT NULL,
     idFacture BIGINT NOT NULL,
-    idConstPrix BIGINT NULL,
-    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture, idConstPrix),
+    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
 );
-
--- Système de facturation mensuelle
 
 -- vue offre avec adresse
 CREATE VIEW public.offreAdresse AS
@@ -289,6 +286,16 @@ BEGIN
     UPDATE public._offre
     SET dateCreationOffre = NOW()
     WHERE idOffre = NEW.idOffre;
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- trigger pour mettre en place la facturation (calcul du montant TTC, HT)
+CREATE OR REPLACE FUNCTION facturation()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public._facture (idProPrive, idConstPrix, dateFacture, montantHT, montantTTC)
+    VALUES (NEW.idProPropose, 1, NOW(), NEW.prixMinOffre, NEW.prixMinOffre * 1.2);
     RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
