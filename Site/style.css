@@ -1012,6 +1012,7 @@ td {
 	margin: 10px;
 	justify-content: center;
 	padding: 20px 0;
+	flex-wrap: wrap;
 }
 
 /* Media query pour les écrans de plus de 800px */

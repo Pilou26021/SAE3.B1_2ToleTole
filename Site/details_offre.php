@@ -129,7 +129,8 @@
         
         <main>
             <div style=" position:sticky; top:20px; left:20px; width: 100%;">
-                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="./index.php">&#8617;</a>
+                <!-- onclick="history.back(); -->
             </div>
 
             <div class="container-details-offre" >

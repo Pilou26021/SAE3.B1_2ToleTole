@@ -8,7 +8,7 @@ $lieux = isset($_GET['lieux']) ? $_GET['lieux'] : '';
 // Initialiser la condition de la table à interroger
 $tableJoin = '';
 $whereCategory = '';
-$whereLieux = '';
+
 
 switch ($category) {
     case 'Restauration':
@@ -49,18 +49,26 @@ $sql = "
     ) a ON o.idoffre = a.idoffre
     JOIN public._image i ON a.firstImage = i.idimage
     $tableJoin
-    LEFT JOIN public.offreadresse oa ON o.idoffre = oa.idoffre
+    LEFT JOIN public.offreAdresse oa ON o.idoffre = oa.idOffre
     WHERE 1=1
     $whereCategory
 ";
 
+
 // Ajouter le filtre sur la ville si `lieux` est défini
 if (!empty($lieux)) {
-    $sql .= " AND oa.ville LIKE :lieux";
+    $sql .= " AND (LOWER(oa.ville) = LOWER(:lieux)";
+    // OR LOWER(oa.departement) = LOWER(:lieux) OR LOWER(oa.pays) = LOWER(:lieux))
 }
 
 // Préparer la requête
 $stmt = $conn->prepare($sql);
+
+if (!empty($lieux)) {
+    // Assurez-vous que la variable $lieux est correctement échappée et liée
+    $lieux = htmlspecialchars($lieux, ENT_QUOTES, 'UTF-8'); // Protéger la valeur pour éviter les injections SQL
+    $stmt->bindValue(':lieux', $lieux, PDO::PARAM_STR); // Lier la variable `lieux`
+}
 
 // Exécuter la requête
 $stmt->execute();
@@ -73,12 +81,14 @@ $offres = $stmt->fetchAll();
 if (count($offres) > 0) {
     foreach ($offres as $offre) {
         ?>
-        <div class="offre-card">
-            <img src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
-            <h2><?= htmlspecialchars($offre['titreoffre']) ?></h2>
-            <p><?= htmlspecialchars($offre['resumeoffre']) ?></p>
-            <p>Prix: <?= htmlspecialchars($offre['prixminoffre']) ?> €</p>
-        </div>
+        <a style="text-decoration:none; color:#040316; font-family: regular;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+            <div class="offre-card">
+                <img src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                <h2><?= htmlspecialchars($offre['titreoffre']) ?></h2>
+                <p><?= htmlspecialchars($offre['resumeoffre']) ?></p>
+                <p>Prix: <?= htmlspecialchars($offre['prixminoffre']) ?> €</p>
+            </div>
+        </a>
         <?php
     }
 } else {
