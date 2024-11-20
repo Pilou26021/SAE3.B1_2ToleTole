@@ -205,7 +205,17 @@ CREATE TABLE public._theme (
     FOREIGN KEY (idTag) REFERENCES public._tag(idTag)
 );
 
--- 5. Créer les autres tables liées
+-- 5. Tables liées au système de facturation
+CREATE TABLE public._facture (
+    idFacture SERIAL PRIMARY KEY,
+    idProPrive BIGINT NOT NULL,
+    idConstPrix BIGINT NOT NULL,
+    dateFacture DATE NOT NULL,
+    montantHT FLOAT NOT NULL,
+    montantTTC FLOAT NOT NULL,
+    FOREIGN KEY (idProPrive) REFERENCES public._professionnelPrive(idProPrive)
+);
+
 CREATE TABLE public._constPrix (
     idConstPrix SERIAL PRIMARY KEY,
     prixSTD FLOAT NOT NULL,
@@ -217,38 +227,13 @@ CREATE TABLE public._constPrix (
 CREATE TABLE public._paiement (
     idOffre BIGINT NOT NULL,
     idFacture BIGINT NOT NULL,
-    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture),
+    idConstPrix BIGINT NULL,
+    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture, idConstPrix),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
 );
 
--- Table pour stocker les factures
-CREATE TABLE public._facture (
-    idFacture SERIAL PRIMARY KEY,
-    numeroFacture VARCHAR(50) UNIQUE NOT NULL,
-    dateEmission DATE NOT NULL,
-    nomPlateforme VARCHAR(255) NOT NULL,
-    adressePlateforme TEXT NOT NULL,
-    nomProfessionnel VARCHAR(255) NOT NULL,
-    adresseProfessionnel TEXT NOT NULL,
-    designationOffre VARCHAR(255) NOT NULL,
-    datePrestation DATE NOT NULL,
-    dateEcheance DATE NOT NULL,
-    totalHT NUMERIC(10, 2) NOT NULL,
-    totalTTC NUMERIC(10, 2) NOT NULL
-);
-
--- Table pour les détails de la facture
-CREATE TABLE public.details_facture (
-    idDetail SERIAL PRIMARY KEY,
-    idFacture INT REFERENCES public.factures(idFacture),
-    descriptionService VARCHAR(255) NOT NULL,
-    quantite INT NOT NULL,
-    tarifUnitaireHT NUMERIC(10, 2) NOT NULL,
-    tarifUnitaireTTC NUMERIC(10, 2) NOT NULL,
-    montantHT NUMERIC(10, 2) NOT NULL,
-    montantTTC NUMERIC(10, 2) NOT NULL
-);
+-- Système de facturation mensuelle
 
 -- vue offre avec adresse
 CREATE VIEW public.offreAdresse AS
@@ -307,45 +292,6 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
-
--- trigger pour mettre en place la facturation (calcul du montant TTC, HT)
-CREATE OR REPLACE FUNCTION facturation()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO public._facture (idProPrive, idConstPrix, dateFacture, montantHT, montantTTC)
-    VALUES (NEW.idProPropose, 1, NOW(), NEW.prixMinOffre, NEW.prixMinOffre * 1.2);
-    RETURN NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
--- Fonction pour calculer les montants HT et TTC
-CREATE OR REPLACE FUNCTION calculer_montants(
-    quantite INT,
-    tarifUnitaireHT NUMERIC,
-    tarifUnitaireTTC NUMERIC
-) RETURNS TABLE(montantHT NUMERIC, montantTTC NUMERIC) AS $$
-BEGIN
-    montantHT := quantite * tarifUnitaireHT;
-    montantTTC := quantite * tarifUnitaireTTC;
-    RETURN NEXT;
-END;
-$$ LANGUAGE 'plpgsql';
-
--- Trigger pour générer automatiquement les factures
-CREATE OR REPLACE FUNCTION generer_facture()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- Code pour générer la facture et insérer les détails dans les tables factures et details_facture
-    -- ...
-    RETURN NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER trg_generer_facture
-AFTER INSERT OR UPDATE
-ON public._offre
-FOR EACH ROW
-EXECUTE FUNCTION generer_facture();
 
 -- vue professionel avec mdp
 CREATE VIEW public.professionnelMdp AS
