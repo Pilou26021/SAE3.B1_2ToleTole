@@ -128,265 +128,362 @@
         ?>
         
         <main>
-            <?php if ($offre): ?>
-                <!-- <div style=" position:sticky; top:20px; left:20px; width: 100%;">
-                        <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
-                </div> -->
-                <div class="offre-detail-container">
-                    <h1 class="offre-titre"><?= htmlspecialchars($offre['titreoffre']) ?></h1>
-                    <div class="offre-image-container" style="text-align:center;">
-                        <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
-                    </div>
-                    <p class="offre-resume-detail"><strong>Résumé:</strong> <?= htmlspecialchars($offre['resumeoffre']) ?></p>
-                    <p class="offre-resume-detail"><strong>Description:</strong> <?= htmlspecialchars($offre['descriptionoffre']) ?></p>
+            <div style=" position:sticky; top:20px; left:20px; width: 100%;">
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
+            </div>
 
-                    <p class="adresse-detail">Localisation de l'offre</p>
-                    <div id="map" style="display:flex;align-items:center;justify-content:center;">
-                        <h2 id="text-chargement" >Chargement de la carte</h2>
-                    </div>
-                    <p class="adresse-detail"><?php echo $adresseComplete ?><p>
+            <div class="container-details-offre" >
+                <div class="details-offre" >
 
-                    <section class="details_offre_mobile_tarifs">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tarif minimum</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($offre['prixminoffre']) . "€"; ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </section>
+                    <!-- ************************************ -->
+                    <!-- ******* DEBUT DETAILS OFFRE ******** -->
+                    <!-- ************************************ -->
 
-                    <div class="detail-btn-container">
-                        <a href="<?php echo $offre['siteweboffre']; ?>"  target="_blank" class="detail-offre-btn">
-                            <button class="detail-offer-btn">Site web de l'offre</button>
-                        </a>
-                    </div>
+                    <?php if ($offre): ?>
+                        <div class="offre-detail-container">
+                            <h1 class="offre-titre"><?= $offre['titreoffre'] ?></h1>
+                            <div class="offre-image-container" style="text-align:center;">
+                                <img class="offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
+                            </div>
+                            <p class="offre-resume-detail"><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
+                            <p class="offre-resume-detail"><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
 
-                    <?php
-                
-                        // 1) On cherche d'abord dans quelle table se trouve l'ID Offre
-                        $stmt = $conn->prepare("SELECT public.trouver_categorie_offre(:idoffre)");
-                        $stmt->execute([':idoffre' => (int)$idoffre]);  // Assurez-vous que $idoffre est un entier
-                        $categorie = $stmt->fetchColumn();
+                            <p class="adresse-detail">Localisation de l'offre</p>
+                            <div id="map" style="display:flex;align-items:center;justify-content:center;">
+                                <h2 id="text-chargement" >Chargement de la carte</h2>
+                            </div>
+                            <p class="adresse-detail"><?php echo $adresseComplete ?><p>
 
-                        // On récupère les détails de l'offre en fonction de la catégorie
-                        switch ($categorie) {
-                            case 1:
-                                $stmt = $conn->prepare("SELECT * FROM public._offreactivite WHERE idoffre = :idoffre");
-                                $stmt->execute([':idoffre' => $idoffre]);
-                                $offreDetails = $stmt->fetch();
-                                $cat = 'activite';
-                                break;
-                            case 2:
-                                $stmt = $conn->prepare("SELECT * FROM public._offreparcattraction WHERE idoffre = :idoffre");
-                                $stmt->execute([':idoffre' => $idoffre]);
-                                $offreDetails = $stmt->fetch();
-                                $cat = 'parc';
-                                break;
-                            case 3:
-                                $stmt = $conn->prepare("SELECT * FROM public._offrerestaurant WHERE idoffre = :idoffre");
-                                $stmt->execute([':idoffre' => $idoffre]);
-                                $offreDetails = $stmt->fetch();
-                                $cat = 'restauration';
-                                break;
-                            case 4:
-                                $stmt = $conn->prepare("SELECT * FROM public._offrespectacle WHERE idoffre = :idoffre");
-                                $stmt->execute([':idoffre' => $idoffre]);
-                                $offreDetails = $stmt->fetch();
-                                $cat = 'spectacle';
-                                break;
-                            case 5:
-                                $stmt = $conn->prepare("SELECT * FROM public._offrevisite WHERE idoffre = :idoffre");
-                                $stmt->execute([':idoffre' => $idoffre]);
-                                $offreDetails = $stmt->fetch();
-                                $cat = 'visite';
-                                break;
-                            default:
-                                $offreDetails = null;
-                                break;
+                            <section class="details_offre_mobile_tarifs">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Tarif minimum</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($offre['prixminoffre']) . "€"; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
 
-                        }
+                            <div class="detail-btn-container">
+                                <a href="<?php echo $offre['siteweboffre']; ?>"  target="_blank" class="detail-offre-btn">
+                                    <button class="detail-offer-btn">Site web de l'offre</button>
+                                </a>
+                            </div>
 
-                        // 2) On affiche les détails de l'offre
-                        /*
-                        _offreactivite:
-                        idoffre,indicationduree,ageminimum,prestationincluse
+                            <?php
                         
-                        _offreparcattraction:
-                        idoffre,indicationduree,ageminimum,prestationincluse
-                        
-                        _offrerestaurant:
-                        idoffre,horairesemaine,gammeprix,carteresto
-                        horairesemaine est dans ce format : {"lunchOpen":"12:30","lunchClose":"14:00","dinnerOpen":"22:00","dinnerClose":"00:00"}
+                                // 1) On cherche d'abord dans quelle table se trouve l'ID Offre
+                                $stmt = $conn->prepare("SELECT public.trouver_categorie_offre(:idoffre)");
+                                $stmt->execute([':idoffre' => (int)$idoffre]);  // Assurez-vous que $idoffre est un entier
+                                $categorie = $stmt->fetchColumn();
 
-                        _offrespectacle:
-                        idoffre,dateoffre,indicationduree,capaciteacceuil
+                                // On récupère les détails de l'offre en fonction de la catégorie
+                                switch ($categorie) {
+                                    case 1:
+                                        $stmt = $conn->prepare("SELECT * FROM public._offreactivite WHERE idoffre = :idoffre");
+                                        $stmt->execute([':idoffre' => $idoffre]);
+                                        $offreDetails = $stmt->fetch();
+                                        $cat = 'activite';
+                                        break;
+                                    case 2:
+                                        $stmt = $conn->prepare("SELECT * FROM public._offreparcattraction WHERE idoffre = :idoffre");
+                                        $stmt->execute([':idoffre' => $idoffre]);
+                                        $offreDetails = $stmt->fetch();
+                                        $cat = 'parc';
+                                        break;
+                                    case 3:
+                                        $stmt = $conn->prepare("SELECT * FROM public._offrerestaurant WHERE idoffre = :idoffre");
+                                        $stmt->execute([':idoffre' => $idoffre]);
+                                        $offreDetails = $stmt->fetch();
+                                        $cat = 'restauration';
+                                        break;
+                                    case 4:
+                                        $stmt = $conn->prepare("SELECT * FROM public._offrespectacle WHERE idoffre = :idoffre");
+                                        $stmt->execute([':idoffre' => $idoffre]);
+                                        $offreDetails = $stmt->fetch();
+                                        $cat = 'spectacle';
+                                        break;
+                                    case 5:
+                                        $stmt = $conn->prepare("SELECT * FROM public._offrevisite WHERE idoffre = :idoffre");
+                                        $stmt->execute([':idoffre' => $idoffre]);
+                                        $offreDetails = $stmt->fetch();
+                                        $cat = 'visite';
+                                        break;
+                                    default:
+                                        $offreDetails = null;
+                                        break;
 
-                        _offrevisite:
-                        idoffre,dateoffre,visiteguidee,langueproposees
-                        */    
-                    ?>
-
-                    <?php
-                    if ($offreDetails) { switch ($cat) {
-                            case 'activite':
+                                }
                             ?>
-                                <section class="details_offre_mobile">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Indication de durée</th>
-                                                <th>Age minimum</th>
-                                                <th>Prestation incluse</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
-                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
-                                                <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </section>
-                        <?php 
-                            break;
-                            case 'parc':
-                        ?>
-                                <section class="details_offre_mobile">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Indication de durée</th>
-                                                <th>Age minimum</th>
-                                                <th>Prestation incluse</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
-                                                <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
-                                                <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </section>
-                        <?php
-                            break;
-                            case 'restauration':
-                                $horaires = json_decode($offreDetails['horairesemaine'], true);
-                        ?>
-                                <section class="details_offre_mobile">
-                                    <!-- On affiche la carte du restaurant -->
-                                    <?php
-                                    $stmt = $conn->prepare("SELECT pathimage FROM public._image WHERE idimage = :idimage");
-                                    $stmt->execute([':idimage' => $offreDetails['carteresto']]);
-                                    $imagecarteresto = $stmt->fetchColumn();
+
+                            <?php
+                            if ($offreDetails) { switch ($cat) {
+                                    case 'activite':
                                     ?>
-                                    <h2>Carte du restaurant</h2>
-                                    <img src="<?php echo $imagecarteresto; ?>" alt="Carte du restaurant" style="width:100%;max-width:500px; margin-bottom: 20px;">
+                                        <section class="details_offre_mobile">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Indication de durée</th>
+                                                        <th>Age minimum</th>
+                                                        <th>Prestation incluse</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
+                                <?php 
+                                    break;
+                                    case 'parc':
+                                ?>
+                                        <section class="details_offre_mobile">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Indication de durée</th>
+                                                        <th>Age minimum</th>
+                                                        <th>Prestation incluse</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
+                                <?php
+                                    break;
+                                    case 'restauration':
+                                        $horaires = json_decode($offreDetails['horairesemaine'], true);
+                                ?>
+                                        <section class="details_offre_mobile">
+                                            <!-- On affiche la carte du restaurant -->
+                                            <?php
+                                            $stmt = $conn->prepare("SELECT pathimage FROM public._image WHERE idimage = :idimage");
+                                            $stmt->execute([':idimage' => $offreDetails['carteresto']]);
+                                            $imagecarteresto = $stmt->fetchColumn();
+                                            ?>
+                                            <h2>Carte du restaurant</h2>
+                                            <img src="<?php echo $imagecarteresto; ?>" alt="Carte du restaurant" style="width:100%;max-width:500px; margin-bottom: 20px;">
 
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Horaire semaine</th>
-                                                <th>Gamme de prix</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><?php echo "Déjeuner : " . $horaires['lunchOpen'] . " - " . $horaires['lunchClose'] . "<br>Dîner : " . $horaires['dinnerOpen'] . " - " . $horaires['dinnerClose']; ?></td>
-                                                <?php
-                                                // si 1 alors on remplace par €, si 2 alors on remplace par €€, si 3 alors on remplace par €€€
-                                                $gammePrix = str_repeat('€', $offreDetails['gammeprix']);
-                                                ?>
-                                                <td><?php echo htmlspecialchars($gammePrix); ?></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </section>
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Horaire semaine</th>
+                                                        <th>Gamme de prix</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><?php echo "Déjeuner : " . $horaires['lunchOpen'] . " - " . $horaires['lunchClose'] . "<br>Dîner : " . $horaires['dinnerOpen'] . " - " . $horaires['dinnerClose']; ?></td>
+                                                        <?php
+                                                        // si 1 alors on remplace par €, si 2 alors on remplace par €€, si 3 alors on remplace par €€€
+                                                        $gammePrix = str_repeat('€', $offreDetails['gammeprix']);
+                                                        ?>
+                                                        <td><?php echo htmlspecialchars($gammePrix); ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
+                                <?php
+                                    break;
+                                    case 'spectacle':
+                                ?>
+                                        <section class="details_offre_mobile">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date de l'offre</th>
+                                                        <th>Indication de durée</th>
+                                                        <th>Capacité d'accueil</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['capaciteacceuil']); ?> personnes</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
+                                <?php
+                                    break;
+                                    case 'visite':
+                                ?>
+                                        <section class="details_offre_mobile">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date de l'offre</th>
+                                                        <th>Visite guidée</th>
+                                                        <th>Langues proposées</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['visiteguidee']); ?></td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['langueproposees']); ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
+                                <?php
+                                    break;
+                                }
+                            }
+                            ?>
+
+                            <?php if ($professionel) { ?>
+                                <!-- Bouton pour passer l'offre hors ligne ou remettre en ligne -->
+                                <?php if ($offre['horsligne']) { ?>
+                                    <form style="display:flex;justify-content:center;" method="POST" action="">
+                                        <input type="hidden" name="remettre_en_ligne" value="true">
+                                        <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir remettre cette offre en ligne ?');">
+                                            Remettre l'offre en ligne
+                                        </button>
+                                    </form>
+                                <?php } else { ?>
+                                    <form style="display:flex;justify-content:center;" method="POST" action="">
+                                        <input type="hidden" name="horsligne" value="true">
+                                        <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
+                                            Passer l'offre hors ligne
+                                        </button>
+                                    </form>
+                                <?php } ?>
+                            <?php } ?>
+
+                            <div style="display:flex;justify-content:center;">
+                                <a style="text-decoration:none;" href="index.php"> <button class="offer-btn">Retour aux offres</button></a>
+                            </div>
+
+                        </div>
+                    <?php else: ?>
+                        <p>Détails de l'offre non disponibles.</p>
+                    <?php endif; ?>
+                    <!-- ************************************ -->
+                    <!-- ******* FIN DETAILS OFFRE ********** -->
+                    <!-- ************************************ -->
+                
+                </div>
+
+                <div class="avis-offre" >
+
+                    <!-- ************************************ -->
+                    <!-- ******* DEBUT AVIS OFFRE ********** -->
+                    <!-- ************************************ -->
+
+                    <h2>Avis sur l'offre</h2>
+                    <div class="avis-container">
                         <?php
-                            break;
-                            case 'spectacle':
-                        ?>
-                                <section class="details_offre_mobile">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Date de l'offre</th>
-                                                <th>Indication de durée</th>
-                                                <th>Capacité d'accueil</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
-                                                <td><?php echo htmlspecialchars($offreDetails['capaciteacceuil']); ?> personnes</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </section>
-                        <?php
-                            break;
-                            case 'visite':
-                        ?>
-                                <section class="details_offre_mobile">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Date de l'offre</th>
-                                                <th>Visite guidée</th>
-                                                <th>Langues proposées</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['visiteguidee']); ?></td>
-                                                <td><?php echo htmlspecialchars($offreDetails['langueproposees']); ?></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </section>
-                        <?php
-                            break;
+                        // Requête SQL pour récupérer les avis sur l'offre
+                        $sql = "
+                            SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte
+                            FROM public._avis a
+                            JOIN public._compte c ON a.idmembre = c.idcompte
+                            WHERE a.idoffre = :idoffre
+                            ORDER BY a.dateavis DESC
+                        ";
+
+                        // Préparer et exécuter la requête
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
+                        $stmt->execute();
+
+                        // Récupérer les avis
+                        $avis = $stmt->fetchAll();
+                        
+                        if ($avis) {
+                            foreach ($avis as $avis) {
+
+                                $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
+
+                                ?>
+                                <div class="avis">
+                                    <p><strong><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?></p>
+                                    <p><?= $avis['commentaireavis'] ?></p>
+                                    <?php
+                                        for ($i = 0; $i < $avis['noteavis']; $i++) {
+                                            ?> <img src="./img/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                        }
+                                        for ($i = $avis['noteavis']; $i < 5; $i++) {
+                                            ?> <img src="./img/star-regular.svg" alt="star checked" width="20" height="20"> <?php
+                                        }
+                                    ?>
+                                </div>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                            <p>Aucun avis pour cette offre.</p>
+                            <?php
                         }
-                    }
-                    ?>
 
-                    <?php if ($professionel) { ?>
-                        <!-- Bouton pour passer l'offre hors ligne ou remettre en ligne -->
-                        <?php if ($offre['horsligne']) { ?>
-                            <form style="display:flex;justify-content:center;" method="POST" action="">
-                                <input type="hidden" name="remettre_en_ligne" value="true">
-                                <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir remettre cette offre en ligne ?');">
-                                    Remettre l'offre en ligne
-                                </button>
-                            </form>
-                        <?php } else { ?>
-                            <form style="display:flex;justify-content:center;" method="POST" action="">
-                                <input type="hidden" name="horsligne" value="true">
-                                <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
-                                    Passer l'offre hors ligne
-                                </button>
-                            </form>
-                        <?php } ?>
-                    <?php } ?>
 
-                    <div style="display:flex;justify-content:center;">
-                        <a style="text-decoration:none;" href="index.php"> <button class="offer-btn">Retour aux offres</button></a>
-                    </div>
+                        ?>
+
+                        <!-- ************************************ -->
+                        <!-- ********** FIN AVIS OFFRE ********** -->
+                        <!-- ************************************ -->
+
 
                 </div>
-            <?php else: ?>
-                <p>Détails de l'offre non disponibles.</p>
-            <?php endif; ?>
+
+                <style>
+                    .container-details-offre {
+                        display: flex;
+                        flex-direction: row;
+                        gap: 20px;
+                    }
+
+
+                    .details-offre {
+                        flex: 3; /* Partie des détails de l'offre */
+                        padding-left : 200px;
+                        padding: 10px;
+                    }
+                    .avis-offre {
+                        flex: 1; /* Partie des avis */
+                        padding: 10px;
+                        border-left: 1px solid #ccc; /* Ligne séparatrice */
+                    }
+
+                    .avis{
+                        border: 1px solid #ccc;
+                        width: 100%;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                    }
+
+                    @font-face {
+                        font-family: 'firasans';
+                        src: url('./font/firasans-regular-webfont.woff2') format('woff2');
+                    }
+
+                </style>
+
+
+            </div>
+                
+
+
+
+            
         </main>
 
         <div id="footer"></div>

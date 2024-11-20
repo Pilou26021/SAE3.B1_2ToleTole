@@ -1,4 +1,4 @@
--- Utiliser le schéma `sae`
+-- Utiliser le schéma `public`
 SET SCHEMA 'public';
 
 -- 1. Insérer des données dans `_image`
@@ -13,7 +13,10 @@ INSERT INTO _image (pathImage) VALUES
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
 ('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
 ('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 3, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', '2023-02-20', '2025-02-20'),
-('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 3, '$2y$10$WQZfbr1fhF.uPf8NBXtJd.4wln6z5OrF635Lc4.DpUv5AmjsOVw7i', '2023-02-20', '2025-02-20');
+('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 3, '$2y$10$WQZfbr1fhF.uPf8NBXtJd.4wln6z5OrF635Lc4.DpUv5AmjsOVw7i', '2023-02-20', '2025-02-20'),
+
+('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
+('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15');
 
 -- 3. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
@@ -30,7 +33,10 @@ INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, dateNaissanceMembre) VALUES 
 (1, '1990-01-01'),
-(2, '1995-05-05');
+(2, '1995-05-05'),
+(3, '1995-05-05'),
+(4, '2003-05-05'),
+(5, '2004-08-23');
 
 -- 6. Insérer des données dans `_professionnelPublic`
 INSERT INTO _professionnelPublic (idPro) VALUES 
@@ -51,7 +57,12 @@ INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptio
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 
 (1, 5, 'Excellente offre!', 1, '2023-05-15', '2023-05-10', FALSE, TRUE),
-(2, 3, 'Moyenne, pourrait être mieux.', 2, '2023-06-15', '2023-06-10', FALSE, FALSE);
+(2, 3, 'Moyenne, pourrait être mieux.', 2, '2023-06-15', '2023-06-10', FALSE, FALSE),
+
+(3, 4, 'Bonne offre! J''y retournerais sans problème !', 2, '2023-05-15', '2023-05-10', FALSE, FALSE),
+(3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE),
+(3, 1, 'Pas encore ouvert :''(', 4, '1955-11-11', '1955-11-11', FALSE, FALSE),
+(3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE);
 
 -- 10. Insérer des données dans `_signalement`
 INSERT INTO _signalement (raison) VALUES 
