@@ -428,7 +428,7 @@
                             }
 
                             // moitié d'étoiles pour les notes décimales entre 0.3 et 0.7
-                            if ($noteMoyenne - floor($noteMoyenne) > 0.2 && $noteMoyenne - floor($noteMoyenne) < 0.7) {
+                            if ($noteMoyenne - floor($noteMoyenne) > 0.2 && $noteMoyenne - floor($noteMoyenne) < 0.8) {
                                 ?> <img src="./img/star-half.svg" alt="half star checked" width="20" height="20"> <?php
                                 $i++; // Compter cette moitié d'étoile
                             }
