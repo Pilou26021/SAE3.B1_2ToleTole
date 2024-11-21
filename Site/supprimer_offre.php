@@ -98,9 +98,8 @@
                 $stmt->bindParam(':idoffre', $idOffre);
                 $stmt->execute();
                 $idTags = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                print_r($idTags);
             } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                //echo "Error: " . $e->getMessage();
             }
 
             $sql = "DELETE FROM public._theme WHERE idTag = :idTag";
@@ -112,7 +111,7 @@
                 }
                 //echo "<br>Tags supprimés avec succès.";
             } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                //echo "Error: " . $e->getMessage();
             }
 
 
@@ -212,9 +211,9 @@
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':idoffre', $idOffre);
                 $stmt->execute();
-                echo "<br>Avis supprimés avec succès.";
+                //echo "<br>Avis supprimés avec succès.";
             } catch (PDOException $e) {
-                echo "<br>Error: " . $e->getMessage();
+                //echo "<br>Error: " . $e->getMessage();
             }
 
             //delete de _offre
@@ -223,9 +222,9 @@
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':idoffre', $idOffre);
                 $stmt->execute();
-                echo "<br>Offre supprimée avec succès de _offre";
+                //echo "<br>Offre supprimée avec succès de _offre";
             } catch (PDOException $e) {
-                echo "<br>Error: " . $e->getMessage();
+                //echo "<br>Error: " . $e->getMessage();
             }
 
         }
