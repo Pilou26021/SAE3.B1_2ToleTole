@@ -389,9 +389,7 @@
                     <!-- ******* DEBUT AVIS OFFRE ********** -->
                     <!-- ************************************ -->
 
-                    <h2>Avis sur l'offre</h2>
-                    <div class="avis-container">
-                        <?php
+                    <?php
                         // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur
                         $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
                                 FROM public._avis a
@@ -408,35 +406,71 @@
 
                         // Récupérer les avis
                         $avis = $stmt->fetchAll();
-                        
-                        if ($avis) {
-                            foreach ($avis as $avis) {
 
-                                $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
+                    ?>
 
-                                ?>
-                                <div class="avis">
-                                    <p class ="pdp-name-date">
-                                        <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
-                                        <strong><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
-                                    </p>
-                                    <p><?= $avis['commentaireavis'] ?></p>
-                                    <?php
-                                        for ($i = 0; $i < $avis['noteavis']; $i++) {
-                                            ?> <img src="./img/star-solid.svg" alt="star checked" width="20" height="20"> <?php
-                                        }
-                                        for ($i = $avis['noteavis']; $i < 5; $i++) {
-                                            ?> <img src="./img/star-regular.svg" alt="star checked" width="20" height="20"> <?php
-                                        }
+                    <h2>Avis sur l'offre</h2>
+                    <div class="titre-moy">
+                        <?php 
+                            $noteMoyenne = 0;
+                            $nbAvis = count($avis);
+                            if ($nbAvis > 0) {
+                                foreach ($avis as $avi) {
+                                    $noteMoyenne += $avi['noteavis'];
+                                }
+                                $noteMoyenne = $noteMoyenne / $nbAvis;
+                            }
+                        ?>
+                        <?php 
+                            // étoiles pleines
+                            for ($i = 0; $i < floor($noteMoyenne); $i++) {
+                                ?> <img src="./img/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                            }
+
+                            // moitié d'étoiles pour les notes décimales entre 0.3 et 0.7
+                            if ($noteMoyenne - floor($noteMoyenne) > 0.2 && $noteMoyenne - floor($noteMoyenne) < 0.7) {
+                                ?> <img src="./img/star-half.svg" alt="half star checked" width="20" height="20"> <?php
+                                $i++; // Compter cette moitié d'étoile
+                            }
+
+                            // vides pour le reste
+                            for (; $i < 5; $i++) {
+                                ?> <img src="./img/star-regular.svg" alt="star unchecked" width="20" height="20"> <?php
+                            }
+                        ?>
+                        <p><?= number_format($noteMoyenne, 1) ?>/5</p>
+
+                    </div>
+                    <div class="avis-container">
+                        <?php 
+                            if ($avis) {
+                                foreach ($avis as $avis) {
+
+                                    $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
+
                                     ?>
-                                </div>
+                                    <div class="avis">
+                                        <p class ="pdp-name-date">
+                                            <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
+                                            <strong><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                        </p>
+                                        <p><?= $avis['commentaireavis'] ?></p>
+                                        <?php
+                                            for ($i = 0; $i < $avis['noteavis']; $i++) {
+                                                ?> <img src="./img/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                            for ($i = $avis['noteavis']; $i < 5; $i++) {
+                                                ?> <img src="./img/star-regular.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <p>Aucun avis pour cette offre.</p>
                                 <?php
                             }
-                        } else {
-                            ?>
-                            <p>Aucun avis pour cette offre.</p>
-                            <?php
-                        }
 
 
                         ?>
@@ -496,6 +530,19 @@
                         width: 50px;
                         height: 50px;
                         border-radius: 50%;
+                    }
+
+                    .titre-moy {
+                        display: flex;
+                        width: 200%;
+                        gap : 3.5px;
+                        padding-left: 10px;
+                    }
+
+                    .titre-moy p {
+                        position: relative;
+                        left: 5px;
+                        top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
                     }
 
                     @font-face {

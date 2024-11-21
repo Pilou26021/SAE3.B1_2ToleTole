@@ -65,7 +65,7 @@ INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateV
 
 (3, 4, 'Bonne offre! J''y retournerais sans problème !', 2, '2023-05-15', '2023-05-10', FALSE, FALSE),
 (3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE),
-(3, 1, 'Pas encore ouvert :''(', 4, '1955-11-11', '1955-11-11', FALSE, FALSE),
+(3, 2, 'Pas encore ouvert :''(', 4, '1955-11-11', '1955-11-11', FALSE, FALSE),
 (3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE);
 
 -- 10. Insérer des données dans `_signalement`
