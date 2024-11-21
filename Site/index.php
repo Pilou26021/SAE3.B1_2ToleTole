@@ -53,14 +53,27 @@ ob_start();
             ";
         }
 
+        $sqlprixmin= "
+                SELECT MIN(prixMinOffre) FROM public._offre";
+
+        $sqlprixmax= "
+                SELECT MAX(prixMinOffre) FROM public._offre";
+
+
         // Préparer et exécuter la requête
         $stmt = $conn->prepare($sql);
+        $stmtmax = $conn->prepare($sqlprixmax);
+        $stmtmin = $conn->prepare($sqlprixmin);
 
         if ($professionel) {
             $stmt->bindValue(':idpro', $idpro, PDO::PARAM_INT);  // Lier l'idPro si l'utilisateur est professionnel
         }
 
         $stmt->execute();
+        $stmtmax->execute();
+        $stmtmin->execute();
+        $min = $stmtmin->fetchAll();
+        $max = $stmtmax->fetchAll();
         $offres = $stmt->fetchAll();
     ?>
 </head>
@@ -139,14 +152,13 @@ ob_start();
                 <label for="priceRange">Gamme de prix :</label>
                 <div class="slider-container">
                     <div class="price-label">
-                        Prix: <span id="price-value">500</span>€
+                        Prix: <span id="price-value"><?php echo $max[0]['max']; ?></span>€
                     </div>
-                    
-                    <input type="range" id="price-range" class="slider" min="100" max="1000" step="20" value="500">
-                    
+                    <input data-url="ajax_filtres.php" type="range" id="price-range" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $max[0]['max']; ?>>
+
                     <div class="range-values">
-                        <span class="range-value">100€</span>
-                        <span class="range-value">1000€</span>
+                        <span class="range-value"><?php echo $min[0]['min']; ?> €</span>
+                        <span class="range-value"><?php echo $max[0]['max']; ?>€</span>
                     </div>
                 </div>
 

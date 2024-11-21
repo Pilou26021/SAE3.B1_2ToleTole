@@ -192,3 +192,36 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('lieux').addEventListener('input', applyFilters);
 });
 
+document.getElementById("price-range").addEventListener("change", async function () {
+    const priceValue = document.getElementById("price-value");
+    const maxPrice = this.value; // Récupère la valeur sélectionnée sur le slider
+    priceValue.textContent = maxPrice; // Affiche la valeur dans l'interface
+
+    // URL pour la requête AJAX
+    const url = this.getAttribute("data-url");
+
+    // Préparer les paramètres à envoyer
+    const params = new URLSearchParams();
+    params.append("maxPrice", maxPrice);
+
+    try {
+        // Effectuer une requête AJAX
+        const response = await fetch(`${url}?${params.toString()}`, {
+            method: "GET",
+        });
+
+        // Vérifier la réponse
+        if (response.ok) {
+            const data = await response.text();
+            // Injecter les résultats dans la section des offres
+            document.querySelector(".offres-display").innerHTML = data;
+        } else {
+            throw new Error("Erreur lors du chargement des offres.");
+        }
+    } catch (error) {
+        console.error("Erreur AJAX :", error);
+    }
+});
+
+  
+

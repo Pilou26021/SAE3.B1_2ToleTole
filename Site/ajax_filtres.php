@@ -4,6 +4,7 @@ include "../SQL/connection_local.php";
 // Récupérer les paramètres des filtres
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $lieux = isset($_GET['lieux']) ? $_GET['lieux'] : '';
+$maxPrice = isset($_GET['maxPrice']) ? intval($_GET['maxPrice']) : null;
 
 // Initialiser la condition de la table à interroger
 $tableJoin = '';
@@ -52,17 +53,20 @@ $sql = "
     LEFT JOIN public.offreAdresse oa ON o.idoffre = oa.idOffre
     WHERE 1=1
     $whereCategory
+    AND o.prixminoffre <= :maxPrice
 ";
 
 
 // Ajouter le filtre sur la ville si `lieux` est défini
 if (!empty($lieux)) {
-    $sql .= " AND (LOWER(oa.ville) = LOWER(:lieux)";
+    $sql .= " AND LOWER(oa.ville) = LOWER(:lieux)";
     // OR LOWER(oa.departement) = LOWER(:lieux) OR LOWER(oa.pays) = LOWER(:lieux))
 }
 
 // Préparer la requête
 $stmt = $conn->prepare($sql);
+
+$stmt->bindValue(":maxPrice", $maxPrice, PDO::PARAM_INT);
 
 if (!empty($lieux)) {
     // Assurez-vous que la variable $lieux est correctement échappée et liée
