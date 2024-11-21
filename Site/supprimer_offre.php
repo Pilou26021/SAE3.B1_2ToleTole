@@ -174,7 +174,7 @@
                     //echo "<br>Error: " . $e->getMessage();
                 }
             } else if ($categorie == 'restauration') { //delete de _offrerestaaurant
-                $sql = "DELETE FROM public._offrerestaaurant WHERE idoffre = :idoffre";
+                $sql = "DELETE FROM public._offrerestaurant WHERE idoffre = :idoffre";
                 try {
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':idoffre', $idOffre);
@@ -206,15 +206,26 @@
 
             }
 
+            //delete des avis de l'offre
+            $sql = "DELETE FROM public._avis WHERE idoffre = :idoffre";
+            try {
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':idoffre', $idOffre);
+                $stmt->execute();
+                echo "<br>Avis supprimés avec succès.";
+            } catch (PDOException $e) {
+                echo "<br>Error: " . $e->getMessage();
+            }
+
             //delete de _offre
             $sql = "DELETE FROM public._offre WHERE idoffre = :idoffre";
             try {
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':idoffre', $idOffre);
                 $stmt->execute();
-                //echo "<br>Offre supprimée avec succès de _offre";
+                echo "<br>Offre supprimée avec succès de _offre";
             } catch (PDOException $e) {
-                //echo "<br>Error: " . $e->getMessage();
+                echo "<br>Error: " . $e->getMessage();
             }
 
         }
@@ -242,9 +253,9 @@
 
         <script src="./script.js" ></script>
         <script>
-            setTimeout(function() {
-                window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
-            }, 3000); // 3000 millisecondes = 3 secondes
+            //setTimeout(function() {
+            //    window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
+            //}, 3000); // 3000 millisecondes = 3 secondes
         </script>
 
     </body>

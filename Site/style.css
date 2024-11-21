@@ -291,6 +291,11 @@ p {
 /** BOUTON CREER UNE OFFRE */
 
 .offer-btn {
+	/*retirer le style par défaut : */
+	background: none;
+	border: none;
+
+
 	display: flex;
 	align-items: center;
 	background-color: #F2F1E9;

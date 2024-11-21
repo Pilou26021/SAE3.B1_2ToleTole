@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            
+            <form action="upload_offer.php" method="post" enctype="multipart/form-data">            
             <br>
                 <?php 
                     switch($cat){
