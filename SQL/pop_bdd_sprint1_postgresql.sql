@@ -7,21 +7,25 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image2.png'),
 ('./img/uploaded/image3.png'),
 ('./img/uploaded/image4.png'),
-('./img/uploaded/image5.png');
+('./img/uploaded/image5.png'),
+('./img/uploaded/image6.png'), --lou
+('./img/uploaded/image7.png'), --liam
+('./img/uploaded/image8.png'), --piel
+('./img/uploaded/image9.png'); --Jane
 
 -- 2. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
 ('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
-('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 3, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', '2023-02-20', '2025-02-20'),
-('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 3, '$2y$10$WQZfbr1fhF.uPf8NBXtJd.4wln6z5OrF635Lc4.DpUv5AmjsOVw7i', '2023-02-20', '2025-02-20'),
 
-('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
-('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15');
+('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
+('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$WQZfbr1fhF.uPf8NBXtJd.4wln6z5OrF635Lc4.DpUv5AmjsOVw7i', '2023-02-20', '2025-02-20'),
+('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
+('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', '2023-02-20', '2025-02-20');
 
 -- 3. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
 (17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'),
-(1, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'),
+(5, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'),
 (4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France');
 
 -- 4. Insérer des données dans `_professionnel`

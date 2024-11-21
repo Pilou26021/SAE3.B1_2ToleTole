@@ -392,13 +392,13 @@
                     <h2>Avis sur l'offre</h2>
                     <div class="avis-container">
                         <?php
-                        // Requête SQL pour récupérer les avis sur l'offre
-                        $sql = "
-                            SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte
-                            FROM public._avis a
-                            JOIN public._compte c ON a.idmembre = c.idcompte
-                            WHERE a.idoffre = :idoffre
-                            ORDER BY a.dateavis DESC
+                        // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur
+                        $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                                FROM public._avis a
+                                JOIN public._compte c ON a.idmembre = c.idcompte
+                                JOIN public._image i ON c.idimagepdp = i.idimage
+                                WHERE a.idoffre = :idoffre
+                                ORDER BY a.dateavis DESC
                         ";
 
                         // Préparer et exécuter la requête
@@ -416,7 +416,10 @@
 
                                 ?>
                                 <div class="avis">
-                                    <p><strong><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?></p>
+                                    <p class ="pdp-name-date">
+                                        <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
+                                        <strong><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                    </p>
                                     <p><?= $avis['commentaireavis'] ?></p>
                                     <?php
                                         for ($i = 0; $i < $avis['noteavis']; $i++) {
@@ -458,9 +461,18 @@
                         padding-left : 200px;
                         padding: 10px;
                     }
+
+                    .avis-container{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        width: 200%; /* Ajustez à la taille désirée */
+                        margin: 0 auto;
+                    }
+
                     .avis-offre {
                         flex: 1; /* Partie des avis */
-                        padding: 10px;
+                        padding: 20px;
                         border-left: 1px solid #ccc; /* Ligne séparatrice */
                     }
 
@@ -469,6 +481,21 @@
                         width: 100%;
                         padding: 10px;
                         margin-bottom: 10px;
+                    }
+
+                    .pdp-name-date {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .pdp-name-date strong {
+                        margin-left : 10px;
+                    }
+
+                    .pdp-avis{
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
                     }
 
                     @font-face {
