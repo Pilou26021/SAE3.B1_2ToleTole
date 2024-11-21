@@ -37,12 +37,12 @@ session_destroy();
 </head>
 <body>
     <p class="deconnexion-message">Vous avez été déconnecté. À bientôt !</p>
-    <p class="deconnexion-message">Si vous n'êtes pas redirigé dans 3 secondes, <a href="index.php">cliquez ici.</a></p>
+    <p class="deconnexion-message">Si vous n'êtes pas redirigé <a href="index.php">cliquez ici.</a></p>
     <script>
         // redirige vers index.php après 3 secondes en js
         setTimeout(() => {
             window.location.href = 'index.php';
-        }, 3000);
+        }, 0);
     </script>
 </body>
 </html>

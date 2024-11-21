@@ -103,9 +103,9 @@ ob_start();
         <div class="recherche">
             <form action="">
                 <div class="recherche_top">
-                    <img src="img/Search.png" alt="Search">
+                    <img src="img/icons/search.png" alt="Search">
                     <input class="input" placeholder="Votre recherche" type="text">
-                    <img src="img/filtre.png" alt="Filtre" id="filterBtn">
+                    <img src="img/icons/filtre.png" alt="Filtre" id="filterBtn">
                 </div>
                 <hr>
                 <div>

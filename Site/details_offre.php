@@ -424,18 +424,18 @@
                         <?php 
                             // étoiles pleines
                             for ($i = 0; $i < floor($noteMoyenne); $i++) {
-                                ?> <img src="./img/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
                             }
 
                             // moitié d'étoiles pour les notes décimales entre 0.3 et 0.7
                             if ($noteMoyenne - floor($noteMoyenne) > 0.2 && $noteMoyenne - floor($noteMoyenne) < 0.8) {
-                                ?> <img src="./img/star-half.svg" alt="half star checked" width="20" height="20"> <?php
+                                ?> <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> <?php
                                 $i++; // Compter cette moitié d'étoile
                             }
 
                             // vides pour le reste
                             for (; $i < 5; $i++) {
-                                ?> <img src="./img/star-regular.svg" alt="star unchecked" width="20" height="20"> <?php
+                                ?> <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> <?php
                             }
                         ?>
                         <p><?= number_format($noteMoyenne, 1) ?>/5</p>
@@ -457,10 +457,10 @@
                                         <p><?= $avis['commentaireavis'] ?></p>
                                         <?php
                                             for ($i = 0; $i < $avis['noteavis']; $i++) {
-                                                ?> <img src="./img/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
                                             }
                                             for ($i = $avis['noteavis']; $i < 5; $i++) {
-                                                ?> <img src="./img/star-regular.svg" alt="star checked" width="20" height="20"> <?php
+                                                ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                             }
                                         ?>
                                     </div>

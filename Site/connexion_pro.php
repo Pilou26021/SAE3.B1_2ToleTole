@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         <!-- Logo -->
-        <img src="img/fond_remove_big.png" alt="Logo" style="width: 230px; height: auto;">
+        <img src="img/logos/fond_remove_big.png" alt="Logo" style="width: 230px; height: auto;">
         <h1 class="cp_mobile">Professionnel</h1>
 
         <form action="connexion_pro.php" method="POST" class="cp_mobile">

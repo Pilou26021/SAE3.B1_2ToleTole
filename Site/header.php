@@ -42,7 +42,7 @@ if (isset($_SESSION['membre'])) {
             <?php elseif ($membre): ?>
                 <!-- Affichage pour le membre (à compléter) -->
             <?php else: ?>
-                <img src="img/TripEnarvor.png" alt="" width="70px" height="70px">
+                <img src="img/logos/TripEnarvor.png" alt="" width="70px" height="70px">
                 <p>Visiteurs</p>
             <?php endif; ?>
         </div>
@@ -67,8 +67,8 @@ if (isset($_SESSION['membre'])) {
     </nav>
 
     <span class="openbtn" onclick="openNav()">&#9776;</span>
-    <a href="index.php"> <img src="img/fond_remove.png" alt="logo site noir" title="logo site noir"></a>
+    <a href="index.php"> <img src="img/logos/fond_remove.png" alt="logo site noir" title="logo site noir"></a>
     <a href="connexion_pro.php">
-        <img src="<?php echo (!empty($professionel) || !empty($membre)) ? $result['pathimage'] : './img/User.png'; ?>" alt="image user" title="image user" style="width: 50px; height: 50px;">
+        <img src="<?php echo (!empty($professionel) || !empty($membre)) ? $result['pathimage'] : './img/icons/user.png'; ?>" alt="image user" title="image user" style="width: 50px; height: 50px;">
     </a>
 </header>
