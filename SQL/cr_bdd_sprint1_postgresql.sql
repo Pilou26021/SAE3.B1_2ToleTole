@@ -293,6 +293,12 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
+-- vue membre avec mdp
+CREATE VIEW public.membreMdp AS
+SELECT m.idmembre, c.mailCompte, c.hashMdpCompte
+FROM public._membre m
+JOIN public._compte c ON m.idCompte = c.idCompte;
+
 -- vue professionel avec mdp
 CREATE VIEW public.professionnelMdp AS
 SELECT p.idPro, c.mailCompte, c.hashMdpCompte
@@ -336,6 +342,13 @@ CREATE VIEW public.compteProfessionnelImage AS
 SELECT c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, p.idPro, i.pathImage
 FROM public._compte c
 JOIN public._professionnel p ON c.idCompte = p.idCompte
+JOIN public._image i ON c.idImagePdp = i.idImage;
+
+-- vue compte et membre et image
+CREATE VIEW public.compteMembreImage AS
+SELECT c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, m.idMembre, i.pathImage
+FROM public._compte c
+JOIN public._membre m ON c.idCompte = m.idCompte
 JOIN public._image i ON c.idImagePdp = i.idImage;
 
 -- trouver catégorie d'offre

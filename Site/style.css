@@ -704,7 +704,7 @@ section.cp_mobile input.cp_mobile {
 	background-color: #F2F1E9;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 	/* Ombre */
-	margin: 40px;
+	margin: 30px 40px 40px 40px;
 	font-size: 20px;
 }
 
