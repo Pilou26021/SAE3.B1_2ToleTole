@@ -411,27 +411,40 @@
                                 foreach ($avis as $avi) {
                                     $noteMoyenne += $avi['noteavis'];
                                 }
-                                $noteMoyenne = $noteMoyenne / $nbAvis;
+                                $noteMoyenne = $noteMoyenne/$nbAvis;
                             }
                         ?>
                         <?php 
-                            // étoiles pleines
-                            for ($i = 0; $i < floor($noteMoyenne); $i++) {
-                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+
+                            // Calcul des étoiles pleines
+                            $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
+                            if ($noteMoyenne - $etoilesCompletes > 0.705){
+                                $etoilesCompletes++;
+                            }
+                            for ($i = 0; $i < $etoilesCompletes; $i++) {
+                                ?> 
+                                <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
+                                <?php
                             }
 
-                            // moitié d'étoiles pour les notes décimales entre 0.3 et 0.7
-                            if ($noteMoyenne - floor($noteMoyenne) > 0.2 && $noteMoyenne - floor($noteMoyenne) < 0.8) {
-                                ?> <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> <?php
-                                $i++; // Compter cette moitié d'étoile
+                            // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
+                            if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
+                                ?> 
+                                <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> 
+                                <?php
+                                $i++; // Compter cette demi-étoile
                             }
 
-                            // vides pour le reste
+                            // Compléter avec les étoiles vides jusqu'à 5
                             for (; $i < 5; $i++) {
-                                ?> <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> <?php
+                                ?> 
+                                <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> 
+                                <?php
                             }
+
                         ?>
-                        <p><?= number_format($noteMoyenne, 1) ?>/5</p>
+
+                        <p><?= number_format($noteMoyenne, 2) ?>/5</p>
 
                     </div>
                     <div class="avis-container">
