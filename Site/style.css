@@ -1321,3 +1321,22 @@ td {
     }
 }
 
+.add-avis-btn{
+	display: flex;
+	width: 80%;
+	justify-content: center;
+	border: #31CEA6 solid 2px;
+	border-radius: 10px;
+}
+
+.add-avis-btn:hover{
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.add-avis-btn img{
+	padding: 10px 0 10px 0;
+	width: 30px;
+	height: 30px;
+	transition: fill 3s ease; /* Transition douce */
+}
+

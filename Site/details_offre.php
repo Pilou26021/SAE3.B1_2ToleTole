@@ -402,7 +402,10 @@
 
                     ?>
 
-                    <h2>Avis sur l'offre</h2>
+                    <div style="display:flex;flex-direction:row;align-items:center;">
+                        <h2>Avis sur l'offre - </h2>
+                    </div>
+
                     <div class="titre-moy">
                         <?php 
                             $noteMoyenne = 0;
@@ -448,6 +451,14 @@
 
                     </div>
                     <div class="avis-container">
+
+                        <a class="add-avis-btn" href="ajouter_avis.php?idoffre=<?= $idoffre ?>">
+                            <img class="circle-not-hover" src="./img/icons/circle-plus-solid-grey.svg" alt="Donner mon avis">
+                            <img class="circle-on-hover" src="./img/icons/circle-plus-solid-green.svg" alt="Donner mon avis">
+                        </a>
+                        
+                        <hr style="border-top: 1px solid #ccc;" width="90%">
+
                         <?php 
                             if ($avis) {
                                 foreach ($avis as $avis) {
@@ -458,7 +469,7 @@
                                     <div class="avis">
                                         <p class ="pdp-name-date">
                                             <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
-                                            <strong><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                            <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                         </p>
                                         <p><?= $avis['commentaireavis'] ?></p>
                                         <?php
@@ -510,6 +521,7 @@
 
                     .avis-container{
                         display: flex;
+                        align-items: center;
                         flex-direction: column;
                         gap: 10px;
                         width: 130%; /* Ajustez à la taille désirée */
