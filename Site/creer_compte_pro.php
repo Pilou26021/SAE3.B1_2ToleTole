@@ -8,8 +8,10 @@
 </head>
 <body class="body-creer-pro">
     <main class="form-container">
-        <h1>Créer mon compte</h1>
-        <p class="subtitle">Professionnel</p>
+        <div class="back-arrow">
+        <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
+        </div>
+        <h1 class="subtitle">Créer mon compte Professionnel </h1>
         <section class="form-section">
             <h2>1. Apprenons à nous connaître</h2>
             <form class="form-creer-pro">
