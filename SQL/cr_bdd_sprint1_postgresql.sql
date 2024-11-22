@@ -94,21 +94,6 @@ CREATE TABLE public._offre (
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
 
-CREATE TABLE public._statoffre (
-    -- nombre de jours en ligne pour l'offre avec leur date pour générer la facture
-    idStatOffre SERIAL PRIMARY KEY,
-    idOffre BIGINT NOT NULL,
-    nbJoursEnLigne INT NOT NULL,
-    dateEnLigne JSON NOT NULL,
-    nbJoursMiseEnAvant INT NOT NULL,
-    dateMiseEnAvant JSON NOT NULL,
-    nbJoursEnRelief INT NOT NULL,
-    dateEnRelief JSON NOT NULL,
-    nbJoursHorsLigne INT NOT NULL,
-    dateHorsLigne JSON NOT NULL,
-    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
-);    
-
 CREATE TABLE public._avis (
     idAvis SERIAL PRIMARY KEY,
     idOffre BIGINT NOT NULL,
@@ -229,6 +214,13 @@ CREATE TABLE public._constPrix (
     prixEnRelief FLOAT NOT NULL
 );
 
+CREATE TABLE public._paiement (
+    idOffre BIGINT NOT NULL,
+    idFacture BIGINT NOT NULL,
+    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture),
+    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
+    FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
+);
 
 -- Table pour stocker les factures
 CREATE TABLE public._facture (
@@ -246,18 +238,10 @@ CREATE TABLE public._facture (
     totalTTC NUMERIC(10, 2) NOT NULL
 );
 
-CREATE TABLE public._paiement (
-    idOffre BIGINT NOT NULL,
-    idFacture BIGINT NOT NULL,
-    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture),
-    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
-    FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
-);
-
 -- Table pour les détails de la facture
-CREATE TABLE public._details_facture (
+CREATE TABLE public.details_facture (
     idDetail SERIAL PRIMARY KEY,
-    idFacture INT REFERENCES public._facture(idFacture),
+    idFacture INT REFERENCES public.factures(idFacture),
     descriptionService VARCHAR(255) NOT NULL,
     quantite INT NOT NULL,
     tarifUnitaireHT NUMERIC(10, 2) NOT NULL,
@@ -312,6 +296,56 @@ AFTER INSERT
 ON public._avis
 FOR EACH ROW
 EXECUTE FUNCTION update_commentaire_blacklistable();
+
+-- date de création de l'offre
+CREATE OR REPLACE FUNCTION update_date_creation_offre()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE public._offre
+    SET dateCreationOffre = NOW()
+    WHERE idOffre = NEW.idOffre;
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- trigger pour mettre en place la facturation (calcul du montant TTC, HT)
+CREATE OR REPLACE FUNCTION facturation()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public._facture (idProPrive, idConstPrix, dateFacture, montantHT, montantTTC)
+    VALUES (NEW.idProPropose, 1, NOW(), NEW.prixMinOffre, NEW.prixMinOffre * 1.2);
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- Fonction pour calculer les montants HT et TTC
+CREATE OR REPLACE FUNCTION calculer_montants(
+    quantite INT,
+    tarifUnitaireHT NUMERIC,
+    tarifUnitaireTTC NUMERIC
+) RETURNS TABLE(montantHT NUMERIC, montantTTC NUMERIC) AS $$
+BEGIN
+    montantHT := quantite * tarifUnitaireHT;
+    montantTTC := quantite * tarifUnitaireTTC;
+    RETURN NEXT;
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- Trigger pour générer automatiquement les factures
+CREATE OR REPLACE FUNCTION generer_facture()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Code pour générer la facture et insérer les détails dans les tables factures et details_facture
+    -- ...
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER trg_generer_facture
+AFTER INSERT OR UPDATE
+ON public._offre
+FOR EACH ROW
+EXECUTE FUNCTION generer_facture();
 
 -- vue professionel avec mdp
 CREATE VIEW public.professionnelMdp AS
