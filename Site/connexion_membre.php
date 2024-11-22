@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <head>
         <meta charset="UTF-8">
-        <title>Connexion professionnel</title>
+        <title>Connexion</title>
         <link rel="stylesheet" href="style.css">
     </head>
 
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <!-- Logo -->
         <img src="img/logos/fond_remove_big.png" alt="Logo" style="width: 230px; height: auto;">
-        <h1 class="cp_mobile">Professionnel</h1>
+        <h1 class="cp_mobile">Utilisateur</h1>
 
         <form action="connexion_pro.php" method="POST" class="cp_mobile">
 
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Bouton de validation -->
             <input type="submit" value="Se connecter" class="cp_mobile_btn">
             <div style="display:flex;justify-content:center;">
-                <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Se connecter en tant que membre</a>
+                <a class="offer-btn" style="text-decoration:none;" href="connexion_pro.php">Se connecter en tant que professionnel</a>
             </div>
             <br>
 

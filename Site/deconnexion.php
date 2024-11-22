@@ -3,6 +3,8 @@
 ob_start();
 session_start();
 session_destroy();
+ob_clean();
+session_abort();
 
 // On affiche un message comme quoi on a bien été déconnecté
 ?>
