@@ -1241,7 +1241,7 @@ td {
 .input-container .required {
     position: absolute;
     top: 50%;
-    right: 15px;
+	right: 1px;
     transform: translateY(-50%);
     color: #4CAF50;
     font-size: 1.5em; /* Agrandi */
@@ -1284,6 +1284,11 @@ td {
     font-weight: bold;
     text-transform: uppercase;
 }
+
+.hidden {
+    display: none;
+}
+
 
 /* Back arrow styles */
 .back-arrow {
