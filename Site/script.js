@@ -1,5 +1,7 @@
-const priceRange = document.getElementById("price-range");
-const priceValue = document.getElementById("price-value");
+const priceRangeMax = document.getElementById("price-range-max");
+const priceValueMax = document.getElementById("price-value-max");
+const priceRangeMin = document.getElementById("price-range-min");
+const priceValueMin = document.getElementById("price-value-min");
 const rayonRange = document.getElementById("rayon-range");
 const rayonValue = document.getElementById("rayon-value");
 const notemin = document.getElementById('notemin');
@@ -42,8 +44,12 @@ document.getElementById("filterBtn").addEventListener("click", function() {
     }
 });
 
-priceRange.addEventListener("input", function() {
-    priceValue.textContent = priceRange.value;
+priceRangeMax.addEventListener("input", function() {
+    priceValueMax.textContent = priceRangeMax.value;
+});
+
+priceRangeMin.addEventListener("input", function() {
+    priceValueMin.textContent = priceRangeMin.value;
 });
 
 rayonRange.addEventListener("input", function() {
@@ -192,16 +198,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('lieux').addEventListener('input', applyFilters);
 });
 
-document.getElementById("price-range").addEventListener("change", async function () {
-    const priceValue = document.getElementById("price-value");
-    const maxPrice = this.value; // Récupère la valeur sélectionnée sur le slider
-    priceValue.textContent = maxPrice; // Affiche la valeur dans l'interface
+// Fonction pour gérer les requêtes AJAX
+async function updateOffers() {
+    const minPrice = document.getElementById("price-range-min").value;
+    const maxPrice = document.getElementById("price-range-max").value;
+
+    // Mettre à jour les valeurs affichées
+    document.getElementById("price-value-min").textContent = minPrice;
+    document.getElementById("price-value-max").textContent = maxPrice;
 
     // URL pour la requête AJAX
-    const url = this.getAttribute("data-url");
+    const url = document.getElementById("price-range-min").getAttribute("data-url");
 
-    // Préparer les paramètres à envoyer
+    // Préparer les paramètres
     const params = new URLSearchParams();
+    params.append("minPrice", minPrice);
     params.append("maxPrice", maxPrice);
 
     try {
@@ -221,7 +232,12 @@ document.getElementById("price-range").addEventListener("change", async function
     } catch (error) {
         console.error("Erreur AJAX :", error);
     }
-});
+}
+
+// Ajout des événements sur les sliders
+document.getElementById("price-range-min").addEventListener("input", updateOffers);
+document.getElementById("price-range-max").addEventListener("input", updateOffers);
+
 
   
 

@@ -152,9 +152,10 @@ ob_start();
                 <label for="priceRange">Gamme de prix :</label>
                 <div class="slider-container">
                     <div class="price-label">
-                        Prix: <span id="price-value"><?php echo $max[0]['max']; ?></span>€
+                        Prix: <span id="price-value-min"><?php echo $min[0]['min']; ?></span>€ a <span id="price-value-max"><?php echo $max[0]['max']; ?></span>€
                     </div>
-                    <input data-url="ajax_filtres.php" type="range" id="price-range" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $max[0]['max']; ?>>
+                    <input data-url="ajax_filtres.php" type="range" id="price-range-min" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $min[0]['min']; ?>>
+                    <input data-url="ajax_filtres.php" type="range" id="price-range-max" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $max[0]['max']; ?>>
 
                     <div class="range-values">
                         <span class="range-value"><?php echo $min[0]['min']; ?> €</span>

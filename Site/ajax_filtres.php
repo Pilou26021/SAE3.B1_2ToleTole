@@ -5,6 +5,7 @@ include "../SQL/connection_local.php";
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $lieux = isset($_GET['lieux']) ? $_GET['lieux'] : '';
 $maxPrice = isset($_GET['maxPrice']) ? intval($_GET['maxPrice']) : null;
+$minPrice = isset($_GET['minPrice']) ? intval($_GET['minPrice']) : null;
 
 // Initialiser la condition de la table à interroger
 $tableJoin = '';
@@ -53,7 +54,6 @@ $sql = "
     LEFT JOIN public.offreAdresse oa ON o.idoffre = oa.idOffre
     WHERE 1=1
     $whereCategory
-    AND o.prixminoffre <= :maxPrice
 ";
 
 
@@ -63,10 +63,22 @@ if (!empty($lieux)) {
     // OR LOWER(oa.departement) = LOWER(:lieux) OR LOWER(oa.pays) = LOWER(:lieux))
 }
 
+if (!is_null($maxPrice)) {
+    $sql .= " AND o.prixminoffre <= :maxPrice";
+}
+if (!is_null($minPrice)) {
+    $sql .= " AND o.prixminoffre >= :minPrice";
+}
+
 // Préparer la requête
 $stmt = $conn->prepare($sql);
 
-$stmt->bindValue(":maxPrice", $maxPrice, PDO::PARAM_INT);
+if (!is_null($maxPrice)) {
+    $stmt->bindValue(":maxPrice", $maxPrice, PDO::PARAM_INT);
+}
+if (!is_null($minPrice)) {
+    $stmt->bindValue(":minPrice", $minPrice, PDO::PARAM_INT);
+}
 
 if (!empty($lieux)) {
     // Assurez-vous que la variable $lieux est correctement échappée et liée
