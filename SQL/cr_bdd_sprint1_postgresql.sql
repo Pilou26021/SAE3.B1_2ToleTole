@@ -313,55 +313,6 @@ ON public._avis
 FOR EACH ROW
 EXECUTE FUNCTION update_commentaire_blacklistable();
 
--- date de création de l'offre
-CREATE OR REPLACE FUNCTION update_date_creation_offre()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE public._offre
-    SET dateCreationOffre = NOW()
-    WHERE idOffre = NEW.idOffre;
-    RETURN NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
--- trigger pour mettre en place la facturation (calcul du montant TTC, HT)
-CREATE OR REPLACE FUNCTION facturation()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO public._facture (idProPrive, idConstPrix, dateFacture, montantHT, montantTTC)
-    VALUES (NEW.idProPropose, 1, NOW(), NEW.prixMinOffre, NEW.prixMinOffre * 1.2);
-    RETURN NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
--- Fonction pour calculer les montants HT et TTC
-CREATE OR REPLACE FUNCTION calculer_montants(
-    quantite INT,
-    tarifUnitaireHT NUMERIC,
-    tarifUnitaireTTC NUMERIC
-) RETURNS TABLE(montantHT NUMERIC, montantTTC NUMERIC) AS $$
-BEGIN
-    montantHT := quantite * tarifUnitaireHT;
-    montantTTC := quantite * tarifUnitaireTTC;
-    RETURN NEXT;
-END;
-$$ LANGUAGE 'plpgsql';
-
--- Trigger pour générer automatiquement les factures
-CREATE OR REPLACE FUNCTION generer_facture()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- on utiliste statOffre pour obtenir les informations
-    RETURN NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER trg_generer_facture
-AFTER INSERT OR UPDATE
-ON public._offre
-FOR EACH ROW
-EXECUTE FUNCTION generer_facture();
-
 -- vue professionel avec mdp
 CREATE VIEW public.professionnelMdp AS
 SELECT p.idPro, c.mailCompte, c.hashMdpCompte
