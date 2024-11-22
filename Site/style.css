@@ -94,7 +94,11 @@ header {
 }
 
 .filter-form {
+
+	z-index: 10;
+	top: 10vw;
 	display: none;
+	position: absolute;
 	margin: 20px auto;
 	padding: 20px;
 	width: 80%;

@@ -45,10 +45,18 @@ document.getElementById("filterBtn").addEventListener("click", function() {
 });
 
 priceRangeMax.addEventListener("input", function() {
+    // Empêcher priceRangeMax d'être inférieur à priceRangeMin
+    if (parseInt(priceRangeMax.value) < parseInt(priceRangeMin.value)) {
+        priceRangeMax.value = priceRangeMin.value;
+    }
     priceValueMax.textContent = priceRangeMax.value;
 });
 
 priceRangeMin.addEventListener("input", function() {
+    // Empêcher priceRangeMin d'être supérieur à priceRangeMax
+    if (parseInt(priceRangeMin.value) > parseInt(priceRangeMax.value)) {
+        priceRangeMin.value = priceRangeMax.value;
+    }
     priceValueMin.textContent = priceRangeMin.value;
 });
 
@@ -237,6 +245,39 @@ async function updateOffers() {
 // Ajout des événements sur les sliders
 document.getElementById("price-range-min").addEventListener("input", updateOffers);
 document.getElementById("price-range-max").addEventListener("input", updateOffers);
+
+
+const noteMinSelect = document.getElementById("notemin");
+const noteMaxSelect = document.getElementById("notemax");
+
+async function filterByNotes() {
+    const minNote = parseInt(noteMinSelect.value);
+    const maxNote = parseInt(noteMaxSelect.value);
+
+    // Vérifier que minNote est inférieur ou égal à maxNote
+
+    const url = noteMinSelect.getAttribute("data-url");
+    const params = new URLSearchParams();
+    params.append("notemin", minNote);
+    params.append("notemax", maxNote);
+
+    try {
+        const response = await fetch(`${url}?${params.toString()}`, { method: "GET" });
+
+        if (response.ok) {
+            const data = await response.text();
+            document.querySelector(".offres-display").innerHTML = data;
+        } else {
+            throw new Error("Erreur lors du filtrage des offres.");
+        }
+    } catch (error) {
+        console.error("Erreur AJAX :", error);
+    }
+}
+
+// Ajouter des écouteurs d'événements
+noteMinSelect.addEventListener("change", filterByNotes);
+noteMaxSelect.addEventListener("change", filterByNotes);
 
 
   

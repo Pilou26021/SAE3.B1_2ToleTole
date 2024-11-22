@@ -6,6 +6,8 @@ $category = isset($_GET['category']) ? $_GET['category'] : '';
 $lieux = isset($_GET['lieux']) ? $_GET['lieux'] : '';
 $maxPrice = isset($_GET['maxPrice']) ? intval($_GET['maxPrice']) : null;
 $minPrice = isset($_GET['minPrice']) ? intval($_GET['minPrice']) : null;
+$noteMin = isset($_GET['notemin']) ? intval($_GET['notemin']) : 0;
+$noteMax = isset($_GET['notemax']) ? intval($_GET['notemax']) : 5;
 
 // Initialiser la condition de la table à interroger
 $tableJoin = '';
@@ -54,6 +56,7 @@ $sql = "
     LEFT JOIN public.offreAdresse oa ON o.idoffre = oa.idOffre
     WHERE 1=1
     $whereCategory
+    AND o.noteMoyenneOffre BETWEEN :notemin AND :notemax
 ";
 
 
@@ -72,6 +75,9 @@ if (!is_null($minPrice)) {
 
 // Préparer la requête
 $stmt = $conn->prepare($sql);
+
+$stmt->bindValue(":notemin", $noteMin, PDO::PARAM_INT);
+$stmt->bindValue(":notemax", $noteMax, PDO::PARAM_INT);
 
 if (!is_null($maxPrice)) {
     $stmt->bindValue(":maxPrice", $maxPrice, PDO::PARAM_INT);
