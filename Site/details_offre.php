@@ -512,7 +512,7 @@
                         display: flex;
                         flex-direction: column;
                         gap: 10px;
-                        width: 200%; /* Ajustez à la taille désirée */
+                        width: 130%; /* Ajustez à la taille désirée */
                         margin: 0 auto;
                     }
 
