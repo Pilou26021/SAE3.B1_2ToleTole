@@ -20,7 +20,6 @@
         $idcompte = $_SESSION['professionnel'];
     }
 
-
     //Requête pour récuperer l'image de base de l'utilisateur et la supprimer
     $sql = "SELECT idimagepdp
             FROM public._compte 

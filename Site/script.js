@@ -232,6 +232,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('notemax').addEventListener("change", applyFilters);
 });
 
+function validImages(inputElements) {
+    var validExtensions = ['image/jpeg', 'image/png', 'image/jpg']; // Formats acceptés
+
+    for (var i = 0; i < inputElements.length; i++) {
+        var file = inputElements[i].files[0];
+        if (file && !validExtensions.includes(file.type)) {
+            alert('Format d\'image non supporté dans le champ ' + inputElements[i].name + '. Veuillez choisir un fichier .png, .jpg, ou .jpeg.');
+            inputElements[i].value = ''; // Réinitialiser l'input
+            return false;
+        }
+    }
+    return true;
+}
 
 
   

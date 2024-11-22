@@ -234,7 +234,7 @@
             <main>
                 <?php 
                     if ("no error"){ //TODO
-                        echo "<h1>OFFRE BIEN SUPPRIMER DE LA BASE DE DONNEE</h1>";
+                        echo "<h1>OFFRE BIEN SUPPRIMÉE DE LA BASE DE DONNEE</h1>";
                     }
                 ?>
             </main>
@@ -242,7 +242,7 @@
         <main>
                 <?php 
                     if ("no error"){ //TODO
-                        echo "<h1>CETTE OFFRE NE VOUS APPARTIENT PAS, VOUS ALLEZ ETRE REDIRIGE</h1>";
+                        echo "<h1>CETTE OFFRE NE VOUS APPARTIENT PAS, VOUS ALLEZ ETRE REDIRIGÉ</h1>";
                     }
                 ?>
         </main>

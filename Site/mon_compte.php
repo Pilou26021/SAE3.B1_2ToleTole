@@ -152,9 +152,9 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2>Modifier votre photo de profil</h2>
-            <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
+            <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data" onsubmit="return validImages(document.querySelectorAll('.image-input-fn'))">
                 <div class="modal-content-btn">
-                    <input class="offer-btn" type="file" name="newProfileImage" accept="image/*" required>
+                    <input class="offer-btn image-input-fn" type="file" name="newProfileImage" accept=".png, .jpg, .jpeg" required>
                     <div class="modal-footer">
                         <button type="submit" class="offer-btn">Enregistrer</button>
                     </div>
@@ -194,5 +194,6 @@
         }
 
     </script>
+    <script src="./script.js" ></script>
 </body>
 </html>

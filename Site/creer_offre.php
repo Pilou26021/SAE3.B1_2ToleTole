@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <form action="upload_offer.php" method="post" enctype="multipart/form-data">            
+            <form action="upload_offer.php" method="post" enctype="multipart/form-data" onsubmit="return validImages(document.querySelectorAll('.image-input-fn'))">            
             <br>
                 <?php 
                     switch($cat){
@@ -239,7 +239,7 @@
 
                     <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
-                        <input type="file" name="imageOffre" accept=".png, .jpg, .jpeg" required>
+                        <input class="image-input-fn" type="file" name="imageOffre" accept=".png, .jpg, .jpeg" required>
                     </div>
 
                 <?php } if ($cat == 'parc') {?>
@@ -251,7 +251,7 @@
                     <br>
                     <h2>Carte du parc</h2>
                     <div class="image-upload">
-                        <input type="file" name="carteParc" accept=".png, .jpg, .jpeg" required>
+                        <input class="image-input-fn" type="file" name="carteParc" accept=".png, .jpg, .jpeg" required>
                     </div>
                     <h2>Nombre d'attractions disponibles</h2>
                     <input id="nbrAttraction" class="zone-number" type="number" name="nbrAttraction" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
@@ -340,7 +340,7 @@
                 <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
-                    <input type="file" name="menuImage" accept=".png, .jpg, .jpeg" required>
+                    <input class="image-input-fn" type="file" name="menuImage" accept=".png, .jpg, .jpeg" required>
                 </div>
                 <h2>Tags de l'offre</h2>
                 <div class="tags">
