@@ -119,7 +119,7 @@
     <div id="header"></div>
     <main class="creer-offre-main">
         <h1>Modifier l'offre</h1>
-        <form method="post" action="update_offer.php" enctype="multipart/form-data">
+        <form method="post" action="update_offer.php" enctype="multipart/form-data" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)" onsubmit="return validImages(document.querySelectorAll('.image-input-fn'))">
             <?php 
                 // Envoie de l'ID de l'offre dans le post
                 echo '<input type="hidden" name="idOffre" value="' . $idOffre . '">';
@@ -196,7 +196,7 @@
 
             <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
             <div class="image-upload">
-                <input type="file" name="imageOffre" accept=".png, .jpg, .jpeg">
+                <input class="image-input-fn" type="file" name="imageOffre" accept=".png, .jpg, .jpeg">
             </div>
 
             <?php if ($cat === 'parc') : ?>
@@ -209,7 +209,7 @@
                 <br>
                 <h2>Carte du parc</h2>
                 <div class="image-upload">
-                    <input type="file" name="carteParc" accept=".png, .jpg, .jpeg">
+                    <input class="image-input-fn" type="file" name="carteParc" accept=".png, .jpg, .jpeg">
                 </div>
 
                 <h2>Nombre d'attractions disponibles</h2>
@@ -349,7 +349,7 @@
                 <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
-                    <input type="file" name="menuImage" accept=".png, .jpg, .jpeg">
+                    <input class="image-input-fn" type="file" name="menuImage" accept=".png, .jpg, .jpeg">
                 </div>
 
                 <h2>Tags de l'offre</h2>
