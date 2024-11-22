@@ -180,19 +180,28 @@ function resetButtonText(cat) {
     }
 }
 
+// FILTRES
+
 async function applyFilters() {
     // Récupérer les valeurs des filtres
     const category = document.getElementById('category').value;
     const lieux = document.getElementById('lieux').value;
+    const minPrice = document.getElementById("price-range-min").value;
+    const maxPrice = document.getElementById("price-range-max").value;
+    const notemin = document.getElementById('notemin').value;
+    const notemax = document.getElementById('notemax').value;
 
-
-    // Préparer les données pour l'envoi
+    // Préparer les paramètres de filtre
     const filters = new URLSearchParams();
     filters.append('category', category);
     filters.append('lieux', lieux);
+    filters.append('minPrice', minPrice);
+    filters.append('maxPrice', maxPrice);
+    filters.append('notemin', notemin);
+    filters.append('notemax', notemax);
 
     try {
-        // Utiliser fetch pour envoyer les filtres et récupérer les résultats
+        // Effectuer la requête AJAX en envoyant tous les filtres
         const response = await fetch('ajax_filtres.php?' + filters.toString(), {
             method: 'GET',
             headers: {
@@ -217,80 +226,12 @@ async function applyFilters() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('category').addEventListener('change', applyFilters);
     document.getElementById('lieux').addEventListener('input', applyFilters);
+    document.getElementById('price-range-min').addEventListener("input", applyFilters);
+    document.getElementById('price-range-max').addEventListener("input", applyFilters);
+    document.getElementById('notemin').addEventListener("change", applyFilters);
+    document.getElementById('notemax').addEventListener("change", applyFilters);
 });
 
-// Fonction pour gérer les requêtes AJAX
-async function updateOffers() {
-    const minPrice = document.getElementById("price-range-min").value;
-    const maxPrice = document.getElementById("price-range-max").value;
-
-    // Mettre à jour les valeurs affichées
-    document.getElementById("price-value-min").textContent = minPrice;
-    document.getElementById("price-value-max").textContent = maxPrice;
-
-    // URL pour la requête AJAX
-    const url = document.getElementById("price-range-min").getAttribute("data-url");
-
-    // Préparer les paramètres
-    const params = new URLSearchParams();
-    params.append("minPrice", minPrice);
-    params.append("maxPrice", maxPrice);
-
-    try {
-        // Effectuer une requête AJAX
-        const response = await fetch(`${url}?${params.toString()}`, {
-            method: "GET",
-        });
-
-        // Vérifier la réponse
-        if (response.ok) {
-            const data = await response.text();
-            // Injecter les résultats dans la section des offres
-            document.querySelector(".offres-display").innerHTML = data;
-        } else {
-            throw new Error("Erreur lors du chargement des offres.");
-        }
-    } catch (error) {
-        console.error("Erreur AJAX :", error);
-    }
-}
-
-// Ajout des événements sur les sliders
-document.getElementById("price-range-min").addEventListener("input", updateOffers);
-document.getElementById("price-range-max").addEventListener("input", updateOffers);
-
-
-const noteMinSelect = document.getElementById("notemin");
-const noteMaxSelect = document.getElementById("notemax");
-
-async function filterByNotes() {
-    const minNote = parseInt(noteMinSelect.value);
-    const maxNote = parseInt(noteMaxSelect.value);
-
-    // Vérifier que minNote est inférieur ou égal à maxNote
-
-    const url = noteMinSelect.getAttribute("data-url");
-    const params = new URLSearchParams();
-    params.append("notemin", minNote);
-    params.append("notemax", maxNote);
-
-    try {
-        const response = await fetch(`${url}?${params.toString()}`, { method: "GET" });
-
-        if (response.ok) {
-            const data = await response.text();
-            document.querySelector(".offres-display").innerHTML = data;
-        } else {
-            throw new Error("Erreur lors du filtrage des offres.");
-        }
-    } catch (error) {
-        console.error("Erreur AJAX :", error);
-    }
-}
-
-// Ajouter des écouteurs d'événements
-noteMinSelect.addEventListener("change", filterByNotes);
-noteMaxSelect.addEventListener("change", filterByNotes);
 
 
   
