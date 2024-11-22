@@ -94,6 +94,21 @@ CREATE TABLE public._offre (
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
 
+CREATE TABLE public._statoffre (
+    -- nombre de jours en ligne pour l'offre avec leur date pour générer la facture
+    idStatOffre SERIAL PRIMARY KEY,
+    idOffre BIGINT NOT NULL,
+    nbJoursEnLigne INT NOT NULL,
+    dateEnLigne JSON NOT NULL,
+    nbJoursMiseEnAvant INT NOT NULL,
+    dateMiseEnAvant JSON NOT NULL,
+    nbJoursEnRelief INT NOT NULL,
+    dateEnRelief JSON NOT NULL,
+    nbJoursHorsLigne INT NOT NULL,
+    dateHorsLigne JSON NOT NULL,
+    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
+);    
+
 CREATE TABLE public._avis (
     idAvis SERIAL PRIMARY KEY,
     idOffre BIGINT NOT NULL,
@@ -214,13 +229,6 @@ CREATE TABLE public._constPrix (
     prixEnRelief FLOAT NOT NULL
 );
 
-CREATE TABLE public._paiement (
-    idOffre BIGINT NOT NULL,
-    idFacture BIGINT NOT NULL,
-    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture),
-    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
-    FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
-);
 
 -- Table pour stocker les factures
 CREATE TABLE public._facture (
@@ -238,10 +246,18 @@ CREATE TABLE public._facture (
     totalTTC NUMERIC(10, 2) NOT NULL
 );
 
+CREATE TABLE public._paiement (
+    idOffre BIGINT NOT NULL,
+    idFacture BIGINT NOT NULL,
+    CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture),
+    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
+    FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
+);
+
 -- Table pour les détails de la facture
-CREATE TABLE public.details_facture (
+CREATE TABLE public._details_facture (
     idDetail SERIAL PRIMARY KEY,
-    idFacture INT REFERENCES public.factures(idFacture),
+    idFacture INT REFERENCES public._facture(idFacture),
     descriptionService VARCHAR(255) NOT NULL,
     quantite INT NOT NULL,
     tarifUnitaireHT NUMERIC(10, 2) NOT NULL,
@@ -335,8 +351,7 @@ $$ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION generer_facture()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Code pour générer la facture et insérer les détails dans les tables factures et details_facture
-    -- ...
+    -- on utiliste statOffre pour obtenir les informations
     RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
