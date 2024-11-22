@@ -96,7 +96,7 @@ header {
 .filter-form {
 
 	z-index: 10;
-	top: 10vw;
+	top: 5vw;
 	display: none;
 	position: absolute;
 	margin: 20px auto;

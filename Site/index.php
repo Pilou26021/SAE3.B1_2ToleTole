@@ -166,7 +166,7 @@ ob_start();
 
                 <label for="sort">Notes :</label>
                 <div style="display: flex; justify-content: space-around;">
-                    <select  class="choose" id="notemin" name="notemin" style="width: 30%; height: 30px;">
+                    <select  class="choose" id="notemin" name="notemin" style="width: 30%; height: 30px;" data-url="ajax_filtres.php">
                         <option value="0" selected="selected">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -175,7 +175,7 @@ ob_start();
                         <option value="5">5</option>
                     </select>
                     <p>a</p>
-                    <select  class="choose" id="notemax" name="notemax" style="width: 30%; height: 30px;">
+                    <select  class="choose" id="notemax" name="notemax" style="width: 30%; height: 30px;" data-url="ajax_filtres.php">
                         <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>

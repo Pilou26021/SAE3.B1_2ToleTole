@@ -35,14 +35,27 @@ function adjustDates() {
     }
 }
 
-document.getElementById("filterBtn").addEventListener("click", function() {
-    var filterForm = document.getElementById("filterForm");
-    if (filterForm.style.display === "none" || filterForm.style.display === "") {
-        filterForm.style.display = "block";
-    } else {
-        filterForm.style.display = "none";
-    }
+$(document).ready(function() {
+    // Lorsque l'utilisateur clique sur le bouton de filtre, affichez le pop-up
+    $("#filterBtn").click(function() {
+        $("#filterForm").fadeIn();
+    });
+
+    // Lorsque l'utilisateur clique en dehors du pop-up des filtres, le fermer
+    $(document).click(function(event) {
+        // Si le clic a eu lieu en dehors de #filterForm et #filterBtn
+        if (!$(event.target).closest('#filterForm').length && !$(event.target).closest('#filterBtn').length) {
+            $("#filterForm").fadeOut();  // Fermer le filtre
+        }
+    });
+
+    // Empêcher le clic sur le filtre de fermer immédiatement le pop-up
+    $("#filterForm").click(function(event) {
+        event.stopPropagation();
+    });
 });
+
+
 
 priceRangeMax.addEventListener("input", function() {
     // Empêcher priceRangeMax d'être inférieur à priceRangeMin
