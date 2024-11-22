@@ -1163,3 +1163,127 @@ td {
     background-color: white; /* Changement de couleur de fond */
     outline: none;
 }
+
+/*Page création compte pro*/
+
+/* General Reset */
+
+
+.body-creer-pro {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5e9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 360px;
+    background-color: #f5f5e9;
+    text-align: center;
+}
+
+.form-container h1 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.form-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-creer-pro {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+
+}
+
+.input-container {
+    position: relative;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+}
+
+.input-container input::placeholder {
+    color: #ccc;
+}
+
+.input-container .required {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #4CAF50;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.input-row {
+    display: flex;
+    gap: 35px;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #388e3c;
+}
+
+.almost-done {
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Responsive Design */
+@media (max-width: 360px) {
+    .form-container {
+        padding: 10px;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+}
+

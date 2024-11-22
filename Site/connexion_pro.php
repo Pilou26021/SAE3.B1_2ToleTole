@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Liens vers les autres pages -->
         <a href="#" class="cp_mobile">Mot de passe oublié ?</a><br>
         <a href="#" class="cp_mobile">Se connecter en tant que membre</a><br>
-        <a href="#" class="cp_mobile">Créer un compte professionnel</a><br>
+        <a href="creer_compte_pro.php" class="cp_mobile">Créer un compte professionnel</a><br>
 
     </body>
 </html>
