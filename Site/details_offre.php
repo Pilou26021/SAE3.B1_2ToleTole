@@ -88,14 +88,7 @@
             }
         ?>
 
-
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-        <style>
-            #map {
-                width: 100%; /* Largeur de la carte */
-                height: 250px;
-            }
-        </style>
 
         <?php
         //Collecte des informations sur l'emplacement de l'offre
@@ -483,6 +476,12 @@
                 </div>
 
                 <style>
+
+                    #map {
+                        width: 100%; /* Largeur de la carte */
+                        height: 250px;
+                    }
+
                     .container-details-offre {
                         display: flex;
                         flex-direction: row;

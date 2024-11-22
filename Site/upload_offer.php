@@ -2,6 +2,8 @@
     error_reporting(E_ALL ^ E_WARNING);
     ob_start();
     session_start();
+    shell_exec ('chmod 755 -R ./Site/img');
+    shell_exec('chown -R www-data:www-data ./Site/img/uploaded');
 
     // On vérifie si l'utilisateur est connecté. Il peut être connecté en tant que membre ou professionnel. Si il n'est pas connecté alors il sera visiteur.
     if (isset($_SESSION['professionnel'])) {
