@@ -146,6 +146,7 @@ ob_start();
                 <label for="date">Date :</label>
                 <div style="display: flex; align-items:center; justify-content: space-around;">
                     <input id="datedeb" class="input-filtre"  style="width: 40%;" type="date" >
+                    <p>a</p>
                     <input id="datefin" class="input-filtre"  style="width: 40%;" type="date" >
                 </div>
 

@@ -190,6 +190,8 @@ async function applyFilters() {
     const maxPrice = document.getElementById("price-range-max").value;
     const notemin = document.getElementById('notemin').value;
     const notemax = document.getElementById('notemax').value;
+    const datedeb = document.getElementById('datedeb').value;
+    const datefin = document.getElementById('datefin').value;
 
     // Préparer les paramètres de filtre
     const filters = new URLSearchParams();
@@ -199,6 +201,8 @@ async function applyFilters() {
     filters.append('maxPrice', maxPrice);
     filters.append('notemin', notemin);
     filters.append('notemax', notemax);
+    filters.append('datedeb', datedeb);
+    filters.append('datefin', datefin);
 
     try {
         // Effectuer la requête AJAX en envoyant tous les filtres

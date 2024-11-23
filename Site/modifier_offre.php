@@ -1,7 +1,6 @@
 <?php
     error_reporting(E_ALL ^ E_WARNING);
-    ob_start();
-    session_start();
+
     
     //include du header
     include "header.php";
