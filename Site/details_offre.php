@@ -383,22 +383,54 @@
                     <!-- ************************************ -->
 
                     <?php
-                        // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur
-                        $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
-                                FROM public._avis a
-                                JOIN public._compte c ON a.idmembre = c.idcompte
-                                JOIN public._image i ON c.idimagepdp = i.idimage
-                                WHERE a.idoffre = :idoffre
-                                ORDER BY a.dateavis DESC
-                        ";
+                        if($membre){
+                            // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur sauf pour l'utilisateur connecté
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            FROM public._avis a
+                            JOIN public._compte c ON a.idmembre = c.idcompte
+                            JOIN public._image i ON c.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre AND c.idcompte <> :conn_membre
+                            ORDER BY a.dateavis DESC";
 
-                        // Préparer et exécuter la requête
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            FROM public._avis a
+                            JOIN public._compte c ON a.idmembre = c.idcompte
+                            JOIN public._image i ON c.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre AND c.idcompte = :conn_membre
+                            ORDER BY a.dateavis DESC";
+                            
+                        } else {
+                            // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            FROM public._avis a
+                            JOIN public._compte c ON a.idmembre = c.idcompte
+                            JOIN public._image i ON c.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre
+                            ORDER BY a.dateavis DESC";
+                        }
+                        
+
+                        // Préparer et exécuter la requête de tout les avis
                         $stmt = $conn->prepare($sql);
+                        if ($membre){
+                            $stmt->bindValue(':conn_membre', $idmembre, PDO::PARAM_INT);
+                        }
                         $stmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
                         $stmt->execute();
 
                         // Récupérer les avis
                         $avis = $stmt->fetchAll();
+
+                        if($membre){
+                            // Préparer et exécuter pour l'avis du membre
+                            $stmt = $conn->prepare($sql_only_member);
+                            $stmt->bindValue(':conn_membre', $idmembre, PDO::PARAM_INT);
+                            $stmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
+                            $stmt->execute();
+
+                            // Récupérer les avis
+                            $avis_membre = $stmt->fetchAll();
+                        }
 
                     ?>
 
@@ -409,7 +441,7 @@
                     <div class="titre-moy">
                         <?php 
                             $noteMoyenne = 0;
-                            $nbAvis = count($avis);
+                            $nbAvis = count($avis) + count($avis_membre);
                             if ($nbAvis > 0) {
                                 foreach ($avis as $avi) {
                                     $noteMoyenne += $avi['noteavis'];
@@ -452,7 +484,7 @@
                     </div>
                     <div class="avis-container">
 
-                        <?php if ($membre) { ?>
+                        <?php if ($membre && count($avis_membre) == 0) { ?>
                             <p>Donnez votre avis sur cette offre :</p>
                             <a class="add-avis-btn" href="ajouter_avis.php?idoffre=<?= $idoffre ?>">
                                 <!-- <img class="circle-not-hover" src="./img/icons/circle-plus-solid-grey.svg" alt="Donner mon avis"> -->
@@ -464,6 +496,32 @@
                         <?php } ?>
 
                         <?php 
+                            if ($avis_membre){
+                                foreach ($avis_membre as $avis_m) {
+
+                                    $date_formated = date("d/m/Y", strtotime($avis_m['dateavis']));
+
+                                    ?>
+                                    <div class="avis_m">
+                                        <p><strong>Mon avis</strong></p>
+                                        <p class ="pdp-name-date">
+                                            <img class="pdp-avis" src="<?php echo $avis_m['pathimage'] ?>" alt="image utilisateur">
+                                            <strong style="margin-right:3px;"><?= $avis_m['nomcompte'] . ' ' . $avis_m['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                        </p>
+                                        <p><?= $avis_m['commentaireavis'] ?></p>
+                                        <?php
+                                            for ($i = 0; $i < $avis_m['noteavis']; $i++) {
+                                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                            for ($i = $avis_m['noteavis']; $i < 5; $i++) {
+                                                ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+                            }
+
                             if ($avis) {
                                 foreach ($avis as $avis) {
 

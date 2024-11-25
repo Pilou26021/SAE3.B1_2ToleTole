@@ -1377,6 +1377,13 @@ td {
 	margin-bottom: 10px;
 }
 
+.avis_m{
+	border: 1px solid #31CEA6;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
 .pdp-name-date {
 	display: flex;
 	align-items: center;
