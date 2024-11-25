@@ -101,18 +101,16 @@ ob_start();
         <?php endif; ?>
 
         <div class="recherche">
-            <form action="">
-                <div class="recherche_top">
-                    <img src="img/icons/search.png" alt="Search">
-                    <input class="input" placeholder="Votre recherche" type="text">
-                    <img src="img/icons/filtre.png" alt="Filtre" id="filterBtn">
-                </div>
-                <hr>
-                <div>
-                    <input class="button_1" type="submit" value="Recherche" >
-                </div>
-            </form>
+    <form action="">
+        <div class="recherche_top">
+            <img src="img/icons/search.png" alt="Search">
+            <input id="search-query" class="input" placeholder="Votre recherche" type="text">
+            <img src="img/icons/filtre.png" alt="Filtre" id="filterBtn">
         </div>
+        <hr>
+    </form>
+</div>
+
         <div id="filterForm" class="filter-form">
             <h3> Filtres</h3>
             <form action="#">
@@ -157,6 +155,7 @@ ob_start();
                     </div>
                     <input data-url="ajax_filtres.php" type="range" id="price-range-min" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $min[0]['min']; ?>>
                     <input data-url="ajax_filtres.php" type="range" id="price-range-max" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $max[0]['max']; ?>>
+
 
                     <div class="range-values">
                         <span class="range-value"><?php echo $min[0]['min']; ?> €</span>

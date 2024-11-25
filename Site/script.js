@@ -55,8 +55,6 @@ $(document).ready(function() {
     });
 });
 
-
-
 priceRangeMax.addEventListener("input", function() {
     // Empêcher priceRangeMax d'être inférieur à priceRangeMin
     if (parseInt(priceRangeMax.value) < parseInt(priceRangeMin.value)) {
@@ -183,6 +181,7 @@ function resetButtonText(cat) {
 // FILTRES
 
 async function applyFilters() {
+    const search = document.getElementById('search-query').value;
     const category = document.getElementById('category').value;
     const lieux = document.getElementById('lieux').value;
     const minPrice = document.getElementById("price-range-min").value;
@@ -192,8 +191,8 @@ async function applyFilters() {
     const Tprix = document.getElementById('Tprix').value;
     const Tnote = document.getElementById('Tnote').value;
 
-
     const filters = new URLSearchParams({
+        search,
         category,
         lieux,
         minPrice,
@@ -244,6 +243,7 @@ async function applyFilters() {
 
 // Ajouter des écouteurs d'événements pour chaque filtre
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('search-query').addEventListener('input', applyFilters);
     document.getElementById('Tprix').addEventListener('change', applyFilters);
     document.getElementById('Tnote').addEventListener('change', applyFilters);
     document.getElementById('category').addEventListener('change', applyFilters);
@@ -267,7 +267,3 @@ function validImages(inputElements) {
     }
     return true;
 }
-
-
-  
-
