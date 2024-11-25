@@ -152,6 +152,8 @@ ob_start();
                     <input id="datefin" class="input-filtre"  style="width: 40%;" type="date" >
                 </div>
 
+
+
                 <label for="priceRange">Gamme de prix :</label>
                 <div class="slider-container">
                     <div class="price-label">
@@ -204,6 +206,13 @@ ob_start();
 
                 <label for="aLaUneC">Offres à la Une :</label>
                 <select class="choose" id="aLaUne" name="aLaUne">
+                    <option value="">--Choisissez une option--</option>
+                    <option value="true">Oui</option>
+                    <option value="false">Non</option>
+                </select>
+
+                <label for="OuvertureC">Offres ouverture :</label>
+                <select class="choose" id="ouverture" name="ouverture">
                     <option value="">--Choisissez une option--</option>
                     <option value="true">Oui</option>
                     <option value="false">Non</option>

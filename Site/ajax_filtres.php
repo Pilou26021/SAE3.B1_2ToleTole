@@ -18,6 +18,7 @@ try {
     $aLaUne = isset($_GET['aLaUne']) && $_GET['aLaUne'] === 'true';
     $startDate = isset($_GET['startDate']) ? trim($_GET['startDate']) : null;
     $endDate = isset($_GET['endDate']) ? trim($_GET['endDate']) : null;
+    $isOpen = isset($_GET['isOpen']) && $_GET['isOpen'] === 'true';
 
     $sql = "
         SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.noteMoyenneOffre
@@ -93,7 +94,13 @@ try {
         $bindings[":endDate"] = $endDate;
     }
 
-        
+    
+    if($isOpen)
+    {
+        $sql .= "INNER JOIN public._offreParcAttraction o_parc ON o.idoffre = o_parc.idoffre";
+        $whereConditions[] = "NOW() BETWEEN o_parc.dateOuverture AND o_parc.dateFermeture";
+    }
+
 
     if (!empty($whereConditions)) {
         $sql .= " WHERE " . implode(" AND ", $whereConditions);

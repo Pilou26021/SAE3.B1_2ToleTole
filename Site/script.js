@@ -193,6 +193,7 @@ async function applyFilters() {
     const aLaUne = document.getElementById('aLaUne').value;
     const startDate = document.getElementById('datedeb').value;
     const endDate = document.getElementById('datefin').value;
+    const isOpen = document.getElementById('ouverture').value;
 
 
     const filters = new URLSearchParams({
@@ -207,7 +208,8 @@ async function applyFilters() {
         Tnote,
         aLaUne,
         startDate,
-        endDate
+        endDate,
+        isOpen
     });
 
     try {
@@ -262,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('aLaUne').addEventListener('change', applyFilters);
     document.getElementById('datedeb').addEventListener('change', applyFilters);
     document.getElementById('datefin').addEventListener('change', applyFilters);
+    document.getElementById('ouverture').addEventListener('change', applyFilters);
 });
 
 function validImages(inputElements) {
