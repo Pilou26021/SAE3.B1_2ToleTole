@@ -16,6 +16,8 @@ try {
     $Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
     $search = isset($_GET['search']) ? trim($_GET['search']) : '';
     $aLaUne = isset($_GET['aLaUne']) && $_GET['aLaUne'] === 'true';
+    $startDate = isset($_GET['startDate']) ? trim($_GET['startDate']) : null;
+    $endDate = isset($_GET['endDate']) ? trim($_GET['endDate']) : null;
 
     $sql = "
         SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.noteMoyenneOffre
@@ -80,6 +82,18 @@ try {
     if ($aLaUne) {
         $whereConditions[] = "o.alauneoffre = TRUE";
     }
+
+    if(!empty($startDate)) {
+        $whereConditions[] = "o.dateCreationOffre >= :startDate";
+        $bindings[":startDate"] = $startDate;
+    }
+
+    if (!empty($endDate)) {
+        $whereConditions[] = "o.dateCreationOffre <= :endDate";
+        $bindings[":endDate"] = $endDate;
+    }
+
+        
 
     if (!empty($whereConditions)) {
         $sql .= " WHERE " . implode(" AND ", $whereConditions);

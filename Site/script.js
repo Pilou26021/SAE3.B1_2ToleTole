@@ -191,6 +191,8 @@ async function applyFilters() {
     const Tprix = document.getElementById('Tprix').value;
     const Tnote = document.getElementById('Tnote').value;
     const aLaUne = document.getElementById('aLaUne').value;
+    const startDate = document.getElementById('datedeb').value;
+    const endDate = document.getElementById('datefin').value;
 
 
     const filters = new URLSearchParams({
@@ -204,6 +206,8 @@ async function applyFilters() {
         Tprix,
         Tnote,
         aLaUne,
+        startDate,
+        endDate
     });
 
     try {
@@ -256,6 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('notemin').addEventListener("change", applyFilters);
     document.getElementById('notemax').addEventListener("change", applyFilters);
     document.getElementById('aLaUne').addEventListener('change', applyFilters);
+    document.getElementById('datedeb').addEventListener('change', applyFilters);
+    document.getElementById('datefin').addEventListener('change', applyFilters);
 });
 
 function validImages(inputElements) {
