@@ -46,7 +46,7 @@ if (isset($_SESSION['membre'])) {
                 <?php } ?>
             <?php else: ?>
 
-                <img src="img/logos/TripEnarvor.png" alt="" width="70px" height="70px">
+                <img src="img/logos/tripenarvor_nobg.png" alt="" width="70px" height="70px">
                 <p>Visiteur</p>
 
             <?php endif; ?>
