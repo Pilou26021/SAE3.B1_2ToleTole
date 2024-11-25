@@ -105,7 +105,7 @@
             } else {
                 formStep.classList.add('hidden');
             }
-        }
+        });
     }
 
     // Gérer la soumission finale du formulaire (si vous voulez envoyer des données ou afficher un message)
