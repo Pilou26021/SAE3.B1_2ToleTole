@@ -12,24 +12,24 @@ $membre = false;
 // On vérifie si l'utilisateur est connecté. Il peut être connecté en tant que membre ou professionnel. Si il n'est pas connecté alors il sera visiteur.
 if (isset($_SESSION['membre'])) {
     $membre = true;
-    $idmembre = $_SESSION['membre'];
+    $idcompte = $_SESSION['membre'];
 } elseif (isset($_SESSION['professionnel'])) {
     $professionel = true;
-    $idpro = $_SESSION['professionnel'];
+    $idcompte = $_SESSION['professionnel'];
 }
 
 ?>
 <header>
     <nav id="mySidenav" class="sidenav">
         <div class="profil">
-            <?php if ($professionel): ?>
+            <?php if ($professionel || $membre): ?>
 
                 <!-- vue à utiliser compteProfessionnelImage -->
                 <?php
                 // l'idpro est dans la session dans professionel
-                $sql = "SELECT nomcompte, prenomcompte, mailcompte, pathImage FROM compteProfessionnelImage WHERE idPro = ?";
+                $sql = "SELECT nomcompte, prenomcompte, mailcompte, pathImage FROM compteImage WHERE idcompte = ?";
                 $stmt = $conn->prepare($sql);
-                $stmt->bindValue(1, $idpro, PDO::PARAM_INT);
+                $stmt->bindValue(1, $idcompte, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 /* result :
@@ -39,27 +39,15 @@ if (isset($_SESSION['membre'])) {
                 <img src="<?= $result['pathimage'] ?>" alt="" width="70px" height="70px" style="border-radius:50%;">
                 <p><?= $result['prenomcompte'] . ' ' . $result['nomcompte'] ?></p>
                 <p><?= $result['mailcompte'] ?></p>
-                <p>Professionnel</p>
-
-            <?php elseif ($membre): 
-
-                // Affichage pour le membre 
-                // l'idmembre est dans la session dans membre
-                $sql = "SELECT nomcompte, prenomcompte, mailcompte, pathImage FROM compteMembreImage WHERE idmembre = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindValue(1, $idmembre, PDO::PARAM_INT);
-                $stmt->execute();
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                ?>
-                <img src="<?= $result['pathimage'] ?>" alt="" width="70px" height="70px" style="border-radius:50%;">
-                <p><?= $result['prenomcompte'] . ' ' . $result['nomcompte'] ?></p>
-                <p><?= $result['mailcompte'] ?></p>
-                <p>Membre</p>
-
+                <?php if ($professionel){ ?>
+                    <p>Professionnel</p>
+                <?php } else { ?>
+                    <p>Membre</p>
+                <?php } ?>
             <?php else: ?>
 
                 <img src="img/logos/TripEnarvor.png" alt="" width="70px" height="70px">
-                <p>Visiteurs</p>
+                <p>Visiteur</p>
 
             <?php endif; ?>
         </div>

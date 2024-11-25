@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $motdepasse = $_POST['mdp_cp_mob'];
 
     // Vérification de l'existence de l'utilisateur
-    $sql = "SELECT * FROM professionnelMdp WHERE mailcompte = ?";
+    $sql = "SELECT * FROM _compte WHERE mailcompte = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(1, $email, PDO::PARAM_STR);
     $stmt->execute();
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
         // Si la connexion est réussie, définir la session
-        $_SESSION['professionnel'] = $result['idpro']; // on utilisez un autre champ pertinent
+        $_SESSION['professionnel'] = $result['idcompte']; // on utilisez un autre champ pertinent
         header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
         exit();
     } else {

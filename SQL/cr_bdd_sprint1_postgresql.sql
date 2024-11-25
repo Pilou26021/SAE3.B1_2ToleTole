@@ -337,18 +337,10 @@ FROM public._avis a
 JOIN public._imageImageAvis iia ON a.idAvis = iia.idAvis
 JOIN public._image i ON iia.idImage = i.idImage;
 
--- vue compte et professionel et image
-CREATE VIEW public.compteProfessionnelImage AS
-SELECT c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, p.idPro, i.pathImage
+-- vue compte  et image
+CREATE VIEW public.compteImage AS
+SELECT c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, i.pathImage
 FROM public._compte c
-JOIN public._professionnel p ON c.idCompte = p.idCompte
-JOIN public._image i ON c.idImagePdp = i.idImage;
-
--- vue compte et membre et image
-CREATE VIEW public.compteMembreImage AS
-SELECT c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, m.idMembre, i.pathImage
-FROM public._compte c
-JOIN public._membre m ON c.idCompte = m.idCompte
 JOIN public._image i ON c.idImagePdp = i.idImage;
 
 -- trouver catégorie d'offre

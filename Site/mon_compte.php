@@ -7,10 +7,10 @@
     $membre = false;
     if (isset($_SESSION['membre'])) {
         $membre = true;
-        $idmembre = $_SESSION['membre'];
+        $idcompte = $_SESSION['membre'];
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
-        $idpro = $_SESSION['professionnel'];
+        $idcompte = $_SESSION['professionnel'];
     }
 ?>
 
@@ -112,15 +112,9 @@
         <h1>Mon Compte</h1>
         
         <?php 
-            if (isset($_SESSION['membre'])) {
-                $idcompte = $idmembre;
-            } elseif (isset($_SESSION['professionnel'])) {
-                $idcompte = $idpro;
-            }
-
             //requete pour récupérer l'image de l'utilisateur
-            $sql = "SELECT i.pathimage, c.nomcompte, c.prenomcompte, c.mailcompte, numtelcompte FROM _image i JOIN _compte c 
-                    ON i.idimage = c.idimagepdp
+            $sql = "SELECT c.nomcompte, c.prenomcompte, c.mailcompte, numtelcompte, i.pathimage FROM _compte c JOIN _image i
+                    ON c.idimagepdp = i.idimage
                     WHERE idcompte = :idcompte";
 
             // Préparer et exécuter la requête

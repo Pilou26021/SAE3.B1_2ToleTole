@@ -16,15 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $motdepasse = $_POST['mdp_cp_mob'];
 
     // Vérification de l'existence de l'utilisateur
-    $sql = "SELECT * FROM membremdp WHERE mailcompte = ?";
+    $sql = "SELECT * FROM _compte WHERE mailcompte = :email";
     $stmt = $conn->prepare($sql);
-    $stmt->bindValue(1, $email, PDO::PARAM_STR);
+    $stmt->bindValue(":email", $email, PDO::PARAM_STR);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
         // Si la connexion est réussie, définir la session
-        $_SESSION['membre'] = $result['idmembre']; // on utilise un autre champ pertinent
+        $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
         header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
         exit();
     } else {

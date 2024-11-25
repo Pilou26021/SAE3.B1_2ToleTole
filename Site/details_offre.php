@@ -403,7 +403,7 @@
                     ?>
 
                     <div style="display:flex;flex-direction:row;align-items:center;">
-                        <h2>Avis sur l'offre - </h2>
+                        <h2>Avis sur l'offre</h2>
                     </div>
 
                     <div class="titre-moy">
@@ -452,12 +452,16 @@
                     </div>
                     <div class="avis-container">
 
-                        <a class="add-avis-btn" href="ajouter_avis.php?idoffre=<?= $idoffre ?>">
-                            <img class="circle-not-hover" src="./img/icons/circle-plus-solid-grey.svg" alt="Donner mon avis">
-                            <img class="circle-on-hover" src="./img/icons/circle-plus-solid-green.svg" alt="Donner mon avis">
-                        </a>
-                        
-                        <hr style="border-top: 1px solid #ccc;" width="90%">
+                        <?php if ($membre) { ?>
+                            <p>Donnez votre avis sur cette offre :</p>
+                            <a class="add-avis-btn" href="ajouter_avis.php?idoffre=<?= $idoffre ?>">
+                                <!-- <img class="circle-not-hover" src="./img/icons/circle-plus-solid-grey.svg" alt="Donner mon avis"> -->
+                                <img class="circle-on-hover" src="./img/icons/circle-plus-solid-green.svg" alt="Donner mon avis">
+                            </a>
+                            
+                            <hr style="border-top: 1px solid #ccc;" width="90%">
+
+                        <?php } ?>
 
                         <?php 
                             if ($avis) {
@@ -578,12 +582,24 @@
 
 
             </div>
-                
-
-
-
             
         </main>
+
+        <!-- Modale pour donner son avis -->
+        <div id="avisModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Donner votre avis</h2>
+                <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
+                    <div class="modal-content-btn">
+                        <input class="offer-btn image-input-fn" type="file" name="newProfileImage" accept=".png, .jpg, .jpeg" required>
+                        <div class="modal-footer">
+                            <button type="submit" class="offer-btn">Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div id="footer"></div>
 
