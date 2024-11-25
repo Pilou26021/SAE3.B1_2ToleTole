@@ -293,18 +293,6 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
--- vue membre avec mdp
-CREATE VIEW public.membreMdp AS
-SELECT m.idmembre, c.mailCompte, c.hashMdpCompte
-FROM public._membre m
-JOIN public._compte c ON m.idCompte = c.idCompte;
-
--- vue professionel avec mdp
-CREATE VIEW public.professionnelMdp AS
-SELECT p.idPro, c.mailCompte, c.hashMdpCompte
-FROM public._professionnel p
-JOIN public._compte c ON p.idCompte = c.idCompte;
-
 -- vue professionel public
 CREATE VIEW public.professionnelPublic AS
 SELECT p.idPro, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp
@@ -320,9 +308,15 @@ JOIN public._professionnelPrive pp ON p.idPro = pp.idPro;
 
 -- vue membre
 CREATE VIEW public.membre AS
-SELECT m.idMembre, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, m.dateNaissanceMembre
+SELECT m.idMembre, c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, c.hashMdpCompte, m.dateNaissanceMembre
 FROM public._membre m
 JOIN public._compte c ON m.idCompte = c.idCompte;
+
+-- vue professionnel
+CREATE VIEW public.professionnel AS
+SELECT p.idPro, c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.hashMdpCompte, c.idImagePdp
+FROM public._professionnel p
+JOIN public._compte c ON p.idCompte = c.idCompte;
 
 -- vue avis avec leur réponse
 CREATE VIEW public.avisReponse AS

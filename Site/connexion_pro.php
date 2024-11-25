@@ -16,9 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $motdepasse = $_POST['mdp_cp_mob'];
 
     // Vérification de l'existence de l'utilisateur
-    $sql = "SELECT * FROM _compte WHERE mailcompte = ?";
+    $sql = "SELECT * FROM professionnel WHERE mailcompte = :email";
     $stmt = $conn->prepare($sql);
-    $stmt->bindValue(1, $email, PDO::PARAM_STR);
+    $stmt->bindValue(":email", $email, PDO::PARAM_STR);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
