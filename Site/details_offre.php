@@ -585,7 +585,7 @@
             
         </main>
 
-        <!-- Modale pour donner son avis -->
+        <!-- Modale pour donner son avis 
         <div id="avisModal" class="modal">
             <div class="modal-content">
                 <span class="close-btn">&times;</span>
@@ -599,7 +599,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>-->
 
         <div id="footer"></div>
 
