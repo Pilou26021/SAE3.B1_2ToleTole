@@ -531,7 +531,7 @@ input[type="radio"]+label {
 	/* Retire le style par défaut de la checkbox */
 	width: 20px;
 	height: 20px;
-	border: 2px solid #1f8a70;
+	border: 2px solid #27772e;
 	/* Vert de base */
 	border-radius: 4px;
 	background-color: white;
