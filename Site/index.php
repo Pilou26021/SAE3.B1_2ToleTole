@@ -27,7 +27,7 @@ ob_start();
         if ($professionel) {
             // Si professionnel, n'afficher que ses offres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne, o.aLaUneOffre
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
