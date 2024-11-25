@@ -190,6 +190,8 @@ async function applyFilters() {
     const notemax = document.getElementById('notemax').value;
     const Tprix = document.getElementById('Tprix').value;
     const Tnote = document.getElementById('Tnote').value;
+    const aLaUne = document.getElementById('aLaUne').value;
+
 
     const filters = new URLSearchParams({
         search,
@@ -201,6 +203,7 @@ async function applyFilters() {
         notemax,
         Tprix,
         Tnote,
+        aLaUne,
     });
 
     try {
@@ -252,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('price-range-max').addEventListener("input", applyFilters);
     document.getElementById('notemin').addEventListener("change", applyFilters);
     document.getElementById('notemax').addEventListener("change", applyFilters);
+    document.getElementById('aLaUne').addEventListener('change', applyFilters);
 });
 
 function validImages(inputElements) {

@@ -15,10 +15,12 @@ try {
     $Tprix = isset($_GET['Tprix']) ? $_GET['Tprix'] : '';
     $Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
     $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+    $aLaUne = isset($_GET['aLaUne']) && $_GET['aLaUne'] === 'true';
 
     $sql = "
         SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.noteMoyenneOffre
         FROM public._offre o
+        LEFT JOIN public._adresse oa ON o.idadresse = oa.idadresse
         JOIN (
             SELECT idoffre, MIN(idimage) AS firstImage
             FROM public._afficherimageoffre
@@ -65,17 +67,20 @@ try {
     }
 
     if (!empty($lieux)) {
-        $sql .= " LEFT JOIN public.offreAdresse oa ON o.idoffre = oa.idOffre";
         $whereConditions[] = "LOWER(oa.ville) = LOWER(:lieux)";
         $bindings[':lieux'] = $lieux;
     }
-   
+
     if (!empty($search)) {
         $whereConditions[] = "(LOWER(o.titreoffre) LIKE LOWER(:search) 
                              OR LOWER(o.resumeoffre) LIKE LOWER(:search))";
         $bindings[':search'] = '%' . $search . '%';
     }
-    
+
+    if ($aLaUne) {
+        $whereConditions[] = "o.alauneoffre = TRUE";
+    }
+
     if (!empty($whereConditions)) {
         $sql .= " WHERE " . implode(" AND ", $whereConditions);
     }
@@ -94,7 +99,6 @@ try {
     if (!empty($orderBy)) {
         $sql .= " ORDER BY $orderBy";
     }
-   
 
     $stmt = $conn->prepare($sql);
     foreach ($bindings as $key => $value) {
@@ -103,15 +107,10 @@ try {
     $stmt->execute();
     $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
     ob_end_clean();
-    if(count($offres) > 0)
-    {
+    if (count($offres) > 0) {
         echo json_encode(['status' => 'success', 'data' => $offres]);
-    
-    }
-    else
-    {
+    } else {
         echo json_encode(['status' => 'error', 'message' => 'Aucune offre trouvée']);
     }
 } catch (Exception $e) {

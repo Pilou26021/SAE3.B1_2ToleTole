@@ -41,7 +41,7 @@ ob_start();
         } else {
             // Sinon, afficher toutes les offres pour les visiteurs/membres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne, o.aLaUneOffre
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
@@ -59,14 +59,12 @@ ob_start();
         $sqlprixmax= "
                 SELECT MAX(prixMinOffre) FROM public._offre";
 
-
-        // Préparer et exécuter la requête
         $stmt = $conn->prepare($sql);
         $stmtmax = $conn->prepare($sqlprixmax);
         $stmtmin = $conn->prepare($sqlprixmin);
 
         if ($professionel) {
-            $stmt->bindValue(':idpro', $idpro, PDO::PARAM_INT);  // Lier l'idPro si l'utilisateur est professionnel
+            $stmt->bindValue(':idpro', $idpro, PDO::PARAM_INT);
         }
 
         $stmt->execute();
@@ -75,6 +73,12 @@ ob_start();
         $min = $stmtmin->fetchAll();
         $max = $stmtmax->fetchAll();
         $offres = $stmt->fetchAll();
+
+        $aLaUneOffres = array_filter($offres, function($offre) {
+            return $offre['alauneoffre'] == true;
+        });
+        shuffle($aLaUneOffres);
+        $aLaUneOffres = array_slice($aLaUneOffres, 0, 5);
     ?>
 </head>
 <body>
@@ -156,13 +160,11 @@ ob_start();
                     <input data-url="ajax_filtres.php" type="range" id="price-range-min" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $min[0]['min']; ?>>
                     <input data-url="ajax_filtres.php" type="range" id="price-range-max" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $max[0]['max']; ?>>
 
-
                     <div class="range-values">
                         <span class="range-value"><?php echo $min[0]['min']; ?> €</span>
                         <span class="range-value"><?php echo $max[0]['max']; ?>€</span>
                     </div>
                 </div>
-
 
                 <label for="sort">Notes :</label>
                 <div style="display: flex; justify-content: space-around;">
@@ -200,50 +202,101 @@ ob_start();
                     <option value="DecroissantN">Tri par ordre Decroissant</option>
                 </select>
 
+                <label for="aLaUneC">Offres à la Une :</label>
+                <select class="choose" id="aLaUne" name="aLaUne">
+                    <option value="">--Choisissez une option--</option>
+                    <option value="true">Oui</option>
+                    <option value="false">Non</option>
+                </select>
+
+
             </form>
         </div>
 
-        <div class="offres-display">
-            <?php if (count($offres) > 0): ?>
-                <div class="offres-container">
-                    <?php foreach ($offres as $offre): ?>
-                        <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
-                            <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card">
-                                    <div class="offre-image-container" style="position: relative;">
-                                        <!-- Affichage de l'image -->
-                                        <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
-                                        <?php if ($professionel && $offre['horsligne']) { ?>
-                                            <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
-                                            <div class="offre-hors-ligne">Hors ligne</div>
-                                        <?php } ?>
-                                    </div>
-                                    <div class="offre-details">
-                                        <!-- Titre de l'offre -->
-                                        <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
-                                        
-                                        <!-- Résumé de l'offre -->
-                                        <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
-                                        
-                                        <!-- Prix minimum de l'offre -->
-                                        <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
-                                       
-                                       <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
-                                       <?php if ($professionel) { ?>
-                                            <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
-                                            <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
-                                        <?php } ?>
-
-                                    </div>
-                                </div>
-                            </a>
-                        <?php } ?>
-                    <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <p>Aucune offre disponible pour le moment.</p>
-            <?php endif; ?>
+        <div class="offres-display" style="text-align: center;">
+    <?php if (count($offres) > 0): ?>
+        
+        <!-- Separate div for A la Une offers, with inline CSS to ensure correct positioning -->
+        <div class="offres-a-la-une" style="width: 100%; clear: both; margin-bottom: 20px; text-align: center;">
+            <h3 style="text-align: center;">Offres à la Une</h3> <!-- optional header for clarity -->
+            <?php foreach ($aLaUneOffres as $offre): ?>
+                <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
+                    <a style="text-decoration:none; display: inline-block; width: 300px; box-sizing: border-box; margin: 10px;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                        <div class="offre-card" style="margin-bottom: 20px; text-align: left;">
+                            <div class="offre-image-container" style="position: relative;">
+                                <!-- Affichage de l'image -->
+                                <img class="offre-image" style="width: 100%;" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                <?php if ($professionel && $offre['horsligne']) { ?>
+                                    <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
+                                    <div class="offre-hors-ligne">Hors ligne</div>
+                                <?php } ?>
+                            </div>
+                            <div class="offre-details">
+                                <!-- Titre de l'offre -->
+                                <h2 class="offre-titre">
+                                    <?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?> 
+                                    <span style="color: red;">(a la une)</span>
+                                </h2>
+                                
+                                <!-- Résumé de l'offre -->
+                                <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
+                                
+                                <!-- Prix minimum de l'offre -->
+                                <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                                
+                                <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
+                                <?php if ($professionel) { ?>
+                                    <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
+                                    <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </a>
+                <?php } ?>
+            <?php endforeach; ?>
         </div>
+
+        <!-- Div for all other offers, with inline CSS for grid layout to align them side by side and centered -->
+        <div class="offres-toutes" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+            <?php foreach ($offres as $offre): ?>
+                <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
+                    <a style="text-decoration:none; display: inline-block; width: 300px; box-sizing: border-box; margin: 10px;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                        <div class="offre-card" style="text-align: left;">
+                            <div class="offre-image-container" style="position: relative;">
+                                <!-- Affichage de l'image -->
+                                <img class="offre-image" style="width: 100%;" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                <?php if ($professionel && $offre['horsligne']) { ?>
+                                    <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
+                                    <div class="offre-hors-ligne">Hors ligne</div>
+                                <?php } ?>
+                            </div>
+                            <div class="offre-details">
+                                <!-- Titre de l'offre -->
+                                <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                
+                                <!-- Résumé de l'offre -->
+                                <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
+                                
+                                <!-- Prix minimum de l'offre -->
+                                <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                                
+                                <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
+                                <?php if ($professionel) { ?>
+                                    <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
+                                    <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </a>
+                <?php } ?>
+            <?php endforeach; ?>
+        </div>
+
+    <?php else: ?>
+        <p>Aucune offre disponible pour le moment.</p>
+    <?php endif; ?>
+</div>
+
     </main>
     
     <div id="footer"></div>
