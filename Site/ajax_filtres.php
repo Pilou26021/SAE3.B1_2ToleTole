@@ -1,141 +1,219 @@
 <?php
 error_reporting(E_ALL ^ E_WARNING);
-
 include "../SQL/connection_local.php";
 ob_start();
 session_start();
 
-try {
-    $category = isset($_GET['category']) ? trim($_GET['category']) : '';
-    $lieux = isset($_GET['lieux']) ? trim($_GET['lieux']) : '';
-    $minPrice = isset($_GET['minPrice']) ? intval($_GET['minPrice']) : null;
-    $maxPrice = isset($_GET['maxPrice']) ? intval($_GET['maxPrice']) : null;
-    $noteMin = isset($_GET['notemin']) ? intval($_GET['notemin']) : 0;
-    $noteMax = isset($_GET['notemax']) ? intval($_GET['notemax']) : 5;
-    $Tprix = isset($_GET['Tprix']) ? $_GET['Tprix'] : '';
-    $Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
-    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-    $aLaUne = isset($_GET['aLaUne']) && $_GET['aLaUne'] === 'true';
-    $startDate = isset($_GET['startDate']) ? trim($_GET['startDate']) : null;
-    $endDate = isset($_GET['endDate']) ? trim($_GET['endDate']) : null;
-    $isOpen = isset($_GET['isOpen']) && $_GET['isOpen'] === 'true';
+// Récupérer les paramètres des filtres
+$category = isset($_GET['category']) ? $_GET['category'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$lieux = isset($_GET['lieux']) ? $_GET['lieux'] : '';
+$maxPrice = isset($_GET['maxPrice']) ? intval($_GET['maxPrice']) : null;
+$minPrice = isset($_GET['minPrice']) ? intval($_GET['minPrice']) : null;
+$noteMin = isset($_GET['notemin']) ? intval($_GET['notemin']) : 0;
+$noteMax = isset($_GET['notemax']) ? intval($_GET['notemax']) : 5;
+$Tprix = isset($_GET['Tprix']) ? $_GET['Tprix'] : '';
+$Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
 
+// Initialiser les conditions de la requête
+$tableJoin = '';
+$whereConditions = [];  // On va stocker les conditions dans un tableau
+$bindings = [];
+
+$professionel = false;
+$membre = false;
+
+if (isset($_SESSION['membre'])) {
+    $membre = true;
+    $idmembre = $_SESSION['membre'];
+} elseif (isset($_SESSION['professionnel'])) {
+    $professionel = true;
+    $idpro = $_SESSION['professionnel'];
+}
+
+// Ajouter le filtre de catégorie
+if (!empty($category)) {
+    switch ($category) {
+        case 'Restauration':
+            $tableJoin = 'INNER JOIN public._offreRestaurant o_r ON o.idoffre = o_r.idoffre';
+            $whereConditions[] = 'o_r.idOffre IS NOT NULL';
+            break;
+        case 'Spectacles':
+            $tableJoin = 'INNER JOIN public._offreSpectacle o_s ON o.idoffre = o_s.idoffre';
+            $whereConditions[] = 'o_s.idOffre IS NOT NULL';
+            break;
+        case 'Visites':
+            $tableJoin = 'INNER JOIN public._offreVisite o_v ON o.idoffre = o_v.idoffre';
+            $whereConditions[] = 'o_v.idOffre IS NOT NULL';
+            break;
+        case 'Activités':
+            $tableJoin = 'INNER JOIN public._offreActivite o_a ON o.idoffre = o_a.idoffre';
+            $whereConditions[] = 'o_a.idOffre IS NOT NULL';
+            break;
+        case 'Parcs':
+            $tableJoin = 'INNER JOIN public._offreParcAttraction o_p ON o.idoffre = o_p.idoffre';
+            $whereConditions[] = 'o_p.idOffre IS NOT NULL';
+            break;
+    }
+}
+
+// Construire la requête SQL avec les filtres
+if ($professionel) {
+    // Si professionnel, n'afficher que ses offres
     $sql = "
-        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.noteMoyenneOffre
+        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre
         FROM public._offre o
-        LEFT JOIN public._adresse oa ON o.idadresse = oa.idadresse
         JOIN (
             SELECT idoffre, MIN(idimage) AS firstImage
             FROM public._afficherimageoffre
             GROUP BY idoffre
         ) a ON o.idoffre = a.idoffre
         JOIN public._image i ON a.firstImage = i.idimage
+        $tableJoin
+        LEFT JOIN public.offreAdresse oa ON o.idoffre = oa.idOffre
+        WHERE o.idProPropose = :idpro AND 1=1
     ";
+    
+} else {
+    // Sinon, afficher toutes les offres pour les visiteurs/membres
+    $sql = "
+        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre
+        FROM public._offre o
+        JOIN (
+            SELECT idoffre, MIN(idimage) AS firstImage
+            FROM public._afficherimageoffre
+            GROUP BY idoffre
+        ) a ON o.idoffre = a.idoffre
+        JOIN public._image i ON a.firstImage = i.idimage
+        $tableJoin
+        LEFT JOIN public.offreAdresse oa ON o.idoffre = oa.idOffre
+        WHERE 1=1
+    ";
+}
 
-    $whereConditions = [];
-    $bindings = [];
 
-    if (!empty($category)) {
-        $categoryMapping = [
-            'Restauration' => '_offreRestaurant',
-            'Spectacles' => '_offreSpectacle',
-            'Visites' => '_offreVisite',
-            'Activités' => '_offreActivite',
-            'Parcs' => '_offreParcAttraction'
-        ];
+// Ajouter les conditions supplémentaires (filtrage par ville, prix, note)
+if (!is_null($minPrice)) {
+    $whereConditions[] = "o.prixminoffre >= :minPrice";
+    $bindings[':minPrice'] = $minPrice;
+}
+if (!is_null($maxPrice)) {
+    $whereConditions[] = "o.prixminoffre <= :maxPrice";
+    $bindings[':maxPrice'] = $maxPrice;
+}
 
-        if (array_key_exists($category, $categoryMapping)) {
-            $sql .= " INNER JOIN public." . $categoryMapping[$category] . " o_cat ON o.idoffre = o_cat.idoffre";
-        } else {
-            throw new Exception('Invalid category');
+if ($noteMin > 0) {
+    $whereConditions[] = "o.notemoyenneoffre >= :noteMin";
+    $bindings[':noteMin'] = $noteMin;
+}
+if ($noteMax < 5) {
+    $whereConditions[] = "o.notemoyenneoffre <= :noteMax";
+    $bindings[':noteMax'] = $noteMax;
+}
+
+if (!empty($lieux)) {
+    $whereConditions[] = "LOWER(oa.ville) = LOWER(:lieux)";
+    $bindings[':lieux'] = $lieux;
+}
+
+if (!empty($search)) {
+    $whereConditions[] = "(LOWER(o.titreoffre) LIKE LOWER(:search) 
+                         OR LOWER(o.resumeoffre) LIKE LOWER(:search))
+                         OR LOWER(oa.ville) = LOWER(:search)";
+    $bindings[':search'] = '%' . $search . '%';
+}
+
+if(!empty($startDate)) {
+    $whereConditions[] = "o.dateCreationOffre >= :startDate";
+    $bindings[":startDate"] = $startDate;
+}
+
+if (!empty($endDate)) {
+    $whereConditions[] = "o.dateCreationOffre <= :endDate";
+    $bindings[":endDate"] = $endDate;
+}
+
+// Ajouter les conditions combinées dans la requête
+if (count($whereConditions) > 0) {
+    $sql .= " AND " . implode(" AND ", $whereConditions);
+}
+
+$orderBy = '';
+if ($Tprix === 'CroissantP') {
+    $orderBy = 'o.prixminoffre ASC';
+} elseif ($Tprix === 'DecroissantP') {
+    $orderBy = 'o.prixminoffre DESC';
+} elseif ($Tnote === 'CroissantN') {
+    $orderBy = 'o.notemoyenneoffre ASC';
+} elseif ($Tnote === 'DecroissantN') {
+    $orderBy = 'o.notemoyenneoffre DESC';
+}
+
+if (!empty($orderBy)) {
+    $sql .= " ORDER BY $orderBy";
+}
+
+
+
+// Préparer la requête
+$stmt = $conn->prepare($sql);
+
+if ($professionel) {
+    $stmt->bindValue(':idpro', $idpro, PDO::PARAM_INT);  
+}
+
+// Lier les paramètres
+foreach ($bindings as $key => $value) {
+    $stmt->bindValue($key, $value);
+}
+
+// Exécuter la requête
+$stmt->execute();
+
+// Récupérer les résultats
+$offres = $stmt->fetchAll();
+
+// Afficher les offres filtrées
+if (count($offres) > 0) {
+    foreach ($offres as $offre) {
+        if(!$professionel && $offre['horsligne'] == false || $professionel) {
+        ?>
+        <a style="text-decoration:none; color:#040316; font-family: regular;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+            <div class="offre-card">
+                <div class="offre-image-container" style="position: relative;">
+                    <!-- Affichage de l'image -->
+                    <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                    <?php if ($professionel && $offre['horsligne']) { ?>
+                        <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
+                        <div class="offre-hors-ligne">Hors ligne</div>
+                    <?php } ?>
+                </div>
+                <div class="offre-details">
+                    <!-- Titre de l'offre -->
+                    <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                    
+                    <!-- Résumé de l'offre -->
+                    <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
+                    
+                    <!-- Prix minimum de l'offre -->
+                    <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                    
+                    <p> <strong> Note :</strong> <?= !empty($offre['notemoyenneoffre']) ? htmlspecialchars($offre['notemoyenneoffre']) : 'Note non disponible' ?> /5</p>
+
+                    <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
+                    <?php if ($professionel) { ?>
+                        <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
+                        <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                    <?php } ?>
+
+                </div>
+                
+            </div>
+        </a>
+        <?php
         }
     }
-
-    if (!is_null($minPrice)) {
-        $whereConditions[] = "o.prixminoffre >= :minPrice";
-        $bindings[':minPrice'] = $minPrice;
-    }
-    if (!is_null($maxPrice)) {
-        $whereConditions[] = "o.prixminoffre <= :maxPrice";
-        $bindings[':maxPrice'] = $maxPrice;
-    }
-
-    if ($noteMin > 0) {
-        $whereConditions[] = "o.noteMoyenneOffre >= :noteMin";
-        $bindings[':noteMin'] = $noteMin;
-    }
-    if ($noteMax < 5) {
-        $whereConditions[] = "o.noteMoyenneOffre <= :noteMax";
-        $bindings[':noteMax'] = $noteMax;
-    }
-
-    if (!empty($lieux)) {
-        $whereConditions[] = "LOWER(oa.ville) = LOWER(:lieux)";
-        $bindings[':lieux'] = $lieux;
-    }
-
-    if (!empty($search)) {
-        $whereConditions[] = "(LOWER(o.titreoffre) LIKE LOWER(:search) 
-                             OR LOWER(o.resumeoffre) LIKE LOWER(:search))";
-        $bindings[':search'] = '%' . $search . '%';
-    }
-
-    if ($aLaUne) {
-        $whereConditions[] = "o.alauneoffre = TRUE";
-    }
-
-    if(!empty($startDate)) {
-        $whereConditions[] = "o.dateCreationOffre >= :startDate";
-        $bindings[":startDate"] = $startDate;
-    }
-
-    if (!empty($endDate)) {
-        $whereConditions[] = "o.dateCreationOffre <= :endDate";
-        $bindings[":endDate"] = $endDate;
-    }
-
-    
-    if($isOpen)
-    {
-        $sql .= "INNER JOIN public._offreParcAttraction o_parc ON o.idoffre = o_parc.idoffre";
-        $whereConditions[] = "NOW() BETWEEN o_parc.dateOuverture AND o_parc.dateFermeture";
-    }
-
-
-    if (!empty($whereConditions)) {
-        $sql .= " WHERE " . implode(" AND ", $whereConditions);
-    }
-
-    $orderBy = '';
-    if ($Tprix === 'CroissantP') {
-        $orderBy = 'o.prixminoffre ASC';
-    } elseif ($Tprix === 'DecroissantP') {
-        $orderBy = 'o.prixminoffre DESC';
-    } elseif ($Tnote === 'CroissantN') {
-        $orderBy = 'o.noteMoyenneOffre ASC';
-    } elseif ($Tnote === 'DecroissantN') {
-        $orderBy = 'o.noteMoyenneOffre DESC';
-    }
-
-    if (!empty($orderBy)) {
-        $sql .= " ORDER BY $orderBy";
-    }
-
-    $stmt = $conn->prepare($sql);
-    foreach ($bindings as $key => $value) {
-        $stmt->bindValue($key, $value);
-    }
-    $stmt->execute();
-    $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    ob_end_clean();
-    if (count($offres) > 0) {
-        echo json_encode(['status' => 'success', 'data' => $offres]);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Aucune offre trouvée']);
-    }
-} catch (Exception $e) {
-    ob_end_clean();
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+} else {
+    echo "Aucune offre trouvée.";
 }
 ?>

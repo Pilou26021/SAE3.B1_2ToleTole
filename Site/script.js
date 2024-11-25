@@ -55,6 +55,8 @@ $(document).ready(function() {
     });
 });
 
+
+
 priceRangeMax.addEventListener("input", function() {
     // Empêcher priceRangeMax d'être inférieur à priceRangeMin
     if (parseInt(priceRangeMax.value) < parseInt(priceRangeMin.value)) {
@@ -181,90 +183,90 @@ function resetButtonText(cat) {
 // FILTRES
 
 async function applyFilters() {
-    const search = document.getElementById('search-query').value;
+    // Récupérer les valeurs des filtres
     const category = document.getElementById('category').value;
     const lieux = document.getElementById('lieux').value;
     const minPrice = document.getElementById("price-range-min").value;
     const maxPrice = document.getElementById("price-range-max").value;
     const notemin = document.getElementById('notemin').value;
     const notemax = document.getElementById('notemax').value;
-    const Tprix = document.getElementById('Tprix').value;
-    const Tnote = document.getElementById('Tnote').value;
-    const aLaUne = document.getElementById('aLaUne').value;
+    const datedeb = document.getElementById('datedeb').value;
+    const datefin = document.getElementById('datefin').value;
+    const search = document.getElementById('search-query').value;
     const startDate = document.getElementById('datedeb').value;
     const endDate = document.getElementById('datefin').value;
-    const isOpen = document.getElementById('ouverture').value;
+    let Tprix = document.getElementById('Tprix').value;
+    let Tnote = document.getElementById('Tnote').value;
 
+    const lastTprix = sessionStorage.getItem('lastTprix') || '';
+    const lastTnote = sessionStorage.getItem('lastTnote') || '';
 
-    const filters = new URLSearchParams({
-        search,
-        category,
-        lieux,
-        minPrice,
-        maxPrice,
-        notemin,
-        notemax,
-        Tprix,
-        Tnote,
-        aLaUne,
-        startDate,
-        endDate,
-        isOpen
-    });
+    if (Tprix && Tprix !== lastTprix) {
+        Tnote = '';
+        document.getElementById('Tnote').value = ''; 
+    }
+    if (Tnote && Tnote !== lastTnote) {
+        Tprix = '';
+        document.getElementById('Tprix').value = ''; 
+    }
 
+    sessionStorage.setItem('lastTprix', Tprix);
+    sessionStorage.setItem('lastTnote', Tnote);
+
+    
+
+    // Préparer les paramètres de filtre
+    const filters = new URLSearchParams();
+    filters.append('category', category);
+    filters.append('lieux', lieux);
+    filters.append('minPrice', minPrice);
+    filters.append('maxPrice', maxPrice);
+    filters.append('notemin', notemin);
+    filters.append('notemax', notemax);
+    filters.append('datedeb', datedeb);
+    filters.append('datefin', datefin);
+    filters.append('search', search);
+    filters.append('startDate', startDate);
+    filters.append('endDate', endDate);
+    filters.append('Tprix', Tprix);
+    filters.append('Tnote', Tnote);
+    
     try {
+        // Effectuer la requête AJAX en envoyant tous les filtres
         const response = await fetch('ajax_filtres.php?' + filters.toString(), {
             method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         });
 
+        // Vérifier la réponse
         if (response.ok) {
-            const result = await response.json();
-            if (result.status === 'success') {
-                const offers = result.data;
-                const offersContainer = document.querySelector('.offres-display');
-                let offersHTML = '';
-
-                offers.forEach(offer => {
-                    offersHTML += `
-                        <div class="offre-card">
-                            <img src="${offer.pathimage}" alt="${offer.titreoffre}" class="offre-image">
-                            <div class="offre-details">
-                                <h3>${offer.titreoffre}</h3>
-                                <p>${offer.resumeoffre}</p>
-                                <p>Prix: ${offer.prixminoffre} €</p>
-                                <p>Note: ${offer.noteMoyenneOffre !== null ? offer.noteMoyenneOffre : 'N/A'}/5</p>
-                            </div>
-                        </div>`;
-                });
-
-                offersContainer.innerHTML = offersHTML;
-            } else {
-                throw new Error(result.message);
-            }
+            // Récupérer le contenu et l'injecter dans le DOM
+            const data = await response.text();
+            document.querySelector('.offres-display').innerHTML = data;
         } else {
-            throw new Error(`Erreur lors de la récupération des résultats: ${response.statusText}`);
+            throw new Error('Erreur lors de la récupération des résultats.');
         }
     } catch (error) {
         console.error('Erreur AJAX:', error);
-        document.querySelector('.offres-display').innerHTML = `<p style="color: red;">Erreur: ${error.message}</p>`;
     }
 }
 
 // Ajouter des écouteurs d'événements pour chaque filtre
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search-query').addEventListener('input', applyFilters);
-    document.getElementById('Tprix').addEventListener('change', applyFilters);
-    document.getElementById('Tnote').addEventListener('change', applyFilters);
     document.getElementById('category').addEventListener('change', applyFilters);
     document.getElementById('lieux').addEventListener('input', applyFilters);
     document.getElementById('price-range-min').addEventListener("input", applyFilters);
     document.getElementById('price-range-max').addEventListener("input", applyFilters);
     document.getElementById('notemin').addEventListener("change", applyFilters);
     document.getElementById('notemax').addEventListener("change", applyFilters);
-    document.getElementById('aLaUne').addEventListener('change', applyFilters);
     document.getElementById('datedeb').addEventListener('change', applyFilters);
     document.getElementById('datefin').addEventListener('change', applyFilters);
-    document.getElementById('ouverture').addEventListener('change', applyFilters);
+    document.getElementById('Tprix').addEventListener('change', applyFilters);
+    document.getElementById('Tnote').addEventListener('change', applyFilters);
+    
 });
 
 function validImages(inputElements) {
@@ -280,3 +282,7 @@ function validImages(inputElements) {
     }
     return true;
 }
+
+
+  
+
