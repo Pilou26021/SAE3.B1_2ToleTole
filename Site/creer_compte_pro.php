@@ -62,8 +62,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="valide-groupe"> 
                 <button type="submit" class="submit-btn">SUIVANT</button>
                 <p class="almost-done">Vous y êtes presque</p>
+                </div>       
             </form>
         </section>
 
@@ -96,34 +98,6 @@
             </form>
         </section>
     </main>
-    <script>
-    function goToStep(step) {
-        const steps = document.querySelectorAll('.form-step');
-        steps.forEach((formStep, index) => {
-            if (index === step - 1) {
-                formStep.classList.remove('hidden');
-            } else {
-                formStep.classList.add('hidden');
-            }
-        }
-    }
 
-    // Gérer la soumission finale du formulaire (si vous voulez envoyer des données ou afficher un message)
-    function finalSubmit() {
-        // Vous pouvez récupérer les données du formulaire ici si vous le souhaitez
-        const form1 = document.getElementById('form-1');
-        const form2 = document.getElementById('form-2');
-
-        const formData1 = new FormData(form1);
-        const formData2 = new FormData(form2);
-
-        // Exemple de console log avec les données (pour le débogage)
-        console.log('Données du formulaire 1 :', Object.fromEntries(formData1.entries()));
-        console.log('Données du formulaire 2 :', Object.fromEntries(formData2.entries()));
-
-        // Vous pouvez envoyer ces données à un serveur ou effectuer d'autres actions ici
-        alert('Formulaire soumis avec succès!');
-    }
-    </script>
 </body>
 </html>

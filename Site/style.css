@@ -1256,26 +1256,37 @@ td {
 
 /* Button styles */
 .submit-btn {
-    background-color: #4CAF50;
-    color: white;
+    border-color: #040316;
+    color: black;
     font-size: 1.2em; /* Augmenté */
-    border: none;
-    border-radius: 8px; /* Plus arrondi */
     padding: 15px; /* Agrandi */
-    cursor: pointer;
+	margin-left: 30px;
     margin-top: 15px;
-	width: 105%;
+	width: 90%;
+	border-radius: 20px;
+	background-color: #F2F1E9;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+	/* Ombre */
+	font-size: 20px;
 }
 
 .submit-btn:hover {
-    background-color: #388e3c;
+	background-color: #040316;
+	color: #F2F1E9;
+}
+
+.valide-groupe{
+	background-color: #4CAF50;
+	border-radius: 20px;
+	margin-right: 20px;
+	width: 105%;
 }
 
 /* Almost done text */
 .almost-done {
     margin-top: 15px;
 	margin-left: 20px;
-    color: #666;
+    color: white;
     font-size: 1em;
     font-weight: bold;
     text-transform: uppercase;
