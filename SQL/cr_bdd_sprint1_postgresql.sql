@@ -218,16 +218,20 @@ CREATE TABLE public._facture (
 
 CREATE TABLE public._constPrix (
     idConstPrix SERIAL PRIMARY KEY,
-    prixSTD FLOAT NOT NULL,
-    prixPREM FLOAT NOT NULL,
-    prixALaUne FLOAT NOT NULL,
-    prixEnRelief FLOAT NOT NULL
+    prixSTDht FLOAT NOT NULL,
+    prixSTDttc FLOAT NOT NULL,
+    prixPREMht FLOAT NOT NULL,
+    prixPREMttc FLOAT NOT NULL,
+    prixALaUneht FLOAT NOT NULL,
+    prixALaUnettc FLOAT NOT NULL,
+    prixEnReliefht FLOAT NOT NULL,
+    prixEnReliefttc FLOAT NOT NULL
 );
 
 CREATE TABLE public._paiement (
     idOffre BIGINT NOT NULL,
     idFacture BIGINT NOT NULL,
-    idConstPrix BIGINT NULL,
+    idConstPrix BIGINT NOT NULL,
     CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture, idConstPrix),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
