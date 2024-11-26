@@ -493,9 +493,11 @@
                             $nbAvis = count($avis);
                             if (isset($membre)){ 
                                 // on ajoute la note du membre connecté si il à un avis
-                                if ($avis_membre){
-                                    $noteMoyenne += $avis_membre['noteavis']; 
-                                    $nbAvis += 1; // on ajoute un avis car le membre à laissé un avis pour bien calculer la moyenne
+                                if (isset($avis_membre)){
+                                    if($avis_membre){
+                                        $noteMoyenne += $avis_membre['noteavis']; 
+                                        $nbAvis += 1; // on ajoute un avis car le membre à laissé un avis pour bien calculer la moyenne
+                                    }
                                 }
                             } 
                             if ($nbAvis > 0) {
@@ -553,27 +555,31 @@
 
                         <?php 
                             // on affiche l'avis du membre si le membre est connecté et à un avis
-                            if ($avis_membre){
-                                $date_formated = date("d/m/Y", strtotime($avis_membre['dateavis']));
-                                ?>
-                                <div class="avis_m">
-                                    <p><strong>Mon avis</strong></p>
-                                    <p class ="pdp-name-date">
-                                        <img class="pdp-avis" src="<?php echo $avis_membre['pathimage'] ?>" alt="image utilisateur">
-                                        <strong style="margin-right:3px;"><?= $avis_membre['nomcompte'] . ' ' . $avis_membre['prenomcompte'] ?></strong> - <?= $date_formated ?>
-                                    </p>
-                                    <p><?= $avis_membre['commentaireavis'] ?></p>
-                                    <?php
-                                        for ($i = 0; $i < $avis_membre['noteavis']; $i++) {
-                                            ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
-                                        }
-                                        for ($i = $avis_membre['noteavis']; $i < 5; $i++) {
-                                            ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
-                                        }
+                            if(isset($avis_membre)){
+                                if ($avis_membre){
+                                    $date_formated = date("d/m/Y", strtotime($avis_membre['dateavis']));
                                     ?>
-                                </div>
-                                <?php
+                                    <div class="avis_m">
+                                        <p><strong>Mon avis</strong></p>
+                                        <p class ="pdp-name-date">
+                                            <img class="pdp-avis" src="<?php echo $avis_membre['pathimage'] ?>" alt="image utilisateur">
+                                            <strong style="margin-right:3px;"><?= $avis_membre['nomcompte'] . ' ' . $avis_membre['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                        </p>
+                                        <p><?= $avis_membre['commentaireavis'] ?></p>
+                                        <?php
+                                            for ($i = 0; $i < $avis_membre['noteavis']; $i++) {
+                                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                            for ($i = $avis_membre['noteavis']; $i < 5; $i++) {
+                                                ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+
                             }
+                            
 
                             if ($avis) {
                                 foreach ($avis as $avis) {
