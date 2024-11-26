@@ -6,7 +6,7 @@
     ob_start();
 
     //connecteur pour requête
-    include "../SQL/connection_local.php";   
+    include "../SQL/connection_local.php";
 
     // On vérifie si l'utilisateur est connecté. Il peut être connecté en tant que membre ou professionnel. Si il n'est pas connecté alors il sera visiteur.
     if (isset($_SESSION['membre'])) {
@@ -20,19 +20,13 @@
     $sql = "SELECT c.idcompte, c.nomcompte, c.prenomcompte, c.idimagepdp, i.pathimage
             FROM _compte c JOIN _image i
             ON c.idimagepdp = i.idimage
-            WHERE c.idcompte = :idmembre
-    "
+            WHERE c.idcompte = :idmembre";
 
-    // Préparer et exécuter la requête de tout les avis
     $stmt = $conn->prepare($sql);
-    if ($membre){
-        $stmt->bindValue(':conn_membre', $idmembre, PDO::PARAM_INT);
-    }
-    $stmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
+    $stmt->bindValue(':idmembre', $idmembre, PDO::PARAM_INT);
     $stmt->execute();
 
-    // Récupérer les avis
-    $avis = $stmt->fetchAll();
+    $info_membre = $stmt->fetch();
 
 ?>
 
@@ -65,6 +59,19 @@
         ?>
 
         <main>
+
+        <style>
+            
+        </style>
+
+        <div class="donner_avis">
+            <p><strong>Mon avis</strong></p>
+            <p class ="pdp-name-date">
+                <img class="pdp-avis" src="<?php echo $info_membre['pathimage'] ?>" alt="image utilisateur">
+                <strong style="margin-right:3px;"><?= $info_membre['nomcompte'] . ' ' . $info_membre['prenomcompte'] ?></strong>
+            </p>
+
+        </div>
 
         <form action="upload_avis.php" method="post">
 
