@@ -544,12 +544,39 @@
 
                         <?php if ($membre && !$avis_membre) { ?>
                             <p>Donnez votre avis sur cette offre :</p>
-                            <a class="add-avis-btn" href="ajouter_avis.php?idoffre=<?= $idoffre ?>">
-                                <!-- <img class="circle-not-hover" src="./img/icons/circle-plus-solid-grey.svg" alt="Donner mon avis"> -->
+                            <a class="add-avis-btn" href="javascript:void(0);" id="addAvisBtn">
                                 <img class="circle-on-hover" src="./img/icons/circle-plus-solid-green.svg" alt="Donner mon avis">
                             </a>
+
+                            <!-- Formulaire caché au départ -->
+                            <form id="avisForm" style="display:none;" action="send_avis.php" method="POST">
+                                <div class="add-avis-form" >
+                                    <input type="hidden" name="idoffre" value="<?= $idoffre ?>">
+                                    <h2 for="avis">Votre avis :</h2>
+                                    <textarea id="avis" class="textarea-creer_offre" name="avis" required></textarea>
+                                    <h2 for="avis">Votre note :</h2>
+
+
+
+                                    <button class="offer-btn" type="submit">Envoyer</button>
+
+                                </div>
+                            </form>
                             
                             <hr style="border-top: 1px solid #ccc;" width="90%">
+
+                            <!-- Script pour l'ajout d'avis -->
+                            <script>// Remplacement du bouton d'ajout d'avis par le formulaire
+                                const addAvisBtn = document.getElementById('addAvisBtn');
+                                const avisForm = document.getElementById('avisForm');
+                                addAvisBtn.addEventListener('click', function() {
+                                    // on masque le boutton (a)
+                                    addAvisBtn.style.display = 'none';
+                                    
+                                    // on affiche le formulaire
+                                    avisForm.style.display = 'block';
+                                });
+                            </script>
 
                         <?php } ?>
 

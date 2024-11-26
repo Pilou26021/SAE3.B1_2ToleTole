@@ -1458,3 +1458,18 @@ td {
 	font-family: 'firasans';
 	src: url('./font/firasans-regular-webfont.woff2') format('woff2');
 }
+
+.img-aj-avis {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+.nom-aj-avis{
+	margin-left: 20px;
+	font-size: 2em;
+}
+
+.add-avis-form{
+	display: block;
+}
