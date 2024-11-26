@@ -90,6 +90,7 @@ CREATE TABLE public._offre (
     dateCreationOffre DATE NOT NULL,
     conditionAccessibilite TEXT NOT NULL,
     horsLigne BOOLEAN NOT NULL,
+    dateMiseHorsLigne TEXT,
     FOREIGN KEY (idProPropose) REFERENCES public._professionnel(idPro),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
@@ -213,6 +214,7 @@ CREATE TABLE public._facture (
     dateFacture DATE NOT NULL,
     montantHT FLOAT NOT NULL,
     montantTTC FLOAT NOT NULL,
+    dateMiseHorsLigne TEXT,
     FOREIGN KEY (idProPrive) REFERENCES public._professionnelPrive(idProPrive)
 );
 

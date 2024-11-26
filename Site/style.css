@@ -1283,6 +1283,28 @@ td {
 	width: 105%;
 }
 
+.confirmation {
+    background-color: #baf3c1;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+}
+
+.terms {
+    font-size: 0.9em;
+    color: #666;
+    text-align: left;
+}
+
+.terms ul {
+    list-style: disc;
+    margin-left: 20px;
+}
+
 /* Almost done text */
 .almost-done {
     margin-top: 15px;
@@ -1292,11 +1314,6 @@ td {
     font-weight: bold;
     text-transform: uppercase;
 }
-
-.hidden {
-    display: none;
-}
-
 
 /* Back arrow styles */
 .back-arrow {
