@@ -21,12 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = trim($_POST['nom'] ?? '');
         $prenom = trim($_POST['prenom'] ?? '');
         $email = trim($_POST['email'] ?? '');
+        $denomination = trim($_POST['denomination']);
         $adresse = trim($_POST['adresse'] ?? '');
         $ville = trim($_POST['ville'] ?? '');
         $tel = trim($_POST['tel'] ?? '');
 
         if (empty($nom)) $errors['nom'] = "Le champ 'Nom' est requis.";
         if (empty($prenom)) $errors['prenom'] = "Le champ 'Prénom' est requis.";
+        if (empty($denomination)) $errors['denomination'] = "Le champ 'Dénomination' est requis.";
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = "L'adresse e-mail n'est pas valide.";
         if (empty($adresse)) $errors['adresse'] = "Le champ 'Adresse Postale' est requis.";
         if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
@@ -104,6 +106,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-container">
                         <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" value="<?= htmlspecialchars($_POST['prenom'] ?? '') ?>" required>
                         <p class="error"><?= $errors['prenom'] ?? '' ?></p>
+                        <span class="required">*</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="denomination">Dénomination</label>
+                    <div class="input-container">
+                        <input type="text" id="denomination" name="denomination" placeholder="Votre denomination" value="<?= htmlspecialchars($_POST['denomination'] ?? '') ?>" required>
+                        <p class="error"><?= $errors['denomination'] ?? '' ?></p>
                         <span class="required">*</span>
                     </div>
                 </div>
@@ -211,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="input-group">
                     <label for="confirmation-mdp">Confirmez votre mot de passe</label>
                     <div class="input-container">
-                        <input type="password" id="confirmation-mdp" name="confirmation-mdp" placeholder="Confirmez votre mot de passe" required>
+                        <input class="confirmation" type="password" id="confirmation-mdp" name="confirmation-mdp" placeholder="Confirmez votre mot de passe" required>
                         <p class="error"><?= $errors['confirmation-mdp'] ?? '' ?></p>
                         <span class="required">*</span>
                     </div>
@@ -229,5 +240,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         <?php endif; ?>
     </main>
+    <div id="footer"></div>
+
+    <script src="./script.js" ></script>
+
 </body>
 </html>

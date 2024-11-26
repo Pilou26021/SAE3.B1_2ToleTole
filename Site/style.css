@@ -1193,6 +1193,11 @@ td {
     margin-bottom: 20px;
 }
 
+.form-container label{
+	font-size: 1.2em;
+	margin-left: 10px;
+}
+
 .subtitle {
     font-style: italic;
     color: #666;
@@ -1238,7 +1243,7 @@ td {
 
 .input-container .required {
     position: absolute;
-    top: 50%;
+    top: 20%;
 	right: 1px;
     transform: translateY(-50%);
     color: #4CAF50;
@@ -1282,6 +1287,10 @@ td {
 	border-radius: 20px;
 	margin-right: 20px;
 	width: 105%;
+}
+
+.error {
+	color: #FF0000;
 }
 
 .confirmation {
