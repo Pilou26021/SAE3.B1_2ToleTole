@@ -77,6 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="body-creer-pro">
     <main class="form-container">
+        <div class="back-arrow">
+        <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" onclick="history.back();">&#8617;</a>
+        </div>
         <?php if ($step === 1): ?>
             <!-- Étape 1 -->
             <h2>1. Apprenons à nous connaître</h2>
@@ -112,7 +115,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="tel" id="tel" name="tel" value="<?= htmlspecialchars($_POST['tel'] ?? '') ?>">
                     <p class="error"><?= $errors['tel'] ?? '' ?></p>
                 </div>
+                <div class="valide-groupe"> 
                 <button type="submit">SUIVANT</button>
+                <p class="almost-done">Vous y êtes presque</p>
+                </div>
             </form>
         <?php elseif ($step === 2): ?>
             <!-- Étape 2 -->
@@ -152,6 +158,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p class="error"><?= $errors['confirmation-mdp'] ?? '' ?></p>
                 </div>
                 <button type="submit">Créer mon compte</button>
+                <p class="terms">
+                    En cliquant sur "Créer mon compte", vous acceptez nos termes suivants :
+                    <ul>
+                        <li>Conditions générales d'utilisation</li>
+                        <li>Conditions générales de ventes</li>
+                        <li>Politique de confidentialité</li>
+                    </ul>
+                </p>
             </form>
         <?php endif; ?>
     </main>
