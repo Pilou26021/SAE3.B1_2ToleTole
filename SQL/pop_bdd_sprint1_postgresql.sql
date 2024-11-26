@@ -160,16 +160,14 @@ INSERT INTO _theme (idOffre, idTag) VALUES
 
 -- 23. Insérer des données dans `_facture`
 INSERT INTO _facture (idProPrive, idConstPrix, dateFacture, montantHT, montantTTC) VALUES 
-(1, 1, '2025-01-01', 100.0, 120.0),
-(2, 1, '2025-02-01', 200.0, 240.0);
+(1, 1, '2025-01-01', 0, 0),
+(2, 1, '2025-02-01', 0, 0);
 
 -- 24. Insérer des données dans `_constPrix`
---INSERT INTO _constPrix (prixSTDht, prixSTDttc, prixPREMht, prixPREMttc, prixALaUneht, prixALaUnettc, prixEnReliefht, prixEnReliefttc) VALUES 
---(1.67, 2.0, 3.34, 4.0, 16.68, 20.0, 8.34, 10.0);
-INSERT INTO _constPrix(prixSTD, prixPREM, prixALaUne, prixEnRelief) VALUES
-(1.67, 3.34, 16.68, 8.34);
+INSERT INTO _constPrix (prixSTDht, prixSTDttc, prixPREMht, prixPREMttc, prixALaUneht, prixALaUnettc, prixEnReliefht, prixEnReliefttc) VALUES 
+(1.67, 2.0, 3.34, 4.0, 16.68, 20.0, 8.34, 10.0);
 
 -- 25. Insérer des données dans `_paiement`
-INSERT INTO _paiement (idOffre, idFacture) VALUES 
-(1, 1),
-(2, 2);
+INSERT INTO _paiement (idOffre, idFacture, idConstPrix) VALUES 
+(1, 1, 1),
+(2, 2, 1);
