@@ -98,20 +98,5 @@
             </form>
         </section>
     </main>
-<<<<<<< HEAD
-=======
-    <script>
-    function goToStep(step) {
-        const steps = document.querySelectorAll('.form-step');
-        steps.forEach((formStep, index) => {
-            if (index === step - 1) {
-                formStep.classList.remove('hidden');
-            } else {
-                formStep.classList.add('hidden');
-            }
-        });
-    }
->>>>>>> b733c317fc1020700f8cce2ad735ce6314c87e72
-
 </body>
 </html>
