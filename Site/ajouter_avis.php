@@ -65,19 +65,22 @@
         </style>
 
         <div class="donner_avis">
-            <p><strong>Mon avis</strong></p>
-            <p class ="pdp-name-date">
-                <img class="pdp-avis" src="<?php echo $info_membre['pathimage'] ?>" alt="image utilisateur">
-                <strong style="margin-right:3px;"><?= $info_membre['nomcompte'] . ' ' . $info_membre['prenomcompte'] ?></strong>
-            </p>
+            <p><strong>Donner mon avis</strong></p>
+            <div class ="pdp-name-date">
+                <img class="img-aj-avis" src="<?php echo $info_membre['pathimage'] ?>" alt="image utilisateur">
+                <span class="nom-aj-avis" ><?= $info_membre['nomcompte'] . ' ' . $info_membre['prenomcompte'] ?></span>
+            </div>
+            <form action="upload_avis.php" method="post">
+
+            <h2>Votre commentaire</h2>
+            <input type="text" id="min_price" class="textarea-creer_offre" name="commentaire" placeholder="Ecrivez votre commentaire ici" required>
+            
+
+            </form>
 
         </div>
 
-        <form action="upload_avis.php" method="post">
-
-            <label for=""></label>
-
-        </form>
+        
 
 
 

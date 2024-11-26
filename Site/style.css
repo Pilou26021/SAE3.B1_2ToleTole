@@ -883,9 +883,10 @@ p.cp_mobile_erreur {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: flex-start;
 	gap: 20px;
 	padding: 20px;
+	width: 100%;
 	align-items: center;
 }
 
@@ -1015,6 +1016,7 @@ td {
 .offres-display {
 	width: 100%;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	margin: 10px;
 	justify-content: center;
@@ -1468,4 +1470,19 @@ td {
 @font-face {
 	font-family: 'firasans';
 	src: url('./font/firasans-regular-webfont.woff2') format('woff2');
+}
+
+.img-aj-avis {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+.nom-aj-avis{
+	margin-left: 20px;
+	font-size: 2em;
+}
+
+.add-avis-form{
+	display: block;
 }

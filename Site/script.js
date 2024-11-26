@@ -282,7 +282,3 @@ function validImages(inputElements) {
     }
     return true;
 }
-
-
-  
-
