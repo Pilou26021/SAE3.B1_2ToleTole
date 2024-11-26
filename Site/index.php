@@ -27,7 +27,7 @@ ob_start();
         if ($professionel) {
             // Si professionnel, n'afficher que ses offres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne , o.notemoyenneoffre
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
@@ -41,7 +41,7 @@ ob_start();
         } else {
             // Sinon, afficher toutes les offres pour les visiteurs/membres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne,o.notemoyenneoffre
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
@@ -104,7 +104,7 @@ ob_start();
             <form action="">
                 <div class="recherche_top">
                     <img src="img/icons/search.png" alt="Search">
-                    <input class="input" placeholder="Votre recherche" type="text">
+                    <input id="search-query" class="input" placeholder="Votre recherche" type="text">
                     <img src="img/icons/filtre.png" alt="Filtre" id="filterBtn">
                 </div>
                 <hr>
@@ -146,6 +146,7 @@ ob_start();
                 <label for="date">Date :</label>
                 <div style="display: flex; align-items:center; justify-content: space-around;">
                     <input id="datedeb" class="input-filtre"  style="width: 40%;" type="date" >
+                    <p>a</p>
                     <input id="datefin" class="input-filtre"  style="width: 40%;" type="date" >
                 </div>
 
@@ -166,7 +167,8 @@ ob_start();
 
                 <label for="sort">Notes :</label>
                 <div style="display: flex; justify-content: space-around;">
-                    <select  class="choose" id="notemin" name="notemin" style="width: 30%; height: 30px;">
+                    <select  class="choose" id="notemin" name="notemin" style="width: 30%; height: 30px;" data-url="ajax_filtres.php">
+                        <option value="0" selected="selected">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -174,12 +176,13 @@ ob_start();
                         <option value="5">5</option>
                     </select>
                     <p>a</p>
-                    <select  class="choose" id="notemax" name="notemax" style="width: 30%; height: 30px;">
+                    <select  class="choose" id="notemax" name="notemax" style="width: 30%; height: 30px;" data-url="ajax_filtres.php">
+                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="5" selected="selected">5</option>
                     </select>
                 </div>
                 <h3>Tri</h3>
@@ -225,7 +228,48 @@ ob_start();
                                         
                                         <!-- Prix minimum de l'offre -->
                                         <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
-                                       
+
+                                        <div class="titre-moy-index">
+                                            <p class="offre-resume"> <strong> Note :</strong></p>
+                                            <?php if(!empty($offre['notemoyenneoffre'])){
+                                                    $noteMoyenne = $offre['notemoyenneoffre'];
+
+                                                    // Calcul des étoiles pleines
+                                                    $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
+                                                    if ($noteMoyenne - $etoilesCompletes > 0.705){
+                                                        $etoilesCompletes++;
+                                                    }
+                                                    for ($i = 0; $i < $etoilesCompletes; $i++) {
+                                                        ?> 
+                                                        <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
+                                                        <?php
+                                                    }
+
+                                                    // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
+                                                    if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
+                                                        ?> 
+                                                        <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> 
+                                                        <?php
+                                                        $i++; // Compter cette demi-étoile
+                                                    }
+
+                                                    // Compléter avec les étoiles vides jusqu'à 5
+                                                    for (; $i < 5; $i++) {
+                                                        ?> 
+                                                        <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> 
+                                                        <?php
+                                                    }
+
+                                                    ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
+
+                                                } else {
+                                                    echo "<p>Note non disponible</p>";
+                                                }
+
+                                                ?>
+
+                                        </div>
+
                                        <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                        <?php if ($professionel) { ?>
                                             <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>

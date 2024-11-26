@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <form action="upload_offer.php" method="post" enctype="multipart/form-data">            
+            <form action="upload_offer.php" method="post" enctype="multipart/form-data" onsubmit="return validImages(document.querySelectorAll('.image-input-fn'))">            
             <br>
                 <?php 
                     switch($cat){
@@ -179,17 +179,7 @@
 
                 <?php } else {
                         ?> <h2>Veuillez choisir une catégorie pour votre offre.</h2> <?php
-                    } if($cat != '' && $cat != 'restauration') { ?>
-
-                <!--<h2>Prix</h2>
-                <div class="price">
-                    <input id="adult_price" class="zone-number" type="number" name="adultPrice" placeholder="Prix adulte" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
-                    <input id="child_price" class="zone-number" type="number" name="childPrice" placeholder="Prix enfant (-18)" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
-                </div>  
-                <p id="error-adult_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
-                <p id="error-child_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>-->
-                
-                <?php } if($cat != '' ) { ?>
+                } if($cat != '' ) { ?>
 
                     <h2>Prix minimum de l'offre</h2>
                     <div class ="price">
@@ -239,7 +229,7 @@
 
                     <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
-                        <input type="file" name="imageOffre" accept=".png, .jpg, .jpeg" required>
+                        <input class="image-input-fn" type="file" name="imageOffre" accept=".png, .jpg, .jpeg" required>
                     </div>
 
                 <?php } if ($cat == 'parc') {?>
@@ -251,7 +241,7 @@
                     <br>
                     <h2>Carte du parc</h2>
                     <div class="image-upload">
-                        <input type="file" name="carteParc" accept=".png, .jpg, .jpeg" required>
+                        <input class="image-input-fn" type="file" name="carteParc" accept=".png, .jpg, .jpeg" required>
                     </div>
                     <h2>Nombre d'attractions disponibles</h2>
                     <input id="nbrAttraction" class="zone-number" type="number" name="nbrAttraction" placeholder="Nombre d'attractions" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
@@ -340,7 +330,7 @@
                 <p id="error-gamme_prix" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                 <h2>Carte du restaurant</h2>
                 <div class="image-upload">
-                    <input type="file" name="menuImage" accept=".png, .jpg, .jpeg" required>
+                    <input class="image-input-fn" type="file" name="menuImage" accept=".png, .jpg, .jpeg" required>
                 </div>
                 <h2>Tags de l'offre</h2>
                 <div class="tags">
@@ -391,3 +381,6 @@
 
     </body>
 </html>
+<?php
+ob_end_flush();
+?>

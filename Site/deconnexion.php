@@ -3,6 +3,8 @@
 ob_start();
 session_start();
 session_destroy();
+ob_clean();
+session_abort();
 
 // On affiche un message comme quoi on a bien été déconnecté
 ?>
@@ -39,7 +41,7 @@ session_destroy();
     <p class="deconnexion-message">Vous avez été déconnecté. À bientôt !</p>
     <p class="deconnexion-message">Si vous n'êtes pas redirigé <a href="index.php">cliquez ici.</a></p>
     <script>
-        // redirige vers index.php après 3 secondes en js
+        // redirige vers index.php en js
         setTimeout(() => {
             window.location.href = 'index.php';
         }, 0);

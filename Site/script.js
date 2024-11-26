@@ -35,20 +35,41 @@ function adjustDates() {
     }
 }
 
-document.getElementById("filterBtn").addEventListener("click", function() {
-    var filterForm = document.getElementById("filterForm");
-    if (filterForm.style.display === "none" || filterForm.style.display === "") {
-        filterForm.style.display = "block";
-    } else {
-        filterForm.style.display = "none";
-    }
+$(document).ready(function() {
+    // Lorsque l'utilisateur clique sur le bouton de filtre, affichez le pop-up
+    $("#filterBtn").click(function() {
+        $("#filterForm").fadeIn();
+    });
+
+    // Lorsque l'utilisateur clique en dehors du pop-up des filtres, le fermer
+    $(document).click(function(event) {
+        // Si le clic a eu lieu en dehors de #filterForm et #filterBtn
+        if (!$(event.target).closest('#filterForm').length && !$(event.target).closest('#filterBtn').length) {
+            $("#filterForm").fadeOut();  // Fermer le filtre
+        }
+    });
+
+    // Empêcher le clic sur le filtre de fermer immédiatement le pop-up
+    $("#filterForm").click(function(event) {
+        event.stopPropagation();
+    });
 });
 
+
+
 priceRangeMax.addEventListener("input", function() {
+    // Empêcher priceRangeMax d'être inférieur à priceRangeMin
+    if (parseInt(priceRangeMax.value) < parseInt(priceRangeMin.value)) {
+        priceRangeMax.value = priceRangeMin.value;
+    }
     priceValueMax.textContent = priceRangeMax.value;
 });
 
 priceRangeMin.addEventListener("input", function() {
+    // Empêcher priceRangeMin d'être supérieur à priceRangeMax
+    if (parseInt(priceRangeMin.value) > parseInt(priceRangeMax.value)) {
+        priceRangeMin.value = priceRangeMax.value;
+    }
     priceValueMin.textContent = priceRangeMin.value;
 });
 
@@ -159,19 +180,59 @@ function resetButtonText(cat) {
     }
 }
 
+// FILTRES
+
 async function applyFilters() {
     // Récupérer les valeurs des filtres
     const category = document.getElementById('category').value;
     const lieux = document.getElementById('lieux').value;
+    const minPrice = document.getElementById("price-range-min").value;
+    const maxPrice = document.getElementById("price-range-max").value;
+    const notemin = document.getElementById('notemin').value;
+    const notemax = document.getElementById('notemax').value;
+    const datedeb = document.getElementById('datedeb').value;
+    const datefin = document.getElementById('datefin').value;
+    const search = document.getElementById('search-query').value;
+    const startDate = document.getElementById('datedeb').value;
+    const endDate = document.getElementById('datefin').value;
+    let Tprix = document.getElementById('Tprix').value;
+    let Tnote = document.getElementById('Tnote').value;
 
+    const lastTprix = sessionStorage.getItem('lastTprix') || '';
+    const lastTnote = sessionStorage.getItem('lastTnote') || '';
 
-    // Préparer les données pour l'envoi
+    if (Tprix && Tprix !== lastTprix) {
+        Tnote = '';
+        document.getElementById('Tnote').value = ''; 
+    }
+    if (Tnote && Tnote !== lastTnote) {
+        Tprix = '';
+        document.getElementById('Tprix').value = ''; 
+    }
+
+    sessionStorage.setItem('lastTprix', Tprix);
+    sessionStorage.setItem('lastTnote', Tnote);
+
+    
+
+    // Préparer les paramètres de filtre
     const filters = new URLSearchParams();
     filters.append('category', category);
     filters.append('lieux', lieux);
-
+    filters.append('minPrice', minPrice);
+    filters.append('maxPrice', maxPrice);
+    filters.append('notemin', notemin);
+    filters.append('notemax', notemax);
+    filters.append('datedeb', datedeb);
+    filters.append('datefin', datefin);
+    filters.append('search', search);
+    filters.append('startDate', startDate);
+    filters.append('endDate', endDate);
+    filters.append('Tprix', Tprix);
+    filters.append('Tnote', Tnote);
+    
     try {
-        // Utiliser fetch pour envoyer les filtres et récupérer les résultats
+        // Effectuer la requête AJAX en envoyant tous les filtres
         const response = await fetch('ajax_filtres.php?' + filters.toString(), {
             method: 'GET',
             headers: {
@@ -194,49 +255,33 @@ async function applyFilters() {
 
 // Ajouter des écouteurs d'événements pour chaque filtre
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('search-query').addEventListener('input', applyFilters);
     document.getElementById('category').addEventListener('change', applyFilters);
     document.getElementById('lieux').addEventListener('input', applyFilters);
+    document.getElementById('price-range-min').addEventListener("input", applyFilters);
+    document.getElementById('price-range-max').addEventListener("input", applyFilters);
+    document.getElementById('notemin').addEventListener("change", applyFilters);
+    document.getElementById('notemax').addEventListener("change", applyFilters);
+    document.getElementById('datedeb').addEventListener('change', applyFilters);
+    document.getElementById('datefin').addEventListener('change', applyFilters);
+    document.getElementById('Tprix').addEventListener('change', applyFilters);
+    document.getElementById('Tnote').addEventListener('change', applyFilters);
+    
 });
 
-// Fonction pour gérer les requêtes AJAX
-async function updateOffers() {
-    const minPrice = document.getElementById("price-range-min").value;
-    const maxPrice = document.getElementById("price-range-max").value;
+function validImages(inputElements) {
+    var validExtensions = ['image/jpeg', 'image/png', 'image/jpg']; // Formats acceptés
 
-    // Mettre à jour les valeurs affichées
-    document.getElementById("price-value-min").textContent = minPrice;
-    document.getElementById("price-value-max").textContent = maxPrice;
-
-    // URL pour la requête AJAX
-    const url = document.getElementById("price-range-min").getAttribute("data-url");
-
-    // Préparer les paramètres
-    const params = new URLSearchParams();
-    params.append("minPrice", minPrice);
-    params.append("maxPrice", maxPrice);
-
-    try {
-        // Effectuer une requête AJAX
-        const response = await fetch(`${url}?${params.toString()}`, {
-            method: "GET",
-        });
-
-        // Vérifier la réponse
-        if (response.ok) {
-            const data = await response.text();
-            // Injecter les résultats dans la section des offres
-            document.querySelector(".offres-display").innerHTML = data;
-        } else {
-            throw new Error("Erreur lors du chargement des offres.");
+    for (var i = 0; i < inputElements.length; i++) {
+        var file = inputElements[i].files[0];
+        if (file && !validExtensions.includes(file.type)) {
+            alert('Format d\'image non supporté dans le champ ' + inputElements[i].name + '. Veuillez choisir un fichier .png, .jpg, ou .jpeg.');
+            inputElements[i].value = ''; // Réinitialiser l'input
+            return false;
         }
-    } catch (error) {
-        console.error("Erreur AJAX :", error);
     }
+    return true;
 }
-
-// Ajout des événements sur les sliders
-document.getElementById("price-range-min").addEventListener("input", updateOffers);
-document.getElementById("price-range-max").addEventListener("input", updateOffers);
 
 
   

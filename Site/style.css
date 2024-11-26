@@ -94,10 +94,13 @@ header {
 }
 
 .filter-form {
+	z-index: 10;
+	top: 5vw;
 	display: none;
+	position: absolute;
 	margin: 20px auto;
 	padding: 20px;
-	width: 80%;
+	width: 60%;
 	background-color: #F2F1E9;
 	box-shadow: 0px 0px 15px #040316;
 	border-radius: 10px;
@@ -294,8 +297,6 @@ p {
 	/*retirer le style par défaut : */
 	background: none;
 	border: none;
-
-
 	display: flex;
 	align-items: center;
 	background-color: #F2F1E9;
@@ -528,7 +529,7 @@ input[type="radio"]+label {
 	/* Retire le style par défaut de la checkbox */
 	width: 20px;
 	height: 20px;
-	border: 2px solid #1f8a70;
+	border: 2px solid #27772e;
 	/* Vert de base */
 	border-radius: 4px;
 	background-color: white;
@@ -700,7 +701,7 @@ section.cp_mobile input.cp_mobile {
 	background-color: #F2F1E9;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 	/* Ombre */
-	margin: 40px;
+	margin: 30px 40px 40px 40px;
 	font-size: 20px;
 }
 
@@ -1328,3 +1329,114 @@ td {
     }
 }
 
+.add-avis-btn{
+	display: flex;
+	width: 80%;
+	justify-content: center;
+	border: #31CEA6 solid 2px;
+	border-radius: 10px;
+}
+
+.add-avis-btn:hover{
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.add-avis-btn img{
+	padding: 10px 0 10px 0;
+	width: 30px;
+	height: 30px;
+	transition: fill 3s ease; /* Transition douce */
+}
+
+#map {
+	width: 100%; /* Largeur de la carte */
+	height: 250px;
+}
+
+.container-details-offre {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+
+.details-offre {
+	flex: 3; /* Partie des détails de l'offre */
+	padding-left : 200px;
+	padding: 10px;
+}
+
+.avis-container{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 10px;
+	width: 130%; /* Ajustez à la taille désirée */
+	margin: 0 auto;
+}
+
+.avis-offre {
+	flex: 1; /* Partie des avis */
+	padding: 20px;
+	border-left: 1px solid #ccc; /* Ligne séparatrice */
+}
+
+.avis{
+	border: 1px solid #ccc;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.avis_m{
+	border: 1px solid #31CEA6;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.pdp-name-date {
+	display: flex;
+	align-items: center;
+}
+
+.pdp-name-date strong {
+	margin-left : 10px;
+}
+
+.pdp-avis{
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+
+.titre-moy {
+	display: flex;
+	width: 200%;
+	gap : 3.5px;
+	padding-left: 10px;
+}
+
+.titre-moy p {
+	position: relative;
+	left: 5px;
+	top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
+}
+
+.titre-moy-index {
+	display: flex;
+	width: 200%;
+	gap : 3.5px;
+	padding-left: -10px;
+}
+
+.titre-moy-index p {
+	position: relative;
+	top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
+	color: #040316;
+}
+
+@font-face {
+	font-family: 'firasans';
+	src: url('./font/firasans-regular-webfont.woff2') format('woff2');
+}

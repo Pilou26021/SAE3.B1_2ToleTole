@@ -11,7 +11,9 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image6.png'), --lou
 ('./img/uploaded/image7.png'), --liam
 ('./img/uploaded/image8.png'), --piel
-('./img/uploaded/image9.png'); --Jane
+('./img/uploaded/image9.png'), --Jane
+('./img/uploaded/image10.png'), --Gary
+('./img/uploaded/image11.png'); --Jose
 
 -- 2. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
@@ -20,7 +22,9 @@ INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImageP
 ('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
 ('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$WQZfbr1fhF.uPf8NBXtJd.4wln6z5OrF635Lc4.DpUv5AmjsOVw7i', '2023-02-20', '2025-02-20'),
 ('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
-('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', '2023-02-20', '2025-02-20');
+('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', '2023-02-20', '2025-02-20'),
+('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15'),
+('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', '2023-01-15', '2025-01-15');
 
 -- 3. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
@@ -36,11 +40,11 @@ INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES
 
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, dateNaissanceMembre) VALUES 
-(1, '1990-01-01'),
-(2, '1995-05-05'),
-(3, '1995-05-05'),
-(4, '2003-05-05'),
-(5, '2004-08-23');
+(2, '2003-05-05'),
+(4, '2004-08-23'),
+(5, '2003-05-05'),
+(6, '1995-08-23'),
+(7, '1989-08-23');
 
 -- 6. Insérer des données dans `_professionnelPublic`
 INSERT INTO _professionnelPublic (idPro) VALUES 
@@ -54,9 +58,9 @@ INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) V
 
 -- 8. Insérer des données dans `_offre`
 INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
-(3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 150, TRUE, FALSE, 1, 'https://ilovemyself.com',4.5, FALSE, '2023-05-01', 'Accessible', FALSE),
-(2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 100, FALSE, TRUE, 2, 'https://pnevot.com',4.0, TRUE, '2023-06-01', 'Non accessible', FALSE),
-(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 50, FALSE, FALSE, 1, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE);
+(3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 150, TRUE, FALSE, 1, 'https://ilovemyself.com',0, FALSE, '2023-05-01', 'Accessible', FALSE),
+(2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 100, FALSE, TRUE, 2, 'https://pnevot.com',0, TRUE, '2023-06-01', 'Non accessible', FALSE),
+(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 50, FALSE, FALSE, 0, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE);
 
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 

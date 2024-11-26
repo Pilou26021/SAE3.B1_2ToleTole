@@ -88,14 +88,7 @@
             }
         ?>
 
-
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-        <style>
-            #map {
-                width: 100%; /* Largeur de la carte */
-                height: 250px;
-            }
-        </style>
 
         <?php
         //Collecte des informations sur l'emplacement de l'offre
@@ -390,59 +383,145 @@
                     <!-- ************************************ -->
 
                     <?php
-                        // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur
-                        $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
-                                FROM public._avis a
-                                JOIN public._compte c ON a.idmembre = c.idcompte
-                                JOIN public._image i ON c.idimagepdp = i.idimage
-                                WHERE a.idoffre = :idoffre
-                                ORDER BY a.dateavis DESC
-                        ";
+                        if($membre){
+                            // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur sauf pour l'utilisateur connecté
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            FROM public._avis a
+                            JOIN public._compte c ON a.idmembre = c.idcompte
+                            JOIN public._image i ON c.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre AND c.idcompte <> :conn_membre
+                            ORDER BY a.dateavis DESC";
 
-                        // Préparer et exécuter la requête
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            FROM public._avis a
+                            JOIN public._compte c ON a.idmembre = c.idcompte
+                            JOIN public._image i ON c.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre AND c.idcompte = :conn_membre
+                            ORDER BY a.dateavis DESC";
+                            
+                        } else {
+                            // Requête SQL pour récupérer les avis sur l'offre et la photo de profil de l'utilisateur
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            FROM public._avis a
+                            JOIN public._compte c ON a.idmembre = c.idcompte
+                            JOIN public._image i ON c.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre
+                            ORDER BY a.dateavis DESC";
+                        }
+                        
+
+                        // Préparer et exécuter la requête de tout les avis
                         $stmt = $conn->prepare($sql);
+                        if ($membre){
+                            $stmt->bindValue(':conn_membre', $idmembre, PDO::PARAM_INT);
+                        }
                         $stmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
                         $stmt->execute();
 
                         // Récupérer les avis
                         $avis = $stmt->fetchAll();
 
+                        if($membre){
+                            // Préparer et exécuter pour l'avis du membre
+                            $stmt = $conn->prepare($sql_only_member);
+                            $stmt->bindValue(':conn_membre', $idmembre, PDO::PARAM_INT);
+                            $stmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
+                            $stmt->execute();
+
+                            // Récupérer les avis
+                            $avis_membre = $stmt->fetchAll();
+                        }
+
                     ?>
 
-                    <h2>Avis sur l'offre</h2>
+                    <div style="display:flex;flex-direction:row;align-items:center;">
+                        <h2>Avis sur l'offre</h2>
+                    </div>
+
                     <div class="titre-moy">
                         <?php 
                             $noteMoyenne = 0;
-                            $nbAvis = count($avis);
+                            $nbAvis = count($avis) + count($avis_membre);
                             if ($nbAvis > 0) {
                                 foreach ($avis as $avi) {
                                     $noteMoyenne += $avi['noteavis'];
                                 }
-                                $noteMoyenne = $noteMoyenne / $nbAvis;
+                                $noteMoyenne = $noteMoyenne/$nbAvis;
                             }
                         ?>
                         <?php 
-                            // étoiles pleines
-                            for ($i = 0; $i < floor($noteMoyenne); $i++) {
-                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+
+                            // Calcul des étoiles pleines
+                            $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
+                            if ($noteMoyenne - $etoilesCompletes > 0.705){
+                                $etoilesCompletes++;
+                            }
+                            for ($i = 0; $i < $etoilesCompletes; $i++) {
+                                ?> 
+                                <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
+                                <?php
                             }
 
-                            // moitié d'étoiles pour les notes décimales entre 0.3 et 0.7
-                            if ($noteMoyenne - floor($noteMoyenne) > 0.2 && $noteMoyenne - floor($noteMoyenne) < 0.8) {
-                                ?> <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> <?php
-                                $i++; // Compter cette moitié d'étoile
+                            // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
+                            if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
+                                ?> 
+                                <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> 
+                                <?php
+                                $i++; // Compter cette demi-étoile
                             }
 
-                            // vides pour le reste
+                            // Compléter avec les étoiles vides jusqu'à 5
                             for (; $i < 5; $i++) {
-                                ?> <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> <?php
+                                ?> 
+                                <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> 
+                                <?php
                             }
+
                         ?>
-                        <p><?= number_format($noteMoyenne, 1) ?>/5</p>
+
+                        <p><?= number_format($noteMoyenne, 2) ?>/5</p>
 
                     </div>
                     <div class="avis-container">
+
+                        <?php if ($membre && count($avis_membre) == 0) { ?>
+                            <p>Donnez votre avis sur cette offre :</p>
+                            <a class="add-avis-btn" href="ajouter_avis.php?idoffre=<?= $idoffre ?>">
+                                <!-- <img class="circle-not-hover" src="./img/icons/circle-plus-solid-grey.svg" alt="Donner mon avis"> -->
+                                <img class="circle-on-hover" src="./img/icons/circle-plus-solid-green.svg" alt="Donner mon avis">
+                            </a>
+                            
+                            <hr style="border-top: 1px solid #ccc;" width="90%">
+
+                        <?php } ?>
+
                         <?php 
+                            if ($avis_membre){
+                                foreach ($avis_membre as $avis_m) {
+
+                                    $date_formated = date("d/m/Y", strtotime($avis_m['dateavis']));
+
+                                    ?>
+                                    <div class="avis_m">
+                                        <p><strong>Mon avis</strong></p>
+                                        <p class ="pdp-name-date">
+                                            <img class="pdp-avis" src="<?php echo $avis_m['pathimage'] ?>" alt="image utilisateur">
+                                            <strong style="margin-right:3px;"><?= $avis_m['nomcompte'] . ' ' . $avis_m['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                        </p>
+                                        <p><?= $avis_m['commentaireavis'] ?></p>
+                                        <?php
+                                            for ($i = 0; $i < $avis_m['noteavis']; $i++) {
+                                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                            for ($i = $avis_m['noteavis']; $i < 5; $i++) {
+                                                ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
+                                            }
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+                            }
+
                             if ($avis) {
                                 foreach ($avis as $avis) {
 
@@ -452,7 +531,7 @@
                                     <div class="avis">
                                         <p class ="pdp-name-date">
                                             <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
-                                            <strong><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                            <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                         </p>
                                         <p><?= $avis['commentaireavis'] ?></p>
                                         <?php
@@ -482,84 +561,25 @@
 
                 </div>
 
-                <style>
-                    .container-details-offre {
-                        display: flex;
-                        flex-direction: row;
-                        gap: 20px;
-                    }
-
-
-                    .details-offre {
-                        flex: 3; /* Partie des détails de l'offre */
-                        padding-left : 200px;
-                        padding: 10px;
-                    }
-
-                    .avis-container{
-                        display: flex;
-                        flex-direction: column;
-                        gap: 10px;
-                        width: 200%; /* Ajustez à la taille désirée */
-                        margin: 0 auto;
-                    }
-
-                    .avis-offre {
-                        flex: 1; /* Partie des avis */
-                        padding: 20px;
-                        border-left: 1px solid #ccc; /* Ligne séparatrice */
-                    }
-
-                    .avis{
-                        border: 1px solid #ccc;
-                        width: 100%;
-                        padding: 10px;
-                        margin-bottom: 10px;
-                    }
-
-                    .pdp-name-date {
-                        display: flex;
-                        align-items: center;
-                    }
-
-                    .pdp-name-date strong {
-                        margin-left : 10px;
-                    }
-
-                    .pdp-avis{
-                        width: 50px;
-                        height: 50px;
-                        border-radius: 50%;
-                    }
-
-                    .titre-moy {
-                        display: flex;
-                        width: 200%;
-                        gap : 3.5px;
-                        padding-left: 10px;
-                    }
-
-                    .titre-moy p {
-                        position: relative;
-                        left: 5px;
-                        top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
-                    }
-
-                    @font-face {
-                        font-family: 'firasans';
-                        src: url('./font/firasans-regular-webfont.woff2') format('woff2');
-                    }
-
-                </style>
-
-
             </div>
-                
-
-
-
             
         </main>
+
+        <!-- Modale pour donner son avis 
+        <div id="avisModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Donner votre avis</h2>
+                <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
+                    <div class="modal-content-btn">
+                        <input class="offer-btn image-input-fn" type="file" name="newProfileImage" accept=".png, .jpg, .jpeg" required>
+                        <div class="modal-footer">
+                            <button type="submit" class="offer-btn">Enregistrer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>-->
 
         <div id="footer"></div>
 
@@ -625,3 +645,6 @@
         <script src="script.js"></script> 
     </body>
 </html>
+<?php
+ob_end_flush();
+?>

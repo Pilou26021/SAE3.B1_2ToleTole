@@ -7,10 +7,10 @@
     $membre = false;
     if (isset($_SESSION['membre'])) {
         $membre = true;
-        $idmembre = $_SESSION['membre'];
+        $idcompte = $_SESSION['membre'];
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
-        $idpro = $_SESSION['professionnel'];
+        $idcompte = $_SESSION['professionnel'];
     }
 ?>
 
@@ -112,15 +112,9 @@
         <h1>Mon Compte</h1>
         
         <?php 
-            if (isset($_SESSION['membre'])) {
-                $idcompte = $idmembre;
-            } elseif (isset($_SESSION['professionnel'])) {
-                $idcompte = $idpro;
-            }
-
             //requete pour récupérer l'image de l'utilisateur
-            $sql = "SELECT i.pathimage, c.nomcompte, c.prenomcompte, c.mailcompte, numtelcompte FROM _image i JOIN _compte c 
-                    ON i.idimage = c.idimagepdp
+            $sql = "SELECT c.nomcompte, c.prenomcompte, c.mailcompte, numtelcompte, i.pathimage FROM _compte c JOIN _image i
+                    ON c.idimagepdp = i.idimage
                     WHERE idcompte = :idcompte";
 
             // Préparer et exécuter la requête
@@ -152,9 +146,9 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2>Modifier votre photo de profil</h2>
-            <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
+            <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data" onsubmit="return validImages(document.querySelectorAll('.image-input-fn'))">
                 <div class="modal-content-btn">
-                    <input class="offer-btn" type="file" name="newProfileImage" accept="image/*" required>
+                    <input class="offer-btn image-input-fn" type="file" name="newProfileImage" accept=".png, .jpg, .jpeg" required>
                     <div class="modal-footer">
                         <button type="submit" class="offer-btn">Enregistrer</button>
                     </div>
@@ -194,5 +188,6 @@
         }
 
     </script>
+    <script src="./script.js" ></script>
 </body>
 </html>

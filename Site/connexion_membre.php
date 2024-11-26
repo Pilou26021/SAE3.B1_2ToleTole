@@ -4,7 +4,7 @@ session_start(); // Démarre la session
 
 include '../SQL/connection_local.php';
 
-if (isset($_SESSION['professionnel'])) {
+if (isset($_SESSION['membre'])) {
     // Si l'utilisateur est déjà connecté, le rediriger vers la page d'accueil
     header('Location: index.php');
     exit();
@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $motdepasse = $_POST['mdp_cp_mob'];
 
     // Vérification de l'existence de l'utilisateur
-    $sql = "SELECT * FROM professionnel WHERE mailcompte = :email";
+    $sql = "SELECT * FROM membre WHERE mailcompte = :email";
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(":email", $email, PDO::PARAM_STR);
     $stmt->execute();
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
         // Si la connexion est réussie, définir la session
-        $_SESSION['professionnel'] = $result['idcompte']; // on utilisez un autre champ pertinent
+        $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
         header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
         exit();
     } else {
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <head>
         <meta charset="UTF-8">
-        <title>Connexion professionnelle</title>
+        <title>Connexion membre</title>
         <link rel="stylesheet" href="style.css">
     </head>
 
@@ -53,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <!-- Logo -->
         <img src="img/logos/fond_remove_big.png" alt="Logo" style="width: 230px; height: auto;">
-        <h1 class="cp_mobile">Professionnel</h1>
+        <h1 class="cp_mobile">Membre</h1>
 
-        <form action="connexion_pro.php" method="POST" class="cp_mobile">
+        <form action="connexion_membre.php" method="POST" class="cp_mobile">
 
             <!-- Section pour permettre l'alignement du texte -->
             <section class="cp_mobile">
@@ -81,10 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Bouton de validation -->
             <input type="submit" value="Se connecter" class="cp_mobile_btn">
             <div style="display:flex;align-items:center;flex-direction:column;">
-                <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Se connecter en tant que membre</a>
+                <a class="offer-btn" style="text-decoration:none;" href="connexion_pro.php">Se connecter en tant que professionnel</a>
                 <span>OU</span>
                 <br>
-                <a class="offer-btn" href="creer_compte_pro.php" class="cp_mobile">Créer un compte professionnel</a>
+                <a class="offer-btn" href="creer_compte_pro.php" class="cp_mobile">Créer un compte membre</a><br>
             </div>
 
         </form>
