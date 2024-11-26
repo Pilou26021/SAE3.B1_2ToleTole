@@ -75,7 +75,11 @@ if (isset($_SESSION['membre'])) {
 
     <span class="openbtn" onclick="openNav()">&#9776;</span>
     <a href="index.php"> <img src="img/logos/fond_remove_big.png" alt="logo site noir" title="logo site noir" style="width: 90px; height: 90x;"></a>
-    <a href="connexion_membre.php">
+    <?php if(!empty($professionel) || !empty($membre)) {
+        ?> <a href="mon_compte.php"> <?php
+    } else {
+        ?> <a href="connexion_membre.php"> <?php
+    } ?>
         <img src="<?php echo (!empty($professionel) || !empty($membre)) ? $result['pathimage'] : './img/icons/user.png'; ?>" alt="image user" title="image user" style="width:50px; height:50px;border-radius:50%;">
     </a>
 </header>

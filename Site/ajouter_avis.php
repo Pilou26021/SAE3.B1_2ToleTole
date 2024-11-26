@@ -15,6 +15,25 @@
     } else {
         ?> <script>window.location.replace('index.php');</script> <!-- Redirection en quittant la page actuelle --> <?php
     }
+
+    //Récupérer les données de l'utilisateur
+    $sql = "SELECT c.idcompte, c.nomcompte, c.prenomcompte, c.idimagepdp, i.pathimage
+            FROM _compte c JOIN _image i
+            ON c.idimagepdp = i.idimage
+            WHERE c.idcompte = :idmembre
+    "
+
+    // Préparer et exécuter la requête de tout les avis
+    $stmt = $conn->prepare($sql);
+    if ($membre){
+        $stmt->bindValue(':conn_membre', $idmembre, PDO::PARAM_INT);
+    }
+    $stmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Récupérer les avis
+    $avis = $stmt->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +68,7 @@
 
         <form action="upload_avis.php" method="post">
 
-            
+            <label for=""></label>
 
         </form>
 

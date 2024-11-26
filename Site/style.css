@@ -19,7 +19,8 @@ header {
 	height: 50px;
 	justify-content: space-between;
 	align-items: center;
-	padding-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 20px;
 	border-bottom: solid 2px #040316;
 	margin-bottom: 20px;
 }
