@@ -197,21 +197,34 @@ async function applyFilters() {
     const endDate = document.getElementById('datefin').value;
     let Tprix = document.getElementById('Tprix').value;
     let Tnote = document.getElementById('Tnote').value;
+    let Tdate = document.getElementById('Tdate').value;
 
     const lastTprix = sessionStorage.getItem('lastTprix') || '';
     const lastTnote = sessionStorage.getItem('lastTnote') || '';
+    const lastTdate = sessionStorage.getItem('lastTdate') || '';
 
     if (Tprix && Tprix !== lastTprix) {
         Tnote = '';
+        Tdate = '';
         document.getElementById('Tnote').value = ''; 
+        document.getElementById('Tdate').value = '';
     }
     if (Tnote && Tnote !== lastTnote) {
         Tprix = '';
+        Tdate = '';
         document.getElementById('Tprix').value = ''; 
+        document.getElementById('Tdate').value = '';
+    }
+    if (Tdate && Tdate !== lastTdate) {
+        Tprix = '';
+        Tnote = '';
+        document.getElementById('Tprix').value = ''; 
+        document.getElementById('Tnote').value = '';
     }
 
     sessionStorage.setItem('lastTprix', Tprix);
     sessionStorage.setItem('lastTnote', Tnote);
+    sessionStorage.setItem('lastTdate', Tdate);
 
     
 
@@ -230,6 +243,7 @@ async function applyFilters() {
     filters.append('endDate', endDate);
     filters.append('Tprix', Tprix);
     filters.append('Tnote', Tnote);
+    filters.append('Tdate', Tdate);
     
     try {
         // Effectuer la requête AJAX en envoyant tous les filtres
@@ -266,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('datefin').addEventListener('change', applyFilters);
     document.getElementById('Tprix').addEventListener('change', applyFilters);
     document.getElementById('Tnote').addEventListener('change', applyFilters);
+    document.getElementById('Tdate').addEventListener('change', applyFilters);
     
 });
 

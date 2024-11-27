@@ -39,7 +39,7 @@
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -185,6 +185,13 @@
                     <?php if ($offre): ?>
                         <div class="offre-detail-container">
                             <h1 class="offre-titre"><?= $offre['titreoffre'] ?></h1>
+                            <?php
+                                if ($offre["alauneoffre"]==true) {
+                            ?>
+                                <p style="color:#36D673;" class="offre-resume-detail" ><strong>Cette offre est a la Une</strong></p>
+                            <?php 
+                                }
+                            ?>
                             <div class="offre-image-container" style="text-align:center;">
                                 <img class="offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
                             </div>

@@ -14,6 +14,7 @@ $noteMin = isset($_GET['notemin']) ? intval($_GET['notemin']) : 0;
 $noteMax = isset($_GET['notemax']) ? intval($_GET['notemax']) : 5;
 $Tprix = isset($_GET['Tprix']) ? $_GET['Tprix'] : '';
 $Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
+$Tdate = isset($_GET['Tdate']) ? $_GET['Tdate'] : '';
 
 // Initialiser les conditions de la requête
 $tableJoin = '';
@@ -147,6 +148,10 @@ if ($Tprix === 'CroissantP') {
     $orderBy = 'o.notemoyenneoffre ASC';
 } elseif ($Tnote === 'DecroissantN') {
     $orderBy = 'o.notemoyenneoffre DESC';
+} elseif ($Tdate === 'Recent') {
+    $orderBy = 'o.datecreationoffre DESC';
+} elseif ($Tdate === 'Ancien') {
+    $orderBy = 'o.datecreationoffre ASC';
 }
 
 if (!empty($orderBy)) {
@@ -197,9 +202,47 @@ if (count($offres) > 0) {
                     
                     <!-- Prix minimum de l'offre -->
                     <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
-                    
-                    <p> <strong> Note :</strong> <?= !empty($offre['notemoyenneoffre']) ? htmlspecialchars($offre['notemoyenneoffre']) : 'Note non disponible' ?> /5</p>
 
+                    <div class="titre-moy-index">
+                        <p class="offre-resume"> <strong> Note :</strong></p>
+                        <?php if(!empty($offre['notemoyenneoffre'])){
+                                $noteMoyenne = $offre['notemoyenneoffre'];
+
+                                // Calcul des étoiles pleines
+                                $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
+                                if ($noteMoyenne - $etoilesCompletes > 0.705){
+                                    $etoilesCompletes++;
+                                }
+                                for ($i = 0; $i < $etoilesCompletes; $i++) {
+                                    ?> 
+                                    <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
+                                    <?php
+                                }
+
+                                // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
+                                if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
+                                    ?> 
+                                    <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> 
+                                    <?php
+                                    $i++; // Compter cette demi-étoile
+                                }
+
+                                // Compléter avec les étoiles vides jusqu'à 5
+                                for (; $i < 5; $i++) {
+                                    ?> 
+                                    <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> 
+                                    <?php
+                                }
+
+                                ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
+
+                            } else {
+                                echo "<p>Note non disponible</p>";
+                            }
+
+                            ?>
+
+                    </div>
                     <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                     <?php if ($professionel) { ?>
                         <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
