@@ -1178,7 +1178,6 @@ td {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     padding: 40px; /* Augmenté pour un espacement plus confortable */
 }
 
@@ -1245,12 +1244,41 @@ td {
 
 .input-container .required {
     position: absolute;
-    top: 20%;
+    top: 30%;
 	right: 1px;
     transform: translateY(-50%);
     color: #4CAF50;
     font-size: 1.5em; /* Agrandi */
     font-weight: bold;
+}
+
+/*Pour Etape 2*/
+.input-container2 {
+    position: relative;
+}
+
+.input-container2 input {
+    width: 95%;
+	margin-right: 7em;
+    padding: 15px; /* Agrandi */
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Plus arrondi */
+    font-size: 1.2em; /* Augmenté pour des champs plus grands */
+    color: #333;
+}
+
+.input-container2 input::placeholder {
+    color: #aaa;
+}
+
+.input-container2 .required {
+    position: absolute;
+    top: 30%;
+	right: 1px;
+    transform: translateY(-50%);
+    color: #4CAF50;
+    font-size: 1.5em; /* Agrandi */
+	font-weight: bold;
 }
 
 /* Input row styles */
@@ -1261,6 +1289,19 @@ td {
 
 .input-row .input-group {
     flex: 1;
+}
+/* Cacher l'input radio */
+.input-row input[type="radio"] {
+    display: none;
+}
+
+/* Style pour le bouton sélectionné */
+.input-row input[type="radio"]:checked + label {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Button styles */
@@ -1284,6 +1325,25 @@ td {
 	color: #F2F1E9;
 }
 
+.submit-btn2 {
+    border-color: #040316;
+    color: black;
+    font-size: 1.2em; /* Augmenté */
+    padding: 15px; /* Agrandi */
+	margin-left: 5px;
+    margin-top: 15px;
+	width: 90%;
+	border-radius: 20px;
+	background-color: #F2F1E9;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+	/* Ombre */
+	font-size: 20px;
+}
+
+.submit-btn2:hover {
+	background-color: #040316;
+	color: #F2F1E9;
+}
 .valide-groupe{
 	background-color: #4CAF50;
 	border-radius: 20px;
@@ -1291,6 +1351,11 @@ td {
 	width: 105%;
 }
 
+.valide-groupe2{
+	background-color: #4CAF50;
+	border-radius: 20px;
+	width: 102%;
+}
 .error {
 	color: #FF0000;
 }
@@ -1302,19 +1367,24 @@ td {
     margin-bottom: 15px;
     font-size: 1.2em;
     font-weight: bold;
-    text-align: center;
     color: #333;
 }
 
 .terms {
     font-size: 0.9em;
-    color: #666;
-    text-align: left;
+    color: #040316;
+    text-align: center;
 }
 
 .terms ul {
+	list-style-type: none;
     list-style: disc;
     margin-left: 20px;
+}
+
+.terms li{
+	color: #040316;
+	list-style-type: none;
 }
 
 /* Almost done text */

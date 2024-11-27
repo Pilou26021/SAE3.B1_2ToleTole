@@ -21,14 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = trim($_POST['nom'] ?? '');
         $prenom = trim($_POST['prenom'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        $denomination = trim($_POST['denomination']);
         $adresse = trim($_POST['adresse'] ?? '');
         $ville = trim($_POST['ville'] ?? '');
         $tel = trim($_POST['tel'] ?? '');
 
         if (empty($nom)) $errors['nom'] = "Le champ 'Nom' est requis.";
         if (empty($prenom)) $errors['prenom'] = "Le champ 'Prénom' est requis.";
-        if (empty($denomination)) $errors['denomination'] = "Le champ 'Dénomination' est requis.";
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = "L'adresse e-mail n'est pas valide.";
         if (empty($adresse)) $errors['adresse'] = "Le champ 'Adresse Postale' est requis.";
         if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
@@ -40,14 +38,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     // Étape 2 : Validation des informations de l'entreprise
     elseif ($step === 2) {
+        $denomination = trim($_POST['denomination']);
         $siren = trim($_POST['siren'] ?? '');
         $raison_sociale = trim($_POST['raison-sociale'] ?? '');
         $iban = trim($_POST['iban'] ?? '');
+        $bic = trim($_POST['bic'] ?? '');
+        $organisation_type = trim($_POST['organisation_type'] ?? '');
 
+
+        if (empty($denomination)) $errors['denomination'] = "Le champ 'Dénomination' est requis.";
         if (!preg_match('/^\d{9}$/', $siren)) $errors['siren'] = "Le numéro de SIREN doit contenir 9 chiffres.";
         if (empty($raison_sociale)) $errors['raison-sociale'] = "Le champ 'Raison sociale' est requis.";
         if (!preg_match('/^FR\d{12,27}$/', $iban)) $errors['iban'] = "L'IBAN doit être valide et commencer par 'FR'.";
-
+        if (!preg_match('/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/', $bic)) {$errors['bic'] = "Le BIC doit comporter 8 ou 11 caractères, être en majuscules et respecter le format.";
+        if (empty($_POST['organisation_type'])) {$errors['organisation_type'] = "Veuillez sélectionner le type d'organisation."; }
+            
+        }
+        
         if (empty($errors)) {
             $step = 3; // Passer à l'étape 3 si tout est valide
         }
@@ -91,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2>1. Apprenons à nous connaître</h2>
 
                 <!-- Nom -->
+                <div class="input-row">
                 <div class="input-group">
                     <label for="nom">Nom</label>
                     <div class="input-container">
@@ -109,14 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <span class="required">*</span>
                     </div>
                 </div>
-
-                <div class="input-group">
-                    <label for="denomination">Dénomination</label>
-                    <div class="input-container">
-                        <input type="text" id="denomination" name="denomination" placeholder="Votre denomination" value="<?= htmlspecialchars($_POST['denomination'] ?? '') ?>" required>
-                        <p class="error"><?= $errors['denomination'] ?? '' ?></p>
-                        <span class="required">*</span>
-                    </div>
                 </div>
 
                 <!-- Email -->
@@ -162,22 +162,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Bouton suivant -->
                 <div class="valide-groupe">
                     <button class="submit-btn" type="submit">SUIVANT</button>
-                    <p class="almost-done">Vous y êtes presque</p>
+                    <p class="almost-done">Vous y êtes presque 1/3</p>
                 </div>
             </form>
         <?php endif; ?>
 
         <!-- Étape 2 : Informations sur l'entreprise -->
         <?php if ($step === 2): ?>
-            <h2 class="form-section">2. Et votre entreprise ?</h2>
+            <h1 class="subtitle">Créer mon compte Professionnel </h1>
+            <h2>2. Et votre entreprise ?</h2>
             <form method="POST" class="form-creer-pro">
                 <input type="hidden" name="step" value="2">
 
+                <div class="input-row">
                 <div class="input-group">
-                    <label for="siren">Numéro de SIREN</label>
+                    <label for="denomination">Dénomination</label>
                     <div class="input-container">
-                        <input type="text" id="siren" name="siren" placeholder="SIREN" value="<?= htmlspecialchars($_POST['siren'] ?? '') ?>" required>
-                        <p class="error"><?= $errors['siren'] ?? '' ?></p>
+                        <input type="text" id="denomination" name="denomination" placeholder="Votre denomination" value="<?= htmlspecialchars($_POST['denomination'] ?? '') ?>" required>
+                        <p class="error"><?= $errors['denomination'] ?? '' ?></p>
                         <span class="required">*</span>
                     </div>
                 </div>
@@ -190,22 +192,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <span class="required">*</span>
                     </div>
                 </div>
+                </div>
 
+                <div class="input-row">
                 <div class="input-group">
-                    <label for="iban">IBAN</label>
+                    <label for="siren">Numéro de SIREN</label>
                     <div class="input-container">
-                        <input type="text" id="iban" name="iban" placeholder="Votre IBAN" value="<?= htmlspecialchars($_POST['iban'] ?? '') ?>" required>
-                        <p class="error"><?= $errors['iban'] ?? '' ?></p>
+                        <input type="text" id="siren" name="siren" placeholder="SIREN" value="<?= htmlspecialchars($_POST['siren'] ?? '') ?>" required>
+                        <p class="error"><?= $errors['siren'] ?? '' ?></p>
                         <span class="required">*</span>
                     </div>
                 </div>
 
+                <div class="input-group">
+                    <label for="iban">BIC</label>
+                    <div class="input-container">
+                        <input type="text" id="bic" name="bic" placeholder="Votre BIC" value="<?= htmlspecialchars($_POST['bic'] ?? '') ?>" >
+                        <p class="error"><?= $errors['bic'] ?? '' ?></p>
+                    </div>
+                </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="iban">IBAN</label>
+                    <div class="input-container">
+                        <input type="text" id="iban" name="iban" placeholder="Votre IBAN" value="<?= htmlspecialchars($_POST['iban'] ?? '') ?>" >
+                        <p class="error"><?= $errors['iban'] ?? '' ?></p>
+                    </div>
+                </div>
+
+                <!-- Type d'organisation -->
+                <div class="input-group">
+                    <label>Type d'organisation</label>
+                    <div class="input-row">
+                        <label>
+                            <input type="radio" name="organisation_type" value="association" 
+                                <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'association') ? 'checked' : '' ?>>
+                            Association
+                        </label>
+                        <label>
+                            <input type="radio" name="organisation_type" value="public" 
+                                <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'public') ? 'checked' : '' ?>>
+                            Organisation publique
+                        </label>
+                        <label>
+                            <input type="radio" name="organisation_type" value="autre" 
+                                <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'autre') ? 'checked' : '' ?>>
+                            Autre
+                        </label>
+                    </div>
+                    <p class="error"><?= $errors['organisation_type'] ?? '' ?></p>
+                </div>
+
+                <div class="valide-groupe">
                 <button type="submit" class="submit-btn">VALIDER</button>
+                <p class="almost-done">Plus qu'une étape 2/3</p>
+                </div>
             </form>
         <?php endif; ?>
 
         <!-- Étape 3 : Sécurité du compte -->
         <?php if ($step === 3): ?>
+            <h1 class="subtitle">Créer mon compte Professionnel </h1>
             <h2 class="form-section">3. Sécurisons votre compte</h2>
             <form method="POST" class="form-creer-pro">
                 <input type="hidden" name="step" value="3">
@@ -220,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="input-group">
-                    <label for="confirmation-mdp">Confirmez votre mot de passe</label>
+                    <label class="label-mdp" for="confirmation-mdp">Confirmez votre mot de passe</label>
                     <div class="input-container">
                         <input class="confirmation" type="password" id="confirmation-mdp" name="confirmation-mdp" placeholder="Confirmez votre mot de passe" required>
                         <p class="error"><?= $errors['confirmation-mdp'] ?? '' ?></p>
@@ -229,20 +277,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <button type="submit" class="submit-btn">Créer mon compte</button>
-                <p class="terms">
-                    En cliquant sur "Créer mon compte", vous acceptez nos termes :
+                <div class="valide-groupe">
+                <p class="terms">En cliquant sur "Créer mon compte", vous acceptez nos termes :
                     <ul>
                         <li>Conditions générales d'utilisation</li>
                         <li>Conditions générales de ventes</li>
                         <li>Politique de confidentialité</li>
                     </ul>
                 </p>
+                </div>
             </form>
         <?php endif; ?>
     </main>
-    <div id="footer"></div>
-
-    <script src="./script.js" ></script>
-
 </body>
 </html>
