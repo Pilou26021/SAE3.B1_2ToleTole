@@ -220,7 +220,7 @@ CREATE TABLE public._facture (
 
 CREATE TABLE public._constPrix (
     idConstPrix SERIAL PRIMARY KEY,
-    dateTarif DATE NOT NULL,
+    dateTarif DATE NOT NULL DEFAULT NOW(),
     prixSTDht FLOAT NOT NULL,
     prixSTDttc FLOAT NOT NULL,
     prixPREMht FLOAT NOT NULL,
