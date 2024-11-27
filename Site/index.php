@@ -37,7 +37,6 @@ ob_start();
                 ) a ON o.idOffre = a.idOffre
                 JOIN public._image i ON a.firstImage = i.idImage
                 WHERE o.idProPropose = :idpro -- Correspond au professionnel
-                ORDER BY o.idOffre
             ";
         } else {
             // Sinon, afficher toutes les offres pour les visiteurs/membres
@@ -50,7 +49,6 @@ ob_start();
                     GROUP BY idOffre
                 ) a ON o.idOffre = a.idOffre
                 JOIN public._image i ON a.firstImage = i.idImage
-                ORDER BY o.idOffre
             ";
         }
 
@@ -317,9 +315,23 @@ ob_start();
                 <?php 
                     $maxOffresN = 10; // Limite du nombre d'offres à afficher
                     $countN = 0; 
+                    $sqlN = "
+                        SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne,o.notemoyenneoffre,o.alauneoffre,o.datecreationoffre
+                        FROM public._offre o
+                        JOIN (
+                            SELECT idOffre, MIN(idImage) AS firstImage
+                            FROM public._afficherImageOffre
+                            GROUP BY idOffre
+                        ) a ON o.idOffre = a.idOffre
+                        JOIN public._image i ON a.firstImage = i.idImage
+                        ORDER BY o.datecreationoffre DESC
+                    ";
+                    $stmtN = $conn->prepare($sqlN);
+                    $stmtN->execute();
+                    $offresN = $stmtN->fetchAll();
                 ?>
                 <div class="offres-container">
-                    <?php foreach ($offres as $offre):
+                    <?php foreach ($offresN as $offre):
                         if ($countN >= $maxOffresN) {
                             break; // Arrêter le traitement après 10 offres
                         }
@@ -384,6 +396,7 @@ ob_start();
                                                 ?>
 
                                         </div>
+                                        <p class="offre-resume">Offre publié le : <?= !empty($offre['datecreationoffre']) ? htmlspecialchars($offre['datecreationoffre']) : 'Date non disponible' ?> </p>
 
                                        <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                        <?php if ($professionel) { ?>
