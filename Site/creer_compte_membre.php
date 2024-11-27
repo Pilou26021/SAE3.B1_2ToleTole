@@ -36,36 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $step = 2; // Passer à l'étape 2 si tout est valide
         }
     }
-    // Étape 2 : Validation des informations de l'entreprise
+    // Étape 2 : Pseudomyne et Validation du mot de passe
     elseif ($step === 2) {
-        $denomination = trim($_POST['denomination'] ?? '');
-        $siren = trim($_POST['siren'] ?? '');
-        $raison_sociale = trim($_POST['raison-sociale'] ?? '');
-        $iban = trim($_POST['iban'] ?? '');
-        $bic = trim($_POST['bic'] ?? '');
-        $organisation_type = trim($_POST['organisation_type'] ?? '');
 
-        if (empty($denomination)) $errors['denomination'] = "Le champ 'Dénomination' est requis.";
-        if (!preg_match('/^\d{9}$/', $siren)) $errors['siren'] = "Le numéro de SIREN doit contenir 9 chiffres.";
-        if (empty($raison_sociale)) $errors['raison-sociale'] = "Le champ 'Raison sociale' est requis.";
-        if (!empty($iban) && !preg_match('/^FR\d{12,27}$/', $iban)) {
-            $errors['iban'] = "L'IBAN doit être valide et commencer par 'FR'.";
-        }
-        if (!empty($bic) && !preg_match('/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/', $bic)) {
-            $errors['bic'] = "Le BIC doit comporter 8 ou 11 caractères, être en majuscules et respecter le format.";
-        }
-        if (empty($organisation_type)) {
-            $errors['organisation_type'] = "Veuillez sélectionner le type d'organisation.";
-        }
-
-        if (empty($errors)) {
-            $step = 3; // Passer à l'étape 3 si tout est valide
-        }
-    }
-    // Étape 3 : Validation du mot de passe
-    elseif ($step === 3) {
+        $pseudomyne = trim($_POST['pseudomyne'] ?? '');
         $mot_de_passe = trim($_POST['mot-de-passe'] ?? '');
         $confirmation_mdp = trim($_POST['confirmation-mdp'] ?? '');
+
+        if (empty($pseudomyne)) $errors['pseudomyne'] = "Le champ 'Pseudomyne' est requis.";
+
+
 
         if (strlen($mot_de_passe) < 8) {
             $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères.";
@@ -101,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if ($step === 1): ?>                
             <form method="POST" class="form-creer-pro">
                 <input type="hidden" name="step" value="1">  
-                <h1 class="subtitle">Créer mon compte Professionnel </h1>
+                <h1 class="subtitle">Créer mon compte Membre </h1>
                 <h2>1. Apprenons à nous connaître</h2>
 
                 <!-- Nom -->
@@ -169,104 +149,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Bouton suivant -->
                 <div class="valide-groupe">
                     <button class="submit-btn" type="submit">SUIVANT</button>
-                    <p class="almost-done">Vous y êtes presque 1/3</p>
+                    <p class="almost-done">Plus qu'une étape 1/2</p>
                 </div>
             </form>
         <?php endif; ?>
 
-        <!-- Étape 2 : Informations sur l'entreprise -->
+        <!-- Étape 2 : Sécurité du compte -->
         <?php if ($step === 2): ?>
-            <h1 class="subtitle">Créer mon compte Professionnel </h1>
-            <h2>2. Et votre entreprise ?</h2>
+            <h1 class="subtitle">Créer mon compte Membre </h1>
+            <h2 class="form-section">2. Sécurisons votre compte</h2>
             <form method="POST" class="form-creer-pro">
                 <input type="hidden" name="step" value="2">
 
-                <div class="input-row">
                 <div class="input-group">
-                    <label for="denomination">Dénomination</label>
-                    <div class="input-container">
-                        <input type="text" id="denomination" name="denomination" placeholder="Votre denomination" value="<?= htmlspecialchars($_POST['denomination'] ?? '') ?>" required>
-                        <p class="error"><?= $errors['denomination'] ?? '' ?></p>
-                        <span class="required">*</span>
+                        <label for="tel">Pseudomyne</label>
+                        <div class="input-container">
+                            <input type="Pseudomyne" id="Pseudomyne" name="Pseudomyne" placeholder="Votre pseudomyne" value="<?= htmlspecialchars($_POST['Pseudomyne'] ?? '') ?>"required>
+                            <p class="error"><?= $errors['Pseudomyne'] ?? '' ?></p>
+                            <span class="required">*</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="raison-sociale">Raison sociale</label>
-                    <div class="input-container">
-                        <input type="text" id="raison-sociale" name="raison-sociale" placeholder="Raison sociale" value="<?= htmlspecialchars($_POST['raison-sociale'] ?? '') ?>" required>
-                        <p class="error"><?= $errors['raison-sociale'] ?? '' ?></p>
-                        <span class="required">*</span>
-                    </div>
-                </div>
-                </div>
-
-                <!-- Type d'organisation -->
-                <div class="input-group">
-                    <label>Type d'organisation</label>
-                    <div class="input-row2">
-                        <input type="radio" id="prive" name="organisation_type" value="prive" 
-                            <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'prive') ? 'checked' : '' ?>>
-                        <label for="prive">Organisation privé</label>
-
-                        <input type="radio" id="association" name="organisation_type" value="association" 
-                            <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'association') ? 'checked' : '' ?>>
-                        <label for="association">Association</label>
-                        
-                        <input type="radio" id="public" name="organisation_type" value="public" 
-                            <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'public') ? 'checked' : '' ?>>
-                        <label for="public">Organisation publique</label>
-                    </div>
-                    <p class="error"><?= $errors['organisation_type'] ?? '' ?></p>
-                </div>
-
-                <!-- Message d'avertissement pour les organisations privées -->
-                <div id="iban-bic-warning" class="warning" style="display: none;">
-                    <p>Pour les organisations privées, il est recommandé de remplir l'IBAN et le BIC pour les paiements. Vous pourrez aussi le faire plus tard.</p>
-                </div>
-
-                <div class="input-row">
-                <div class="input-group">
-                    <label for="siren">Numéro de SIREN</label>
-                    <div class="input-container">
-                        <input type="text" id="siren" name="siren" placeholder="SIREN" value="<?= htmlspecialchars($_POST['siren'] ?? '') ?>" required>
-                        <p class="error"><?= $errors['siren'] ?? '' ?></p>
-                        <span class="required">*</span>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="iban">BIC</label>
-                    <div class="input-container">
-                        <input type="text" id="bic" name="bic" placeholder="Votre BIC" value="<?= htmlspecialchars($_POST['bic'] ?? '') ?>" >
-                        <p class="error"><?= $errors['bic'] ?? '' ?></p>
-                    </div>
-                </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="iban">IBAN</label>
-                    <div class="input-container">
-                        <input type="text" id="iban" name="iban" placeholder="Votre IBAN" value="<?= htmlspecialchars($_POST['iban'] ?? '') ?>" >
-                        <p class="error"><?= $errors['iban'] ?? '' ?></p>
-                    </div>
-                </div>
-
-
-
-                <div class="valide-groupe">
-                <button type="submit" class="submit-btn">VALIDER</button>
-                <p class="almost-done">Plus qu'une étape 2/3</p>
-                </div>
-            </form>
-        <?php endif; ?>
-
-        <!-- Étape 3 : Sécurité du compte -->
-        <?php if ($step === 3): ?>
-            <h1 class="subtitle">Créer mon compte Professionnel </h1>
-            <h2 class="form-section">3. Sécurisons votre compte</h2>
-            <form method="POST" class="form-creer-pro">
-                <input type="hidden" name="step" value="3">
 
                 <div class="input-group">
                     <label for="mot-de-passe">Mot de passe</label>
@@ -299,44 +201,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         <?php endif; ?>
     </main>
-
-    <script>
-    // Sélectionner les éléments
-    const radioButtons = document.querySelectorAll('input[name="organisation_type"]');
-    const ibanField = document.getElementById('iban');
-    const bicField = document.getElementById('bic');
-    const warningMessage = document.getElementById('iban-bic-warning');
-
-    // Fonction pour gérer le changement
-    function handleOrganisationTypeChange(event) {
-        if (event.target.value === 'prive') {
-            // Afficher le message et activer les champs
-            warningMessage.style.display = 'block';
-            ibanField.disabled = false;
-            bicField.disabled = false;
-        } else {
-            // Cacher le message et désactiver les champs
-            warningMessage.style.display = 'none';
-            ibanField.disabled = true;
-            bicField.disabled = true;
-            ibanField.value = ''; // Réinitialiser les valeurs
-            bicField.value = '';
-        }
-    }
-
-    // Ajouter des écouteurs d'événements à chaque bouton radio
-    radioButtons.forEach(button => {
-        button.addEventListener('change', handleOrganisationTypeChange);
-    });
-
-    // Initialiser l'état (utile pour les valeurs pré-sélectionnées)
-    document.addEventListener('DOMContentLoaded', () => {
-        const selected = document.querySelector('input[name="organisation_type"]:checked');
-        if (selected) {
-            handleOrganisationTypeChange({ target: selected });
-        }
-    });
-    </script>
 
 </body>
 </html>
