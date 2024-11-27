@@ -38,23 +38,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     // Étape 2 : Validation des informations de l'entreprise
     elseif ($step === 2) {
-        $denomination = trim($_POST['denomination']);
+        $denomination = trim($_POST['denomination'] ?? '');
         $siren = trim($_POST['siren'] ?? '');
         $raison_sociale = trim($_POST['raison-sociale'] ?? '');
         $iban = trim($_POST['iban'] ?? '');
         $bic = trim($_POST['bic'] ?? '');
         $organisation_type = trim($_POST['organisation_type'] ?? '');
 
-
         if (empty($denomination)) $errors['denomination'] = "Le champ 'Dénomination' est requis.";
         if (!preg_match('/^\d{9}$/', $siren)) $errors['siren'] = "Le numéro de SIREN doit contenir 9 chiffres.";
         if (empty($raison_sociale)) $errors['raison-sociale'] = "Le champ 'Raison sociale' est requis.";
-        if (!preg_match('/^FR\d{12,27}$/', $iban)) $errors['iban'] = "L'IBAN doit être valide et commencer par 'FR'.";
-        if (!preg_match('/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/', $bic)) {$errors['bic'] = "Le BIC doit comporter 8 ou 11 caractères, être en majuscules et respecter le format.";
-        if (empty($_POST['organisation_type'])) {$errors['organisation_type'] = "Veuillez sélectionner le type d'organisation."; }
-            
+        if (!empty($iban) && !preg_match('/^FR\d{12,27}$/', $iban)) {
+            $errors['iban'] = "L'IBAN doit être valide et commencer par 'FR'.";
         }
-        
+        if (!empty($bic) && !preg_match('/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/', $bic)) {
+            $errors['bic'] = "Le BIC doit comporter 8 ou 11 caractères, être en majuscules et respecter le format.";
+        }
+        if (empty($organisation_type)) {
+            $errors['organisation_type'] = "Veuillez sélectionner le type d'organisation.";
+        }
+
         if (empty($errors)) {
             $step = 3; // Passer à l'étape 3 si tout est valide
         }
@@ -64,8 +67,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mot_de_passe = trim($_POST['mot-de-passe'] ?? '');
         $confirmation_mdp = trim($_POST['confirmation-mdp'] ?? '');
 
-        if (strlen($mot_de_passe) < 8) $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères.";
-        if ($mot_de_passe !== $confirmation_mdp) $errors['confirmation-mdp'] = "Les mots de passe ne correspondent pas.";
+        if (strlen($mot_de_passe) < 8) {
+            $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères.";
+        }
+        if ($mot_de_passe !== $confirmation_mdp) {
+            $errors['confirmation-mdp'] = "Les mots de passe ne correspondent pas.";
+        }
 
         if (empty($errors)) {
             // Formulaire complet
@@ -194,6 +201,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 </div>
 
+                <!-- Type d'organisation -->
+                <div class="input-group">
+                    <label>Type d'organisation</label>
+                    <div class="input-row2">
+                        <input type="radio" id="prive" name="organisation_type" value="prive" 
+                            <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'prive') ? 'checked' : '' ?>>
+                        <label for="prive">Organisation privé</label>
+
+                        <input type="radio" id="association" name="organisation_type" value="association" 
+                            <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'association') ? 'checked' : '' ?>>
+                        <label for="association">Association</label>
+                        
+                        <input type="radio" id="public" name="organisation_type" value="public" 
+                            <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'public') ? 'checked' : '' ?>>
+                        <label for="public">Organisation publique</label>
+                    </div>
+                    <p class="error"><?= $errors['organisation_type'] ?? '' ?></p>
+                </div>
+
+                <!-- Message d'avertissement pour les organisations privées -->
+                <div id="iban-bic-warning" class="warning" style="display: none;">
+                    <p>Pour les organisations privées, il est recommandé de remplir l'IBAN et le BIC pour les paiements. Vous pourrez aussi le faire plus tard.</p>
+                </div>
+
                 <div class="input-row">
                 <div class="input-group">
                     <label for="siren">Numéro de SIREN</label>
@@ -221,28 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <!-- Type d'organisation -->
-                <div class="input-group">
-                    <label>Type d'organisation</label>
-                    <div class="input-row">
-                        <label>
-                            <input type="radio" name="organisation_type" value="association" 
-                                <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'association') ? 'checked' : '' ?>>
-                            Association
-                        </label>
-                        <label>
-                            <input type="radio" name="organisation_type" value="public" 
-                                <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'public') ? 'checked' : '' ?>>
-                            Organisation publique
-                        </label>
-                        <label>
-                            <input type="radio" name="organisation_type" value="autre" 
-                                <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'autre') ? 'checked' : '' ?>>
-                            Autre
-                        </label>
-                    </div>
-                    <p class="error"><?= $errors['organisation_type'] ?? '' ?></p>
-                </div>
+
 
                 <div class="valide-groupe">
                 <button type="submit" class="submit-btn">VALIDER</button>
@@ -289,5 +299,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         <?php endif; ?>
     </main>
+
+    <script>
+    // Sélectionner les éléments
+    const radioButtons = document.querySelectorAll('input[name="organisation_type"]');
+    const ibanField = document.getElementById('iban');
+    const bicField = document.getElementById('bic');
+    const warningMessage = document.getElementById('iban-bic-warning');
+
+    // Fonction pour gérer le changement
+    function handleOrganisationTypeChange(event) {
+        if (event.target.value === 'prive') {
+            // Afficher le message et activer les champs
+            warningMessage.style.display = 'block';
+            ibanField.disabled = false;
+            bicField.disabled = false;
+        } else {
+            // Cacher le message et désactiver les champs
+            warningMessage.style.display = 'none';
+            ibanField.disabled = true;
+            bicField.disabled = true;
+            ibanField.value = ''; // Réinitialiser les valeurs
+            bicField.value = '';
+        }
+    }
+
+    // Ajouter des écouteurs d'événements à chaque bouton radio
+    radioButtons.forEach(button => {
+        button.addEventListener('change', handleOrganisationTypeChange);
+    });
+
+    // Initialiser l'état (utile pour les valeurs pré-sélectionnées)
+    document.addEventListener('DOMContentLoaded', () => {
+        const selected = document.querySelector('input[name="organisation_type"]:checked');
+        if (selected) {
+            handleOrganisationTypeChange({ target: selected });
+        }
+    });
+    </script>
+
 </body>
 </html>
