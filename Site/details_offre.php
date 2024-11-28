@@ -12,6 +12,7 @@
         $professionel = true;
         $idpro = $_SESSION['professionnel'];
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -552,41 +553,95 @@
                     </div>
                     <div class="avis-container">
 
-                        <?php if ($membre && !$avis_membre) { ?>
-                            <p>Donnez votre avis sur cette offre :</p>
-                            <a class="add-avis-btn" href="javascript:void(0);" id="addAvisBtn">
-                                <img class="circle-on-hover" src="./img/icons/circle-plus-solid-green.svg" alt="Donner mon avis">
-                            </a>
+                    <?php if ($membre && !$avis_membre) { ?>
+                        <span>Donnez votre avis sur cette offre :</span>
+                        <a class="add-avis-btn" href="javascript:void(0);" id="addAvisBtn">
+                            <img class="circle-on-hover" src="./img/icons/circle-plus-solid-green.svg" alt="Donner mon avis">
+                        </a>
 
-                            <!-- Formulaire caché au départ -->
-                            <form id="avisForm" style="display:none;" action="send_avis.php" method="POST">
-                                <div class="add-avis-form" >
-                                    <input type="hidden" name="idoffre" value="<?= $idoffre ?>">
-                                    <h2 for="avis">Votre avis :</h2>
-                                    <textarea id="avis" class="textarea-creer_offre" name="avis" required></textarea>
-                                    <h2 for="avis">Votre note :</h2>
+                        <!-- Formulaire caché au départ -->
+                        <form id="avisForm" style="display:none;" action="upload_avis.php" method="POST">
+                            <div id="addAvisForm" style="display:none;">
 
+                                <input type="hidden" name="idoffre" value="<?= $idoffre ?>">
 
+                                <h2 for="datevisite">Date de votre visite :</h2>
+                                <input class="zone-date" type="date" id="datevisite" name="datevisite" style="width:45%;" required>
+                                <br>
 
-                                    <button class="offer-btn" type="submit">Envoyer</button>
+                                <h2 for="avis">Votre avis :</h2>
+                                <textarea id="commentaire" class="textarea-creer_offre" name="commentaire" required></textarea>
 
+                                <h2 for="note">Votre note :</h2>
+                                <div class="rating">
+                                    <input type="radio" id="star1" name="note" value="1" required />
+                                    <label for="star1" title="1 étoiles">
+                                        <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
+                                    </label>
+                                    <input type="radio" id="star2" name="note" value="2" />
+                                    <label for="star2" title="2 étoiles">
+                                        <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
+                                    </label>
+                                    <input type="radio" id="star3" name="note" value="3" />
+                                    <label for="star3" title="3 étoiles">
+                                        <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
+                                    </label>
+                                    <input type="radio" id="star4" name="note" value="4" />
+                                    <label for="star4" title="4 étoiles">
+                                        <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
+                                    </label>
+                                    <input type="radio" id="star5" name="note" value="5" />
+                                    <label for="star5" title="5 étoile">
+                                        <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
+                                    </label>
                                 </div>
-                            </form>
-                            
-                            <hr style="border-top: 1px solid #ccc;" width="90%">
 
-                            <!-- Script pour l'ajout d'avis -->
-                            <script>// Remplacement du bouton d'ajout d'avis par le formulaire
-                                const addAvisBtn = document.getElementById('addAvisBtn');
+                                <br>
+
+                                <button class="offer-btn" type="submit">Envoyer</button>
+                            </div>
+                        </form>
+
+                        <script>
+                            //Script pour les étoiles
+                            document.querySelectorAll('.rating input').forEach(input => {
+                                input.addEventListener('change', function() {
+                                    let rating = this.value;
+
+                                    // Remplir les étoiles jusqu'à celle cliquée
+                                    document.querySelectorAll('.rating label img').forEach((star, index) => {
+                                        if (index < rating) {
+                                            star.src = './img/icons/star-solid.svg'; // Rempli
+                                        } else {
+                                            star.src = './img/icons/star-regular.svg'; // Non rempli
+                                        }
+                                    });
+                                });
+                            });
+
+                            // Remplacement du bouton d'ajout d'avis par le formulaire
+                            const addAvisBtn = document.getElementById('addAvisBtn');
                                 const avisForm = document.getElementById('avisForm');
                                 addAvisBtn.addEventListener('click', function() {
                                     // on masque le boutton (a)
                                     addAvisBtn.style.display = 'none';
+
+                                    //
+                                    avisForm.style.display = 'block';
                                     
                                     // on affiche le formulaire
-                                    avisForm.style.display = 'block';
+                                    addAvisForm.style.display = 'flex';
+                                    addAvisForm.style.flexDirection = 'column';
+                                    // Centrer les éléments du formulaire
+                                    addAvisForm.style.alignItems = 'center';
+                                    addAvisForm.style.justifyContent = 'center';
+
+                                    
+
                                 });
-                            </script>
+                        </script>
+                            
+                            <hr style="border-top: 1px solid #ccc;" width="90%">
 
                         <?php } ?>
 
@@ -660,22 +715,6 @@
             </div>
             
         </main>
-
-        <!-- Modale pour donner son avis 
-        <div id="avisModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn">&times;</span>
-                <h2>Donner votre avis</h2>
-                <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
-                    <div class="modal-content-btn">
-                        <input class="offer-btn image-input-fn" type="file" name="newProfileImage" accept=".png, .jpg, .jpeg" required>
-                        <div class="modal-footer">
-                            <button type="submit" class="offer-btn">Enregistrer</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>-->
 
         <div id="footer"></div>
 
