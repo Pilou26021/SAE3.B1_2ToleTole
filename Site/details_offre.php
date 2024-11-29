@@ -3,6 +3,10 @@
     include "header.php";
     include "../SQL/connection_local.php";
 
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
     $professionel = false;
     $membre = false;
     if (isset($_SESSION['membre'])) {
@@ -66,7 +70,8 @@
                 // Passer l'offre hors ligne
                 if (isset($_POST['horsligne'])) {
                     $idoffre = $_POST['idoffre']; // Récupérer l'ID de l'offre
-                    $dateActuelle = date('Y-m-d'); // Date actuelle
+                    $dateActuelle = new DateTime('now', new DateTimeZone('Europe/Paris')); // Récupérer la date actuelle
+                    $dateActuelle = $dateActuelle->format('Y-m-d');
 
                     // Récupérer la valeur actuelle de dateMiseHorsLigne
                     $selectSql = "SELECT dateMiseHorsLigne FROM public._offre WHERE idoffre = :idoffre";
@@ -98,7 +103,9 @@
                 // Remettre l'offre en ligne
                 if (isset($_POST['remettre_en_ligne'])) {
                     $idoffre = $_POST['idoffre']; // Récupérer l'ID de l'offre
-                    $dateActuelle = date('Y-m-d'); // Date actuelle
+                    // Je récupère seulement le YYYY-MM-DD
+                    $dateActuelle = new DateTime('now', new DateTimeZone('Europe/Paris')); // Récupérer la date actuelle
+                    $dateActuelle = $dateActuelle->format('Y-m-d');
 
                     // Récupérer la valeur actuelle de dateMiseHorsLigne
                     $selectSql = "SELECT dateMiseHorsLigne FROM public._offre WHERE idoffre = :idoffre";
@@ -108,19 +115,20 @@
                     $result = $selectStmt->fetch(PDO::FETCH_ASSOC);
 
                     $dateMiseHorsLigne = $result['dateMiseHorsLigne'] ? json_decode($result['dateMiseHorsLigne'], true) : [];
-
+                                            
                     // Identifier la dernière action (mise hors ligne ou mise en ligne)
                     $dernierIndex = count($dateMiseHorsLigne) - 1;
-                    $dernierHorsLigne = $dateMiseHorsLigne["dateMiseHorsLigne{$dernierIndex}"] ?? null;
-                    $dernierEnLigne = $dateMiseHorsLigne["dateMiseEnLigne{$dernierIndex}"] ?? null;
+                    $dernierHorsLigne = $dateMiseHorsLigne["dateMiseHorsLigne{$dernierIndex}"];
+                    $dernierHorsLigne = new DateTime($dernierHorsLigne);
+                    $dernierHorsLigne = $dernierHorsLigne->format('Y-m-d');
 
-                    if ($dernierHorsLigne === $dateActuelle) {
-                        // Supprimer la dernière entrée si c'est une date de mise hors ligne identique
-                        unset($dateMiseHorsLigne["dateMiseHorsLigne{$dernierIndex}"]);
-                    } elseif ($dernierEnLigne !== $dateActuelle) {
+                    if ($dernierHorsLigne !== $dateActuelle) {
                         // Ajouter une nouvelle entrée pour "dateMiseEnLigne" si nécessaire
                         $index = $dernierIndex + 1;
                         $dateMiseHorsLigne["dateMiseEnLigne{$index}"] = $dateActuelle;
+                    } elseif ($dernierEnLigne !== $dateActuelle) {
+                        // Supprimer la dernière entrée si c'est une date de mise hors ligne identique
+                        unset($dateMiseHorsLigne["dateMiseHorsLigne{$dernierIndex}"]);  
                     }
 
                     // Mettre à jour la base de données
