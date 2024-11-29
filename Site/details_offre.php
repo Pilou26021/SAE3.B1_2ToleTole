@@ -502,9 +502,7 @@
 
                     ?>
 
-                    <div style="display:flex;flex-direction:row;align-items:center;">
-                        <h2>Avis sur l'offre</h2>
-                    </div>
+                    <h2>Avis sur l'offre</h2>
 
                     <div class="titre-moy">
                         <?php 
@@ -583,23 +581,23 @@
                                 <h2 for="note">Votre note :</h2>
                                 <div class="rating">
                                     <input type="radio" id="star1" name="note" value="1" required />
-                                    <label for="star1" title="1 étoiles">
+                                    <label class="label-stars" for="star1" title="1 étoiles">
                                         <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
                                     </label>
                                     <input type="radio" id="star2" name="note" value="2" />
-                                    <label for="star2" title="2 étoiles">
+                                    <label class="label-stars" for="star2" title="2 étoiles">
                                         <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
                                     </label>
                                     <input type="radio" id="star3" name="note" value="3" />
-                                    <label for="star3" title="3 étoiles">
+                                    <label class="label-stars" for="star3" title="3 étoiles">
                                         <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
                                     </label>
                                     <input type="radio" id="star4" name="note" value="4" />
-                                    <label for="star4" title="4 étoiles">
+                                    <label class="label-stars" for="star4" title="4 étoiles">
                                         <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
                                     </label>
                                     <input type="radio" id="star5" name="note" value="5" />
-                                    <label for="star5" title="5 étoile">
+                                    <label class="label-stars" for="star5" title="5 étoile">
                                         <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">
                                     </label>
                                 </div>

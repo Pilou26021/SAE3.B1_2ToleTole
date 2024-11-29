@@ -1572,7 +1572,7 @@ td {
 
 .titre-moy {
 	display: flex;
-	width: 200%;
+	width: 100%;
 	gap : 3.5px;
 	padding-left: 10px;
 }
@@ -1612,6 +1612,17 @@ td {
 	font-size: 2em;
 }
 
-.add-avis-form{
-	display: block;
+#addAvisForm{
+	width: 100%;
+}
+
+
+
+.label-stars{
+	/* ajouter une transition smooth */
+	transition: background-color 0.3s ease;
+}
+
+.label-stars:hover{
+	background-color: rgba(0, 0, 0, 0.1);
 }
