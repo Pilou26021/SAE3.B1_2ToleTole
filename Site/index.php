@@ -293,7 +293,7 @@ ob_start();
                                        <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                        <?php if ($professionel) { ?>
                                             <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
-                                            <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                                            <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
                                         <?php } ?>
 
                                     </div>
@@ -401,7 +401,7 @@ ob_start();
                                        <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                        <?php if ($professionel) { ?>
                                             <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
-                                            <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                                            <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
                                         <?php } ?>
 
                                     </div>
@@ -483,7 +483,7 @@ ob_start();
                                        <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                        <?php if ($professionel) { ?>
                                             <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
-                                            <a href="supprimer_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                                            <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
                                         <?php } ?>
 
                                     </div>
