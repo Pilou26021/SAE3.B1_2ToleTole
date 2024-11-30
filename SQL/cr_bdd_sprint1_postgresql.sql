@@ -90,7 +90,6 @@ CREATE TABLE public._offre (
     dateCreationOffre DATE NOT NULL,
     conditionAccessibilite TEXT NOT NULL,
     horsLigne BOOLEAN NOT NULL,
-    dateMiseHorsLigne TEXT,
     FOREIGN KEY (idProPropose) REFERENCES public._professionnel(idPro),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
@@ -214,8 +213,17 @@ CREATE TABLE public._facture (
     dateFacture DATE NOT NULL,
     montantHT FLOAT NOT NULL,
     montantTTC FLOAT NOT NULL,
-    dateMiseHorsLigne TEXT,
+    nbJoursMiseHorsLigne INT NOT NULL,
     FOREIGN KEY (idProPrive) REFERENCES public._professionnelPrive(idProPrive)
+);
+
+CREATE TABLE public._dateStatusOffre (
+    idDateStatus SERIAL PRIMARY KEY,
+    idOffre BIGINT NOT NULL,
+    dateStatusChange DATE NOT NULL,
+    statusOffre INT NOT NULL CHECK (statusOffre >= 0 AND statusOffre <= 2),
+    estActive BOOLEAN NOT NULL,
+    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
 );
 
 CREATE TABLE public._constPrix (
@@ -235,6 +243,8 @@ CREATE TABLE public._paiement (
     idOffre BIGINT NOT NULL,
     idFacture BIGINT NOT NULL,
     idConstPrix BIGINT NOT NULL,
+    datePaiement DATE NOT NULL,
+    estPaye BOOLEAN NOT NULL,
     CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture, idConstPrix),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
