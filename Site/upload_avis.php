@@ -89,6 +89,7 @@
                     
                     if ($result) { ?>
                         <h1>L'AVIS A ÉTÉ AJOUTÉ AVEC SUCCÈS.</h1>
+                        <?php header("refresh:3;url=details_offre.php?idoffre=$idoffre");?>
                         <?php
                     } else { ?>
                         <h1>ERREUR: L'AVIS N'A PAS PU ÊTRE AJOUTÉ.</h1>

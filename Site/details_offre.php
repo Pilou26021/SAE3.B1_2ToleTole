@@ -641,14 +641,21 @@
                                             <strong style="margin-right:3px;"><?= $avis_membre['nomcompte'] . ' ' . $avis_membre['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                         </p>
                                         <p><?= $avis_membre['commentaireavis'] ?></p>
+
+                                                
                                         <?php
                                             for ($i = 0; $i < $avis_membre['noteavis']; $i++) {
                                                 ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
                                             }
                                             for ($i = $avis_membre['noteavis']; $i < 5; $i++) {
                                                 ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
-                                            }
+                                           }
                                         ?>
+                                        <br><br>
+                                        <div class="suppr-avis">
+                                            <a class="bouton-supprimer-avis" href="delete_avis.php?idoffre=<?=$idoffre?>&idmembre=<?=$idmembre?>&idavis=<?=$avis_membre['idavis']?>">Supprimer mon avis</a>
+                                            
+                                        </div>
                                     </div>
                                     <?php
                                 }
