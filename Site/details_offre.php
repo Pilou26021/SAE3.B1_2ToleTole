@@ -70,80 +70,57 @@
                 // Passer l'offre hors ligne
                 if (isset($_POST['horsligne'])) {
                     $idoffre = $_POST['idoffre']; // Récupérer l'ID de l'offre
-                    $dateActuelle = new DateTime('now', new DateTimeZone('Europe/Paris')); // Récupérer la date actuelle
+                    $dateActuelle = new DateTime('now', new DateTimeZone('Europe/Paris'));
                     $dateActuelle = $dateActuelle->format('Y-m-d');
-
-                    // Récupérer la valeur actuelle de dateMiseHorsLigne
-                    $selectSql = "SELECT dateMiseHorsLigne FROM public._offre WHERE idoffre = :idoffre";
-                    $selectStmt = $conn->prepare($selectSql);
-                    $selectStmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                    $selectStmt->execute();
-                    $result = $selectStmt->fetch(PDO::FETCH_ASSOC);
-
-                    $dateMiseHorsLigne = $result['dateMiseHorsLigne'] ? json_decode($result['dateMiseHorsLigne'], true) : [];
-
-                    // Ajouter une nouvelle entrée si nécessaire
-                    $index = count($dateMiseHorsLigne);
-                    $dateMiseHorsLigne["dateMiseHorsLigne{$index}"] = $dateActuelle;
-
-                    // Mettre à jour la base de données
+                
+                    // Insérer une nouvelle entrée dans la table _dateStatusOffre
+                    $insertSql = "INSERT INTO public._dateStatusOffre (idOffre, dateStatusChange, statusOffre, estActive)
+                                  VALUES (:idOffre, :dateStatusChange, 0, true)";
+                    $insertStmt = $conn->prepare($insertSql);
+                    $insertStmt->bindValue(':idOffre', $idoffre, PDO::PARAM_INT);
+                    $insertStmt->bindValue(':dateStatusChange', $dateActuelle, PDO::PARAM_STR);
+                    $insertStmt->execute();
+                
+                    // Mettre à jour le statut dans la table _offre
                     $updateSql = "UPDATE public._offre 
-                                  SET horsLigne = true, dateMiseHorsLigne = :dateMiseHorsLigne 
+                                  SET horsLigne = true 
                                   WHERE idoffre = :idoffre";
                     $updateStmt = $conn->prepare($updateSql);
-                    $updateStmt->bindValue(':dateMiseHorsLigne', json_encode($dateMiseHorsLigne), PDO::PARAM_STR);
                     $updateStmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
                     $updateStmt->execute();
-
-                    // Redirection après la mise à jour
-                    header("Location: details_offre.php?idoffre=" . $idoffre);
-                    exit();
-                }       
-
-                // Remettre l'offre en ligne
-                if (isset($_POST['remettre_en_ligne'])) {
-                    $idoffre = $_POST['idoffre']; // Récupérer l'ID de l'offre
-                    // Je récupère seulement le YYYY-MM-DD
-                    $dateActuelle = new DateTime('now', new DateTimeZone('Europe/Paris')); // Récupérer la date actuelle
-                    $dateActuelle = $dateActuelle->format('Y-m-d');
-
-                    // Récupérer la valeur actuelle de dateMiseHorsLigne
-                    $selectSql = "SELECT dateMiseHorsLigne FROM public._offre WHERE idoffre = :idoffre";
-                    $selectStmt = $conn->prepare($selectSql);
-                    $selectStmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                    $selectStmt->execute();
-                    $result = $selectStmt->fetch(PDO::FETCH_ASSOC);
-
-                    $dateMiseHorsLigne = $result['dateMiseHorsLigne'] ? json_decode($result['dateMiseHorsLigne'], true) : [];
-                                            
-                    // Identifier la dernière action (mise hors ligne ou mise en ligne)
-                    $dernierIndex = count($dateMiseHorsLigne) - 1;
-                    $dernierHorsLigne = $dateMiseHorsLigne["dateMiseHorsLigne{$dernierIndex}"];
-                    $dernierHorsLigne = new DateTime($dernierHorsLigne);
-                    $dernierHorsLigne = $dernierHorsLigne->format('Y-m-d');
-
-                    if ($dernierHorsLigne !== $dateActuelle) {
-                        // Ajouter une nouvelle entrée pour "dateMiseEnLigne" si nécessaire
-                        $index = $dernierIndex + 1;
-                        $dateMiseHorsLigne["dateMiseEnLigne{$index}"] = $dateActuelle;
-                    } elseif ($dernierEnLigne !== $dateActuelle) {
-                        // Supprimer la dernière entrée si c'est une date de mise hors ligne identique
-                        unset($dateMiseHorsLigne["dateMiseHorsLigne{$dernierIndex}"]);  
-                    }
-
-                    // Mettre à jour la base de données
-                    $updateSql = "UPDATE public._offre 
-                                SET horsLigne = false, dateMiseHorsLigne = :dateMiseHorsLigne 
-                                WHERE idoffre = :idoffre";
-                    $updateStmt = $conn->prepare($updateSql);
-                    $updateStmt->bindValue(':dateMiseHorsLigne', json_encode($dateMiseHorsLigne), PDO::PARAM_STR);
-                    $updateStmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
-                    $updateStmt->execute();
-
+                
                     // Redirection après la mise à jour
                     header("Location: details_offre.php?idoffre=" . $idoffre);
                     exit();
                 }
+
+                // Remettre l'offre en ligne
+                if (isset($_POST['remettre_en_ligne'])) {
+                    $idoffre = $_POST['idoffre']; // Récupérer l'ID de l'offre
+                    $dateActuelle = new DateTime('now', new DateTimeZone('Europe/Paris'));
+                    $dateActuelle = $dateActuelle->format('Y-m-d');
+                
+                    // Insérer une nouvelle entrée dans la table _dateStatusOffre
+                    $insertSql = "INSERT INTO public._dateStatusOffre (idOffre, dateStatusChange, statusOffre, estActive)
+                                  VALUES (:idOffre, :dateStatusChange, 0, false)";
+                    $insertStmt = $conn->prepare($insertSql);
+                    $insertStmt->bindValue(':idOffre', $idoffre, PDO::PARAM_INT);
+                    $insertStmt->bindValue(':dateStatusChange', $dateActuelle, PDO::PARAM_STR);
+                    $insertStmt->execute();
+                
+                    // Mettre à jour le statut dans la table _offre
+                    $updateSql = "UPDATE public._offre 
+                                  SET horsLigne = false 
+                                  WHERE idoffre = :idoffre";
+                    $updateStmt = $conn->prepare($updateSql);
+                    $updateStmt->bindValue(':idoffre', $idoffre, PDO::PARAM_INT);
+                    $updateStmt->execute();
+                
+                    // Redirection après la mise à jour
+                    header("Location: details_offre.php?idoffre=" . $idoffre);
+                    exit();
+                }
+                
 
 ?>
 
