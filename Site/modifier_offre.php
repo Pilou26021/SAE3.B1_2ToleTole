@@ -14,6 +14,8 @@
         exit();
     }
 
+    $origin = $_GET['origin'];
+
     // Récupération de l'ID de l'offre à modifier depuis l'URL
     if (isset($_GET['idoffre'])) {
         $idOffre = $_GET['idoffre'];
@@ -120,6 +122,8 @@
         <h1>Modifier l'offre</h1>
         <form method="post" action="update_offer.php" enctype="multipart/form-data" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)" onsubmit="return validImages(document.querySelectorAll('.image-input-fn'))">
             <?php 
+                //Envoie de l'origin du clic sur modifier offre
+                echo '<input type="hidden" name="origin" value="' . $origin . '">';
                 // Envoie de l'ID de l'offre dans le post
                 echo '<input type="hidden" name="idOffre" value="' . $idOffre . '">';
                 // envoie de categorie dans le post

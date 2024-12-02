@@ -75,9 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a style="display:flex;justify-content:center;" href="#" class="cp_mobile">Mot de passe oublié ?</a><br>
                 </div>
             </section>
-
-            <!-- Rester connecté ? -->
-            <label><input type="checkbox" name="rester_co" class="cp_mobile_chkbox"> Rester connecté ?</label>
             
             <!-- Affichage des erreurs en rouge pastel -->
             <?php if (isset($erreur)) : ?>

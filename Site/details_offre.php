@@ -8,13 +8,27 @@
     error_reporting(E_ALL);
 
     $professionel = false;
+    $bonProfessionnel = false;
     $membre = false;
+
     if (isset($_SESSION['membre'])) {
         $membre = true;
         $idmembre = $_SESSION['membre'];
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
         $idpro = $_SESSION['professionnel'];
+    }
+
+    // Vérification que c'est bien le professionel connecté qui a créé l'offre
+    if ($professionel) {
+        $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
+        $stmt->execute();
+        $idproOffre = $stmt->fetchColumn();
+        if ($idproOffre == $idpro) {
+            $bonProfessionnel = true; // Utiliser cette variable pour vérifier que c'est le professionel qui a créé l'offre
+        }
     }
 
 ?>
@@ -164,6 +178,14 @@
 
             <div class="container-details-offre" >
                 <div class="details-offre" >
+
+                    <?php if ($bonProfessionnel) { ?>
+                    
+                        <div style="display:flex; align-items:center; justify-content:center;">
+                            <br><a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=details_offre" class="bouton-modifier-offre">Modifier mon offre</a><br><br>
+                        </div>
+
+                    <?php } ?>
 
                     <!-- ************************************ -->
                     <!-- ******* DEBUT DETAILS OFFRE ******** -->
@@ -386,29 +408,32 @@
                             }
                             ?>
 
-                            <?php if ($professionel) { ?>
-                                <!-- Bouton pour passer l'offre hors ligne ou remettre en ligne -->
-                                <?php if ($offre['horsligne']) { ?>
-                                    <form style="display:flex;justify-content:center;" method="POST" action="">
-                                        <input type="hidden" name="remettre_en_ligne" value="true">
-                                        <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
-                                        <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir remettre cette offre en ligne ?');">
-                                            Remettre l'offre en ligne
-                                        </button>
-                                    </form>
-                                <?php } else { ?>
-                                    <form style="display:flex;justify-content:center;" method="POST" action="">
-                                        <input type="hidden" name="horsligne" value="true">
-                                        <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
-                                        <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
-                                            Passer l'offre hors ligne
-                                        </button>
-                                    </form>
-                                <?php } ?>
-                            <?php } ?>
+                            <div class="boutons-bas-offre">
 
-                            <div style="display:flex;justify-content:center;">
-                                <a style="text-decoration:none;" href="index.php"> <button class="offer-btn">Retour aux offres</button></a>
+                                <?php if ($bonProfessionnel) { ?>
+
+                                    <!-- Bouton pour passer l'offre hors ligne ou remettre en ligne -->
+                                    <?php if ($offre['horsligne']) { ?>
+                                        <form style="display:flex;justify-content:center;" method="POST" action="">
+                                            <input type="hidden" name="remettre_en_ligne" value="true">
+                                            <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
+                                            <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir remettre cette offre en ligne ?');">
+                                                Remettre l'offre en ligne
+                                            </button>
+                                        </form>
+                                    <?php } else { ?>
+                                        <form style="display:flex;justify-content:center;" method="POST" action="">
+                                            <input type="hidden" name="horsligne" value="true">
+                                            <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
+                                            <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
+                                                Passer l'offre hors ligne
+                                            </button>
+                                        </form>
+                                    <?php } ?>
+                                <?php } ?>
+
+                                <a class="offer-btn">Retour aux offres</a>
+
                             </div>
 
                         </div>

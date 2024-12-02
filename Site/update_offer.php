@@ -10,6 +10,8 @@
         ?> <script>window.location.replace('index.php');</script> <?php
     }
 
+    $origin = $_POST['origin'];
+
     if (isset($_POST)) {
         include "../SQL/connection_local.php";
         $idOffre = $_POST['idOffre']; // ID de l'offre à modifier
@@ -346,6 +348,8 @@
             <?php 
                 if ("no error"){ //TODO
                     echo "<h1>VOTRE OFFRE EST BIEN MODIFIEE !</h1>";
+                    
+                    header("refresh:3;url=" . $origin . ".php?idoffre=$idOffre");
                 }
             ?>
         </main>
@@ -353,14 +357,6 @@
         <div id="footer"></div>
 
         <script src="./script.js" ></script>
-
-        <script>
-            setTimeout(function() {
-                window.location.href = 'index.php'; // Redirection vers la page d'accueil après 3 secondes
-            }, 3000); // 3000 millisecondes = 3 secondes
-        </script>
-
-
 
     </body>
 
