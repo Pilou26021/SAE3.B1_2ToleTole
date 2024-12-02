@@ -21,42 +21,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="./style.css">   
     <title>Mon Compte</title>
+
         <style>
             main {
                 background-color: #F2F1E9;
                 display: flex;
                 flex-direction: row;
-                justify-content: space-between;  /* Modifié pour espacer les deux sections */
-                align-items: flex-start;  /* Aligne les sections au début du conteneur */
+                justify-content: space-between;
+                align-items: center;
                 width: 100%;
-                padding: 60px 30px 60px 30px;
+                margin-bottom: 40px;
             }
 
-            .one {
-            margin-left: 4%;
-            width: 50%;  /* Occupe 60% de la largeur */
-            padding: 20px;
+            .mes_infos_main_zone_gauche {
             display: flex;
             flex-direction: row;
-            justify-content: center;  /* Aligne le contenu en haut */
+            justify-content: center;
+            align-items: center;
+            margin-left: 5%;
+            width: 60%;
+            padding: 20px;
 
             }
 
-            .two {
-            width: 30%;  /* Occupe 30% de la largeur */
+            .mes_infos_main_zone_droite {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             box-sizing: border-box;
+            margin: 40px;
+            width: 30%;
+            min-width: 200px;
             }
 
-            /* Style des boutons-liens */
+            /* On montre à l'utilisateur sur quelle page il se trouve */
+            #lien_page{
+                background-color: #36D673;
+            }
+
+            /*======================
+             Style des boutons-liens 
+             ======================*/
+
             .liens-boutons {
                 width: 90%;
                 padding: 10px 20px;
                 color: black;
                 text-decoration: none;
-                font-size: 20px;
+                font-size: 15px;
                 border-radius: 5px;
                 text-align: center;
                 transition: background-color 0.3s ease;
@@ -65,14 +77,7 @@
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 box-sizing: border-box;
                 flex-grow: 1;
-            }
-
-            #lien_page{
-                background-color: #36D673;
-            }
-
-            .liens-boutons:visited {
-                color: inherit;
+                min-width: 200px;
             }
 
             .liens-boutons:hover {
@@ -81,298 +86,219 @@
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
             }
 
-            /* Classes CSS concernant la disposition du conteneur et des ses éléments */
-            .creer_ligne {
-                display: flex;
-                flex-direction: row;
-                width: 100%;
+            /*===================================================================================
+             Style du conteneur central pour la modification des informations de l'utilisateur 
+             ===================================================================================*/
+
+            .mes_infos_titre{
+                margin-bottom: 30px;
+                text-decoration: none;
             }
 
-            .creer_colonne {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                margin: 20px;  
-                width: 20%;
-                position: absolute;
-                right: 0;
+            .mes_infos_conteneur {
+                width: 90%;
+                border-radius: 10px;
+                
+                text-align: center;
+                padding: 0;
+            }
+
+            .mes_infos_form label {
+                font-size: 14px;
+                margin-bottom: 5px;
+                text-align: left;
+            }
+
+            .mes_infos_form input {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: #F2F1E9;
+                border: 1px solid #31CEA6;
+                font-size: 16px;
+                box-sizing: border-box;
+                text-align: center;
+                color: black;
+            }
+
+            .mes_infos_form input:focus {
+                outline: none;
+            }
+
+            #mes_infos_toggleButton {
+                font-size: 16px;
+                width: 80%;
+                border-radius: 5px;
+                border: 1px solid #a5d6a7;
+                color: black;
+                cursor: pointer;
+                margin-top: 30px;
                 
             }
 
-            .conteneur-boutons {
+            #mes_infos_toggleButton:hover {
+                background-color: #36D673;
+            }
+
+            /* Style des lignes du conteneur */
+            .mes_infos_ligne {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                max-width: none;
+            }
+
+            /* Style des colonnes du conteneur */
+            .mes_infos_colonne {
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 60%;
-                min-width: 500px;
-                margin: 20px;  
+                margin: 30px;        
+                flex: 1;   
             }
 
-            .conteneur-gauche{
-                margin: 0 10px 0 0;
+        @media (max-width: 1200px){
+
+            .mes_infos_ligne {
+                flex-direction: column;
             }
 
-            .conteneur-droit{
-                margin: 0 0 0 10px;
+            .mes_infos_main_zone_gauche{
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 700px){
+
+            main{
+                flex-direction: column;
             }
 
-            @media (max-width: 1000px){
-
-                p{
-                    font-size: 15px;
-                }
-
-                #afficher_cat{
-                    font-size: 10px;
-                }
-
-                h2{
-                    font-size: 20px;
-                }
-
-                .creer_ligne {
-                    flex-direction: column;
-                }
-
-                .creer_colonne {
-                    margin: 0;  
-                }
-
-                .conteneur-gauche{
-                    margin: 0;
-                }
-
-                .conteneur-droit{
-                    margin: 0;
-                }
-
-                .liens-boutons {
-
-                    font-size: 15px;
-                    padding: 20px 20px;
-                }
-
-                .conteneur-boutons {
-                    min-width: 300px;
-                }
+            .mes_infos_conteneur{
+                width: 100%;
             }
 
-            /* deuxieme */
+            .mes_infos_form{
+                width: 100%;
+            }
 
-            .container {
-            width: 90%;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            padding: 0;
-        }
+            .mes_infos_main_zone_gauche{
+                width: 90%;
+            }
 
-        .back-button {
-            display: inline-block;
-            font-size: 18px;
-            background: none;
-            border: none;
-            color: #333;
-            cursor: pointer;
-            text-align: left;
-            margin-bottom: 20px;
-        }
+            .mes_infos_main_zone_droite{
+                width: 90%;
+            }
 
-        .back-button:hover {
-            color: #666;
-        }
+            .mes_infos_lignes{
+                width: 100%;
+            }
 
-        h1 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 20px;
-        }
+            .mes_infos_colonnes{
+                margin: 30px 0 30px 0;
+            }
 
-        form{
-            justify-content: center;
-            align-items: center;
-        }
-
-        form label {
-            display: block;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 5px;
-            text-align: left;
-        }
-
-        form input {
-            width: 100%;
-            padding: 10px;
-           
-            border: none;
-            border-radius: 5px;
-            background-color: #a5d6a7;
-            font-size: 14px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        form textarea {
-            resize: none;
-        }
-
-        form input:focus {
-            outline: none;
-            border-color: #a5d6a7;
-        }
-
-        #toggleButton {
-            width: 80%;
-            padding: 12px;
-            margin: 20px;
-            background-color: #81c784;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        #toggleButton:hover {
-            background-color: #66bb6a;
-        }
-
-        .mes_infos_ligne {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            max-width: none;
-        }
-
-        .mes_infos_colonne {
-            display: flex;
-            flex-direction: column;
-            margin: 20px;        
-            flex: 1;   
-        }
-
-        /* Conteneur principal avec un overflow caché */
-        .menu-container {
-            position: relative;
-            width: 100%; /* Largeur du conteneur */
-            overflow: hidden; /* Cache les éléments qui dépassent */
-            margin: 20px 0;
-            padding-left: 50px; /* Espace pour la flèche gauche */
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        /* Liste horizontale des éléments du menu */
-        .menu {
-            display: flex; /* Affiche les éléments horizontalement */
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            transition: transform 0.3s ease; /* Animation de défilement fluide */
-        }
-
-        .menu li {
-            padding: 10px 20px;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: white;
-            background-color: #333;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .menu a:hover {
-            background-color: #555;
-        }
-
-        /* Flèches de navigation */
-        .arrow {
-            position: absolute;
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 20px;
-            z-index: 10; /* Pour être au-dessus de la liste */
-            width: 40px; /* Taille du bouton carré */
-            height: 40px; /* Taille du bouton carré */
-            border-radius: 2px;
-            text-align: center;
-            align-self: center;
-        }
-
-        /* Flèche gauche */
-        .arrow-left {
-            left: 0px;
-            background: linear-gradient(to right, #4caf50, #ffffff 100%); /* Dégradé du vert au blanc */
-            height: 30px;
-        }
-
-        /* Flèche droite */
-        .arrow-right {
-            top: 50%;
-            transform: translateY(-50%);
-            right: 10px;
-            background: radial-gradient(circle, #4caf50 40%, white 60%); /* Dégradé du vert au blanc */
-        }
-
-        /* Effet au survol des flèches */
-        .arrow:hover {
-            background-color: #66bb6a; /* Changement de couleur au survol */
+            .liens-boutons {
+                font-size: 15px;
+                padding: 20px 20px;
+                width: 100%;
+            }
         }
 
     </style>
+
+    <!-- Récupération des informations depuis la base de données -->
+    <?php
+
+                if (isset($_SESSION['professionnel'])){
+                    $userID = $_SESSION['professionnel'];
+
+                    $sql = "SELECT * FROM _compte c JOIN _professionnel p
+                            ON c.idcompte = p.idcompte
+                            WHERE c.idcompte = :idcompte";
+
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(':idcompte', $userID, PDO::PARAM_INT);
+                }
+                else {
+                    $userID = $_SESSION['membre'];
+
+                    $sql = "SELECT * FROM _compte c
+                            WHERE idcompte = :idcompte";
+
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(':idcompte', $userID, PDO::PARAM_INT);
+                }
+
+                $stmt->execute();
+                $infos_compte = $stmt->fetch();
+    ?>
+
 </head>
     <body>
 
+        <!-- Flèche de retour à l'accueil -->
+        <div style=" position:sticky; top:20px; left:20px; width: 100%;">
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="./index.php">&#8617;</a>
+                <!-- onclick="history.back(); -->
+        </div>
+        
         <main>
-        <?php
-            if (isset($_SESSION['professionnel'])){ ?>
-                <!-- deuxieme -->
-                <section class="one">
-                    <div class="container">
-                        <h1>Modification de vos informations personnelles</h1>
-                        <form id="infoForm" action="modifier_infos.php" method="POST">
+                <section class="mes_infos_main_zone_gauche">
+
+                    <div class="mes_infos_conteneur">
+                        <h3 class="mes_infos_titre">Modification de vos informations personnelles</h3>
+
+                        <form class="mes_infos_form" id="infoForm" action="modifier_infos.php" method="POST">
+
+                            <!-- Première ligne -->
                             <div class="mes_infos_ligne">
                                 <div class="mes_infos_colonne">
                                     <label for="nom">Nom</label>
-                                    <input type="text" id="nom" name="nom" value="" required readonly>
+                                    <input type="text" id="nom" name="nom" value="<?php echo $infos_compte['nomcompte'] ?>" required readonly>
                                 </div> 
                                 <div class="mes_infos_colonne">
                                     <label for="prenom">Prénom</label>
-                                    <input type="text" id="prenom" name="prenom" value="" required readonly>
+                                    <input type="text" id="prenom" name="prenom" value="<?php echo $infos_compte['prenomcompte'] ?>" required readonly>
                                 </div>
                             </div>
+
+                            <!-- Deuxième ligne -->
                             <div class="mes_infos_ligne">
                                 <div class="mes_infos_colonne">
                                     <label for="telephone">Téléphone</label>
-                                    <input type="tel" id="tel" name="telephone" value="" required readonly>
+                                    <input type="tel" id="tel" name="telephone" value="<?php echo $infos_compte['numtelcompte'] ?>" required readonly>
                                 </div>
                                 <div class="mes_infos_colonne">
                                     <label for="email">Email</label>
-                                    <input type="text" id="mail" name="email" value="" required readonly>
+                                    <input type="text" id="mail" name="email" value="<?php echo $infos_compte['mailcompte'] ?>" required readonly>
                                 </div>
                             </div>
-                            <div class="mes_infos_ligne">
-                                <div class="mes_infos_colonne">
-                                    <label for="denominationpro">Dénomination professionnelle</label>
-                                    <input type="text" id="denomination" name="denominationpro" value="" required readonly>
+
+                            <?php
+                                //On s'adapte en fonction du profil
+                                if (isset($_SESSION['professionnel'])){ ?>
+                                
+                                <!-- Troisième ligne, si professionnel -->
+                                <div class="mes_infos_ligne">
+                                    <div class="mes_infos_colonne">
+                                        <label for="denominationpro">Dénomination professionnelle</label>
+                                        <input type="text" id="denomination" name="denominationpro" value="<?php echo $infos_compte['denominationpro'] ?>" required readonly>
+                                    </div>
+                                    <div class="mes_infos_colonne">
+                                        <label for="numsiren">Numéro de siren</label>
+                                        <input type="text" id="numsiren" name="numsiren" value="<?php echo $infos_compte['numsirenpro'] ?>" required readonly>
+                                    </div>
                                 </div>
-                                <div class="mes_infos_colonne">
-                                    <label for="numsiren">Numéro de siren</label>
-                                    <input type="text" id="numsiren" name="numsiren" value="" required readonly>
-                                </div>
-                            </div>
-                            <button type="button" id="toggleButton">Modifier les infos</button>
+                            <?php } ?>
+                                    
+                            <button type="button" class="liens-boutons" id="mes_infos_toggleButton">Modifier mes informations personnelles</button>
+                            <p id="message_erreur"></p>
                         </form>
                     </div>
                 </section>
-                <section class="two">
+
+                <section class="mes_infos_main_zone_droite">
                         <a class="liens-boutons" id="lien_page" href="mes_infos.php">Gérer mes informations personnelles</a>
                         <a class="liens-boutons" href="">Gérer mon mot de passe</a>
                         <a class="liens-boutons" href="">Gérer mon coordonnées bancaires</a>
@@ -382,62 +308,75 @@
                         <a class="liens-boutons" href="">Mes factures</a>  
                         <a class="liens-boutons" href="">Supprimer mon compte</a>
                 </section>
-            <?php
-            }
-            ?>
-
-
-            <script>
-                const form = document.getElementById('infoForm');
-                const toggleButton = document.getElementById('toggleButton');
-                const inputs = form.querySelectorAll('input');
-                let isEditing = false;
-
-                toggleButton.addEventListener('click', () => {
-                    if (isEditing) {
-                        inputs.forEach(input => input.setAttribute('readonly', 'readonly'));
-                        toggleButton.textContent = 'Modifier les infos';
-                        form.submit();
-                    } else {
-                        inputs.forEach(input => input.removeAttribute('readonly'));
-                        inputs.forEach(input => input.style.backgroundColor = "#dcedc8");
-                        toggleButton.textContent = 'Enregistrer les modifications';
-                    }
-                    isEditing = !isEditing;
-                });
-            </script>
+            
         </main>
         <div id="footer"></div>
-        <!-- Script foireux -->
+
+        <!-- Script pour le bouton de modification des informations personnelles -->
         <script>
-        const menu = document.getElementById("menu");
-        const leftArrow = document.getElementById("arrow-left");
-        const rightArrow = document.getElementById("arrow-right");
-        const container = document.querySelector(".menu-container");
+                document.addEventListener("DOMContentLoaded", function() {
+                    const form = document.getElementById('infoForm');
+                    const toggleButton = document.getElementById('mes_infos_toggleButton');
+                    const inputs = form.querySelectorAll('input');
+                    let isEditing = false;
+                    var pro_valide = true;
 
-        let scrollPosition = 0; // Position initiale du scroll
+                    toggleButton.addEventListener('click', () => {
+                        const messageErreur = document.getElementById('message_erreur');
+                        messageErreur.style.color = "red"; 
 
-        // Fonction pour faire défiler à gauche
-        function scrollLeft() {
-            const containerWidth = container.offsetWidth; // Largeur du conteneur
-            scrollPosition = Math.max(scrollPosition - containerWidth / 2, 0); // Empêche de dépasser la gauche
-            menu.style.transform = `translateX(-${scrollPosition}px)`; // Applique le défilement
-        }
+                        if (isEditing) {
+                            const phoneNumber = document.getElementById('tel').value;
+                            const email = document.getElementById('mail').value;
 
-        // Fonction pour faire défiler à droite
-        function scrollRight() {
-            const containerWidth = container.offsetWidth; // Largeur du conteneur
-            const scrollWidth = menu.scrollWidth; // Largeur totale du menu
-            scrollPosition = Math.min(scrollPosition + containerWidth / 2, scrollWidth - containerWidth); // Empêche de dépasser la droite
-            menu.style.transform = `translateX(-${scrollPosition}px)`; // Applique le défilement
-        }
+                            // Ici, indirectement, on vérifie si l'utilisateur est un pro
+                            if ((document.getElementById('numsiren')) !== null){
+                                const numsirenP = document.getElementById('numsiren').value;
 
-        // Ajout des événements de clic sur les flèches
-        leftArrow.addEventListener("click", scrollLeft);
-        rightArrow.addEventListener("click", scrollRight);
-    </script>
-    <!-- fin du script foireux -->
+                                const regexSiren = /^[0-9]{9}$/;
 
+                                if (!regexSiren.test(numsirenP)) {
+                                        if (messageErreur) {
+                                            messageErreur.textContent = "Veuillez renseigner un numéro de siren valide";
+                                            pro_valide = false;
+                                        }
+                                    }
+                            }
+
+                            const regex = /^[0-9]{10}$/;
+                            const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+                            if (!regex.test(phoneNumber)) {
+                                if (messageErreur) {
+                                    messageErreur.textContent = "Le numéro de téléphone doit comporter exactement 10 chiffres.";
+                                }
+                            }
+
+                            else if (!regexEmail.test(email)) {
+                                // Si l'email est valide, on efface le message d'erreur
+                                if (messageErreur) {
+                                    messageErreur.textContent = 'Veuillez renseigner une adresse E-mail valide';
+                                }
+                            }
+
+                            else if (pro_valide == true){
+                                inputs.forEach(input => input.setAttribute('readonly', 'readonly'));
+                                form.submit();  // Soumettre le formulaire si tout est valide
+                            }
+
+
+                        } else {
+                            inputs.forEach(input => input.removeAttribute('readonly'));
+                            inputs.forEach(input => input.style.color = "#31CEA6");
+                            toggleButton.textContent = 'Enregistrer les modifications';
+                        }
+                        isEditing = !isEditing;
+                    });
+                });
+
+        </script>
+
+        <!-- Script pour header et footer -->
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script>
             $(function() {
