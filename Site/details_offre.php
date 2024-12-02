@@ -687,9 +687,15 @@
                                     <?php
                                 }
                             } else {
-                                ?>
-                                <p>Aucun avis pour cette offre.</p>
-                                <?php
+                                if (!$avis_membre){
+                                    ?>
+                                    <p>Aucun avis pour cette offre.</p>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <p>Aucun autre avis pour cette offre.</p>
+                                    <?php
+                                }
                             }
 
 

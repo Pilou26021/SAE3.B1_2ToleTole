@@ -309,6 +309,8 @@ ob_start();
                         <!-- Boutons de navigation ajoutés -->
                         <div class="swiper-button-next" ></div>
                         <div class="swiper-button-prev" ></div>
+                        <!-- passage à la ligne pour espacer -->
+                        <br><br>
                         <!-- Pagination ajoutée -->
                         <div class="swiper-pagination" ></div>
                     </div>

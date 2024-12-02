@@ -62,7 +62,7 @@ if (isset($_SESSION['membre'])) {
                 <li><a href="deconnexion.php">Déconnexion</a></li>
             <?php elseif ($membre): ?>
                 <li><a href="mon_compte.php">Mon compte</a></li>
-                <li><a href="#">Mes réservations</a></li>
+                <li><a href="mes_reservations.php">Mes réservations</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="deconnexion.php">Déconnexion</a></li>
             <?php else: ?>

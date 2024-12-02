@@ -68,19 +68,19 @@ INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptio
 (3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 150, TRUE, FALSE, 1, 'https://ilovemyself.com',0, FALSE, '2023-05-01', 'Accessible', FALSE),
 (2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 100, TRUE, TRUE, 2, 'https://pnevot.com',0, TRUE, '2023-06-01', 'Non accessible', FALSE),
 (1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 50, TRUE, FALSE, 0, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
-(3, 4, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 10, TRUE, FALSE, 1, 'https://boulangerie.example.com', 4.5, FALSE, '2023-07-10', 'Accessible', FALSE),
-(3, 5, 'Séjour Tropical', 'Découvrez les îles paradisiaques', 'Un voyage tout compris pour échapper au quotidien.', 2000, TRUE, TRUE, 2, 'https://voyages.exemple.com', 4.8, TRUE, '2023-08-15', 'Accessible', FALSE),
-(3, 6, 'Innovation Day', 'Rejoignez notre salon high-tech', 'Une journée dédiée aux nouvelles technologies.', 50, TRUE, TRUE, 0, 'https://techday.example.com', 5.0, FALSE, '2023-09-20', 'Accessible', FALSE);
+(3, 4, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 10, TRUE, FALSE, 1, 'https://boulangerie.example.com', 0, FALSE, '2023-07-10', 'Accessible', FALSE),
+(3, 5, 'Séjour Tropical', 'Découvrez les îles paradisiaques', 'Un voyage tout compris pour échapper au quotidien.', 2000, TRUE, TRUE, 2, 'https://voyages.exemple.com', 0, TRUE, '2023-08-15', 'Accessible', FALSE),
+(3, 6, 'Innovation Day', 'Rejoignez notre salon high-tech', 'Une journée dédiée aux nouvelles technologies.', 50, TRUE, TRUE, 0, 'https://techday.example.com', 0, FALSE, '2023-09-20', 'Accessible', FALSE);
 
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 
 (1, 5, 'Excellente offre!', 1, '2023-05-15', '2023-05-10', FALSE, TRUE),
 (2, 3, 'Moyenne, pourrait être mieux.', 2, '2023-06-15', '2023-06-10', FALSE, FALSE),
-
 (3, 4, 'Bonne offre! J''y retournerais sans problème !', 2, '2023-05-15', '2023-05-10', FALSE, FALSE),
 (3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE),
 (3, 2, 'Pas encore ouvert :''(', 4, '1955-11-11', '1955-11-11', FALSE, FALSE),
-(3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE);
+(3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE),
+(4, 5, 'Bien gourmand 😋', 4, '2024-12-02', '2024-12-01', FALSE, FALSE);
 
 -- 10. Insérer des données dans `_signalement`
 INSERT INTO _signalement (raison) VALUES 
