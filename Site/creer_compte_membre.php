@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Rue -->
                 <div class="input-row">
                 <div class="input-group">
-                    <label for="nom">Rue</label>
+                    <label for="nom">Numéro de rue</label>
                     <div class="input-container">
                         <input type="text" id="adNumRue" name="adNumRue" placeholder="Votre Rue" value="<?= htmlspecialchars($_POST['adNumRue'] ?? '') ?>" required>
                         <p class="error"><?= $errors['adNumRue'] ?? '' ?></p>
