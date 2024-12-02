@@ -25,30 +25,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ville = trim($_POST['ville'] ?? '');
         $tel = trim($_POST['tel'] ?? '');
 
+        // On vérifie que l'email n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _compte WHERE mailcompte = ?");
+        $stmt->bindValue(1, $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $email_exists = $stmt->fetch();
+
+        // On vérifie que le numéro de téléphone n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _compte WHERE numtelcompte = ?");
+        $stmt->bindValue(1, $tel, PDO::PARAM_STR);
+        $stmt-> execute();
+        $telephone_exists = $stmt->fetch();
+
+        if (!empty($telephone_exists)) $errors['tel'] = "Le numéro de téléphone existe déjà.";
+        if (!empty($email_exists)) $errors['email'] = "L'adresse e-mail existe déjà.";
         if (empty($nom)) $errors['nom'] = "Le champ 'Nom' est requis.";
         if (empty($prenom)) $errors['prenom'] = "Le champ 'Prénom' est requis.";
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = "L'adresse e-mail n'est pas valide.";
-        if (empty($adresse)) $errors['adresse'] = "Le champ 'Adresse Postale' est requis.";
-        if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
-        if (!preg_match('/^\d{10}$/', $tel)) $errors['tel'] = "Le numéro de téléphone doit contenir 10 chiffres.";
+        $phoneRegex = '/^(\+33|0)6\d{8}$/';
+        if (!preg_match($phoneRegex, $tel)) $errors['tel'] = "Le numéro de téléphone doit contenir 10 chiffres.";
 
         if (empty($errors)) {
             $step = 2; // Passer à l'étape 2 si tout est valide
         }
     }
-    // Étape 2 : Pseudomyne et Validation du mot de passe
-    elseif ($step === 2) {
+    // Etape 2 : Adresse résidentielle
+    else if ($step === 2) {
+        $adNumRue = trim($_POST['adNumRue'] ?? '');
+        $supplementAdresse = trim($_POST['supplementAdresse'] ?? '');
+        $adresse = trim($_POST['adresse'] ?? '');
+        $code_postal = trim($_POST['code_postal'] ?? '');
+        $ville = trim($_POST['ville'] ?? '');
+        $departement = trim($_POST['departement'] ?? '');
+        $pays = trim($_POST['pays'] ?? '');
+        
+        if (empty($adNumRue)) $errors['adNumRue'] = "Le champ 'Numéro de rue' est requis.";
+        if (empty($adresse)) $errors['adresse'] = "Le champ 'Adresse' est requis.";
+        if (empty($code_postal)) $errors['code_postal'] = "Le champ 'Code postal' est requis.";
+        if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
+        if (empty($departement)) $errors['departement'] = "Le champ 'Département' est requis.";
+        if (empty($pays)) $errors['pays'] = "Le champ 'Pays' est requis.";
+
+        if (empty($errors)) {
+            $step = 3; // Passer à l'étape 3 si tout est valide
+        }
+    }
+    // Étape 3 : Pseudomyne et Validation du mot de passe
+    elseif ($step === 3) {
 
         $pseudomyne = trim($_POST['pseudomyne'] ?? '');
         $mot_de_passe = trim($_POST['mot-de-passe'] ?? '');
         $confirmation_mdp = trim($_POST['confirmation-mdp'] ?? '');
 
+        // On vérifie que le pseudomyne n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _membre WHERE pseudonyme = ?");
+        $stmt->bindValue(1, $pseudomyne, PDO::PARAM_STR);
+        $stmt->execute();
+        $pseudomyne_exists = $stmt->fetch();
+
+        if (!empty($pseudomyne_exists)) $errors['pseudomyne'] = "Le pseudomyne existe déjà.";
         if (empty($pseudomyne)) $errors['pseudomyne'] = "Le champ 'Pseudomyne' est requis.";
 
-
-
-        if (strlen($mot_de_passe) < 8) {
-            $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères.";
+        /*
+        Le mot de passe doit contenir :
+            Au minimun 8 caractères
+            Au minimun 1 chiffre
+            Au minimun 1 majuscule
+            Au minimun 1 caractère spécial
+        */
+        $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/';
+        if (!preg_match($passwordRegex, $mot_de_passe)) {
+            $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères, 1 chiffre, 1 majuscule et 1 caractère spécial.";
         }
         if ($mot_de_passe !== $confirmation_mdp) {
             $errors['confirmation-mdp'] = "Les mots de passe ne correspondent pas.";
@@ -116,31 +163,99 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <!-- Adresse -->
+                <!-- Téléphone -->
                 <div class="input-group">
-                    <label for="adresse">Adresse Postale</label>
+                    <label for="tel">Téléphone</label>
                     <div class="input-container">
-                        <input type="text" id="adresse" name="adresse" placeholder="Votre adresse" value="<?= htmlspecialchars($_POST['adresse'] ?? '') ?>"required>
-                        <p class="error"><?= $errors['adresse'] ?? '' ?></p>
+                        <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" value="<?= htmlspecialchars($_POST['tel'] ?? '') ?>"required>
+                        <p class="error"><?= $errors['tel'] ?? '' ?></p>
+                        <span class="required">*</span>
+                    </div>
+                </div> 
+
+                <!-- Bouton suivant -->
+                <div class="valide-groupe">
+                    <button class="submit-btn" type="submit">SUIVANT</button>
+                    <p class="almost-done">Vous y êtes presque 1/3</p>
+                </div>
+            </form>
+        <?php endif; ?>
+
+        <!-- Étape 2 : Adresse du compte -->
+
+        <?php if ($step === 2): ?>                
+            <form method="POST" class="form-creer-pro">
+                <input type="hidden" name="step" value="2">  
+                <h1 class="subtitle">Créer mon compte Membre </h1>
+                <h2>2. Votre Adresse</h2>
+
+                <!-- Rue -->
+                <div class="input-row">
+                <div class="input-group">
+                    <label for="nom">Numéro de rue</label>
+                    <div class="input-container">
+                        <input type="text" id="adNumRue" name="adNumRue" placeholder="Votre Rue" value="<?= htmlspecialchars($_POST['adNumRue'] ?? '') ?>" required>
+                        <p class="error"><?= $errors['adNumRue'] ?? '' ?></p>
                         <span class="required">*</span>
                     </div>
                 </div>
 
-                <!-- Ville et téléphone -->
+                <!-- supplementAdresse -->
+                <div class="input-group">
+                    <label for="supplementAdresse">Adresse Supplémentaire</label>
+                    <div class="input-container">
+                        <input type="text" id="supplementAdresse" name="supplementAdresse" placeholder="Addresse supp (ex: bis)" value="<?= htmlspecialchars($_POST['supplementAdresse'] ?? '') ?>">
+                        <p class="error"><?= $errors['supplementAdresse'] ?? '' ?></p>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Adresse -->
+                <div class="input-group">
+                    <label for="adresse">Adresse</label>
+                    <div class="input-container">
+                        <input type="text" id="adresse" name="adresse" placeholder="Votre Adresse" value="<?= htmlspecialchars($_POST['adresse'] ?? '') ?>" required>
+                        <p class="error"><?= $errors['adresse'] ?? '' ?></p>   
+                        <span class="required">*</span>
+                    </div>
+                </div>
+
+                <!-- code Postal -->
+                <div class="input-row">
+                <div class="input-group">
+                    <label for="code_postale">Code Postal</label>
+                    <div class="input-container">
+                        <input type="number" id="code_postal" name="code_postal" placeholder="Votre code postal" value="<?= htmlspecialchars($_POST['code_postal'] ?? '') ?>"required>
+                        <p class="error"><?= $errors['code_postal'] ?? '' ?></p>
+                        <span class="required">*</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="ville">Ville</label>
+                    <div class="input-container">
+                        <input type="text" id="ville" name="ville" placeholder="Votre ville" value="<?= htmlspecialchars($_POST['ville'] ?? '') ?>"required>
+                        <p class="error"><?= $errors['ville'] ?? '' ?></p>
+                        <span class="required">*</span>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Département et pays -->
                 <div class="input-row">
                     <div class="input-group">
-                        <label for="ville">Ville</label>
+                        <label for="departement">Département</label>
                         <div class="input-container">
-                            <input type="text" id="ville" name="ville" placeholder="Votre ville" value="<?= htmlspecialchars($_POST['ville'] ?? '') ?>"required>
-                            <p class="error"><?= $errors['ville'] ?? '' ?></p>
+                            <input type="text" id="departement" name="departement" placeholder="Votre departement" value="<?= htmlspecialchars($_POST['departement'] ?? '') ?>"required>
+                            <p class="error"><?= $errors['departement'] ?? '' ?></p>
                             <span class="required">*</span>
                         </div>
                     </div>
                     <div class="input-group">
-                        <label for="tel">Téléphone</label>
+                        <label for="pays">Pays</label>
                         <div class="input-container">
-                            <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" value="<?= htmlspecialchars($_POST['tel'] ?? '') ?>"required>
-                            <p class="error"><?= $errors['tel'] ?? '' ?></p>
+                            <input type="pays" id="pays" name="pays" placeholder="Votre téléphone" value="<?= htmlspecialchars($_POST['pays'] ?? '') ?>"required>
+                            <p class="error"><?= $errors['pays'] ?? '' ?></p>
                             <span class="required">*</span>
                         </div>
                     </div>
@@ -149,17 +264,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Bouton suivant -->
                 <div class="valide-groupe">
                     <button class="submit-btn" type="submit">SUIVANT</button>
-                    <p class="almost-done">Plus qu'une étape 1/2</p>
+                    <p class="almost-done">Plus qu'une étape 2/3</p>
                 </div>
             </form>
         <?php endif; ?>
 
-        <!-- Étape 2 : Sécurité du compte -->
-        <?php if ($step === 2): ?>
+        <!-- Étape 3 : Sécurité du compte -->
+        <?php if ($step === 3): ?>
             <h1 class="subtitle">Créer mon compte Membre </h1>
-            <h2 class="form-section">2. Sécurisons votre compte</h2>
+            <h2 class="form-section">3. Sécurisons votre compte</h2>
             <form method="POST" class="form-creer-pro">
-                <input type="hidden" name="step" value="2">
+                <input type="hidden" name="step" value="3">
 
                 <div class="input-group">
                         <label for="tel">Pseudomyne</label>

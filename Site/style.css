@@ -1653,3 +1653,138 @@ td {
 	align-items: center;
 	flex-direction: column;
 }
+
+/*Média queary*/
+
+/*page connexion*/
+
+@media screen and (max-width: 360px) {
+    /* Corps de la page */
+    body.cp_mobile {
+        padding: 15px;
+        font-size: 14px; /* Taille de police légèrement augmentée */
+    }
+
+    /* Grand titre */
+    h1.cp_mobile {
+        font-size: 26px; /* Titre plus grand mais toujours adapté */
+    }
+
+    /* Champs de saisie */
+    section.cp_mobile input.cp_mobile {
+        width: 95%; /* Utilise presque toute la largeur de l'écran */
+        height: 48px; /* Augmenter légèrement la hauteur pour plus de confort */
+        font-size: 15px; /* Texte plus grand */
+        border-radius: 12px; /* Coins légèrement plus arrondis */
+    }
+
+    /* Bouton submit */
+    .cp_mobile_btn {
+        width: 95%; /* Adapte à la largeur de l'écran */
+        height: 60px; /* Bouton légèrement plus haut */
+        font-size: 18px; /* Texte plus grand */
+        margin: 20px auto; /* Centrer et réduire les marges */
+    }
+
+    /* Case à cocher */
+    .cp_mobile_chkbox {
+        width: 22px; /* Légèrement plus grande */
+        height: 22px;
+    }
+
+    /* Messages d'erreurs */
+    p.cp_mobile_erreur {
+        font-size: 14px; /* Texte plus grand et lisible */
+    }
+
+    /* Alignement des liens et boutons */
+    .cp_mobile a,
+    .offer-btn {
+        font-size: 14px; /* Texte légèrement plus grand */
+        padding: 8px; /* Espacement suffisant autour */
+        text-align: center;
+    }
+
+    /* Logo */
+    img {
+        width: 200px; /* Légèrement plus grand pour rester lisible */
+        height: auto;
+    }
+
+    /* Liens hypertextes */
+    a.cp_mobile {
+        font-size: 14px; /* Texte légèrement plus grand */
+    }
+
+    /* Section regroupant les champs */
+    section.cp_mobile {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+
+/*page connexion*/
+
+/* Responsive Design pour les écrans de largeur <= 360px */
+@media (max-width: 360px) {
+    .form-container {
+        width: 100%;
+        padding: 10px; /* Réduction des marges */
+    }
+
+    h1, h2 {
+        font-size: 1.2em; /* Réduction des titres */
+    }
+
+    .form-creer-pro {
+        gap: 15px; /* Réduction de l'espacement entre les champs */
+    }
+
+    .input-row {
+        flex-direction: column; /* Alignement en colonne */
+        gap: 15px; /* Moins d'espace entre les champs */
+    }
+
+    .input-container input {
+        font-size: 1em; /* Réduction de la taille du texte */
+        padding: 10px; /* Réduction de l'intérieur des champs */
+    }
+
+    .submit-btn {
+        font-size: 1em; /* Réduction pour s'adapter à l'écran */
+        padding: 10px;
+        width: 100%; /* Prend toute la largeur */
+        margin: 10px 0; /* Ajustement des marges */
+    }
+
+    .almost-done {
+        font-size: 0.8em; /* Réduction du texte */
+    }
+
+    .back-arrow a {
+        font-size: 25px; /* Réduction de la taille de la flèche */
+    }
+
+    .terms {
+        font-size: 0.8em; /* Réduction pour une meilleure lisibilité */
+    }
+
+    .terms ul {
+        margin-left: 10px; /* Réduction des marges internes */
+    }
+
+    .valide-groupe, .valide-groupe2 {
+        width: 100%; /* Ajustement à la largeur de l'écran */
+    }
+
+    .confirmation {
+        font-size: 1em; /* Ajustement de la taille pour mobiles */
+        padding: 8px;
+    }
+
+    .submit-btn2 {
+        padding: 10px;
+        font-size: 1em; /* Ajustement pour écran étroit */
+    }
+}
