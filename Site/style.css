@@ -4,6 +4,7 @@ body {
 	padding: 10px;
 	background-color: #F2F1E9;
 	font-family: regular;
+	overflow-x: hidden;
 }
 
 hr {
@@ -31,7 +32,7 @@ header {
 	height: 100%;
 	width: 0;
 	position: fixed;
-	z-index: 1;
+	z-index: 100;
 	box-shadow: 5px 0px 30px #040316;
 	top: 0;
 	left: 0;
