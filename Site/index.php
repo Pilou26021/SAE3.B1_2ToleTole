@@ -28,7 +28,7 @@ ob_start();
         if ($professionel) {
             // Si professionnel, n'afficher que ses offres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne , o.notemoyenneoffre,o.alauneoffre
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne , o.notemoyenneoffre,o.alauneoffre,o.enreliefoffre
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
@@ -41,7 +41,7 @@ ob_start();
         } else {
             // Sinon, afficher toutes les offres pour les visiteurs/membres
             $sql = "
-                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne,o.notemoyenneoffre,o.alauneoffre
+                SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne,o.notemoyenneoffre,o.alauneoffre,o.enreliefoffre
                 FROM public._offre o
                 JOIN (
                     SELECT idOffre, MIN(idImage) AS firstImage
@@ -229,8 +229,8 @@ ob_start();
                             break; // Arrêter le traitement après 10 offres
                         }
                         if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
-                            <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card">
+                            <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?> >
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -303,7 +303,7 @@ ob_start();
                     <?php endforeach; ?>
                 </div>
                 <!-- <hr style=" width:70%; border-top: 2px solid #040316; "> -->
-                <div>
+                <div style="display:none;">
                     <?php
                     if (!$professionel) {
                     ?>
@@ -311,7 +311,7 @@ ob_start();
                     <?php
                     } 
                     ?>
-                </div>
+                </div >
                 <?php 
                     $maxOffresN = 10; // Limite du nombre d'offres à afficher
                     $countN = 0; 
@@ -330,14 +330,14 @@ ob_start();
                     $stmtN->execute();
                     $offresN = $stmtN->fetchAll();
                 ?>
-                <div class="offres-container">
+                <div class="offres-container" style="display:none;">
                     <?php foreach ($offresN as $offre):
                         if ($countN >= $maxOffresN) {
                             break; // Arrêter le traitement après 10 offres
                         }
                         if(!$professionel && $offre['horsligne'] == false ) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card">
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -420,7 +420,7 @@ ob_start();
                     <?php foreach ($offres as $offre): ?>
                         <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card">
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0px 10px 20px #36D673;' " ;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">

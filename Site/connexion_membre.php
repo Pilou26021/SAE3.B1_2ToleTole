@@ -46,10 +46,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </head>
 
 
-    <body class="cp_mobile">
-        <div style=" position:sticky; top:20px; width: 100%;">
-            <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="index.php">&#8617;</a>
+    <body class="cp_mobile" style="overflow:hidden;"  >
+        <div style=" position:fixed; top:20px; width: 95%; display:flex; justify-content:space-between;" >
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer; " href="index.php">&#8617;</a>
+                <div style="display:flex;align-items:center;flex-direction:column; align-items: flex-end;">
+                    <a class="offer-btn" style="text-decoration:none;" href="connexion_pro.php">Créer un compte ou se connecter en tant que professionnel</a>
+                    <a class="offer-btn" href="creer_compte_membre.php" class="cp_mobile">Créer un compte membre</a><br>
+                </div>
         </div>
+        
 
 
         <!-- Logo -->
@@ -81,12 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <!-- Bouton de validation -->
             <input type="submit" value="Se connecter" class="cp_mobile_btn">
-            <div style="display:flex;align-items:center;flex-direction:column;">
-                <a class="offer-btn" style="text-decoration:none;" href="connexion_pro.php">Créer un compte ou se connecter en tant que professionnel</a>
-                <span>OU</span>
-                <br>
-                <a class="offer-btn" href="creer_compte_membre.php" class="cp_mobile">Créer un compte membre</a><br>
-            </div>
+            
 
         </form>
 

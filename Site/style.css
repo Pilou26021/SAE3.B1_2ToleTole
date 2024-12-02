@@ -660,6 +660,7 @@ body.cp_mobile {
 	align-items: center;
 	/* Centre horizontalement */
 	/* Prend toute la hauteur de la fenêtre */
+	min-height: 100vh;
 	background-color: #F2F1E9;
 	font-family: 'Montserrat', sans-serif;
 	font-size: 14px;
@@ -681,6 +682,7 @@ form.cp_mobile {
 	justify-content: center;
 	/* Centre verticalement */
 	align-items: center;
+	width: 100%;
 	/* Centre horizontalement */
 }
 

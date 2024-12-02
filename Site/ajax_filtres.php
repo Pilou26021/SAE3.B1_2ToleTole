@@ -62,7 +62,7 @@ if (!empty($category)) {
 if ($professionel) {
     // Si professionnel, n'afficher que ses offres
     $sql = "
-        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre
+        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre,o.enreliefoffre
         FROM public._offre o
         JOIN (
             SELECT idoffre, MIN(idimage) AS firstImage
@@ -78,7 +78,7 @@ if ($professionel) {
 } else {
     // Sinon, afficher toutes les offres pour les visiteurs/membres
     $sql = "
-        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre
+        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre,o.enreliefoffre
         FROM public._offre o
         JOIN (
             SELECT idoffre, MIN(idimage) AS firstImage
@@ -184,7 +184,7 @@ if (count($offres) > 0) {
         if(!$professionel && $offre['horsligne'] == false || $professionel) {
         ?>
         <a style="text-decoration:none; color:#040316; font-family: regular;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-            <div class="offre-card">
+            <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?>>
                 <div class="offre-image-container" style="position: relative;">
                     <!-- Affichage de l'image -->
                     <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
