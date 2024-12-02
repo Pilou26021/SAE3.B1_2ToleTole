@@ -356,7 +356,7 @@ p {
 /***** CREER_OFFRE.PHP *****/
 
 .creer-offre-main {
-	max-width: 360px;
+	max-width: 700px;
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #F2F1E9;
@@ -408,10 +408,51 @@ input[type="radio"]+label {
 	display: flex;
 	justify-content: space-between;
 	gap: 10px;
+	width: 93%;
 }
 
 .price input {
 	flex: 1;
+}
+
+.horaires-semaine input {
+	justify-content: space-between;
+}
+
+.type-offre{
+	display: flex;
+}
+
+.type_offre {
+	text-align: center;
+}
+
+.input-row-offre {
+	display: flex;
+	gap: 40px; /* Augmenté pour espacer les colonnes */
+	justify-content: center;
+}
+
+.input-row-offre3 {
+	display: flex;
+	gap: 40px; /* Augmenté pour espacer les colonnes */
+	justify-content: center;
+	width: 90%;
+	align-items: center;
+
+}
+
+.container-offre {
+	position: relative;
+}
+
+.container-offre input, .textarea-creer_offre {
+    width: 100%;
+    padding: 15px; /* Agrandi */
+    border: 1px solid #040316;
+    border-radius: 8px; /* Plus arrondi */
+    color: #333;
+	margin-right: 8em;
 }
 
 .hours {

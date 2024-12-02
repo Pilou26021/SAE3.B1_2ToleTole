@@ -160,7 +160,8 @@
                         break;
                 }
                 ?></h3><br>
-
+                
+                <div class="type_offre">
                 <h2>Type d'Offre</h2>
                 <label >
                     <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
@@ -168,32 +169,56 @@
                 <label >
                     <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
                 </label>
+                </div>
 
+                <div class="input-row-offre">
+                <div class="container-offre">
                 <h2>Nom de l'offre</h2>
                 <input class="zone-text" type="text" name="offerName" placeholder="Cote de granite rose" required> 
+                </div>
 
+                <div class="container-offre">
                 <h2>Résumé</h2>
                 <textarea class="textarea-creer_offre" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
+                </div>
+                </div>
+
                 <h2>Description détaillée</h2>
                 <textarea class="textarea-creer_offre" name="description" rows="4" placeholder="Description détaillée..." required></textarea>
+                
 
                 <?php } else {
                         ?> <h2>Veuillez choisir une catégorie pour votre offre.</h2> <?php
                 } if($cat != '' ) { ?>
 
+                    <div class="input-row-offre">
+                    <div class="container-offre">
                     <h2>Prix minimum de l'offre</h2>
                     <div class ="price">
                         <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     </div>
                     <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                    </div>
 
+                    <div class="container-offre">
+                    <div class="type_offre">
                     <h2>Type de L'offre</h2>
                     <div class="type-offre">
+                        
+                        <div class="container-offre">
                         <label for="aLaUneOffre">À la une</label>
                         <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre">
+                        </div>
+
                         
+                        <div class="container-offre">
                         <label for="enReliefOffre">En relief</label>
                         <input type="checkbox" id="enReliefOffre" name="enReliefOffre">
+                        </div>
+
+                    </div>
+                    </div>
+                    </div>
                     </div>
 
                     <h2>Condition d'accessibilité</h2>
@@ -206,26 +231,44 @@
 
                     <h2>Adresse</h2>
                     <input type="text" width="100%" class="textarea-creer_offre" name="adresse" placeholder="Rue Edouard Branly" required>
-
+                    
+                    <div class="input-row-offre3">
+                    <div class="container-offre">
                     <h2>Numéro de la rue</h2>
                     <input id="adNumRue" type="number" width="100%" class="textarea-creer_offre" name="adNumRue" placeholder="13" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <p id="error-adNumRue" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                    </div>
 
-                    <h2>Adresse supplémentaire</h2>
-                    <input type="text" width="100%" class="textarea-creer_offre" name="supAdresse" placeholder="Bâtiment 4bis, Appartemment 105">
+                    <div class="container-offre">
+                    <h2>Adresse facultatif</h2>
+                    <input type="text" width="10%" class="textarea-creer_offre" name="supAdresse" placeholder="Bâtiment 4bis, Appartemment 105">
+                    </div>
+                    </div>
 
+                    <div class="input-row-offre3">
+                    <div class="container-offre">
                     <h2>Code Postal</h2>
                     <input id="adCodePostal" type="number" width="100%" class="textarea-creer_offre" name="adCodePostal" placeholder="22300" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event); checkCodePostal(this)">
                     <p id="error-adCodePostal" style="color:red; display:none;">Un code postal doit être positif et comprendre 5 chiffres</p>
+                    </div>
 
+                    <div class="container-offre">
                     <h2>Ville</h2>
                     <input type="text" width="100%" class="textarea-creer_offre" name="adVille" placeholder="Guimgamp" required>
+                    </div>
+                    </div>
 
+                    <div class="input-row-offre3">
+                    <div class="container-offre">
                     <h2>Département</h2>
                     <input type="text" width="100%" class="textarea-creer_offre" name="adDepartement" placeholder="Côtes-d'Armor" required>
+                    </div>
 
+                    <div class="container-offre">
                     <h2>Pays</h2>
                     <input type="text" width="100%" class="textarea-creer_offre" name="adPays" placeholder="France" required>
+                    </div>
+                    </div>
 
                     <h2>Ajouter une/des image.s pour l'offre (seulement une pour l'instant)</h2>
                     <div class="image-upload">
@@ -234,10 +277,16 @@
 
                 <?php } if ($cat == 'parc') {?>
                     <br>
+                    <div class="input-row-offre3">
+                    <div class="container-offre">
                     <h2>Date d'ouverture</h2>
                     <input class="zone-date" type="date" name="dateOuverture" required>
+                    </div>
+                    <div class="container-offre">
                     <h2>Date de fermeture</h2>
                     <input class="zone-date" type="date" name="dateFermeture" required>
+                    </div>
+                    </div>
                     <br>
                     <h2>Carte du parc</h2>
                     <div class="image-upload">
@@ -249,6 +298,7 @@
 
                     <?php } if ($cat == 'visite') { ?>
 
+                    <div class="type_offre">
                     <h2>Visite guidée</h2>
                     <label >
                         <input class="visite" type="radio" name="visiteGuidee" value="oui" required> Oui
@@ -256,6 +306,7 @@
                     <label >
                         <input class="visite" type="radio" name="visiteGuidee" value="non" required> Non
                     </label>
+                    </div>
 
                     <h2>Langues proposées</h2>
                     <div class="langues">
@@ -281,28 +332,36 @@
                     </script>
 
                 <?php } if ($cat == "spectacle" || $cat == "visite" || $cat == "activite") { ?>
+
+                    <div class="type_offre">
                     <h2>Date de l'offre</h2>
                     <input type="date" name="dateOffre">
+                    </div><br>
 
                 <?php } if ($cat == "spectacle") { ?>
-                
+                    
+ 
                     <h2>Capacité d'acceuil</h2>
                     <input id="cap_acceuil" class="zone-number" type="number" name="capaciteAcceuil" placeholder="ex : 300 personnes" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <p id="error-cap_acceuil" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
                 <?php } if ($cat == 'spectacle' || $cat == 'activite') { ?>
-                        
 
                     <h2>Durée de l'activité (en heures)</h2>
                     <input id="zone_duree_act" class="zone-number" type="number" name="indicationDuree" placeholder="ex : 2 heures" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <p id="error-zone_duree_act" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
-                    <br>                
+                    <br>      
+
+
 
                 <?php } if ($cat != 'spectacle' && $cat != 'visite' && $cat != 'restauration' && $cat != ''){?>
+                    
                     <h2>Âge minimum</h2>
                     <input id="ageMinimum" class="zone-number" type="number" name="ageMinimum" placeholder="Âge minimum" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <p id="error-ageMinimum" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
-                    <br>    
+                    <br>
+         
+
 
                 <?php } if ($cat == 'activite') { ?>
 
@@ -318,10 +377,10 @@
                     <label for="lunch_close_time">Horaire de déjeuner (fermeture) :</label>
                     <input type="time" name="lunchCloseTime" id="lunch_close_time" required>
                     <label for="dinner_open_time">Horaire du dîner (ouverture) :</label> 
-                    <input type="time" name="dinnerOpenTime" id="dinner_open_time" required> <br>
+                    <input type="time" name="dinnerOpenTime" id="dinner_open_time" required> 
                     <label for="dinner_close_time">Horaire du dîner (fermeture) :</label>
                     <input type="time" name="dinnerCloseTime" id="dinner_close_time" required>
-                    <br>
+                    
                     <!-- <label for="closed_days">Jours de fermeture :</label> 
                     <input class="zone-text" type="text" name="closedDays" id="closed_days" placeholder="Ex: Lundi"> -->
                 </div>
