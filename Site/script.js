@@ -297,3 +297,35 @@ function validImages(inputElements) {
     }
     return true;
 }
+
+const swiper = new Swiper('.swiper-container', {
+    loop: true,
+    slidesPerView: 4,
+    spaceBetween: 10,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },breakpoints: {
+        320: {
+            slidesPerView: 1,
+            spaceBetween: 5,
+            centeredSlides: true,
+        },
+        768: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+        },
+        1024: {
+            slidesPerView: 3,
+            spaceBetween: 15,
+        },
+        1440: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+        }
+    }
+});

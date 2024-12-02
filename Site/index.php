@@ -9,6 +9,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <title>Offres</title>
     <?php 
         include "../SQL/connection_local.php";
@@ -216,92 +217,101 @@ ob_start();
         
         <div class="offres-display">
             <?php if (count($offres) > 0): ?>
-                <div>
-                    <h1>Offre a la Une </h1>
-                </div>
-                <?php 
-                    $maxOffresU = 10; // Limite du nombre d'offres à afficher
-                    $countU = 0; 
-                ?>
-                <div class="offres-container">
-                    <?php foreach ($offres as $offre): 
-                        if ($countU >= $maxOffresU) {
-                            break; // Arrêter le traitement après 10 offres
-                        }
-                        if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
-                            <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?> >
-                                    <div class="offre-image-container" style="position: relative;">
-                                        <!-- Affichage de l'image -->
-                                        <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
-                                        <?php if ($professionel && $offre['horsligne']) { ?>
-                                            <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
-                                            <div class="offre-hors-ligne">Hors ligne</div>
-                                        <?php } ?>
-                                    </div>
-                                    <div class="offre-details">
-                                        <!-- Titre de l'offre -->
-                                        <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
-                                        
-                                        <!-- Résumé de l'offre -->
-                                        <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
-                                        
-                                        <!-- Prix minimum de l'offre -->
-                                        <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                    <div>
+                        <h1>Offre a la Une </h1>
+                    </div>
+                    <?php 
+                        $maxOffresU = 10; // Limite du nombre d'offres à afficher
+                        $countU = 0; 
+                    ?>
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <?php foreach ($offres as $offre): 
+                                if ($countU >= $maxOffresU) {
+                                    break; // Arrêter le traitement après 10 offres
+                                }
+                                if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
+                                    <div class="swiper-slide">
+                                        <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                                            <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?> >
+                                                <div class="offre-image-container" style="position: relative;">
+                                                    <!-- Affichage de l'image -->
+                                                    <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                                    <?php if ($professionel && $offre['horsligne']) { ?>
+                                                        <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
+                                                        <div class="offre-hors-ligne">Hors ligne</div>
+                                                    <?php } ?>
+                                                </div>
+                                                <div class="offre-details">
+                                                    <!-- Titre de l'offre -->
+                                                    <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                                    
+                                                    <!-- Résumé de l'offre -->
+                                                    <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
+                                                    
+                                                    <!-- Prix minimum de l'offre -->
+                                                    <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
 
-                                        <div class="titre-moy-index">
-                                            <p class="offre-resume"> <strong> Note :</strong></p>
-                                            <?php if(!empty($offre['notemoyenneoffre'])){
-                                                    $noteMoyenne = $offre['notemoyenneoffre'];
+                                                    <div class="titre-moy-index">
+                                                        <p class="offre-resume"> <strong> Note :</strong></p>
+                                                        <?php if(!empty($offre['notemoyenneoffre'])){
+                                                                $noteMoyenne = $offre['notemoyenneoffre'];
 
-                                                    // Calcul des étoiles pleines
-                                                    $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
-                                                    if ($noteMoyenne - $etoilesCompletes > 0.705){
-                                                        $etoilesCompletes++;
-                                                    }
-                                                    for ($i = 0; $i < $etoilesCompletes; $i++) {
-                                                        ?> 
-                                                        <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
-                                                        <?php
-                                                    }
+                                                                // Calcul des étoiles pleines
+                                                                $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
+                                                                if ($noteMoyenne - $etoilesCompletes > 0.705){
+                                                                    $etoilesCompletes++;
+                                                                }
+                                                                for ($i = 0; $i < $etoilesCompletes; $i++) {
+                                                                    ?> 
+                                                                    <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
+                                                                    <?php
+                                                                }
 
-                                                    // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
-                                                    if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
-                                                        ?> 
-                                                        <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> 
-                                                        <?php
-                                                        $i++; // Compter cette demi-étoile
-                                                    }
+                                                                // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
+                                                                if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
+                                                                    ?> 
+                                                                    <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> 
+                                                                    <?php
+                                                                    $i++; // Compter cette demi-étoile
+                                                                }
 
-                                                    // Compléter avec les étoiles vides jusqu'à 5
-                                                    for (; $i < 5; $i++) {
-                                                        ?> 
-                                                        <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> 
-                                                        <?php
-                                                    }
+                                                                // Compléter avec les étoiles vides jusqu'à 5
+                                                                for (; $i < 5; $i++) {
+                                                                    ?> 
+                                                                    <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> 
+                                                                    <?php
+                                                                }
 
-                                                    ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
+                                                                ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
 
-                                                } else {
-                                                    echo "<p>Note non disponible</p>";
-                                                }
+                                                            } else {
+                                                                echo "<p>Note non disponible</p>";
+                                                            }
 
-                                                ?>
+                                                            ?>
 
-                                        </div>
+                                                    </div>
 
-                                       <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
-                                       <?php if ($professionel) { ?>
-                                            <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
-                                            <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
-                                        <?php } ?>
+                                                <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
+                                                <?php if ($professionel) { ?>
+                                                        <a href="modifier_offre.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-modifier-offre">Modifier</a>
+                                                        <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
+                                                    <?php } ?>
 
-                                    </div>
-                                </div>
-                            </a>    
-                        <?php }  $countU++; ?>
-                    <?php endforeach; ?>
-                </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>    
+                                <?php }  $countU++; ?>
+                            <?php endforeach; ?>
+                        </div>
+                        <!-- Boutons de navigation ajoutés -->
+                        <div class="swiper-button-next" ></div>
+                        <div class="swiper-button-prev" ></div>
+                        <!-- Pagination ajoutée -->
+                        <div class="swiper-pagination" ></div>
+                    </div>
                 <!-- <hr style=" width:70%; border-top: 2px solid #040316; "> -->
                 <div style="display:none;">
                     <?php
@@ -499,7 +509,9 @@ ob_start();
     </main>
     
     <div id="footer"></div>
-
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="script.js"></script> 
+
+
 </body>
 </html>
