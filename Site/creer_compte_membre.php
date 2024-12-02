@@ -117,17 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($errors)) {
-            // Stock les informations dans la session
-            $_SESSION['pseudonyme'] = $pseudonyme;
-            $_SESSION['mot-de-passe'] = password_hash($mot_de_passe, PASSWORD_DEFAULT);
-
-            $step = 4; // Passer à l'étape 4 si tout est valide
-        }
-    }
-    
-        // Confirme la création du compte et propose de se connecter et fait un insert dans la base de donnée
-        elseif ($step === 4) {
-            // Met le nom en majuscule
             $nom = strtoupper($_SESSION['nom']);
             $prenom = $_SESSION['prenom'];
             $email = $_SESSION['email'];
@@ -139,8 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ville = $_SESSION['ville'];
             $departement = $_SESSION['departement'];
             $pays = $_SESSION['pays'];
-            $pseudonyme = $_SESSION['pseudonyme'];
-            $mot_de_passe = $_SESSION['mot-de-passe'];
+            $mot_de_passe = password_hash($mot_de_passe, PASSWORD_DEFAULT);
 
             // Insertion des données dans la base de données
             
@@ -182,9 +170,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(2, $pseudonyme, PDO::PARAM_STR);
             $stmt->execute();
 
-            // Liste des erreurs
-            $listError["membre"] = $stmt->errorInfo();
-    
+            session_destroy();
+            $step = 4; // Passer à l'étape 4 si tout est valide
+        }
     }
 }
 ?>
@@ -403,8 +391,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>Vous pouvez maintenant vous connecter.</p>
             <a href="connexion_membre.php" class="submit-btn">Se connecter</a>
         </div>
-
-        <?php var_dump($_SESSION); ?>       
     <?php endif; ?>
 
 </body>
