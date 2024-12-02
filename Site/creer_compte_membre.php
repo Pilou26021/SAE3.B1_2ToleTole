@@ -25,12 +25,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ville = trim($_POST['ville'] ?? '');
         $tel = trim($_POST['tel'] ?? '');
 
+        // On vérifie que l'email n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _compte WHERE mailcompte = ?");
+        $stmt->bindValue(1, $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $email_exists = $stmt->fetch();
+
+        // On vérifie que le numéro de téléphone n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _compte WHERE numtelcompte = ?");
+        $stmt->bindValue(1, $tel, PDO::PARAM_STR);
+        $stmt-> execute();
+        $telephone_exists = $stmt->fetch();
+
+        if (!empty($telephone_exists)) $errors['tel'] = "Le numéro de téléphone existe déjà.";
+        if (!empty($email_exists)) $errors['email'] = "L'adresse e-mail existe déjà.";
         if (empty($nom)) $errors['nom'] = "Le champ 'Nom' est requis.";
         if (empty($prenom)) $errors['prenom'] = "Le champ 'Prénom' est requis.";
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = "L'adresse e-mail n'est pas valide.";
         if (empty($adresse)) $errors['adresse'] = "Le champ 'Adresse Postale' est requis.";
         if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
         if (!preg_match('/^\d{10}$/', $tel)) $errors['tel'] = "Le numéro de téléphone doit contenir 10 chiffres.";
+
 
         if (empty($errors)) {
             $step = 2; // Passer à l'étape 2 si tout est valide

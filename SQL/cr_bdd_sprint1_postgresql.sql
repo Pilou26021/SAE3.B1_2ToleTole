@@ -33,9 +33,11 @@ CREATE TABLE public._compte (
     numTelCompte TEXT NOT NULL,
     idImagePdp BIGINT NOT NULL,
     hashMdpCompte TEXT NOT NULL,
+    idAdresse BIGINT NOT NULL,
     dateCreationCompte DATE DEFAULT NOW(),
     dateDerniereConnexionCompte DATE NOT NULL,
-    FOREIGN KEY (idImagePdp) REFERENCES public._image(idImage)
+    FOREIGN KEY (idImagePdp) REFERENCES public._image(idImage),
+    FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
 
 -- 2. Créer les tables liées à public._compte
@@ -51,7 +53,7 @@ CREATE TABLE public._professionnel (
 CREATE TABLE public._membre (
     idMembre SERIAL PRIMARY KEY,
     idCompte BIGINT NOT NULL,
-    dateNaissanceMembre DATE NOT NULL,
+    pseudonyme TEXT NOT NULL,
     CONSTRAINT unique_membre UNIQUE (idMembre, idCompte),
     FOREIGN KEY (idCompte) REFERENCES public._compte(idCompte)
 );
@@ -325,7 +327,7 @@ JOIN public._professionnelPrive pp ON p.idPro = pp.idPro;
 
 -- vue membre
 CREATE VIEW public.membre AS
-SELECT m.idMembre, c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, c.hashMdpCompte, m.dateNaissanceMembre
+SELECT m.idMembre, c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.idImagePdp, c.hashMdpCompte, m.pseudonyme
 FROM public._membre m
 JOIN public._compte c ON m.idCompte = c.idCompte;
 
