@@ -48,7 +48,7 @@ INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, pseudonyme) VALUES 
 (2, 'Anon1'),
-(4, 'Anon2'),
+(4, 'Piel'),
 (5, 'Anon3'),
 (6, 'Anon4'),
 (7, 'Anon5');
