@@ -42,28 +42,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($nom)) $errors['nom'] = "Le champ 'Nom' est requis.";
         if (empty($prenom)) $errors['prenom'] = "Le champ 'Prénom' est requis.";
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = "L'adresse e-mail n'est pas valide.";
-        if (empty($adresse)) $errors['adresse'] = "Le champ 'Adresse Postale' est requis.";
-        if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
-        if (!preg_match('/^\d{10}$/', $tel)) $errors['tel'] = "Le numéro de téléphone doit contenir 10 chiffres.";
-
+        $phoneRegex = '/^(\+33|0)6\d{8}$/';
+        if (!preg_match($phoneRegex, $tel)) $errors['tel'] = "Le numéro de téléphone doit contenir 10 chiffres.";
 
         if (empty($errors)) {
             $step = 2; // Passer à l'étape 2 si tout est valide
         }
     }
-    // Étape 2 : Pseudomyne et Validation du mot de passe
-    elseif ($step === 2) {
+    // Etape 2 : Adresse résidentielle
+    else if ($step === 2) {
+        $adNumRue = trim($_POST['adNumRue'] ?? '');
+        $supplementAdresse = trim($_POST['supplementAdresse'] ?? '');
+        $adresse = trim($_POST['adresse'] ?? '');
+        $code_postal = trim($_POST['code_postal'] ?? '');
+        $ville = trim($_POST['ville'] ?? '');
+        $departement = trim($_POST['departement'] ?? '');
+        $pays = trim($_POST['pays'] ?? '');
+        
+        if (empty($adNumRue)) $errors['adNumRue'] = "Le champ 'Numéro de rue' est requis.";
+        if (empty($adresse)) $errors['adresse'] = "Le champ 'Adresse' est requis.";
+        if (empty($code_postal)) $errors['code_postal'] = "Le champ 'Code postal' est requis.";
+        if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
+        if (empty($departement)) $errors['departement'] = "Le champ 'Département' est requis.";
+        if (empty($pays)) $errors['pays'] = "Le champ 'Pays' est requis.";
+
+        if (empty($errors)) {
+            $step = 3; // Passer à l'étape 3 si tout est valide
+        }
+    }
+    // Étape 3 : Pseudomyne et Validation du mot de passe
+    elseif ($step === 3) {
 
         $pseudomyne = trim($_POST['pseudomyne'] ?? '');
         $mot_de_passe = trim($_POST['mot-de-passe'] ?? '');
         $confirmation_mdp = trim($_POST['confirmation-mdp'] ?? '');
 
+        // On vérifie que le pseudomyne n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _membre WHERE pseudonyme = ?");
+        $stmt->bindValue(1, $pseudomyne, PDO::PARAM_STR);
+        $stmt->execute();
+        $pseudomyne_exists = $stmt->fetch();
+
+        if (!empty($pseudomyne_exists)) $errors['pseudomyne'] = "Le pseudomyne existe déjà.";
         if (empty($pseudomyne)) $errors['pseudomyne'] = "Le champ 'Pseudomyne' est requis.";
 
-
-
-        if (strlen($mot_de_passe) < 8) {
-            $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères.";
+        /*
+        Le mot de passe doit contenir :
+            Au minimun 8 caractères
+            Au minimun 1 chiffre
+            Au minimun 1 majuscule
+            Au minimun 1 caractère spécial
+        */
+        $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/';
+        if (!preg_match($passwordRegex, $mot_de_passe)) {
+            $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères, 1 chiffre, 1 majuscule et 1 caractère spécial.";
         }
         if ($mot_de_passe !== $confirmation_mdp) {
             $errors['confirmation-mdp'] = "Les mots de passe ne correspondent pas.";
