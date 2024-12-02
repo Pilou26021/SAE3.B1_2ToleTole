@@ -16,7 +16,8 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image11.png'),
 ('./img/uploaded/image12.png'),
 ('./img/uploaded/image13.png'),
-('./img/uploaded/image14.png'); --Jose
+('./img/uploaded/image14.png'), --Jose
+('./img/uploaded/image15.png'); --Image Pdp par défaut
 
 -- 2. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 

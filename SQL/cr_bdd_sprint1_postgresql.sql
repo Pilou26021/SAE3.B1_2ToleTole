@@ -6,7 +6,7 @@ CREATE SCHEMA public;
 CREATE TABLE public._adresse (
     idAdresse SERIAL PRIMARY KEY,
     numRue INT NOT NULL,
-    supplementAdresse TEXT NOT NULL,
+    supplementAdresse TEXT,
     adresse TEXT NOT NULL,
     codePostal INT NOT NULL,
     ville TEXT NOT NULL,
