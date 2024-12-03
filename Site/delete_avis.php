@@ -102,11 +102,8 @@
 
                 <h1>VOTRE AVIS A BIEN ÉTÉ SUPPRIMÉ.</h1>
                 <?php //rediriger vers l'offre après 3 secondes
-                    header("refresh:3;url=details_offre.php?idoffre=$idoffre");
+                    header("refresh:0;url=details_offre.php?idoffre=$idoffre");
                 ?>
-
-                <!-- Bouton de retour à l'accueil-->
-                <a style="text-decoration:none;" href="index.php"> <button class="offer-btn">Retour à la page d'Accueil</button></a>
 
             </main>
 
