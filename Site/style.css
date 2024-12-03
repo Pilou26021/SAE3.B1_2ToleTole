@@ -1,13 +1,14 @@
 /* Constantes pour les couleurs */
 :root {
 	--color-background: #F2F1E9;
+	--color-text: #040316;
 	--color-primary: #31CEA6;
 	--color-primary-hover: #1f8a70;
 	--color-accent: #4CAF50;
 	--color-accent-hover: #2bb85f;
 	--color-delete: #FF0000;
 	--color-delete-hover: #af0000;
-	--color-text: #333;
+	--color-border: #333;
 }
 
 
@@ -22,7 +23,7 @@ body {
 
 hr {
 	margin: 5px;
-	color: #040316;
+	color: var(--color-text);
 }
 
 
@@ -35,7 +36,7 @@ header {
 	align-items: center;
 	padding-top: 10px;
 	padding-bottom: 20px;
-	border-bottom: solid 2px #040316;
+	border-bottom: solid 2px var(--color-text);
 	margin-bottom: 20px;
 }
 
@@ -46,7 +47,7 @@ header {
 	width: 0;
 	position: fixed;
 	z-index: 20;
-	box-shadow: 5px 0px 30px #040316;
+	box-shadow: 5px 0px 30px var(--color-text);
 	top: 0;
 	left: 0;
 	background-color: var(--color-background);
@@ -64,7 +65,7 @@ header {
 	padding: 8px 8px 8px 32px;
 	text-decoration: none;
 	font-size: 20px;
-	color: #040316;
+	color: var(--color-text);
 	display: block;
 	transition: 0.3s;
 }
@@ -81,7 +82,7 @@ header {
 .openbtn {
 	font-size: 30px;
 	cursor: pointer;
-	color: #040316;
+	color: var(--color-text);
 	border: none;
 	padding: 10px 15px;
 }
@@ -95,7 +96,7 @@ header {
 /* MENU FILTRE **/
 
 .input-filtre {
-	border: solid 1px #040316;
+	border: solid 1px var(--color-text);
 	border-radius: 10px;
 	padding: 5px;
 	background-color: var(--color-background);
@@ -105,7 +106,7 @@ header {
 	padding: 5px;
 	border-radius: 10px;
 	background-color: var(--color-background);
-	border-color: #040316;
+	border-color: var(--color-text);
 }
 
 .filter-form {
@@ -117,7 +118,7 @@ header {
 	padding: 20px;
 	width: 60%;
 	background-color: var(--color-background);
-	box-shadow: 0px 0px 15px #040316;
+	box-shadow: 0px 0px 15px var(--color-text);
 	border-radius: 10px;
 }
 
@@ -172,7 +173,7 @@ main {
 .recherche {
 	width: 80%;
 	text-align: center;
-	box-shadow: 0px 0px 15px #040316;
+	box-shadow: 0px 0px 15px var(--color-text);
 	border-radius: 10px;
 	padding: 10px;
 }
@@ -222,7 +223,7 @@ main {
 footer {
 	padding-top: 10px;
 	width: 100%;
-	border-top: solid 2px #040316;
+	border-top: solid 2px var(--color-text);
 	margin-top: 20px;
 }
 
@@ -360,7 +361,7 @@ p {
 
 .offer-btn:hover {
 	background-color: var(--color-background); /* Couleur de fond au survol */
-	box-shadow: 4px 4px 10px #040316; /* Ombre plus prononcée au survol */
+	box-shadow: 4px 4px 10px var(--color-text); /* Ombre plus prononcée au survol */
 }
 
 
@@ -460,7 +461,7 @@ input[type="radio"]+label {
 .container-offre input, .textarea-creer_offre {
     width: 100%;
     padding: 15px; /* Agrandi */
-    border: 1px solid #040316;
+    border: 1px solid var(--color-text);
     border-radius: 8px; /* Plus arrondi */
     color: #333;
 	margin-right: 8em;
@@ -521,7 +522,7 @@ input[type="radio"]+label {
 	width: 90%;
 	padding: 10px;
 	margin-bottom: 15px;
-	border: 1px solid #040316;
+	border: 1px solid var(--color-text);
 	border-radius: 5px;
 	font-size: 1em;
 	resize: none;
@@ -534,7 +535,7 @@ input[type="radio"]+label {
 .zone-text {
 	width: 90%;
 	padding: 10px;
-	border: 1px solid #040316;
+	border: 1px solid var(--color-text);
 	resize: none;
 	border-radius: 5px;
 
@@ -543,7 +544,7 @@ input[type="radio"]+label {
 .zone-date {
 	width: 30%;
 	padding: 10px;
-	border: 1px solid #040316;
+	border: 1px solid var(--color-text);
 	resize: none;
 	border-radius: 5px;
 }
@@ -551,7 +552,7 @@ input[type="radio"]+label {
 .zone-number {
 	width: 50%;
 	padding: 10px;
-	border: 1px solid #040316;
+	border: 1px solid var(--color-text);
 	resize: none;
 	border-radius: 5px;
 }
@@ -748,7 +749,7 @@ section.cp_mobile {
 section.cp_mobile input.cp_mobile {
 	height: 42px;
 	width: 312px;
-	border-color: #040316;
+	border-color: var(--color-text);
 	background-color: var(--color-background);
 	border-radius: 10px;
 	text-align: center;
@@ -768,7 +769,7 @@ section.cp_mobile input.cp_mobile {
 	width: 294px;
 	height: 56px;
 	border-radius: 20px;
-	border-color: #040316;
+	border-color: var(--color-text);
 	background-color: var(--color-background);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 	/* Ombre */
@@ -778,14 +779,14 @@ section.cp_mobile input.cp_mobile {
 
 /*Bouton submit au survol*/
 .cp_mobile_btn:hover {
-	background-color: #040316;
+	background-color: var(--color-text);
 	color: var(--color-background);
 }
 
 /*Liens hypertextes*/
 a.cp_mobile {
 	text-decoration: none;
-	color: #040316;
+	color: var(--color-text);
 }
 
 /*Messages d'erreurs rouges pastels*/
@@ -953,9 +954,10 @@ p.cp_mobile_erreur {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: center;
-	gap: 20px;
-	padding: 20px;
+	justify-content: start;
+	align-items: center;
+	/* gap: 20px;
+	padding: 20px; */
 	width: 100%;
 	align-items: center;
 }
@@ -1157,7 +1159,7 @@ td {
 
 .offre-resume-detail {
 	font-size: 16px;
-	color: #040316;
+	color: var(--color-text);
 	margin-bottom: 10px;
 }
 
@@ -1198,10 +1200,10 @@ td {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #040316;
+    border: 1px solid var(--color-text);
     border-radius: 10px;
     background-color: var(--color-background);
-    color: #040316;
+    color: var(--color-text);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -1428,7 +1430,7 @@ td {
 
 /* Button styles */
 .submit-btn {
-    border-color: #040316;
+    border-color: var(--color-text);
     color: black;
     font-size: 1.2em; /* Augmenté */
     padding: 15px; /* Agrandi */
@@ -1443,12 +1445,12 @@ td {
 }
 
 .submit-btn:hover {
-	background-color: #040316;
+	background-color: var(--color-text);
 	color: var(--color-background);
 }
 
 .submit-btn2 {
-    border-color: #040316;
+    border-color: var(--color-text);
     color: black;
     font-size: 1.2em; /* Augmenté */
     padding: 15px; /* Agrandi */
@@ -1463,7 +1465,7 @@ td {
 }
 
 .submit-btn2:hover {
-	background-color: #040316;
+	background-color: var(--color-text);
 	color: var(--color-background);
 }
 .valide-groupe{
@@ -1511,7 +1513,7 @@ td {
 
 .terms {
     font-size: 0.9em;
-    color: #040316;
+    color: var(--color-text);
     text-align: center;
 	color: white;
 	font-size: 1.2em;
@@ -1524,7 +1526,7 @@ td {
 }
 
 .terms li{
-	color: #040316;
+	color: var(--color-text);
 	list-style-type: none;
 }
 
@@ -1549,7 +1551,7 @@ td {
 .back-arrow a {
     text-decoration: none;
     font-size: 35px; /* Augmenté pour une flèche plus grande */
-    color: #040316;
+    color: var(--color-text);
     cursor: pointer;
 }
 
@@ -1675,7 +1677,7 @@ td {
 .titre-moy-index p {
 	position: relative;
 	top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
-	color: #040316;
+	color: var(--color-text);
 }
 
 @font-face {
@@ -1895,6 +1897,21 @@ td {
 .swiper-button-prev,
 .swiper-pagination {
     z-index: 10;
+}
+
+.boutons-haut-offre{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 50px;
+	text-decoration: none;
+}
+
+.bouton-modifier-offre a {
+	text-decoration:none;
+	color: var(--color-background);
+	font-size: 1em;
 }
 
 .boutons-bas-offre{
