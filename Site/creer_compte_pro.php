@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($organisation_type === 'prive') {
                 // Insertion dans proprive
-                $stmt = $conn->prepare("INSERT INTO _professionnelprive (idpro, coordbancairesiban, coordbancairesbi) VALUES (?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO _professionnelprive (idpro, coordbancairesiban, coordbancairesbic) VALUES (?, ?, ?)");
                 $stmt->bindValue(1, $idPro, PDO::PARAM_INT);
                 $stmt->bindValue(2, $iban, PDO::PARAM_STR);
                 $stmt->bindValue(3, $bic, PDO::PARAM_STR);
