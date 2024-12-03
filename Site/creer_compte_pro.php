@@ -21,16 +21,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = trim($_POST['nom'] ?? '');
         $prenom = trim($_POST['prenom'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        $ville = trim($_POST['ville'] ?? '');
         $tel = trim($_POST['tel'] ?? '');
 
+        // On vérifie que l'email n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _compte WHERE mailcompte = ?");
+        $stmt->bindValue(1, $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $email_exists = $stmt->fetch();
+        
+        // On vérifie que le numéro de téléphone n'existe pas déjà
+        $stmt = $conn->prepare("SELECT * FROM _compte WHERE numtelcompte = ?");
+        $stmt->bindValue(1, $tel, PDO::PARAM_STR);
+        $stmt-> execute();
+        $telephone_exists = $stmt->fetch();
+        
+        if (!empty($telephone_exists)) $errors['tel'] = "Le numéro de téléphone existe déjà.";
+        if (!empty($email_exists)) $errors['email'] = "L'adresse e-mail existe déjà.";
         if (empty($nom)) $errors['nom'] = "Le champ 'Nom' est requis.";
         if (empty($prenom)) $errors['prenom'] = "Le champ 'Prénom' est requis.";
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = "L'adresse e-mail n'est pas valide.";
-        if (empty($ville)) $errors['ville'] = "Le champ 'Ville' est requis.";
         if (!preg_match('/^\d{10}$/', $tel)) $errors['tel'] = "Le numéro de téléphone doit contenir 10 chiffres.";
 
         if (empty($errors)) {
+            // Stock les informations dans la session
+            $_SESSION['nom'] = $nom;
+            $_SESSION['prenom'] = $prenom;
+            $_SESSION['email'] = $email;
+            $_SESSION['tel'] = $tel;
+
             $step = 2; // Passer à l'étape 2 si tout est valide
         }
     }
@@ -75,8 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bic = trim($_POST['bic'] ?? '');
         $organisation_type = trim($_POST['organisation_type'] ?? '');
 
+        // Retire tout les espaces du SIREN
+        $siren = str_replace(' ', '', $siren);
+
         if (empty($denomination)) $errors['denomination'] = "Le champ 'Dénomination' est requis.";
-        if (!preg_match('/^\d{9}$/', $siren)) $errors['siren'] = "Le numéro de SIREN doit contenir 9 chiffres.";
+        if (!preg_match('/^\d{9,14}$/', $siren)) $errors['siren'] = "Le numéro de SIREN doit contenir entre 9 et 14 chiffres.";
         if (empty($raison_sociale)) $errors['raison-sociale'] = "Le champ 'Raison sociale' est requis.";
         if (!empty($iban) && !preg_match('/^FR\d{12,27}$/', $iban)) {
             $errors['iban'] = "L'IBAN doit être valide et commencer par 'FR'.";
@@ -89,6 +110,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($errors)) {
+            // Stock les informations dans la session
+            $_SESSION['denomination'] = $denomination;
+            $_SESSION['siren'] = $siren;
+            $_SESSION['raison_sociale'] = $raison_sociale;
+            $_SESSION['iban'] = $iban;
+            $_SESSION['bic'] = $bic;
+            $_SESSION['organisation_type'] = $organisation_type;
+
             $step = 4; // Passer à l'étape 4 si tout est valide
         }
     }
@@ -99,17 +128,94 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mot_de_passe = trim($_POST['mot-de-passe'] ?? '');
         $confirmation_mdp = trim($_POST['confirmation-mdp'] ?? '');
 
-        if (strlen($mot_de_passe) < 8) {
-            $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères.";
+        $passwordRegex = '/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/';
+        if (!preg_match($passwordRegex, $mot_de_passe)) {
+            $errors['mot-de-passe'] = "Le mot de passe doit contenir au moins 8 caractères, 1 chiffre, 1 majuscule et 1 caractère spécial.";
         }
         if ($mot_de_passe !== $confirmation_mdp) {
             $errors['confirmation-mdp'] = "Les mots de passe ne correspondent pas.";
         }
 
         if (empty($errors)) {
-            // Formulaire complet
-            echo "<h1>Votre compte a été créé avec succès !</h1>";
-            exit;
+            $nom = strtoupper($_SESSION['nom']);
+            $prenom = ucfirst($_SESSION['prenom']);
+            $email = $_SESSION['email'];
+            $tel = $_SESSION['tel'];
+            $adNumRue = $_SESSION['adNumRue'];
+            $supplementAdresse = $_SESSION['supplementAdresse'];
+            $adresse = $_SESSION['adresse'];
+            $code_postal = $_SESSION['code_postal'];
+            $ville = $_SESSION['ville'];
+            $departement = $_SESSION['departement'];
+            $pays = $_SESSION['pays'];
+            $denomination = $_SESSION['denomination'];
+            $siren = $_SESSION['siren'];
+            $raison_sociale = $_SESSION['raison_sociale'];
+            $iban = $_SESSION['iban'];
+            $bic = $_SESSION['bic'];
+            $organisation_type = $_SESSION['organisation_type'];
+            $mot_de_passe = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+
+            // Insérer les informations dans la base de données
+
+            // Adresse
+            $stmt = $conn->prepare("INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bindValue(1, $adNumRue, PDO::PARAM_INT);
+            $stmt->bindValue(2, $supplementAdresse, PDO::PARAM_STR);
+            $stmt->bindValue(3, $adresse, PDO::PARAM_STR);
+            $stmt->bindValue(4, $code_postal, PDO::PARAM_INT);
+            $stmt->bindValue(5, $ville, PDO::PARAM_STR);
+            $stmt->bindValue(6, $departement, PDO::PARAM_STR);
+            $stmt->bindValue(7, $pays, PDO::PARAM_STR);
+            $stmt->execute();
+
+            // Récupère l'id de l'adresse
+            $idAdresse = $conn->lastInsertId();
+
+            // Compte
+            $stmt = $conn->prepare("INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, hashMdpCompte, idAdresse, idImagePdp, dateDerniereConnexionCompte) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+            $stmt->bindValue(1, $nom, PDO::PARAM_STR);
+            $stmt->bindValue(2, $prenom, PDO::PARAM_STR);
+            $stmt->bindValue(3, $email, PDO::PARAM_STR);
+            $stmt->bindValue(4, $tel, PDO::PARAM_STR);
+            $stmt->bindValue(5, $mot_de_passe, PDO::PARAM_STR);
+            $stmt->bindValue(6, $idAdresse, PDO::PARAM_INT);
+            $stmt->bindValue(7, 15, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Récupère l'id du compte
+            $idCompte = $conn->lastInsertId();
+
+            // Attache raison sociale à la denonimation
+            $denomination = $denomination . " - " . $raison_sociale;
+
+            // Professionnel
+            $stmt = $conn->prepare("INSERT INTO _professionnel (idcompte, denominationpro, numsirenpro) VALUES (?, ?, ?)");
+            $stmt->bindValue(1, $idCompte, PDO::PARAM_INT);
+            $stmt->bindValue(2, $denomination, PDO::PARAM_STR);
+            $stmt->bindValue(3, $siren, PDO::PARAM_STR);
+            $stmt->execute();
+
+            // Récupère l'id du professionnel
+            $idPro = $conn->lastInsertId();
+
+            if ($organisation_type === 'prive') {
+                // Insertion dans proprive
+                $stmt = $conn->prepare("INSERT INTO _professionnelprive (idpro, coordbancairesiban, coordbancairesbi) VALUES (?, ?, ?)");
+                $stmt->bindValue(1, $idPro, PDO::PARAM_INT);
+                $stmt->bindValue(2, $iban, PDO::PARAM_STR);
+                $stmt->bindValue(3, $bic, PDO::PARAM_STR);
+                $stmt->execute();
+            }
+            elseif ($organisation_type === 'public') {
+                // Insertion dans propublic
+                $stmt = $conn->prepare("INSERT INTO _professionnelpublic (idpro) VALUES (?)");
+                $stmt->bindValue(1, $idPro, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+
+            session_destroy();
+            $step = 5; // Passer à l'étape 5 si tout est valide
         }
     }
 }
@@ -124,6 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="./style.css">
 </head>
 <body class="body-creer-pro">
+<?php if ($step !== 5): ?>
     <main class="form-container">
         <!-- Flèche de retour -->
         <div class="back-arrow">
@@ -171,14 +278,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Ville et téléphone -->
                 <div class="input-row">
                     <div class="input-group">
-                        <label for="ville">Ville</label>
-                        <div class="input-container">
-                            <input type="text" id="ville" name="ville" placeholder="Votre ville" value="<?= htmlspecialchars($_POST['ville'] ?? '') ?>"required>
-                            <p class="error"><?= $errors['ville'] ?? '' ?></p>
-                            <span class="required">*</span>
-                        </div>
-                    </div>
-                    <div class="input-group">
                         <label for="tel">Téléphone</label>
                         <div class="input-container">
                             <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" value="<?= htmlspecialchars($_POST['tel'] ?? '') ?>"required>
@@ -201,7 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if ($step === 2): ?>                
         <form method="POST" class="form-creer-pro">
             <input type="hidden" name="step" value="2">  
-            <h1 class="subtitle">Créer mon compte Membre </h1>
+            <h1 class="subtitle">Créer mon compte Professionnel</h1>
             <h2>2. Votre Adresse</h2>
 
             <!-- Rue -->
@@ -319,7 +418,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'prive') ? 'checked' : '' ?>>
                         <label for="prive">Organisation privé</label>
 
-                        <input type="radio" id="association" name="organisation_type" value="association" 
+                        <input type="radio" id="association" name="organisation_type" value="public" 
                             <?= (isset($_POST['organisation_type']) && $_POST['organisation_type'] === 'association') ? 'checked' : '' ?>>
                         <label for="association">Association</label>
                         
@@ -410,6 +509,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         <?php endif; ?>
     </main>
+<?php endif; ?>
+<?php if ($step === 5): ?>
+    <div class="success">
+        <h1>Votre compte a été créé avec succès !</h1>
+        <p>Vous allez être redirigé vers la page de connexion...</p>
+        <script>
+            setTimeout(() => {
+                window.location.href = 'connexion_pro.php';
+            }, 3000);
+        </script>
+    </div>
+<?php endif; ?>
+
 
     <script>
     // Sélectionner les éléments
