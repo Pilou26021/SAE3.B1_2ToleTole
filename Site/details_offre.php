@@ -712,7 +712,7 @@
                                     <?php
                                 }
                             } else {
-                                if (!$avis_membre){
+                                if (empty($avis_membre)){
                                     ?>
                                     <p>Aucun avis pour cette offre.</p>
                                     <?php
