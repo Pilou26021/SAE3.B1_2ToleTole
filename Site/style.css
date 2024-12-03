@@ -11,7 +11,6 @@
 	--color-border: #333;
 }
 
-
 /* CORPS **/
 
 body {
@@ -36,7 +35,7 @@ header {
 	align-items: center;
 	padding-top: 10px;
 	padding-bottom: 20px;
-	border-bottom: solid 2px var(--color-text);
+	border-bottom: solid 2px #040316;
 	margin-bottom: 20px;
 }
 
@@ -47,7 +46,7 @@ header {
 	width: 0;
 	position: fixed;
 	z-index: 20;
-	box-shadow: 5px 0px 30px var(--color-text);
+	box-shadow: 5px 0px 30px #040316;
 	top: 0;
 	left: 0;
 	background-color: var(--color-background);
@@ -61,11 +60,11 @@ header {
 	margin: 10px;
 }
 
-.sidenav .links {
+.sidenav a {
 	padding: 8px 8px 8px 32px;
 	text-decoration: none;
 	font-size: 20px;
-	color: var(--color-text);
+	color: #040316;
 	display: block;
 	transition: 0.3s;
 }
@@ -77,14 +76,12 @@ header {
 	right: 20px;
 	font-size: 36px;
 	margin-left: 50px;
-	text-decoration: none;
-	color: var(--color-text);
 }
 
 .openbtn {
 	font-size: 30px;
 	cursor: pointer;
-	color: var(--color-text);
+	color: #040316;
 	border: none;
 	padding: 10px 15px;
 }
@@ -98,7 +95,7 @@ header {
 /* MENU FILTRE **/
 
 .input-filtre {
-	border: solid 1px var(--color-text);
+	border: solid 1px #040316;
 	border-radius: 10px;
 	padding: 5px;
 	background-color: var(--color-background);
@@ -108,7 +105,7 @@ header {
 	padding: 5px;
 	border-radius: 10px;
 	background-color: var(--color-background);
-	border-color: var(--color-text);
+	border-color: #040316;
 }
 
 .filter-form {
@@ -120,7 +117,7 @@ header {
 	padding: 20px;
 	width: 60%;
 	background-color: var(--color-background);
-	box-shadow: 0px 0px 15px var(--color-text);
+	box-shadow: 0px 0px 15px #040316;
 	border-radius: 10px;
 }
 
@@ -175,7 +172,7 @@ main {
 .recherche {
 	width: 80%;
 	text-align: center;
-	box-shadow: 0px 0px 15px var(--color-text);
+	box-shadow: 0px 0px 15px #040316;
 	border-radius: 10px;
 	padding: 10px;
 }
@@ -225,7 +222,7 @@ main {
 footer {
 	padding-top: 10px;
 	width: 100%;
-	border-top: solid 2px var(--color-text);
+	border-top: solid 2px #040316;
 	margin-top: 20px;
 }
 
@@ -363,7 +360,7 @@ p {
 
 .offer-btn:hover {
 	background-color: var(--color-background); /* Couleur de fond au survol */
-	box-shadow: 4px 4px 10px var(--color-text); /* Ombre plus prononcée au survol */
+	box-shadow: 4px 4px 10px #040316; /* Ombre plus prononcée au survol */
 }
 
 
@@ -463,7 +460,7 @@ input[type="radio"]+label {
 .container-offre input, .textarea-creer_offre {
     width: 100%;
     padding: 15px; /* Agrandi */
-    border: 1px solid var(--color-text);
+    border: 1px solid #040316;
     border-radius: 8px; /* Plus arrondi */
     color: #333;
 	margin-right: 8em;
@@ -524,7 +521,7 @@ input[type="radio"]+label {
 	width: 90%;
 	padding: 10px;
 	margin-bottom: 15px;
-	border: 1px solid var(--color-text);
+	border: 1px solid #040316;
 	border-radius: 5px;
 	font-size: 1em;
 	resize: none;
@@ -537,7 +534,7 @@ input[type="radio"]+label {
 .zone-text {
 	width: 90%;
 	padding: 10px;
-	border: 1px solid var(--color-text);
+	border: 1px solid #040316;
 	resize: none;
 	border-radius: 5px;
 
@@ -546,7 +543,7 @@ input[type="radio"]+label {
 .zone-date {
 	width: 30%;
 	padding: 10px;
-	border: 1px solid var(--color-text);
+	border: 1px solid #040316;
 	resize: none;
 	border-radius: 5px;
 }
@@ -554,7 +551,7 @@ input[type="radio"]+label {
 .zone-number {
 	width: 50%;
 	padding: 10px;
-	border: 1px solid var(--color-text);
+	border: 1px solid #040316;
 	resize: none;
 	border-radius: 5px;
 }
@@ -751,7 +748,7 @@ section.cp_mobile {
 section.cp_mobile input.cp_mobile {
 	height: 42px;
 	width: 312px;
-	border-color: var(--color-text);
+	border-color: #040316;
 	background-color: var(--color-background);
 	border-radius: 10px;
 	text-align: center;
@@ -771,7 +768,7 @@ section.cp_mobile input.cp_mobile {
 	width: 294px;
 	height: 56px;
 	border-radius: 20px;
-	border-color: var(--color-text);
+	border-color: #040316;
 	background-color: var(--color-background);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 	/* Ombre */
@@ -781,14 +778,14 @@ section.cp_mobile input.cp_mobile {
 
 /*Bouton submit au survol*/
 .cp_mobile_btn:hover {
-	background-color: var(--color-text);
+	background-color: #040316;
 	color: var(--color-background);
 }
 
 /*Liens hypertextes*/
 a.cp_mobile {
 	text-decoration: none;
-	color: var(--color-text);
+	color: #040316;
 }
 
 /*Messages d'erreurs rouges pastels*/
@@ -956,8 +953,9 @@ p.cp_mobile_erreur {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-items: center;
-	gap: 55px;
+	justify-content: center;
+	gap: 20px;
+	padding: 20px;
 	width: 100%;
 	align-items: center;
 }
@@ -1159,7 +1157,7 @@ td {
 
 .offre-resume-detail {
 	font-size: 16px;
-	color: var(--color-text);
+	color: #040316;
 	margin-bottom: 10px;
 }
 
@@ -1200,10 +1198,10 @@ td {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid var(--color-text);
+    border: 1px solid #040316;
     border-radius: 10px;
     background-color: var(--color-background);
-    color: var(--color-text);
+    color: #040316;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -1430,7 +1428,7 @@ td {
 
 /* Button styles */
 .submit-btn {
-    border-color: var(--color-text);
+    border-color: #040316;
     color: black;
     font-size: 1.2em; /* Augmenté */
     padding: 15px; /* Agrandi */
@@ -1445,12 +1443,12 @@ td {
 }
 
 .submit-btn:hover {
-	background-color: var(--color-text);
+	background-color: #040316;
 	color: var(--color-background);
 }
 
 .submit-btn2 {
-    border-color: var(--color-text);
+    border-color: #040316;
     color: black;
     font-size: 1.2em; /* Augmenté */
     padding: 15px; /* Agrandi */
@@ -1465,7 +1463,7 @@ td {
 }
 
 .submit-btn2:hover {
-	background-color: var(--color-text);
+	background-color: #040316;
 	color: var(--color-background);
 }
 .valide-groupe{
@@ -1479,7 +1477,20 @@ td {
 	background-color: var(--color-accent);
 	border-radius: 20px;
 	width: 102%;
+	color: white;
+	font-size: 1.2em;
 }
+
+.valide-groupe3{
+	border: solid 2px var(--color-delete-hover);
+	background-color: var(--color-accent-hover);
+	border-radius: 20px;
+	width: 105%;
+	text-align: left;
+	color: white;
+	font-size: 1.2em;
+}
+
 .error {
 	color: var(--color-delete);
 }
@@ -1496,8 +1507,10 @@ td {
 
 .terms {
     font-size: 0.9em;
-    color: var(--color-text);
+    color: #040316;
     text-align: center;
+	color: white;
+	font-size: 1.2em;
 }
 
 .terms ul {
@@ -1507,7 +1520,7 @@ td {
 }
 
 .terms li{
-	color: var(--color-text);
+	color: #040316;
 	list-style-type: none;
 }
 
@@ -1532,7 +1545,7 @@ td {
 .back-arrow a {
     text-decoration: none;
     font-size: 35px; /* Augmenté pour une flèche plus grande */
-    color: var(--color-text);
+    color: #040316;
     cursor: pointer;
 }
 
@@ -1658,7 +1671,7 @@ td {
 .titre-moy-index p {
 	position: relative;
 	top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
-	color: var(--color-text);
+	color: #040316;
 }
 
 @font-face {
@@ -1766,6 +1779,12 @@ td {
         font-size: 14px; /* Texte légèrement plus grand */
         padding: 8px; /* Espacement suffisant autour */
         text-align: center;
+    }
+
+    /* Logo */
+    img {
+        width: 200px; /* Légèrement plus grand pour rester lisible */
+        height: auto;
     }
 
     /* Liens hypertextes */

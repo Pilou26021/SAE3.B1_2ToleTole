@@ -180,30 +180,11 @@
                 <div class="details-offre" >
 
                     <?php if ($bonProfessionnel) { ?>
-                        <div class="boutons-haut-offre">
-                                <?php if ($bonProfessionnel) { ?>
+                    
+                        <div style="display:flex; align-items:center; justify-content:center;">
+                            <br><a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=details_offre" class="bouton-modifier-offre">Modifier mon offre</a><br><br>
+                        </div>
 
-                                    <button class="bouton-modifier-offre"> <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=details_offre">Modifier mon offre</a></button>
-                                    <!-- Bouton pour passer l'offre hors ligne ou remettre en ligne -->
-                                    <?php if ($offre['horsligne']) { ?>
-                                        <form style="margin-top:17px;" method="POST" action="">
-                                            <input type="hidden" name="remettre_en_ligne" value="true">
-                                            <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
-                                            <button class="bouton-modifier-offre" type="submit" onclick="return confirm('Êtes-vous sûr de vouloir remettre cette offre en ligne ?');">
-                                                <a>Remettre mon offre en ligne</a>
-                                            </button>
-                                        </form>
-                                    <?php } else { ?>
-                                        <form style="margin-top:17px;" method="POST" action="">
-                                            <input type="hidden" name="horsligne" value="true">
-                                            <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
-                                            <button class="bouton-modifier-offre" type="submit" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
-                                                <a>Passer mon offre hors ligne</a>
-                                            </button>
-                                        </form>
-                                    <?php } ?>
-                                <?php } ?>
-                            </div>
                     <?php } ?>
 
                     <!-- ************************************ -->
@@ -428,7 +409,31 @@
                             ?>
 
                             <div class="boutons-bas-offre">
-                                <br><a class="offer-btn">Retour aux offres</a>
+
+                                <?php if ($bonProfessionnel) { ?>
+
+                                    <!-- Bouton pour passer l'offre hors ligne ou remettre en ligne -->
+                                    <?php if ($offre['horsligne']) { ?>
+                                        <form style="display:flex;justify-content:center;" method="POST" action="">
+                                            <input type="hidden" name="remettre_en_ligne" value="true">
+                                            <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
+                                            <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir remettre cette offre en ligne ?');">
+                                                Remettre l'offre en ligne
+                                            </button>
+                                        </form>
+                                    <?php } else { ?>
+                                        <form style="display:flex;justify-content:center;" method="POST" action="">
+                                            <input type="hidden" name="horsligne" value="true">
+                                            <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
+                                            <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
+                                                Passer l'offre hors ligne
+                                            </button>
+                                        </form>
+                                    <?php } ?>
+                                <?php } ?>
+
+                                <a class="offer-btn">Retour aux offres</a>
+
                             </div>
 
                         </div>
@@ -707,7 +712,7 @@
                                     <?php
                                 }
                             } else {
-                                if (!$avis_membre){
+                                if (empty($avis_membre)){
                                     ?>
                                     <p>Aucun avis pour cette offre.</p>
                                     <?php
