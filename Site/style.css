@@ -61,7 +61,7 @@ header {
 	margin: 10px;
 }
 
-.sidenav a {
+.sidenav .links {
 	padding: 8px 8px 8px 32px;
 	text-decoration: none;
 	font-size: 20px;
@@ -73,10 +73,12 @@ header {
 
 .sidenav .closebtn {
 	position: absolute;
-	top: 0;
-	right: 25px;
+	top: 10;
+	right: 20;
 	font-size: 36px;
 	margin-left: 50px;
+	text-decoration: none;
+	color: var(--color-text);
 }
 
 .openbtn {
@@ -954,10 +956,8 @@ p.cp_mobile_erreur {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: start;
 	align-items: center;
-	/* gap: 20px;
-	padding: 20px; */
+	gap: 55px;
 	width: 100%;
 	align-items: center;
 }
@@ -1785,12 +1785,6 @@ td {
         font-size: 14px; /* Texte légèrement plus grand */
         padding: 8px; /* Espacement suffisant autour */
         text-align: center;
-    }
-
-    /* Logo */
-    img {
-        width: 200px; /* Légèrement plus grand pour rester lisible */
-        height: auto;
     }
 
     /* Liens hypertextes */

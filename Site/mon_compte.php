@@ -1,5 +1,5 @@
 <?php
-    session_start();
+
     include "header.php";
     ob_start();
     include "../SQL/connection_local.php";
@@ -106,7 +106,7 @@
             }
 
             /* CSS pour le bloc central des boutons-liens */
-            p{
+            .dates_inscr{
                 font-size: 20px;
                 margin: auto auto 5px auto;
             }
@@ -356,7 +356,7 @@
             
                 ?>
 
-                <p>Vous êtes inscris depuis le <?php echo $jourCrea . " " . $moisCrea . " " . $anneeCrea . " et votre dernière connexion remonte au " . $jourCo . " " . $moisCo . " " . $anneeCo?></p>
+                <p class="dates_inscr">Vous êtes inscris depuis le <?php echo $jourCrea . " " . $moisCrea . " " . $anneeCrea . " et votre dernière connexion remonte au " . $jourCo . " " . $moisCo . " " . $anneeCo?></p>
             </section>
 
             <?php
