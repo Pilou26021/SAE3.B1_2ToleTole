@@ -387,13 +387,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
     <?php if ($step === 4): ?>
         <div class="success">
-            <h1>Votre compte a été créé avec succès !</h1>
-            <>Vous allez être redirigé vers la page de connexion...</p>
+            <div id="header"></div>
+                <h1>Votre compte a été créé avec succès !</h1>
+                <p>Vous allez être redirigé vers la page de connexion...</p>
+            <div id="footer"></div>
+
+            <script src="./script.js" ></script>
             <script>
                 setTimeout(() => {
                     window.location.href = 'connexion_membre.php';
                 }, 3000);
             </script>
+            <script> 
+            $(function(){
+            $("#header").load("./header.php"); 
+            $("#footer").load("footer.html"); 
+            });
+            </script> 
         </div>
     <?php endif; ?>
 
