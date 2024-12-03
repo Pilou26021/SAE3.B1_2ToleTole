@@ -16,6 +16,8 @@
         ?> <script>window.location.replace('index.php');</script> <!-- Redirection en quittant la page actuelle --> <?php
     }
 
+    $ispropublic = $_SESSION['propublic'];
+
     //récupération de la catégorie dans le GET
     if (isset($_GET)){
         $cat = $_GET['categorie'];
@@ -162,13 +164,26 @@
                 ?></h3><br>
                 
                 <div class="type_offre">
-                <h2>Type d'Offre</h2>
-                <label >
-                    <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
-                </label>
-                <label >
-                    <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
-                </label>
+
+                    <?php if($ispropublic){ ?>
+                        <h2>Type d'Offre</h2>
+                        <br>
+                        <label >
+                            <input class="visite" type="hidden" name="typeOffre" value="Gratuite" required> 
+                            <strong>Proposer des offres est gratuit pour les associations et les entreprises publiques.</strong>
+                        </label>
+                        <br><br>
+                    <?php } else { ?>
+
+                        <h2>Type d'Offre</h2>
+                        <label >
+                            <input class="visite" type="radio" name="typeOffre" value="Standard" required> Standard (10€)
+                        </label>
+                        <label >
+                            <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
+                        </label>
+                    <?php } ?>
+
                 </div>
 
                 <div class="input-row-offre">
