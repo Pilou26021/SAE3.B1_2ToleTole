@@ -1,15 +1,15 @@
 /* Constantes pour les couleurs */
 :root {
 	--color-background: #F2F1E9;
+	--color-text: #040316;
 	--color-primary: #31CEA6;
 	--color-primary-hover: #1f8a70;
 	--color-accent: #4CAF50;
 	--color-accent-hover: #2bb85f;
 	--color-delete: #FF0000;
 	--color-delete-hover: #af0000;
-	--color-text: #333;
+	--color-border: #333;
 }
-
 
 /* CORPS **/
 
@@ -22,7 +22,7 @@ body {
 
 hr {
 	margin: 5px;
-	color: #040316;
+	color: var(--color-text);
 }
 
 
@@ -72,8 +72,8 @@ header {
 
 .sidenav .closebtn {
 	position: absolute;
-	top: 0;
-	right: 25px;
+	top: 10px;
+	right: 20px;
 	font-size: 36px;
 	margin-left: 50px;
 }
@@ -953,9 +953,8 @@ p.cp_mobile_erreur {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: center;
-	gap: 20px;
-	padding: 20px;
+	justify-content: start;
+	gap: 55px;
 	width: 100%;
 	align-items: center;
 }
@@ -1477,7 +1476,20 @@ td {
 	background-color: var(--color-accent);
 	border-radius: 20px;
 	width: 102%;
+	color: white;
+	font-size: 1.2em;
 }
+
+.valide-groupe3{
+	border: solid 2px var(--color-delete-hover);
+	background-color: var(--color-accent-hover);
+	border-radius: 20px;
+	width: 105%;
+	text-align: left;
+	color: white;
+	font-size: 1.2em;
+}
+
 .error {
 	color: var(--color-delete);
 }
@@ -1496,6 +1508,8 @@ td {
     font-size: 0.9em;
     color: #040316;
     text-align: center;
+	color: white;
+	font-size: 1.2em;
 }
 
 .terms ul {
@@ -1850,6 +1864,21 @@ td {
     }
 }
 
+
+.boutons-haut-offre{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 50px;
+	text-decoration: none;
+}
+
+.bouton-modifier-offre a {
+	text-decoration:none;
+	color: var(--color-background);
+	font-size: 1em;
+}
 
 .boutons-bas-offre{
 	display: flex;

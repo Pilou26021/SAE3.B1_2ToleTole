@@ -33,7 +33,7 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
 ('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
 ('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
-('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$WQZfbr1fhF.uPf8NBXtJd.4wln6z5OrF635Lc4.DpUv5AmjsOVw7i', 1, '2023-02-20', '2025-02-20'),
+('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-02-20', '2025-02-20'),
 ('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
 ('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 1, '2023-02-20', '2025-02-20'),
 ('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
@@ -55,8 +55,7 @@ INSERT INTO _membre (idCompte, pseudonyme) VALUES
 
 -- 6. Insérer des données dans `_professionnelPublic`
 INSERT INTO _professionnelPublic (idPro) VALUES 
-(1),
-(2);
+(3);
 
 -- 7. Insérer des données dans `_professionnelPrive`
 INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) VALUES 

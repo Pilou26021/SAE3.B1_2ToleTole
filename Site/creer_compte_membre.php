@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $prenom = trim($_POST['prenom'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $adresse = trim($_POST['adresse'] ?? '');
-        $ville = trim($_POST['ville'] ?? '');
         $tel = trim($_POST['tel'] ?? '');
 
         // On vérifie que l'email n'existe pas déjà
@@ -118,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($errors)) {
             $nom = strtoupper($_SESSION['nom']);
-            $prenom = $_SESSION['prenom'];
+            $prenom = ucfirst($_SESSION['prenom']);
             $email = $_SESSION['email'];
             $tel = $_SESSION['tel'];
             $adNumRue = $_SESSION['adNumRue'];
@@ -143,8 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(7, $pays, PDO::PARAM_STR);
             $stmt->execute();
 
-            $listError["adresse"] = $stmt->errorInfo();
-
             // Récupère l'id de l'adresse
             $idAdresse = $conn->lastInsertId();
 
@@ -158,9 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(6, $idAdresse, PDO::PARAM_INT);
             $stmt->bindValue(7, 15, PDO::PARAM_INT);
             $stmt->execute();
-
-            // Liste des erreurs
-            $listError["compte"] = $stmt->errorInfo();
 
             // Récupère l'id du compte
             $idCompte = $conn->lastInsertId();
@@ -369,6 +363,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="error"><?= $errors['confirmation-mdp'] ?? '' ?></p>
                             <span class="required">*</span>
                         </div>
+                    </div>
+
+                    <div class="valide-groupe3">
+                        <p class="terms">Le mot de passe doit contenir :</p>
+                        <ul>
+                            <li>Au minimun 8 caractères</li>
+                            <li>Au minimun 1 chiffre</li>
+                            <li>Au minimun 1 majuscule</li>
+                            <li>Au minimun 1 caractère spécial</li>
+                        </ul>
                     </div>
 
                     <button type="submit" class="submit-btn">Créer mon compte</button>

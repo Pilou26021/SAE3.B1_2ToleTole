@@ -68,8 +68,8 @@ CREATE TABLE public._professionnelPublic (
 CREATE TABLE public._professionnelPrive (
     idProPrive SERIAL PRIMARY KEY,
     idPro BIGINT NOT NULL,
-    coordBancairesIBAN TEXT NOT NULL CHECK (16 <= LENGTH(coordBancairesIBAN) AND LENGTH(coordBancairesIBAN) <= 34),
-    coordBancairesBIC TEXT NOT NULL CHECK (8 <= LENGTH(coordBancairesBIC) AND LENGTH(coordBancairesBIC) <= 11),
+    coordBancairesIBAN TEXT,
+    coordBancairesBIC TEXT,
     CONSTRAINT unique_professionnelPrive UNIQUE (idProPrive, idPro),
     FOREIGN KEY (idPro) REFERENCES public._professionnel(idPro)
 );
