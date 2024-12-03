@@ -36,7 +36,7 @@ if (isset($_SESSION['membre'])) {
                 array(4) { ["nomcompte"]=> string(5) "Smith" ["prenomcompte"]=> string(4) "John" ["mailcompte"]=> string(22) "john.smith@example.com" ["pathimage"]=> string(18) "path/to/image1.jpg" }
                 */
                 ?>
-                <a href="mon_compte.php"><img src="<?= $result['pathimage'] ?>" alt="" width="70px" height="70px" style="border-radius:50%;"></a>
+                <img src="<?= $result['pathimage'] ?>" alt="" width="70px" height="70px" style="border-radius:50%;">
                 <p><?= $result['prenomcompte'] . ' ' . $result['nomcompte'] ?></p>
                 <p><?= $result['mailcompte'] ?></p>
                 <?php if ($professionel){ ?>
@@ -56,19 +56,19 @@ if (isset($_SESSION['membre'])) {
 
             <!-- REPETITION !!! -->
             <?php if ($professionel): ?>
-                <li><a class="links" href="mon_compte.php">Mon compte</a></li>
+                <li><a href="mon_compte.php">Mon compte</a></li>
                 <!-- <li><a href="#">Mes offres</a></li> -->
-                <li><a class="links" href="contact.php">Contact</a></li>
-                <li><a class="links" href="deconnexion.php">Déconnexion</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <li><a href="deconnexion.php">Déconnexion</a></li>
             <?php elseif ($membre): ?>
-                <li><a class="links" href="mon_compte.php">Mon compte</a></li>
-                <li><a class="links" href="mes_reservations.php">Mes réservations</a></li>
-                <li><a class="links" href="contact.php">Contact</a></li>
-                <li><a class="links" href="deconnexion.php">Déconnexion</a></li>
+                <li><a href="mon_compte.php">Mon compte</a></li>
+                <li><a href="mes_reservations.php">Mes réservations</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <li><a href="deconnexion.php">Déconnexion</a></li>
             <?php else: ?>
-                <li><a class="links" href="connexion_membre.php">Me Connecter</a></li>
+                <li><a href="connexion_membre.php">Me Connecter</a></li>
                 <!-- <li><a href="#">M'inscrire</a></li> -->
-                <li><a class="links" href="contact.php">Contact</a></li>
+                <li><a href="contact.php">Contact</a></li>
             <?php endif; ?>
         </ul>
     </nav>

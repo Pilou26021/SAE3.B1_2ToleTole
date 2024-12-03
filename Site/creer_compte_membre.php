@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $prenom = trim($_POST['prenom'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $adresse = trim($_POST['adresse'] ?? '');
-        $ville = trim($_POST['ville'] ?? '');
         $tel = trim($_POST['tel'] ?? '');
 
         // On vérifie que l'email n'existe pas déjà
@@ -118,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($errors)) {
             $nom = strtoupper($_SESSION['nom']);
-            $prenom = $_SESSION['prenom'];
+            $prenom = ucfirst($_SESSION['prenom']);
             $email = $_SESSION['email'];
             $tel = $_SESSION['tel'];
             $adNumRue = $_SESSION['adNumRue'];
@@ -143,8 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(7, $pays, PDO::PARAM_STR);
             $stmt->execute();
 
-            $listError["adresse"] = $stmt->errorInfo();
-
             // Récupère l'id de l'adresse
             $idAdresse = $conn->lastInsertId();
 
@@ -158,9 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(6, $idAdresse, PDO::PARAM_INT);
             $stmt->bindValue(7, 15, PDO::PARAM_INT);
             $stmt->execute();
-
-            // Liste des erreurs
-            $listError["compte"] = $stmt->errorInfo();
 
             // Récupère l'id du compte
             $idCompte = $conn->lastInsertId();
@@ -397,23 +391,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
     <?php if ($step === 4): ?>
         <div class="success">
-            <div id="header"></div>
-                <h1>Votre compte a été créé avec succès !</h1>
-                <p>Vous allez être redirigé vers la page de connexion...</p>
-            <div id="footer"></div>
-
-            <script src="./script.js" ></script>
+            <h1>Votre compte a été créé avec succès !</h1>
+            <>Vous allez être redirigé vers la page de connexion...</p>
             <script>
                 setTimeout(() => {
                     window.location.href = 'connexion_membre.php';
                 }, 3000);
             </script>
-            <script> 
-            $(function(){
-            $("#header").load("./header.php"); 
-            $("#footer").load("footer.html"); 
-            });
-            </script> 
         </div>
     <?php endif; ?>
 
