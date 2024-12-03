@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if ($step === 2): ?>                
         <form method="POST" class="form-creer-pro">
             <input type="hidden" name="step" value="2">  
-            <h1 class="subtitle">Créer mon compte Membre </h1>
+            <h1 class="subtitle">Créer mon compte Professionnel </h1>
             <h2>2. Votre Adresse</h2>
 
             <!-- Rue -->
