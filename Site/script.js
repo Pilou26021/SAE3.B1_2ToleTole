@@ -298,34 +298,53 @@ function validImages(inputElements) {
     return true;
 }
 
-const swiper = new Swiper('.swiper-container', {
-    loop: true,
-    slidesPerView: 4,
-    spaceBetween: 10,
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-    },breakpoints: {
-        320: {
-            slidesPerView: 1,
-            spaceBetween: 5,
-            centeredSlides: true,
-        },
-        768: {
-            slidesPerView: 2,
-            spaceBetween: 10,
-        },
-        1024: {
-            slidesPerView: 3,
-            spaceBetween: 15,
-        },
-        1440: {
-            slidesPerView: 4,
-            spaceBetween: 20,
+document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const track = document.querySelector('.carousel-track');
+    const slides = document.querySelectorAll('.offer-alaune');
+    const slideWidth = 371; // Largeur de chaque carte + marge
+    let currentIndex = 0;
+    const maxIndex = slides.length;
+
+    function updateButtonVisibility() {
+        if (currentIndex === 0) {
+            prevBtn.classList.add('hidden');
+        } else {
+            prevBtn.classList.remove('hidden');
+        }
+
+        if (currentIndex === maxIndex) {
+            nextBtn.classList.add('hidden');
+        } else {
+            nextBtn.classList.remove('hidden');
         }
     }
+
+    // Initialisez la visibilité des boutons
+    updateButtonVisibility();
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            updateButtonVisibility();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            updateButtonVisibility();
+        }
+    });
+    
 });
+
+
+
+
+
+
+

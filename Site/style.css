@@ -1095,8 +1095,8 @@ td {
 .offres-display {
 	width: 100%;
 	display: flex;
-	flex-direction: row;
-	align-items: center;
+	flex-direction: column;
+    align-items: flex-start;
 	margin: 10px;
 	justify-content: center;
 	padding: 20px 0;
@@ -1850,33 +1850,6 @@ td {
     }
 }
 
-.swiper-container {
-    width: 100%;
-    position: relative;
-	padding: 10px 0;
-}
-
-.swiper-wrapper {
-    display: flex;
-}
-
-.swiper-slide {
-    flex-shrink: 0;
-    width: calc(33.333% - 10px); /* Définir une largeur fixe pour chaque slide */
-    height: auto; /* Hauteur automatique pour s'adapter au contenu */
-    margin: 0 3px; /* Espacement horizontal entre les slides */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Pour que les boutons de navigation et la pagination soient visibles */
-.swiper-button-next,
-.swiper-button-prev,
-.swiper-pagination {
-    z-index: 10;
-}
 
 .boutons-bas-offre{
 	display: flex;
@@ -1889,4 +1862,67 @@ td {
 	background-color: var(--color-primary-hover);
 
 }
+
+.carousel-container {
+    position: relative;
+    overflow: hidden; /* Cacher la partie débordante */
+    width: 100%; /* Ajustez la largeur du conteneur */
+    display: flex;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* Animation fluide */
+    width: 100%;
+}
+
+.carousel-slide {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px; /* Espacement entre les cartes */
+	height: 570px;
+}
+
+.offre-card {
+    width: 340px; /* Largeur de chaque carte */
+    flex-shrink: 0; /* Empêche le rétrécissement */
+    /* Ajoutez ici tout autre style pour vos cartes */
+}
+
+.carousel-btn {
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    color: #fff;
+    border: none;
+	font-size: 25px;
+    padding: 10px;
+    cursor: pointer;
+	width: 50px;
+	height: 50px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.prev-btn {
+    left: 0;
+}
+
+.next-btn {
+    right: 0;
+}
+
+.carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-btn.hidden {
+    display: none;
+}
+
+
+
+
 
