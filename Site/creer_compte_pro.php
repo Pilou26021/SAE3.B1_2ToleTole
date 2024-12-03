@@ -397,6 +397,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
+                <div class="valide-groupe3">
+                    <p class="terms">Le mot de passe doit contenir :</p>
+                    <ul>
+                        <li>Au minimun 8 caractères</li>
+                        <li>Au minimun 1 chiffre</li>
+                        <li>Au minimun 1 majuscule</li>
+                        <li>Au minimun 1 caractère spécial</li>
+                    </ul>
+                </div>
+
+
                 <button type="submit" class="submit-btn">Créer mon compte</button>
                 <div class="valide-groupe">
                 <p class="terms">En cliquant sur "Créer mon compte", vous acceptez nos termes :
