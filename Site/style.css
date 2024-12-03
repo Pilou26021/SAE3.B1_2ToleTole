@@ -953,9 +953,8 @@ p.cp_mobile_erreur {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: center;
-	gap: 20px;
-	padding: 20px;
+	justify-content: start;
+	gap: 55px;
 	width: 100%;
 	align-items: center;
 }
