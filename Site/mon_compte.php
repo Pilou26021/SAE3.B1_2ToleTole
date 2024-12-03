@@ -1,8 +1,8 @@
 <?php
-    error_reporting(E_ALL ^ E_WARNING && E_NOTICE);
-    session_start();
-    include "header.php";
+
     ob_start();
+
+    include "header.php";
     include "../SQL/connection_local.php";
 
     $professionel = false;
@@ -10,11 +10,34 @@
     if (isset($_SESSION['membre'])) {
         $membre = true;
         $idmembre = $_SESSION['membre'];
+
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
         $idpro = $_SESSION['professionnel'];
+
+        // On vérifie si c'est un pro public ou privé
+        $sql = "SELECT EXISTS(
+            SELECT 1 
+            FROM professionnelpublic
+            WHERE idpro = :id
+            );";
+
+        // Préparer et exécuter la requête
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':id', $idpro, PDO::PARAM_INT);
+        $stmt->execute();
+        $res = $stmt->fetch();
+
+        if ($res == 1){
+            $_SESSION['pro_pub'] = true;
+        }
+
+        else{
+            $_SESSION['pro_priv'] = true;
+        }  
     }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -236,7 +259,13 @@
             });
         </script> 
 
-        <div id="header"></div> 
+        <div id="header"></div>
+
+        <!-- Flèche de retour à mon_compte -->
+        <div style=" position:sticky; top:20px; left:20px; width: 100%;">
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="./index.php">&#8617;</a>
+        </div>
+        
         <main>
             <h1>Mon Compte</h1>
             
@@ -247,13 +276,23 @@
             <?php 
                 if (isset($_SESSION['membre'])) {
                     $idcompte = $idmembre;
+
+                    $sql = "SELECT pseudonyme 
+                            FROM _membre
+                            WHERE idcompte = :idcompte";
+                    
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(':idcompte', $idcompte, PDO::PARAM_INT);
+                    $stmt->execute();
+                    $pseudo = $stmt->fetch();
+
                 } elseif (isset($_SESSION['professionnel'])) {
                     $idcompte = $idpro;
                 }            
 
                 //requete pour récupérer l'image de l'utilisateur
-                $sql = "SELECT i.pathimage, c.*, numtelcompte FROM _image i JOIN _compte c 
-                        ON i.idimage = c.idimagepdp
+                $sql = "SELECT i.pathimage, c.*, numtelcompte FROM _image i 
+                        JOIN _compte c ON i.idimage = c.idimagepdp
                         WHERE idcompte = :idcompte";
 
                 // Préparer et exécuter la requête
@@ -321,12 +360,19 @@
                PARTIE CENTRALE BOUTONS-LIENS
             ============================= -->
 
-            <h2><?php echo $res[0]['prenomcompte'] . " " . $res[0]['nomcompte']?></h2>
-
             <?php if (isset($_SESSION['professionnel'])){
-                echo "<p id='afficher_cat'> Professionnel </p>";
+
+                if (isset($_SESSION['pro_pub'])){
+                    ?><h2><?php echo $res[0]['prenomcompte'] . " " . $res[0]['nomcompte'] ?></h2><?php
+                    echo "<p id='afficher_cat'> Professionnel public </p>";
+                }
+                else{
+                    ?><h2><?php echo $res[0]['prenomcompte'] . " " . $res[0]['nomcompte'] ?></h2><?php
+                    echo "<p id='afficher_cat'> Professionnel </p>";
+                }
             } else{
-                echo "<p id='afficher_cat'> Membre </p>";
+                    ?><h2><?php echo $res[0]['prenomcompte'] . " " . $res[0]['nomcompte'] . " | " . $pseudo['pseudonyme'] ?></h2><?php
+                    echo "<p id='afficher_cat'> Membre </p>";
             }
             ?>
 
@@ -369,7 +415,7 @@
                         <div class="creer_colonne conteneur-gauche">
                             <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
                             <a class="liens-boutons" href="">Gérer mon mot de passe</a>
-                            <a class="liens-boutons" href="">Gérer mon coordonnées bancaires</a>
+                            <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mon coordonnées bancaires</a>
                         </div>
 
                         <div class="creer_colonne conteneur-droit">
@@ -403,10 +449,6 @@
             <?php
             } ?>
                 
-            
-            <br>
-            <!-- Bouton de retour à l'accueil-->
-            <a style="text-decoration:none;" href="index.php"> <button class="offer-btn">Retour à la page d'Accueil</button></a>
         </main>
         <div id="footer"></div>
     </body>
