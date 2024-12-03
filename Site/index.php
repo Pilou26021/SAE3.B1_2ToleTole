@@ -216,8 +216,9 @@ ob_start();
         
         <div class="offres-display">
             <?php if (count($offres) > 0): ?>
-                    <div>
+                    <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
                         <h1>Offre a la Une </h1>
+                        <a id="Alaune"  style="color:#040316;"  > voir plus</a>
                     </div>
                     <?php 
                         $maxOffresU = 10; // Limite du nombre d'offres à afficher

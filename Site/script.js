@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.offer-alaune');
     const slideWidth = 371; // Largeur de chaque carte + marge
     let currentIndex = 0;
-    const maxIndex = slides.length;
+    const maxIndex = slides.length-1;
 
     function updateButtonVisibility() {
         if (currentIndex === 0) {

@@ -13,8 +13,9 @@
 
 /* CORPS **/
 
+
 body {
-	padding: 10px;
+	
 	background-color: var(--color-background);
 	font-family: regular;
 	overflow-x: hidden;
@@ -954,7 +955,7 @@ p.cp_mobile_erreur {
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: start;
-	gap: 55px;
+	gap: 10px;
 	width: 100%;
 	align-items: center;
 }
@@ -1094,13 +1095,15 @@ td {
 .offres-display {
 	width: 100%;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
     align-items: flex-start;
 	margin: 10px;
 	justify-content: center;
 	padding: 20px 0;
 	flex-wrap: wrap;
 }
+
+
 
 /* Media query pour les écrans de plus de 800px */
 @media (min-width: 800px) {
@@ -1781,10 +1784,10 @@ td {
     }
 
     /* Logo */
-    img {
-        width: 200px; /* Légèrement plus grand pour rester lisible */
+    /* img {
+        width: 200px;
         height: auto;
-    }
+    } */
 
     /* Liens hypertextes */
     a.cp_mobile {
@@ -1940,7 +1943,7 @@ td {
 }
 
 .next-btn {
-    right: 0;
+    right: 30px;
 }
 
 .carousel-btn:hover {
