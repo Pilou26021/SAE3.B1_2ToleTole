@@ -427,6 +427,16 @@ input[type="radio"]+label {
 	flex: 1;
 }
 
+.price2 {
+	display: flex;
+	gap: 10px;
+	width: 20%;
+}
+
+.price2 input {
+	flex: 1;
+}
+
 .horaires-semaine input {
 	justify-content: space-between;
 }
@@ -449,12 +459,12 @@ input[type="radio"]+label {
 	display: flex;
 	gap: 40px; /* Augmenté pour espacer les colonnes */
 	justify-content: center;
-	width: 90%;
+	width: 88.5%;
 	align-items: center;
 
 }
 
-.container-offre {
+.container-offre,.container-offre2  {
 	position: relative;
 }
 
@@ -464,9 +474,18 @@ input[type="radio"]+label {
     border: 1px solid #040316;
     border-radius: 8px; /* Plus arrondi */
     color: #333;
-	margin-right: 8em;
+	margin-right: 7em;
 }
 
+
+.container-offre2 input, .textarea-creer_offre2 {
+    width: 75%;
+    padding: 15px; /* Agrandi */
+    border: 1px solid #040316;
+    border-radius: 8px; /* Plus arrondi */
+    color: #333;
+	margin-right: 11em;
+}
 .hours {
 	display: flex;
 	justify-content: space-between;

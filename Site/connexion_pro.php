@@ -25,12 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
         // Si la connexion est réussie, définir la session
         $_SESSION['professionnel'] = $result['idcompte']; // on utilisez un autre champ pertinent
+        $_SESSION['idpro'] = $result['idpro'];
 
         //On regarde si c'est un pro public
-        $sql = "SELECT * FROM _professionnelpublic pub
-                JOIN _professionnel pro ON pub.idpro = :idpro";
+        $sql = "SELECT * FROM _professionnelpublic WHERE idpro = :idpro";
         $stmt = $conn->prepare($sql);
-        $stmt->bindValue(":idpro", $_SESSION['professionnel'], PDO::PARAM_STR);
+        $stmt->bindValue(":idpro", $_SESSION['idpro'], PDO::PARAM_INT);
         $stmt->execute();
         $ispropublic = $stmt->fetch(PDO::FETCH_ASSOC);
 

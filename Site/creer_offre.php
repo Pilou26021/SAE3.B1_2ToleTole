@@ -27,22 +27,16 @@
         switch ($cat) {
             case 'restauration':
                 return true;
-                break;
             case 'spectacle':
                 return true;
-                break;
             case 'visite':
                 return true;
-                break;
             case 'activite':
                 return true;
-                break;
             case 'parc':
                 return true;
-                break;
             default :
                 return false;
-                break;
         }
     }
 
@@ -50,22 +44,16 @@
         switch ($cat) {
             case 'restauration':
                 return "Restauration";
-                break;
             case 'spectacle':
                 return "Spectacle";
-                break;
             case 'visite':
                 return "Visite";
-                break;
             case 'activite':
                 return "Activité";
-                break;
             case 'parc':
                 return "Parc d'attractions";
-                break;
             default :
                 return "---";
-                break;
         }
     }
 
@@ -183,18 +171,18 @@
                             <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
                         </label>
                     <?php } ?>
-
+                
                 </div>
 
                 <div class="input-row-offre">
-                <div class="container-offre">
+                <div class="container-offre2">
                 <h2>Nom de l'offre</h2>
                 <input class="zone-text" type="text" name="offerName" placeholder="Cote de granite rose" required> 
                 </div>
 
                 <div class="container-offre">
                 <h2>Résumé</h2>
-                <textarea class="textarea-creer_offre" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
+                <textarea class="textarea-creer_offre2" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
                 </div>
                 </div>
 
@@ -206,6 +194,31 @@
                         ?> <h2>Veuillez choisir une catégorie pour votre offre.</h2> <?php
                 } if($cat != '' ) { ?>
 
+                    <!-- Si pro public alors mise en relief et à la une sont désactivés et donne comme value à la checkbox "off" -->
+                    <?php if($ispropublic){ ?>
+                        <h2>Prix minimum de l'offre</h2>
+                        <div class ="price2">
+                            <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                        </div>
+                        <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                        </div>
+
+                        <div class="container-offre" style="display:none;"></div>
+                        <div class="type_offre">
+                                <div class="type-offre">
+                                    <div class="container-offre">
+                                        <label for="aLaUneOffre" style="display:none;">À la une</label>
+                                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled hidden>
+                                    </div>
+
+                                    <div class="container-offre">
+                                        <label for="enReliefOffre" style="display:none;">En relief</label>
+                                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre" value="off" disabled hidden>
+                                    </div>
+                                </div>
+                            </div>
+
+                    <?php } else { ?>
                     <div class="input-row-offre">
                     <div class="container-offre">
                     <h2>Prix minimum de l'offre</h2>
@@ -215,26 +228,26 @@
                     <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                     </div>
 
+
                     <div class="container-offre">
-                    <div class="type_offre">
-                    <h2>Type de L'offre</h2>
-                    <div class="type-offre">
-                        
-                        <div class="container-offre">
-                        <label for="aLaUneOffre">À la une</label>
-                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre">
-                        </div>
+                        <div class="type_offre">
+                            <h2>Type de L'offre</h2>
+                                <div class="type-offre">
+                                    <div class="container-offre">
+                                        <label for="aLaUneOffre">À la une</label>
+                                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre">
+                                    </div>
 
-                        
-                        <div class="container-offre">
-                        <label for="enReliefOffre">En relief</label>
-                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre">
+                                    
+                                    <div class="container-offre">
+                                        <label for="enReliefOffre">En relief</label>
+                                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-                    </div>
-                    </div>
-                    </div>
+                    <?php } ?>
 
                     <h2>Condition d'accessibilité</h2>
                     <textarea class="textarea-creer_offre" name="conditionAccessibilite" rows="4" placeholder="Accessible en fauteuil roulant..." required></textarea>
