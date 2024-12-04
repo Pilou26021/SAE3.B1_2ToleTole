@@ -402,7 +402,7 @@
                             <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
 
                             <?php if ($_SESSION['typePro'] == 'prive'){ ?>
-                                <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mes coordonnées bancaires</a>
+                                <!--<a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mes coordonnées bancaires</a>-->
                             <?php } ?>
 
                             <!-- <a class="liens-boutons" href="">Consulter mes offres</a>

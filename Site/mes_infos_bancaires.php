@@ -19,7 +19,7 @@
             main {
                 background-color: #F2F1E9;
                 display: flex;
-                flex-direction: row;
+                /*flex-direction: row;*/
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
@@ -264,9 +264,9 @@
                 </section>
 
                 <section class="mes_infos_main_zone_droite">
-                        <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+                        <!--<a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>-->
                         <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
-                        <a class="liens-boutons" id="lien_page" href="">Gérer mes coordonnées bancaires</a>
+                        <!--<a class="liens-boutons" id="lien_page" href="">Gérer mes coordonnées bancaires</a>-->
                         <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
                         <a class="liens-boutons" href="">Consulter les signalements</a>
                         <a class="liens-boutons" href="">Ajouter une offre</a>
