@@ -137,10 +137,17 @@
                 <label>
                     <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
                 </label>
-            <?php else: ?>
+            <?php elseif ($offre['typeoffre'] === 2): ?>
                 <label>
                     <input class="visite" type="radio" name="typeOffre" value="Premium" checked required> Premium (25€)
                 </label>
+            <?php else : ?>
+                <br>
+                <label>
+                    <input class="visite" type="hidden" name="typeOffre" value="Gratuite" required> 
+                    <strong>Proposer des offres est gratuit pour les associations et les entreprises publiques.</strong>
+                </label>
+                <br><br>
             <?php endif; ?>
 
             <h2>Nom de l'offre</h2>
@@ -156,6 +163,19 @@
             <input id="min_price" class="zone-number" type="number" name="min_price" placeholder="Prix Minimum" value="<?= htmlspecialchars($offre['prixminoffre']) ?>" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
             <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
 
+            <?php if ($offre["typeoffre"] === 0): ?>
+            <div style="display:none;">
+                <h2>Type de L'offre</h2>
+                <div class="type-offre">
+                    <label for="aLaUneOffre">À la une</label>
+                    <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled hidden>
+                    
+                    <label for="enReliefOffre">En relief</label>
+                    <input type="checkbox" id="enReliefOffre" name="enReliefOffre" value="off" disabled hidden>
+                </div>
+            </div>
+            
+            <?php else: ?>
             <h2>Type de L'offre</h2>
             <div class="type-offre">
                 <label for="aLaUneOffre">À la une</label>
@@ -164,6 +184,7 @@
                 <label for="enReliefOffre">En relief</label>
                 <input type="checkbox" id="enReliefOffre" name="enReliefOffre" <?= isset($offre['enreliefoffre']) && $offre['enreliefoffre'] ? 'checked' : '' ?>>
             </div>
+            <?php endif; ?>
 
             <h2>Condition d'accessibilité</h2>
             <div>

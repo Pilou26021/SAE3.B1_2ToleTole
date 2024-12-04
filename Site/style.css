@@ -427,16 +427,6 @@ input[type="radio"]+label {
 	flex: 1;
 }
 
-.price2 {
-	display: flex;
-	gap: 10px;
-	width: 20%;
-}
-
-.price2 input {
-	flex: 1;
-}
-
 .horaires-semaine input {
 	justify-content: space-between;
 }
@@ -459,12 +449,12 @@ input[type="radio"]+label {
 	display: flex;
 	gap: 40px; /* Augmenté pour espacer les colonnes */
 	justify-content: center;
-	width: 88.5%;
+	width: 90%;
 	align-items: center;
 
 }
 
-.container-offre,.container-offre2  {
+.container-offre {
 	position: relative;
 }
 
@@ -474,18 +464,9 @@ input[type="radio"]+label {
     border: 1px solid #040316;
     border-radius: 8px; /* Plus arrondi */
     color: #333;
-	margin-right: 7em;
+	margin-right: 8em;
 }
 
-
-.container-offre2 input, .textarea-creer_offre2 {
-    width: 75%;
-    padding: 15px; /* Agrandi */
-    border: 1px solid #040316;
-    border-radius: 8px; /* Plus arrondi */
-    color: #333;
-	margin-right: 11em;
-}
 .hours {
 	display: flex;
 	justify-content: space-between;
@@ -973,7 +954,7 @@ p.cp_mobile_erreur {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: start;
+	justify-content: center;
 	gap: 10px;
 	width: 100%;
 	align-items: center;
@@ -983,7 +964,7 @@ p.cp_mobile_erreur {
 .offre-card {
 	display: flex;
 	flex-direction: column;
-	width: 340px;
+	width: 330px;
 	border: 1px solid #e0e0e0;
 	border-radius: 10px;
 	margin:10px;
