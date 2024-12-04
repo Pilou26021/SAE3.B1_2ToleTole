@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //On regarde si c'est un pro public
         $sql = "SELECT * FROM _professionnelpublic WHERE idpro = :idpro";
         $stmt = $conn->prepare($sql);
-        $stmt->bindValue(":idpro", $_SESSION['professionnel'], PDO::PARAM_STR);
+        $stmt->bindValue(":idpro", $_SESSION['professionnel'], PDO::PARAM_INT);
         $stmt->execute();
         $ispropublic = $stmt->fetch(PDO::FETCH_ASSOC);
 
