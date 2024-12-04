@@ -234,7 +234,7 @@
                 <section class="mes_infos_main_zone_gauche">
 
                     <div class="mes_infos_conteneur">
-                        <h3 class="mes_infos_titre">Modifier mes coordonnées bancaires</h3>
+                        <h3 class="mes_infos_titre">Mes coordonnées bancaires</h3>
 
                         <form class="mes_infos_form" id="infoForm" action="modifier_infos.php" method="POST">
 
@@ -265,13 +265,13 @@
 
                 <section class="mes_infos_main_zone_droite">
                         <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
-                        <a class="liens-boutons" href="">Gérer mon mot de passe</a>
-                        <a class="liens-boutons" id="lien_page" href="">Gérer mon coordonnées bancaires</a>
-                        <a class="liens-boutons" href="">Consulter mes offres</a>
+                        <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
+                        <a class="liens-boutons" id="lien_page" href="">Gérer mes coordonnées bancaires</a>
+                        <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
                         <a class="liens-boutons" href="">Consulter les signalements</a>
                         <a class="liens-boutons" href="">Ajouter une offre</a>
                         <a class="liens-boutons" href="">Mes factures</a>  
-                        <a class="liens-boutons" href="">Supprimer mon compte</a>
+                        <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                 </section>
             
         </main>

@@ -19,9 +19,11 @@
             main {
                 background-color: #F2F1E9;
                 display: flex;
+                flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
+                margin-bottom: 40px;
             }
 
             /* Zone gauche de la page (du main) */
@@ -385,26 +387,22 @@
                             <!-- Bouton pour modifier ses informations personnelles -->
                             <button type="button" class="liens-boutons" id="mes_infos_toggleButton">Modifier mes informations personnelles</button>
 
-                                
-
                             <!-- Message d'erreur qui n'apparait pas tant qu'il n'y a pas d'erreur -->
                             <p id="message_erreur"></p>
                         </form>
                     </div>
                 </section>
-                
-                <a style="width=10px;" href="mon_compte.php" class="offer-btn">Retour à mon compte</a>
 
                 <!-- Zone droite de la page (Liens-boutons de navigation) -->
                 <section class="mes_infos_main_zone_droite">
                     <?php
                         if (isset($_SESSION['professionnel'])){ ?>
 
-                            <!-- <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a> -->
+                            <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
                             <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
 
                             <?php if ($_SESSION['typePro'] == 'prive'){ ?>
-                                <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mon coordonnées bancaires</a>
+                                <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mes coordonnées bancaires</a>
                             <?php } ?>
 
                             <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
@@ -420,7 +418,7 @@
                     <?php
                     // Affichage point de vue membre
                     } else { ?>
-                            <!-- <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a> -->
+                            <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
                             <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a>
                             <a class="liens-boutons" href="">Consulter mes visites</a>
                             <a class="liens-boutons" href="">Aide</a>
