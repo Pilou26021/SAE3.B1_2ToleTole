@@ -209,13 +209,13 @@
                         <div class="type_offre">
                                 <div class="type-offre">
                                     <div class="container-offre">
-                                        <label for="aLaUneOffre">À la une</label>
-                                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled>
+                                        <label for="aLaUneOffre" style="display:none;">À la une</label>
+                                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled hidden>
                                     </div>
 
                                     <div class="container-offre">
-                                        <label for="enReliefOffre">En relief</label>
-                                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre" value="off" disabled>
+                                        <label for="enReliefOffre" style="display:none;">En relief</label>
+                                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre" value="off" disabled hidden>
                                     </div>
                                 </div>
                             </div>
