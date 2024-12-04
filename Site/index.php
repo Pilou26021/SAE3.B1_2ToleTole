@@ -131,7 +131,7 @@
                 <label for="Mavant">Mise en avant :</label>
                 <select class="choose" id="Mavant" name="category">
                     <option value="">--Choisissez une option--</option>
-                    <option value="Alaune">A la Une</option>
+                    <option value="Alaune">Á la Une</option>
                     <option value="Relief">En relief</option>
                 </select>
 
@@ -253,7 +253,7 @@
         <div class="offres-display">
             <?php if (count($offres) > 0): ?>
                     <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
-                        <h1>Offre a la Une </h1>
+                        <h1>Offre à la Une </h1>
                         <a id="Alaune"  style="color:#040316; cursor: pointer; "  > voir plus</a>
                     </div>
                     <?php 
