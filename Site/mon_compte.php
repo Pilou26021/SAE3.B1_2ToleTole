@@ -10,31 +10,36 @@
     if (isset($_SESSION['membre'])) {
         $membre = true;
         $idmembre = $_SESSION['membre'];
+        $userID = $_SESSION['membre'];
 
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
         $idpro = $_SESSION['professionnel'];
+        $userID = $_SESSION['professionnel'];
 
         // On vérifie si c'est un pro public ou privé
-        $sql = "SELECT EXISTS(
-            SELECT 1 
-            FROM professionnelpublic
-            WHERE idpro = :id
-            );";
+        $sql = "SELECT idpro
+                FROM professionnelpublic
+                WHERE idpro = :id
+                ;";
 
         // Préparer et exécuter la requête
         $stmt = $conn->prepare($sql);
-        $stmt->bindValue(':id', $idpro, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $userID, PDO::PARAM_INT);
         $stmt->execute();
-        $res = $stmt->fetch();
+        $res = $stmt->fetchAll();
 
-        if ($res == 1){
-            $_SESSION['pro_pub'] = true;
+        foreach($res as $resultat){
+
+            if ($resultat['idpro'] == $userID && $resultat['idpro'] !== 1){
+                $_SESSION['typePro'] = "publique";
+            }
+    
+            else{
+                $_SESSION['typePro'] = "prive";
+            }  
         }
 
-        else{
-            $_SESSION['pro_priv'] = true;
-        }  
     }
 ?>
 
@@ -362,13 +367,13 @@
 
             <?php if (isset($_SESSION['professionnel'])){
 
-                if (isset($_SESSION['pro_pub'])){
+                if ($_SESSION['typePro'] == 'publique'){
                     ?><h2><?php echo $res[0]['prenomcompte'] . " " . $res[0]['nomcompte'] ?></h2><?php
                     echo "<p id='afficher_cat'> Professionnel public </p>";
                 }
                 else{
                     ?><h2><?php echo $res[0]['prenomcompte'] . " " . $res[0]['nomcompte'] ?></h2><?php
-                    echo "<p id='afficher_cat'> Professionnel </p>";
+                    echo "<p id='afficher_cat'> Professionnel privé </p>";
                 }
             } else{
                     ?><h2><?php echo $res[0]['prenomcompte'] . " " . $res[0]['nomcompte'] . " | " . $pseudo['pseudonyme'] ?></h2><?php
@@ -409,42 +414,64 @@
             <?php
             // Affichage du professionnel
             if (isset($_SESSION['professionnel'])){ ?>
-                <!-- Conteneur des boutons-liens -->
-                <div class="conteneur-boutons">
-                    <section class="creer_ligne">
-                        <div class="creer_colonne conteneur-gauche">
-                            <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
-                            <a class="liens-boutons" href="">Gérer mon mot de passe</a>
-                            <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mon coordonnées bancaires</a>
-                        </div>
+                <?php if ($_SESSION['typePro'] == 'prive'){ ?>
+                    <!-- Conteneur des boutons-liens -->
+                    <div class="conteneur-boutons">
+                        <section class="creer_ligne">
+                            <!-- <div class="creer_colonne conteneur-gauche"> -->
+                                <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+                                <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
+                                <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mes coordonnées bancaires</a>
+                            <!-- </div> -->
 
-                        <div class="creer_colonne conteneur-droit">
-                            <a class="liens-boutons" href="">Consulter mes offres</a>
-                            <a class="liens-boutons" href="">Consulter les signalements</a>
-                            <a class="liens-boutons" href="">Ajouter une offre</a>  
-                        </div>
-                    </section>
+                            <!-- <div class="creer_colonne conteneur-droit"> -->
+                                <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
+                                <a class="liens-boutons" href="">Consulter les signalements</a>
+                                <a class="liens-boutons" href="">Ajouter une offre</a>   -->
+                            <!-- </div> -->
+                        </section>
 
-                    <a class="liens-boutons" href="">Mes factures</a>  
-                    <a class="liens-boutons" href="">Supprimer mon compte</a>
-                </div>
+                        <!-- <a class="liens-boutons" href="">Mes factures</a>  
+                        <a class="liens-boutons" href="">Supprimer mon compte</a> -->
+                    </div>
+                <?php } ?>
+
+                <?php if ($_SESSION['typePro'] == 'publique'){ ?>
+                    <!-- Conteneur des boutons-liens -->
+                    <div class="conteneur-boutons">
+                        <section class="creer_ligne">
+                            <!-- <div class="creer_colonne conteneur-gauche"> -->
+                                <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+                                <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
+                            <!-- </div> -->
+
+                            <!-- <div class="creer_colonne conteneur-droit"> -->
+                                <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
+                                <a class="liens-boutons" href="">Ajouter une offre</a>   -->
+                            <!-- </div> -->
+                        </section>
+
+                        <!-- <a class="liens-boutons" href="">Consulter les signalements</a>
+                        <a class="liens-boutons" href="">Supprimer mon compte</a> -->
+                    </div>
+                <?php } ?>
             <?php 
             // Affichage du membre
             } else { ?>
                 <!-- Conteneur des boutons-liens -->
                 <div class="conteneur-boutons">
                     <section class="creer_ligne">
-                        <div class="creer_colonne conteneur-gauche">
+                        <!-- <div class="creer_colonne conteneur-gauche"> -->
                             <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
-                            <a class="liens-boutons" href="">Gérer mon mot de passe</a>
-                        </div>
-                        <div class="creer_colonne conteneur-droit">
-                            <a class="liens-boutons" href="">Consulter mes visites</a>
-                            <a class="liens-boutons" href="">Aide</a>
-                        </div>
+                            <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
+                        <!-- </div> -->
+                        <!-- <div class="creer_colonne conteneur-droit"> -->
+                            <!-- <a class="liens-boutons" href="">Consulter mes visites</a>
+                            <a class="liens-boutons" href="">Aide</a> -->
+                        <!-- </div> -->
                     </section>
             
-                    <a class="liens-boutons" href="">Supprimer mon compte</a>
+                    <!-- <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                 </div>
             <?php
             } ?>
