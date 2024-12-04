@@ -433,7 +433,7 @@
                                     <?php } ?>
                                 <?php } ?>
 
-                                <a class="offer-btn">Retour aux offres</a>
+                                <a href="index.php" class="offer-btn">Retour aux offres</a>
 
                             </div>
 
