@@ -1,7 +1,9 @@
 <?php 
-error_reporting(E_ALL ^ E_WARNING);
-include "header.php";
-ob_start();
+    error_reporting(E_ALL ^ E_WARNING);
+    include "header.php";
+    ob_start();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,7 +11,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="icon" href="./img/icons/favicon.ico" type="image/x-icon">
     <title>Offres</title>
     <?php 
         include "../SQL/connection_local.php";
@@ -217,23 +219,25 @@ ob_start();
         
         <div class="offres-display">
             <?php if (count($offres) > 0): ?>
-                    <div>
+                    <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
                         <h1>Offre a la Une </h1>
+                        <a id="Alaune"  style="color:#040316;"  > voir plus</a>
                     </div>
                     <?php 
                         $maxOffresU = 10; // Limite du nombre d'offres à afficher
                         $countU = 0; 
                     ?>
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            <?php foreach ($offres as $offre): 
-                                if ($countU >= $maxOffresU) {
-                                    break; // Arrêter le traitement après 10 offres
-                                }
-                                if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
-                                    <div class="swiper-slide">
+                    <div class="carousel-container" id="carousel1">
+                        <button class="carousel-btn prev-btn " data-carousel="1">&#9664;</button>
+                        <div class="carousel-track">
+                            <div class="carousel-slide">
+                                <?php foreach ($offres as $offre): 
+                                    if ($countU >= $maxOffresU) {
+                                        break; // Arrêter le traitement après 10 offres
+                                    }
+                                    if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
                                         <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                            <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?> >
+                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?> >
                                                 <div class="offre-image-container" style="position: relative;">
                                                     <!-- Affichage de l'image -->
                                                     <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -301,18 +305,12 @@ ob_start();
 
                                                 </div>
                                             </div>
-                                        </a>
-                                    </div>    
-                                <?php }  $countU++; ?>
-                            <?php endforeach; ?>
+                                        </a> 
+                                    <?php }  $countU++; ?>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                        <!-- Boutons de navigation ajoutés -->
-                        <div class="swiper-button-next" ></div>
-                        <div class="swiper-button-prev" ></div>
-                        <!-- passage à la ligne pour espacer -->
-                        <br><br>
-                        <!-- Pagination ajoutée -->
-                        <div class="swiper-pagination" ></div>
+                        <button class="carousel-btn next-btn" data-carousel="1">&#9654;</button>
                     </div>
                 <!-- <hr style=" width:70%; border-top: 2px solid #040316; "> -->
                 <div style="display:none;">
@@ -511,7 +509,6 @@ ob_start();
     </main>
     
     <div id="footer"></div>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="script.js"></script> 
 
 

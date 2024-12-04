@@ -1,57 +1,153 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    ob_start();
+    session_start();
+    include "header.php";
+    include "../SQL/connection_local.php";
 
-session_start();
-include "../SQL/connection_local.php";
+    // 1) Définition de l'identifiant utilisateur
+    if (isset($_SESSION['professionnel'])){
+        // Si c'est un pro
+        $userID = $_SESSION['professionnel'];
+    }else{
+        // Si c'est un membre
+        $userID = $_SESSION['membre'];
+    }
 
-if (isset($_SESSION['professionnel'])){
-    $userID = $_SESSION['professionnel'];
+    // 2) On vérifie sur quelle page se trouve l'utilisateur, on test donc un champ
 
-    $sql2 = "UPDATE _professionnel
-            SET denominationpro = :denomination,
-                numsirenpro = :numsirenpro
-            WHERE _professionnel.idcompte = :userID;";
-    
-    $stmt2 = $conn->prepare($sql2);
+    // Si l'utilisateur est sur la page mes_infos.php:
+    if (isset($_POST['nom'])){
 
-    $stmt2->bindValue(':denomination', $_POST["denominationpro"]);
-    $stmt2->bindValue(':numsirenpro', $_POST["numsiren"]);
-    $stmt2->bindValue(':userID', $userID);
+        // Si c'est un professionnel, il peut changer sa dénomination et son n° de siren:
+        if (isset($_SESSION['professionnel'])){    
 
-    $stmt2->execute();
-    
-} else {
-    $userID = $_SESSION['membre'];
+            $sqlPro = "UPDATE _professionnel
+                    SET denominationpro = :denomination,
+                        numsirenpro = :numsirenpro
+                    WHERE _professionnel.idcompte = :userID;";
+        
+            // Préparation
+            $stmtPro = $conn->prepare($sqlPro);
+
+            // Liaisons
+            $stmtPro->bindValue(':denomination', $_POST["denominationpro"]);
+            $stmtPro->bindValue(':numsirenpro', $_POST["numsiren"]);
+            $stmtPro->bindValue(':userID', $userID);
+
+            // Exécution
+            $stmtPro->execute();
+
+    } else {
+        
+        // Sinon, c'est un membre, et lui peut modifier son pseudonyme
+        $sqlMembre = "UPDATE _membre
+                SET pseudonyme = :pseudo
+                WHERE idcompte = :userID;";
+        
+        // Préparation
+        $stmtMembre = $conn->prepare($sqlMembre);
+
+        // Liaisons
+        $stmtMembre->bindValue(':pseudo', $_POST["pseudo"]);
+        $stmtMembre->bindValue(':userID', $userID);
+
+        // Execution
+        $stmtMembre->execute();
+
+    }
+
+    // 3) On met à jour toutes les informations communes
+    $sqlInfos = "UPDATE _compte
+                 SET nomcompte = :nomC,
+                     prenomcompte = :prenomC,
+                     mailcompte = :mailC,
+                     numtelcompte = :telC
+                 WHERE _compte.idcompte = :userID;";
+
+    // Préparation
+    $stmtInfos = $conn->prepare($sqlInfos);
+
+    // Liaisons
+    $stmtInfos->bindValue(':nomC', $_POST["nom"]);
+    $stmtInfos->bindValue(':prenomC', $_POST["prenom"]);
+    $stmtInfos->bindValue(':mailC', $_POST["email"]);
+    $stmtInfos->bindValue(':telC', $_POST["telephone"]);
+    $stmtInfos->bindValue(':userID', $userID);
+
+    // Exécution
+    $stmtInfos->execute();
+
+    // On cherche idadresse pour l'utiliser plus tard
+    $trouver_id_adresse = "SELECT idadresse
+                           FROM _compte
+                           WHERE _compte.idcompte = :userID;";
+
+    // Préparation
+    $preparerAdresse = $conn->prepare($trouver_id_adresse);
+
+    // Liaison
+    $preparerAdresse->bindValue(':userID', $userID);
+
+    // Exécution
+    $preparerAdresse->execute();
+
+    $adresse = $preparerAdresse->fetch();
+
+    // Grace à idadresse, on peut mettre à jour l'adresse de l'utilisateur
+    $sqlAdresse = "UPDATE _adresse
+                   SET numrue = :numC,
+                       supplementadresse = :supAdresseC,
+                       adresse = :adresseC,
+                       codepostal = :cpC,
+                       ville = :villeC
+                   WHERE _adresse.idadresse = :adresse;";
+
+    // Préparation
+    $stmtAdresse = $conn->prepare($sqlAdresse);
+
+    // Liaisons
+    $stmtAdresse->bindValue(':numC', $_POST["rue"]);
+    $stmtAdresse->bindValue(':supAdresseC', $_POST["supAdresse"]);
+    $stmtAdresse->bindValue(':adresseC', $_POST["adresse"]);
+    $stmtAdresse->bindValue(':cpC', $_POST["cp"]);
+    $stmtAdresse->bindValue(':villeC', $_POST["ville"]);
+    $stmtAdresse->bindValue(':adresse', $adresse['idadresse']);
+
+    // Exécution
+    $stmtAdresse->execute();
+
+    // Redirection vers la page précédente
+    header("Location: mes_infos.php");
 }
 
-// Requête UPDATE correctement formée
-$sql = "UPDATE _compte
-        SET nomcompte = :nomC,
-            prenomcompte = :prenomC,
-            mailcompte = :mailC,
-            numtelcompte = :telC
-        WHERE _compte.idcompte = :userID;";
-
-// Préparation
-$stmt = $conn->prepare($sql);
 
 
-// Lier les valeurs
-$stmt->bindValue(':nomC', $_POST["nom"], PDO::PARAM_STR);
-$stmt->bindValue(':prenomC', $_POST["prenom"], PDO::PARAM_STR);
-$stmt->bindValue(':mailC', $_POST["email"], PDO::PARAM_STR);
-$stmt->bindValue(':telC', $_POST["telephone"], PDO::PARAM_STR);
-$stmt->bindValue(':userID', $userID, PDO::PARAM_INT);
+/**=========================
+Page coordonnées bancaires
+==========================*/
 
+//On regarde si l'IBAN à bien été envoyé et qu'on est donc bien sur cette page
+if (isset($_POST['iban'])){
 
-// Exécution
-$stmt->execute();
+    $sqlCoBanq = "UPDATE _professionnelprive p
+                  SET coordbancairesiban = :CoIban,
+                      coordbancairesbic = :CoBic
+                  WHERE p.idpro = :userID";
+    
+    // Préparation
+    $stmtCoBanq = $conn->prepare($sqlCoBanq);
 
+    // Liaisons
+    $stmtCoBanq->bindValue(':CoIban', $_POST["iban"]);
+    $stmtCoBanq->bindValue(':CoBic', $_POST["bic"]);
+    $stmtCoBanq->bindValue(':userID', $userID);
 
+    // Exécution
+    $stmtCoBanq->execute();
 
-// Redirection après la mise à jour
-header("Location: mes_infos.php");
+    // Redirection vers la page précédente
+    header("Location: mes_infos_bancaires.php");
+}
 
 ?>

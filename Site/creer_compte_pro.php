@@ -506,7 +506,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </ul>
                 </div>
 
-
                 <button type="submit" class="submit-btn">Créer mon compte</button>
                 <div class="valide-groupe">
                 <p class="terms">En cliquant sur "Créer mon compte", vous acceptez nos termes :
