@@ -196,10 +196,8 @@
 
                     <!-- Si pro public alors mise en relief et à la une sont désactivés et donne comme value à la checkbox "off" -->
                     <?php if($ispropublic){ ?>
-                        <div class="input-row-offre">
-                        <div class="container-offre">
                         <h2>Prix minimum de l'offre</h2>
-                        <div class ="price">
+                        <div class ="price2">
                             <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                         </div>
                         <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
@@ -219,8 +217,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+
                     <?php } else { ?>
                     <div class="input-row-offre">
                     <div class="container-offre">
