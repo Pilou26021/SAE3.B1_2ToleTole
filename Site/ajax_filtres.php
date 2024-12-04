@@ -6,6 +6,7 @@ session_start();
 
 // Récupérer les paramètres des filtres
 $category = isset($_GET['category']) ? $_GET['category'] : '';
+$mavant = isset($_GET['mavant']) ? $_GET['mavant'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $lieux = isset($_GET['lieux']) ? $_GET['lieux'] : '';
 $maxPrice = isset($_GET['maxPrice']) ? intval($_GET['maxPrice']) : null;
@@ -15,6 +16,7 @@ $noteMax = isset($_GET['notemax']) ? intval($_GET['notemax']) : 5;
 $Tprix = isset($_GET['Tprix']) ? $_GET['Tprix'] : '';
 $Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
 $Tdate = isset($_GET['Tdate']) ? $_GET['Tdate'] : '';
+$type = isset($_GET['type']) ? $_GET['type'] : '';
 
 // Initialiser les conditions de la requête
 $tableJoin = '';
@@ -62,7 +64,7 @@ if (!empty($category)) {
 if ($professionel) {
     // Si professionnel, n'afficher que ses offres
     $sql = "
-        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre,o.enreliefoffre
+        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre,o.enreliefoffre,o.alauneoffre,o.typeoffre
         FROM public._offre o
         JOIN (
             SELECT idoffre, MIN(idimage) AS firstImage
@@ -78,7 +80,7 @@ if ($professionel) {
 } else {
     // Sinon, afficher toutes les offres pour les visiteurs/membres
     $sql = "
-        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre,o.enreliefoffre
+        SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.prixminoffre, i.pathimage, o.horsligne, o.notemoyenneoffre,o.enreliefoffre,o.alauneoffre
         FROM public._offre o
         JOIN (
             SELECT idoffre, MIN(idimage) AS firstImage
@@ -134,6 +136,30 @@ if (!empty($endDate)) {
     $bindings[":endDate"] = $endDate;
 }
 
+if (!empty($mavant)) {
+    switch ($mavant) {
+        case 'Alaune':
+            $whereConditions[] = 'o.alauneoffre = TRUE';
+            break;
+        case 'Relief':
+            $whereConditions[] = 'o.enreliefoffre = TRUE ';
+            break;
+    }
+}
+
+if (!empty($type)) {
+    switch ($type) {
+        case 'Standard':
+            $whereConditions[] = 'o.typeoffre = 1';
+            break;
+        case 'Premium':
+            $whereConditions[] = 'o.typeoffre = 2 ';
+            break;
+        case 'Gratuite':
+            $whereConditions[] = 'o.typeoffre = 0 ';
+            break;
+    }
+}
 // Ajouter les conditions combinées dans la requête
 if (count($whereConditions) > 0) {
     $sql .= " AND " . implode(" AND ", $whereConditions);
@@ -184,7 +210,7 @@ if (count($offres) > 0) {
         if(!$professionel && $offre['horsligne'] == false || $professionel) {
         ?>
         <a style="text-decoration:none; color:#040316; font-family: regular;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-            <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?>>
+            <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid #36D673;' " ;} ?>>
                 <div class="offre-image-container" style="position: relative;">
                     <!-- Affichage de l'image -->
                     <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
