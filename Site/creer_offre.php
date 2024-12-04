@@ -175,14 +175,14 @@
                 </div>
 
                 <div class="input-row-offre">
-                <div class="container-offre">
+                <div class="container-offre2">
                 <h2>Nom de l'offre</h2>
                 <input class="zone-text" type="text" name="offerName" placeholder="Cote de granite rose" required> 
                 </div>
 
                 <div class="container-offre">
                 <h2>Résumé</h2>
-                <textarea class="textarea-creer_offre" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
+                <textarea class="textarea-creer_offre2" name="summary" rows="2" placeholder="Résumé de l'offre..." required></textarea>
                 </div>
                 </div>
 
