@@ -21,7 +21,8 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image16.png'),
 ('./img/uploaded/image17.png'),
 ('./img/uploaded/image18.png'),
-('./img/uploaded/image19.png');
+('./img/uploaded/image19.png'),
+('./img/uploaded/image20.png');
 
 -- 2. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
@@ -36,22 +37,25 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (2, '', 'Rue de la République', 69002, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 9
 (9, '', 'Rue de Rivoli', 75001, 'Paris', 'Ile-de-France', 'France'), -- 10
 (1, '', 'Lloret de Mar', 17310, 'Lloret de Mar', 'Catalogne', 'Espagne'), -- 11
-(10, '', 'Rue de la Gare', 35000, 'Rennes', 'Bretagne', 'France'), -- 12
-(15, '', 'Avenue Jean Jaurès', 69007, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 13
-(22, '', 'Boulevard de la République', 13001, 'Marseille', 'Provence-Alpes-Côte d''Azur', 'France'), -- 14
-(8, '', 'Rue de la Paix', 75002, 'Paris', 'Ile-de-France', 'France'), -- 15
-(14, '', 'Rue de la Liberté', 21000, 'Dijon', 'Bourgogne-Franche-Comté', 'France'), -- 16
-(30, '', 'Rue Nationale', 37000, 'Tours', 'Centre-Val de Loire', 'France'); -- 17
+(95, '', ' Rue du Palais', 93800, 'Épinay-sur-seine', 'Île-de-France', 'France'), -- 12
+(10, '', 'Rue de la Gare', 35000, 'Rennes', 'Bretagne', 'France'), -- 13
+(15, '', 'Avenue Jean Jaurès', 69007, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 14
+(22, '', 'Boulevard de la République', 13001, 'Marseille', 'Provence-Alpes-Côte d''Azur', 'France'), -- 15
+(8, '', 'Rue de la Paix', 75002, 'Paris', 'Ile-de-France', 'France'), -- 16
+(14, '', 'Rue de la Liberté', 21000, 'Dijon', 'Bourgogne-Franche-Comté', 'France'), -- 17
+(30, '', 'Rue Nationale', 37000, 'Tours', 'Centre-Val de Loire', 'France'), -- 18
+(32, '', 'Rue Nationale', 37000, 'Tours', 'Centre-Val de Loire', 'France'); -- 19
 
 -- 3. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
-('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
-('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 12, '2023-01-15', '2025-01-15'),
-('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-02-20', '2025-02-20'),
-('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-01-15', '2025-01-15'),
-('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 15, '2023-02-20', '2025-02-20'),
-('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 16, '2023-01-15', '2025-01-15'),
-('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 17, '2023-01-15', '2025-01-15');
+('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 12, '2023-01-15', '2025-01-15'),
+('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-01-15', '2025-01-15'),
+('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-02-20', '2025-02-20'),
+('Smath', 'Johnny', 'johnny.smath@example.com', '0123456789', 20, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 15, '2023-01-15', '2025-01-15'),
+('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 16, '2023-01-15', '2025-01-15'),
+('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 17, '2023-02-20', '2025-02-20'),
+('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 18, '2023-01-15', '2025-01-15'),
+('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 19, '2023-01-15', '2025-01-15');
 
 -- 4. Insérer des données dans `_professionnel`
 INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES 
@@ -61,11 +65,11 @@ INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES
 
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, pseudonyme) VALUES 
-(2, 'Lou'),
-(4, 'Piel'),
-(5, 'Janess'),
-(6, 'GaryBuss'),
-(7, 'Josetto');
+(4, 'JohnnyHally'), -- 1
+(5, 'Piel'), -- 2
+(6, 'Janess'), -- 3
+(7, 'GaryBuss'), -- 4
+(8, 'Josetto'); -- 5
 
 -- 6. Insérer des données dans `_professionnelPublic`
 INSERT INTO _professionnelPublic (idPro) VALUES 
@@ -92,12 +96,16 @@ INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptio
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 
 (1, 5, 'Excellente offre!', 1, '2023-05-15', '2023-05-10', FALSE, TRUE),
-(2, 3, 'Moyenne, pourrait être mieux.', 2, '2023-06-15', '2023-06-10', FALSE, FALSE),
-(3, 4, 'Bonne offre! J''y retournerais sans problème !', 2, '2023-05-15', '2023-05-10', FALSE, FALSE),
+(2, 3, 'La piste pourrait être mieux indiquée', 4, '2023-06-15', '2023-06-10', FALSE, FALSE),
+(2, 4, 'Super balade en famille !', 2, '2023-06-15', '2023-06-10', FALSE, FALSE),
+(3, 4, 'Bonne offre! J''y retournerais sans problème !', 4, '2023-05-15', '2023-05-10', FALSE, FALSE),
 (3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE),
-(3, 2, 'Pas encore ouvert :''(', 4, '1955-11-11', '1955-11-11', FALSE, FALSE),
+(3, 2, 'Pas encore ouvert :''(', 2, '1955-11-11', '1955-11-11', FALSE, FALSE),
 (3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE),
-(4, 5, 'Bien gourmand 😋', 4, '2024-12-02', '2024-12-01', FALSE, FALSE);
+(4, 5, 'Bien gourmand 😋', 2, '2024-12-02', '2024-12-01', FALSE, FALSE),
+(10, 2, 'Elastique un peu trop détendu...', 5, '2024-12-02', '2024-12-01', FALSE, FALSE),
+(10, 5, 'Professionnel et sécurité au top !', 4, '2024-12-02', '2024-12-01', FALSE, FALSE),
+(9, 4, 'Super oeuvres d''art', 4, '2024-12-02', '2024-12-01', FALSE, FALSE);
 
 -- 10. Insérer des données dans `_signalement`
 INSERT INTO _signalement (raison) VALUES 

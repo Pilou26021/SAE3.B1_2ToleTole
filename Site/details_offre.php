@@ -13,11 +13,22 @@
 
     if (isset($_SESSION['membre'])) {
         $membre = true;
-        $idmembre = $_SESSION['membre'];
+        $idcompte = $_SESSION['membre'];
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
-        $idpro = $_SESSION['professionnel'];
+        $idcompte = $_SESSION['professionnel'];
     }
+
+    //récupérer l'id du membre
+    if($membre){
+        $sql = "SELECT idmembre FROM _membre WHERE idcompte = :idcompte";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':idcompte', $idcompte, PDO::PARAM_INT);
+        $stmt->execute();
+        $idmembre = $stmt->fetchColumn();
+    }
+
+    var_dump($idmembre);
 
     // Vérification que c'est bien le professionel connecté qui a créé l'offre
     if ($professionel) {
@@ -456,26 +467,26 @@
                     <?php
                         if($membre){
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur sauf pour l'utilisateur connecté
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
-                            JOIN public._compte c ON a.idmembre = c.idcompte
-                            JOIN public._image i ON c.idimagepdp = i.idimage
-                            WHERE a.idoffre = :idoffre AND c.idcompte <> :conn_membre
+                            JOIN public.membre m ON a.idmembre = m.idmembre
+                            JOIN public._image i ON m.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre AND m.idmembre <> :conn_membre
                             ORDER BY a.dateavis DESC";
 
-                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
-                            JOIN public._compte c ON a.idmembre = c.idcompte
-                            JOIN public._image i ON c.idimagepdp = i.idimage
-                            WHERE a.idoffre = :idoffre AND c.idcompte = :conn_membre
+                            JOIN public.membre m ON a.idmembre = m.idmembre
+                            JOIN public._image i ON m.idimagepdp = i.idimage
+                            WHERE a.idoffre = :idoffre AND m.idmembre = :conn_membre
                             ORDER BY a.dateavis DESC";
                             
                         } else {
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, c.nomcompte, c.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
-                            JOIN public._compte c ON a.idmembre = c.idcompte
-                            JOIN public._image i ON c.idimagepdp = i.idimage
+                            JOIN public.membre m ON a.idmembre = m.idmembre
+                            JOIN public._image i ON m.idmembre = i.idimage
                             WHERE a.idoffre = :idoffre
                             ORDER BY a.dateavis DESC";
                         }
