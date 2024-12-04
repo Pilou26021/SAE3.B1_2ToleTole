@@ -215,26 +215,42 @@
                     <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                     </div>
 
+                    <!-- Si pro public alors mise en relief et à la une sont désactivés et donne comme value à la checkbox "off" -->
+                    <?php if($ispropublic){ ?>
                     <div class="container-offre">
-                    <div class="type_offre">
-                    <h2>Type de L'offre</h2>
-                    <div class="type-offre">
-                        
-                        <div class="container-offre">
-                        <label for="aLaUneOffre">À la une</label>
-                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre">
-                        </div>
+                        <h2>Type de L'offre</h2>
+                        <div class="type-offre">
+                            <div class="container-offre">
+                                <label for="aLaUneOffre">À la une</label>
+                                <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled>
+                            </div>
 
-                        
-                        <div class="container-offre">
-                        <label for="enReliefOffre">En relief</label>
-                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre">
+                            <div class="container-offre">
+                                <label for="enReliefOffre">En relief</label>
+                                <input type="checkbox" id="enReliefOffre" name="enReliefOffre" value="off" disabled>
+                            </div>
                         </div>
+                    </div>
+                    <?php } else { ?>
+                    <div class="container-offre">
+                        <div class="type_offre">
+                            <h2>Type de L'offre</h2>
+                                <div class="type-offre">
+                                    <div class="container-offre">
+                                        <label for="aLaUneOffre">À la une</label>
+                                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre">
+                                    </div>
 
+                                    
+                                    <div class="container-offre">
+                                        <label for="enReliefOffre">En relief</label>
+                                        <input type="checkbox" id="enReliefOffre" name="enReliefOffre">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                    </div>
-                    </div>
+                    <?php } ?>
 
                     <h2>Condition d'accessibilité</h2>
                     <textarea class="textarea-creer_offre" name="conditionAccessibilite" rows="4" placeholder="Accessible en fauteuil roulant..." required></textarea>
