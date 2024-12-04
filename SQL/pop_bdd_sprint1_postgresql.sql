@@ -17,7 +17,11 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image12.png'),
 ('./img/uploaded/image13.png'),
 ('./img/uploaded/image14.png'), --Jose
-('./img/uploaded/image15.png'); --Image Pdp par défaut
+('./img/uploaded/image15.png'),  --Image Pdp par défaut
+('./img/uploaded/image16.png'),
+('./img/uploaded/image17.png'),
+('./img/uploaded/image18.png'),
+('./img/uploaded/image19.png');
 
 -- 2. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
@@ -27,7 +31,10 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (21, 'Appartement 3B', 'Rue de la Liberté', 75000, 'Paris', 'Ile-de-France', 'France'),
 (12, '', 'Avenue des Champs-Élysées', 75008, 'Paris', 'Ile-de-France', 'France'),
 (7, '', 'Rue de la Paix', 69001, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'),
-(35, '', 'Boulevard Haussmann', 75009, 'Paris', 'Ile-de-France', 'France');
+(35, '', 'Boulevard Haussmann', 75009, 'Paris', 'Ile-de-France', 'France'),
+(2, '', 'Rue de la République', 69002, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'),
+(9, '', 'Rue de Rivoli', 75001, 'Paris', 'Ile-de-France', 'France'),
+(1, '', 'Lloret de Mar', 17310, 'Lloret de Mar', 'Catalogne', 'Espagne');
 
 -- 3. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
@@ -41,9 +48,9 @@ INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImageP
 
 -- 4. Insérer des données dans `_professionnel`
 INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES 
-(1, 'Tech Solutions', '123456789'),
-(2, 'Design Experts', '987654321'),
-(3, 'LIAM CO', '983455432');
+(1, 'SARL - Tech Solutions', '123456789'),
+(2, 'SARL - Design Experts', '987654321'),
+(3, 'SARL - LIAM CO', '983455432');
 
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, pseudonyme) VALUES 
@@ -64,12 +71,16 @@ INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) V
 
 -- 8. Insérer des données dans `_offre`
 INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
-(3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 150, TRUE, FALSE, 1, 'https://ilovemyself.com',0, FALSE, '2023-05-01', 'Accessible', FALSE),
+(3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 150, TRUE, FALSE, 0, 'https://ilovemyself.com',0, FALSE, '2023-05-01', 'Accessible', FALSE),
 (2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 100, TRUE, TRUE, 2, 'https://pnevot.com',0, TRUE, '2023-06-01', 'Non accessible', FALSE),
-(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 50, FALSE, FALSE, 0, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
-(3, 4, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 10, TRUE, FALSE, 1, 'https://boulangerie.example.com', 0, FALSE, '2023-07-10', 'Accessible', FALSE),
+(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 50, FALSE, FALSE, 1, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
+(3, 4, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 10, TRUE, FALSE, 0, 'https://boulangerie.example.com', 0, FALSE, '2023-07-10', 'Accessible', FALSE),
 (2, 5, 'Séjour Tropical', 'Découvrez les îles paradisiaques', 'Un voyage tout compris pour échapper au quotidien.', 2000, FALSE, TRUE, 2, 'https://voyages.exemple.com', 0, TRUE, '2023-08-15', 'Accessible', FALSE),
-(3, 6, 'Innovation Day', 'Rejoignez notre salon high-tech', 'Une journée dédiée aux nouvelles technologies.', 50, FALSE, TRUE, 0, 'https://techday.example.com', 0, FALSE, '2023-09-20', 'Accessible', FALSE);
+(3, 6, 'Innovation Day', 'Rejoignez notre salon high-tech', 'Une journée dédiée aux nouvelles technologies.', 50, FALSE, TRUE, 0, 'https://techday.example.com', 0, FALSE, '2023-09-20', 'Accessible', FALSE),
+(3, 8, 'Visite de la ville', 'Découvrez Lyon', 'Une visite guidée pour découvrir les secrets de la ville.', 20, FALSE, FALSE, 0, 'https://lyon.example.com', 0, FALSE, '2023-10-25', 'Accessible', FALSE),
+(1, 7, 'Visite de la ville', 'Découvrez Paris', 'Une visite guidée pour découvrir les secrets de la ville.', 20, FALSE, FALSE, 1, 'https://paris.example.com', 0, FALSE, '2023-10-25', 'Accessible', FALSE),
+(2, 9, 'Visite du musée du Louvre ', 'Découvrez les œuvres d''art', 'Une visite guidée pour découvrir les secrets du musée.', 20, FALSE, FALSE, 1, 'https://louvre.example.com', 0, FALSE, '2023-10-25', 'Accessible', FALSE),
+(1, 10, 'Saut à l''élastique', 'Venez sauter à l''élastique', 'Une activité dans un cadre exceptionnel.', 50, TRUE, FALSE, 2, 'https://saut.example.com', 0, FALSE, '2023-11-30', 'Accessible', FALSE);
 
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 
@@ -108,7 +119,11 @@ INSERT INTO _afficherImageOffre (idImage, idOffre) VALUES
 (5, 3),
 (13, 4),
 (14, 5),
-(12, 6);
+(12, 6),
+(16, 7),
+(17, 8),
+(18, 9),
+(19, 10);
 
 -- 15. Insérer des données dans `_imageImageAvis`
 INSERT INTO _imageImageAvis (idImage, idAvis) VALUES 
@@ -120,7 +135,11 @@ INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncl
 (1, 2, 12, 'Guide inclus'),
 (2, 3, 10, 'Collation incluse'),
 (5, 2, 12, 'Guide inclus'),
-(6, 2, 12, 'Guide inclus');
+(6, 2, 12, 'Guide inclus'),
+(7, 2, 12, 'Guide inclus'),
+(8, 2, 12, 'Guide inclus'),
+(9, 2, 12, 'Guide inclus'),
+(10, 2, 12, 'Guide inclus');
 
 -- 17. Insérer des données dans `_offreSpectacle`
 -- INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
