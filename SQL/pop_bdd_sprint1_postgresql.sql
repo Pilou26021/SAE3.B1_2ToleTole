@@ -25,26 +25,33 @@ INSERT INTO _image (pathImage) VALUES
 
 -- 2. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
-(17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'),
-(5, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'),
-(4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'),
-(21, 'Appartement 3B', 'Rue de la Liberté', 75000, 'Paris', 'Ile-de-France', 'France'),
-(12, '', 'Avenue des Champs-Élysées', 75008, 'Paris', 'Ile-de-France', 'France'),
-(7, '', 'Rue de la Paix', 69001, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'),
-(35, '', 'Boulevard Haussmann', 75009, 'Paris', 'Ile-de-France', 'France'),
-(2, '', 'Rue de la République', 69002, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'),
-(9, '', 'Rue de Rivoli', 75001, 'Paris', 'Ile-de-France', 'France'),
-(1, '', 'Lloret de Mar', 17310, 'Lloret de Mar', 'Catalogne', 'Espagne');
+(17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'), -- 1
+(5, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'), -- 2
+(4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'), -- 3
+(21, 'Appartement 3B', 'Rue de la Liberté', 75000, 'Paris', 'Ile-de-France', 'France'), -- 4
+(12, '', 'Avenue des Champs-Élysées', 75008, 'Paris', 'Ile-de-France', 'France'), -- 5
+(3, '', 'Rue de la République', 69001, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 6
+(7, '', 'Rue de la Paix', 69001, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 7
+(35, '', 'Boulevard Haussmann', 75009, 'Paris', 'Ile-de-France', 'France'), -- 8
+(2, '', 'Rue de la République', 69002, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 9
+(9, '', 'Rue de Rivoli', 75001, 'Paris', 'Ile-de-France', 'France'), -- 10
+(1, '', 'Lloret de Mar', 17310, 'Lloret de Mar', 'Catalogne', 'Espagne'); -- 11
+(10, '', 'Rue de la Gare', 35000, 'Rennes', 'Bretagne', 'France'), -- 12
+(15, '', 'Avenue Jean Jaurès', 69007, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 13
+(22, '', 'Boulevard de la République', 13001, 'Marseille', 'Provence-Alpes-Côte d''Azur', 'France'), -- 14
+(8, '', 'Rue de la Paix', 75002, 'Paris', 'Ile-de-France', 'France'), -- 15
+(14, '', 'Rue de la Liberté', 21000, 'Dijon', 'Bourgogne-Franche-Comté', 'France'), -- 16
+(30, '', 'Rue Nationale', 37000, 'Tours', 'Centre-Val de Loire', 'France'); -- 17
 
 -- 3. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
 ('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
-('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
-('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-02-20', '2025-02-20'),
-('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
-('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 1, '2023-02-20', '2025-02-20'),
-('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15'),
-('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '2023-01-15', '2025-01-15');
+('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 12, '2023-01-15', '2025-01-15'),
+('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-02-20', '2025-02-20'),
+('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-01-15', '2025-01-15'),
+('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 15, '2023-02-20', '2025-02-20'),
+('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 16, '2023-01-15', '2025-01-15'),
+('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 17, '2023-01-15', '2025-01-15');
 
 -- 4. Insérer des données dans `_professionnel`
 INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES 
