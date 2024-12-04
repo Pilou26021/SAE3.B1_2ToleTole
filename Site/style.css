@@ -1695,6 +1695,10 @@ td {
 
 #addAvisForm{
 	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 
@@ -1967,7 +1971,14 @@ td {
     display: none;
 }
 
-
-
+.textarea-avis {
+	width: 90%;
+	padding: 10px;
+	margin: 0px;
+	border: 1px solid #040316;
+	border-radius: 5px;
+	font-size: 1em;
+	resize: none;
+}
 
 
