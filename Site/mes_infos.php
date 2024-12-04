@@ -19,7 +19,7 @@
             main {
                 background-color: #F2F1E9;
                 display: flex;
-                flex-direction: row;
+                /*flex-direction: row;*/
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
@@ -394,11 +394,11 @@
                 </section>
 
                 <!-- Zone droite de la page (Liens-boutons de navigation) -->
-                <section class="mes_infos_main_zone_droite">
+                <section class="mes_infos_main_zone_droite" style="display:none;">
                     <?php
                         if (isset($_SESSION['professionnel'])){ ?>
 
-                            <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+                            <!-- <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>-->
                             <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
 
                             <?php if ($_SESSION['typePro'] == 'prive'){ ?>
@@ -418,7 +418,7 @@
                     <?php
                     // Affichage point de vue membre
                     } else { ?>
-                            <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+                            <!-- <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a> -->
                             <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a>
                             <a class="liens-boutons" href="">Consulter mes visites</a>
                             <a class="liens-boutons" href="">Aide</a>
