@@ -183,7 +183,7 @@
                             <input class="visite" type="radio" name="typeOffre" value="Premium" required> Premium (25€)
                         </label>
                     <?php } ?>
-
+                
                 </div>
 
                 <div class="input-row-offre">
