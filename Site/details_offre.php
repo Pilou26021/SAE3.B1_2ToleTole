@@ -197,7 +197,7 @@
                             <?php
                                 if ($offre["alauneoffre"]==true) {
                             ?>
-                                <p style="color:#36D673;" class="offre-resume-detail" ><strong>Cette offre est a la Une</strong></p>
+                                <p style="color:#36D673;" class="offre-resume-detail" ><strong>Cette offre est à la Une</strong></p>
                             <?php 
                                 }
                             ?>
