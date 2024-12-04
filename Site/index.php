@@ -252,14 +252,22 @@
         
         <div class="offres-display">
             <?php if (count($offres) > 0): ?>
+                    <?php 
+                        $maxOffresU = 10; // Limite du nombre d'offres à afficher
+                        $countU = 0;
+                        $countalaUne = 0;
+                        foreach ($offres as $offre) {
+                            if ($offre['alauneoffre']==True) {
+                                $countalaUne++;
+                            }
+                        }
+                        if ($countalaUne != 0) {
+                            # code... 
+                    ?>
                     <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
                         <h1>Offre a la Une </h1>
                         <a id="Alaune"  style="color:#040316; cursor: pointer; "  > voir plus</a>
                     </div>
-                    <?php 
-                        $maxOffresU = 10; // Limite du nombre d'offres à afficher
-                        $countU = 0; 
-                    ?>
                     <div class="carousel-container" id="carousel1">
                         <button class="carousel-btn prev-btn " data-carousel="1">&#9664;</button>
                         <div class="carousel-track">
@@ -345,6 +353,7 @@
                         </div>
                         <button class="carousel-btn next-btn" data-carousel="1">&#9654;</button>
                     </div>
+                <?php } ?>
                 <!-- <hr style=" width:70%; border-top: 2px solid #040316; "> -->
                 <div style="display:none;">
                     <?php
