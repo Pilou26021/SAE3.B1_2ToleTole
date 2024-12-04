@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['professionnel'] = $result['idcompte']; // on utilisez un autre champ pertinent
 
         //On regarde si c'est un pro public
-        $sql = "SELECT * FROM _professionnelpublic WHERE idcompte = :idpro";
+        $sql = "SELECT * FROM _professionnelpublic WHERE idpro = :idpro";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(":idpro", $_SESSION['professionnel'], PDO::PARAM_STR);
         $stmt->execute();
