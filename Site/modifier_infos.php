@@ -19,31 +19,58 @@
     // Si l'utilisateur est sur la page mes_infos.php:
     if (isset($_POST['nom'])){
 
-        // Si c'est un professionnel, il peut changer sa dénomination et son n° de siren:
+        // Si c'est un professionnel, il peut changer sa dénomination et son n° de siren si c'est un pro privé:
         if (isset($_SESSION['professionnel'])){    
 
-            $sqlPro = "UPDATE _professionnel
-                    SET denominationpro = :denomination,
-                        numsirenpro = :numsirenpro
-                    WHERE _professionnel.idcompte = :userID;";
+            if ($_SESSION['typePro'] == 'prive'){
+
+                $sqlProPriv = "UPDATE _professionnel
+                       SET denominationpro = :denomination,
+                           numsirenpro = :numsirenpro
+                       WHERE _professionnel.idcompte = :userID;";
         
-            // Préparation
-            $stmtPro = $conn->prepare($sqlPro);
+                // Préparation
+                $stmtProPriv = $conn->prepare($sqlProPriv);
 
-            // Liaisons
-            $stmtPro->bindValue(':denomination', $_POST["denominationpro"]);
-            $stmtPro->bindValue(':numsirenpro', $_POST["numsiren"]);
-            $stmtPro->bindValue(':userID', $userID);
+                // Liaisons
+                $stmtProPriv->bindValue(':denomination', $_POST["denominationpro"]);
+                $stmtProPriv->bindValue(':numsirenpro', $_POST["numsiren"]);
+                $stmtProPriv->bindValue(':userID', $userID);
 
-            // Exécution
-            $stmtPro->execute();
+                // Exécution
+                $stmtProPriv->execute();
+                header("Location: mes_infos_bancaires.php");
+            }
+        
+            // Si c'est un professionnel publique, il ne dispose pas de numéro de siren, ainsi on lui assigne un numéro par défaut non visible
+            else if ($_SESSION['typePro'] == 'publique'){
+
+                $sqlProPub = "UPDATE _professionnel
+                              SET denominationpro = :denomination,
+                                  numsirenpro = :numsirenpro
+                              WHERE _professionnel.idcompte = :userID;";
+            
+                // Préparation
+                $stmtProPub = $conn->prepare($sqlProPub);
+
+                // Liaisons
+                $sirenDefaut = "000000000";
+
+                $stmtProPub->bindValue(':denomination', $_POST["denominationpro"]);
+                $stmtProPub->bindValue(':numsirenpro', $sirenDefaut);
+                $stmtProPub->bindValue(':userID', $userID);
+
+                // Exécution
+                $stmtProPub->execute();
+
+            }
 
     } else {
         
         // Sinon, c'est un membre, et lui peut modifier son pseudonyme
         $sqlMembre = "UPDATE _membre
-                SET pseudonyme = :pseudo
-                WHERE idcompte = :userID;";
+                      SET pseudonyme = :pseudo
+                      WHERE idcompte = :userID;";
         
         // Préparation
         $stmtMembre = $conn->prepare($sqlMembre);
@@ -119,6 +146,7 @@
 
     // Redirection vers la page précédente
     header("Location: mes_infos.php");
+    exit;
 }
 
 
@@ -148,6 +176,7 @@ if (isset($_POST['iban'])){
 
     // Redirection vers la page précédente
     header("Location: mes_infos_bancaires.php");
+    exit;
 }
 
 ?>
