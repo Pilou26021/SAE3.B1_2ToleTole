@@ -85,6 +85,7 @@ CREATE TABLE public._offre (
     prixMinOffre FLOAT NOT NULL CHECK (prixMinOffre >= 0),
     aLaUneOffre BOOLEAN NOT NULL,
     enReliefOffre BOOLEAN NOT NULL,
+    -- Détermination du type d'offre (1: Standard, 2: Premium, 0: Gratuit)
     typeOffre INT NOT NULL CHECK (typeOffre >= 0 AND typeOffre <= 2),
     siteWebOffre TEXT NOT NULL,
     noteMoyenneOffre FLOAT NOT NULL DEFAULT 0 CHECK (noteMoyenneOffre >= 0 AND noteMoyenneOffre <= 5),
