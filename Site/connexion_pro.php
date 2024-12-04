@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div style=" position:fixed; top:20px; width: 95%; display:flex; justify-content:space-between;">
             <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="index.php">&#8617;</a>
             <div style="display:flex;align-items:center;flex-direction:column; align-items: flex-end;">
-                <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Se connecter en tant que membre</a>
+                <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Créer un compte ou se connecter en tant que membre</a>
                 <a class="offer-btn" href="creer_compte_pro.php" class="cp_mobile">Créer un compte professionnel</a>
             </div>
         </div>

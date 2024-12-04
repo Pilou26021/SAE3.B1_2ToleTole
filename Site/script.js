@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.offer-alaune');
     const slideWidth = 371; // Largeur de chaque carte
     let currentIndex = 0;
-    let cardsPerView = calculateCardsPerView();
+    let cardsPerView = calculateCardsPerView()-1;
 
     // Fonction pour calculer le nombre de cartes visibles
     function calculateCardsPerView() {
