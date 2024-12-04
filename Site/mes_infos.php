@@ -224,6 +224,7 @@
 </head>
     <body>
         <?php
+
             // Récupération des informations de l'utilisateur depuis la base de données
             if (isset($_SESSION['professionnel'])){
                 $userID = $_SESSION['professionnel'];
@@ -271,7 +272,7 @@
 
                     <div class="mes_infos_conteneur">
 
-                        <h3 class="mes_infos_titre">Modifier mes informations personnelles</h3>
+                        <h3 class="mes_infos_titre">Mes informations personnelles</h3>
 
                         <form class="mes_infos_form" id="infoForm" action="modifier_infos.php" method="POST">
 
@@ -370,12 +371,14 @@
                                         <label for="denominationpro">Dénomination professionnelle</label>
                                         <input type="text" id="denomination" name="denominationpro" value="<?php echo $infos_compte['denominationpro'] ?>" required readonly>
                                     </div>
-
-                                    <!-- Numéro de siren -->
-                                    <div id="colonne_champNumsiren" class="mes_infos_colonne">
-                                        <label for="numsiren">N° de siren</label>
-                                        <input type="text" id="champNumsiren" name="numsiren" value="<?php echo $infos_compte['numsirenpro'] ?>" required readonly>
-                                    </div>
+                                    
+                                    <?php if ($_SESSION['typePro'] == 'prive'){ ?>
+                                        <!-- Numéro de siren -->
+                                        <div id="colonne_champNumsiren" class="mes_infos_colonne">
+                                            <label for="numsiren">N° de siren</label>
+                                            <input type="text" id="champNumsiren" name="numsiren" value="<?php echo $infos_compte['numsirenpro'] ?>" required readonly>
+                                        </div>
+                                    <?php } ?>
 
                                 </div>
 
@@ -396,34 +399,30 @@
                         if (isset($_SESSION['professionnel'])){ ?>
 
                             <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
-                            <a class="liens-boutons" href="">Gérer mon mot de passe</a>
-                            <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mon coordonnées bancaires</a>
-                            <a class="liens-boutons" href="">Consulter mes offres</a>
-                            <a class="liens-boutons" href="">Consulter les signalements</a>
-                            <a class="liens-boutons" href="">Ajouter une offre</a>  
-                            <a class="liens-boutons" href="">Mes factures</a>  
-                            <a class="liens-boutons" href="">Supprimer mon compte</a>
+                            <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
 
-                    <?php 
-                    // Affichage point de vue professionnel publique
-                    } else if (isset($_SESSION['pro_pub'])){ ?>
+                            <?php if ($_SESSION['typePro'] == 'prive'){ ?>
+                                <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mon coordonnées bancaires</a>
+                            <?php } ?>
 
-                            <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
-                            <a class="liens-boutons" href="">Gérer mon mot de passe</a>
-                            <a class="liens-boutons" href="">Consulter mes offres</a>
+                            <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
                             <a class="liens-boutons" href="">Consulter les signalements</a>
-                            <a class="liens-boutons" href="">Ajouter une offre</a>  
-                            <a class="liens-boutons" href="">Mes factures</a>  
-                            <a class="liens-boutons" href="">Supprimer mon compte</a>
+                            <a class="liens-boutons" href="">Ajouter une offre</a>
+
+                            <?php if ($_SESSION['typePro'] == 'prive'){ ?>
+                                <a class="liens-boutons" href="">Mes factures</a>  
+                            <?php } ?> 
+
+                            <a class="liens-boutons" href="">Supprimer mon compte</a> -->
 
                     <?php
                     // Affichage point de vue membre
                     } else { ?>
                             <a id="lien_page" class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
-                            <a class="liens-boutons" href="">Gérer mon mot de passe</a>
+                            <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a>
                             <a class="liens-boutons" href="">Consulter mes visites</a>
                             <a class="liens-boutons" href="">Aide</a>
-                            <a class="liens-boutons" href="">Supprimer mon compte</a>
+                            <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                     <?php
                     } ?>
                 </section>
