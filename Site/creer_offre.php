@@ -27,22 +27,16 @@
         switch ($cat) {
             case 'restauration':
                 return true;
-                break;
             case 'spectacle':
                 return true;
-                break;
             case 'visite':
                 return true;
-                break;
             case 'activite':
                 return true;
-                break;
             case 'parc':
                 return true;
-                break;
             default :
                 return false;
-                break;
         }
     }
 
@@ -50,22 +44,16 @@
         switch ($cat) {
             case 'restauration':
                 return "Restauration";
-                break;
             case 'spectacle':
                 return "Spectacle";
-                break;
             case 'visite':
                 return "Visite";
-                break;
             case 'activite':
                 return "Activité";
-                break;
             case 'parc':
                 return "Parc d'attractions";
-                break;
             default :
                 return "---";
-                break;
         }
     }
 
@@ -217,13 +205,12 @@
 
                     <!-- Si pro public alors mise en relief et à la une sont désactivés et donne comme value à la checkbox "off" -->
                     <?php if($ispropublic){ ?>
-                        <div class="container-offre">
+                        <div class="container-offre" style="display:none;"></div>
                         <div class="type_offre">
-                            <h2>Type de L'offre</h2>
                                 <div class="type-offre">
                                     <div class="container-offre">
                                         <label for="aLaUneOffre">À la une</label>
-                                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off"disabled>
+                                        <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled>
                                     </div>
 
                                     <div class="container-offre">
