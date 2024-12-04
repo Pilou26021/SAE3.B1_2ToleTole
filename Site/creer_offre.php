@@ -218,16 +218,18 @@
                     <!-- Si pro public alors mise en relief et à la une sont désactivés et donne comme value à la checkbox "off" -->
                     <?php if($ispropublic){ ?>
                     <div class="container-offre">
-                        <h2>Type de L'offre</h2>
                         <div class="type-offre">
-                            <div class="container-offre">
-                                <label for="aLaUneOffre">À la une</label>
-                                <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled>
-                            </div>
+                            <h2>Type de L'offre</h2>
+                            <div class="type-offre">
+                                <div class="container-offre">
+                                    <label for="aLaUneOffre">À la une</label>
+                                    <input type="checkbox" id="aLaUneOffre" name="aLaUneOffre" value="off" disabled>
+                                </div>
 
-                            <div class="container-offre">
-                                <label for="enReliefOffre">En relief</label>
-                                <input type="checkbox" id="enReliefOffre" name="enReliefOffre" value="off" disabled>
+                                <div class="container-offre">
+                                    <label for="enReliefOffre">En relief</label>
+                                    <input type="checkbox" id="enReliefOffre" name="enReliefOffre" value="off" disabled>
+                                </div>
                             </div>
                         </div>
                     </div>
