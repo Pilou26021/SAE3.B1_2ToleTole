@@ -392,7 +392,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if ($step === 4): ?>
         <div class="success">
             <h1>Votre compte a été créé avec succès !</h1>
-            <>Vous allez être redirigé vers la page de connexion...</p>
+            <p>Vous allez être redirigé vers la page de connexion...</p>
             <script>
                 setTimeout(() => {
                     window.location.href = 'connexion_membre.php';
