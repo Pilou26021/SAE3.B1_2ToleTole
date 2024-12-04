@@ -1,7 +1,9 @@
 <?php 
-error_reporting(E_ALL ^ E_WARNING);
-include "header.php";
-ob_start();
+    error_reporting(E_ALL ^ E_WARNING);
+    include "header.php";
+    ob_start();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,6 +11,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./img/icons/favicon.ico" type="image/x-icon">
     <title>Offres</title>
     <?php 
         include "../SQL/connection_local.php";

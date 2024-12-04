@@ -579,7 +579,7 @@
                                 <br>
 
                                 <h2 for="avis">Votre avis :</h2>
-                                <textarea id="commentaire" class="textarea-creer_offre" name="commentaire" required></textarea>
+                                <textarea id="commentaire" class="textarea-avis" name="commentaire" required></textarea>
 
                                 <h2 for="note">Votre note :</h2>
                                 <div class="rating">
