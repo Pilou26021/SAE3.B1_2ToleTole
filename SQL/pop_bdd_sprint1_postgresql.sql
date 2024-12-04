@@ -35,7 +35,7 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (35, '', 'Boulevard Haussmann', 75009, 'Paris', 'Ile-de-France', 'France'), -- 8
 (2, '', 'Rue de la République', 69002, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 9
 (9, '', 'Rue de Rivoli', 75001, 'Paris', 'Ile-de-France', 'France'), -- 10
-(1, '', 'Lloret de Mar', 17310, 'Lloret de Mar', 'Catalogne', 'Espagne'); -- 11
+(1, '', 'Lloret de Mar', 17310, 'Lloret de Mar', 'Catalogne', 'Espagne'), -- 11
 (10, '', 'Rue de la Gare', 35000, 'Rennes', 'Bretagne', 'France'), -- 12
 (15, '', 'Avenue Jean Jaurès', 69007, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 13
 (22, '', 'Boulevard de la République', 13001, 'Marseille', 'Provence-Alpes-Côte d''Azur', 'France'), -- 14
