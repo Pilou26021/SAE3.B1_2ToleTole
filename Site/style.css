@@ -964,14 +964,15 @@ p.cp_mobile_erreur {
 .offre-card {
 	display: flex;
 	flex-direction: column;
-	width: 320px;
+	width: 340px;
 	border: 1px solid #e0e0e0;
 	border-radius: 10px;
-	margin: 10px;
+	margin:10px;
 	overflow: hidden;
 	background-color: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	transition: transform 0.3s ease;
+	flex-shrink: 0;
 }
 
 .offre-card:hover {
@@ -1803,6 +1804,21 @@ td {
         margin-top: 15px;
         margin-bottom: 15px;
     }
+
+
+}
+
+@media screen and (max-width: 600px){
+	.carousel-slide{
+		overflow-x: scroll; /* Active le défilement horizontal */
+        scroll-behavior: smooth; /* Défilement fluide */
+        -webkit-overflow-scrolling: touch;
+		
+	}
+
+	.carousel-btn {
+		display: none;
+	}
 }
 
 
@@ -1918,13 +1934,10 @@ td {
     flex-wrap: nowrap;
     gap: 10px; /* Espacement entre les cartes */
 	height: 570px;
+	margin: 20px auto;
 }
 
-.offre-card {
-    width: 340px; /* Largeur de chaque carte */
-    flex-shrink: 0; /* Empêche le rétrécissement */
-    /* Ajoutez ici tout autre style pour vos cartes */
-}
+
 
 .carousel-btn {
     background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */

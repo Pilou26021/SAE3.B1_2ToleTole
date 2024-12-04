@@ -128,6 +128,39 @@
                     <option value="Parcs">Parcs d’attractions</option>
                 </select>
 
+                <label for="Mavant">Mise en avant :</label>
+                <select class="choose" id="Mavant" name="category">
+                    <option value="">--Choisissez une option--</option>
+                    <option value="Alaune">A la Une</option>
+                    <option value="Relief">En relief</option>
+                </select>
+
+                <?php 
+                    if ($professionel) {
+                ?>
+
+                    <label for="type">Mes types d'offre :</label>
+                    <select class="choose" id="type" name="category">
+                        <option value="">--Choisissez une option--</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Premium">Premium</option>
+                        <option value="Gratuite">Gratuite</option>
+                    </select>
+
+                <?php
+                    }else{
+                ?>
+                    <label style="display:none;" for="type">Mes types d'offre :</label>
+                    <select style="display:none;" class="choose" id="type" name="category">
+                        <option value="">--Choisissez une option--</option>
+                    </select>
+                <?php
+                    } 
+                ?>
+                
+
+                
+
                 <label for="lieux">Lieux :</label>
                 <div style="display: flex; align-items:center; justify-content: space-around;">
                     <input class="input-filtre" id="lieux" style="width: 60%;" type="text" placeholder="Lieux (Rennes) ">
@@ -221,7 +254,7 @@
             <?php if (count($offres) > 0): ?>
                     <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
                         <h1>Offre a la Une </h1>
-                        <a id="Alaune"  style="color:#040316;"  > voir plus</a>
+                        <a id="Alaune"  style="color:#040316; cursor: pointer; "  > voir plus</a>
                     </div>
                     <?php 
                         $maxOffresU = 10; // Limite du nombre d'offres à afficher
@@ -237,7 +270,7 @@
                                     }
                                     if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
                                         <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?> >
+                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid #36D673;' " ;} ?> >
                                                 <div class="offre-image-container" style="position: relative;">
                                                     <!-- Affichage de l'image -->
                                                     <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -347,7 +380,7 @@
                         }
                         if(!$professionel && $offre['horsligne'] == false ) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0 10px 20px #36D673;' " ;} ?>>
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid #36D673;' " ;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -430,7 +463,7 @@
                     <?php foreach ($offres as $offre): ?>
                         <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'box-shadow: 0px 10px 20px #36D673;' " ;} ?>>
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid #36D673;;' " ;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">

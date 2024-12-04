@@ -185,6 +185,8 @@ function resetButtonText(cat) {
 async function applyFilters() {
     // Récupérer les valeurs des filtres
     const category = document.getElementById('category').value;
+    const mavant = document.getElementById('Mavant').value;
+    const type = document.getElementById('type').value;
     const lieux = document.getElementById('lieux').value;
     const minPrice = document.getElementById("price-range-min").value;
     const maxPrice = document.getElementById("price-range-max").value;
@@ -244,6 +246,8 @@ async function applyFilters() {
     filters.append('Tprix', Tprix);
     filters.append('Tnote', Tnote);
     filters.append('Tdate', Tdate);
+    filters.append('mavant', mavant);
+    filters.append('type', type);
     
     try {
         // Effectuer la requête AJAX en envoyant tous les filtres
@@ -281,6 +285,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('Tprix').addEventListener('change', applyFilters);
     document.getElementById('Tnote').addEventListener('change', applyFilters);
     document.getElementById('Tdate').addEventListener('change', applyFilters);
+    document.getElementById('Mavant').addEventListener('change', applyFilters);
+    document.getElementById('type').addEventListener('change', applyFilters);
+    document.getElementById('Alaune').addEventListener('click', function () {
+        // Définir une valeur par défaut pour le champ Mavant
+        const mavantSelect = document.getElementById('Mavant');
+        mavantSelect.value = 'Alaune'; // Définir "true" ou une valeur par défaut
+
+        // Appeler la fonction applyFilters pour appliquer les filtres
+        applyFilters();
+    });
     
 });
 
@@ -303,11 +317,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.querySelector('.next-btn');
     const track = document.querySelector('.carousel-track');
     const slides = document.querySelectorAll('.offer-alaune');
-    const slideWidth = 371; // Largeur de chaque carte + marge
+    const slideWidth = 371; // Largeur de chaque carte
     let currentIndex = 0;
-    const maxIndex = slides.length-1;
+    let cardsPerView = calculateCardsPerView();
 
+    // Fonction pour calculer le nombre de cartes visibles
+    function calculateCardsPerView() {
+        const containerWidth = document.querySelector('.carousel-container').offsetWidth;
+        return Math.floor(containerWidth / slideWidth);
+    }
+
+    // Fonction pour mettre à jour la visibilité des boutons
     function updateButtonVisibility() {
+        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
         if (currentIndex === 0) {
             prevBtn.classList.add('hidden');
         } else {
@@ -321,10 +343,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialisez la visibilité des boutons
-    updateButtonVisibility();
+    // Fonction pour gérer le changement de la taille de la fenêtre
+    function onResize() {
+        cardsPerView = calculateCardsPerView();
+        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex; // Réinitialiser l'index si nécessaire
+        }
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        updateButtonVisibility();
+    }
 
+    // Initialiser la visibilité des boutons et écouter le redimensionnement
+    updateButtonVisibility();
+    window.addEventListener('resize', onResize);
+
+    // Événements de clic pour faire défiler le slider
     nextBtn.addEventListener('click', () => {
+        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
         if (currentIndex < maxIndex) {
             currentIndex++;
             track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
@@ -339,8 +375,11 @@ document.addEventListener('DOMContentLoaded', () => {
             updateButtonVisibility();
         }
     });
-    
 });
+
+
+
+
 
 
 

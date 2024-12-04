@@ -68,7 +68,7 @@ INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptio
 (2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 100, TRUE, TRUE, 2, 'https://pnevot.com',0, TRUE, '2023-06-01', 'Non accessible', FALSE),
 (1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 50, FALSE, FALSE, 0, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
 (3, 4, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 10, TRUE, FALSE, 1, 'https://boulangerie.example.com', 0, FALSE, '2023-07-10', 'Accessible', FALSE),
-(3, 5, 'Séjour Tropical', 'Découvrez les îles paradisiaques', 'Un voyage tout compris pour échapper au quotidien.', 2000, FALSE, TRUE, 2, 'https://voyages.exemple.com', 0, TRUE, '2023-08-15', 'Accessible', FALSE),
+(2, 5, 'Séjour Tropical', 'Découvrez les îles paradisiaques', 'Un voyage tout compris pour échapper au quotidien.', 2000, FALSE, TRUE, 2, 'https://voyages.exemple.com', 0, TRUE, '2023-08-15', 'Accessible', FALSE),
 (3, 6, 'Innovation Day', 'Rejoignez notre salon high-tech', 'Une journée dédiée aux nouvelles technologies.', 50, FALSE, TRUE, 0, 'https://techday.example.com', 0, FALSE, '2023-09-20', 'Accessible', FALSE);
 
 -- 9. Insérer des données dans `_avis`
@@ -119,7 +119,6 @@ INSERT INTO _imageImageAvis (idImage, idAvis) VALUES
 INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncluse) VALUES 
 (1, 2, 12, 'Guide inclus'),
 (2, 3, 10, 'Collation incluse'),
-(4, 2, 12, 'Guide inclus'),
 (5, 2, 12, 'Guide inclus'),
 (6, 2, 12, 'Guide inclus');
 
@@ -134,7 +133,8 @@ INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncl
 
 -- 20. Insérer des données dans `_offreRestaurant`
 INSERT INTO _offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto) VALUES 
-(3, '{"lunchOpen":"11:30","lunchClose":"13:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4');
+(3, '{"lunchOpen":"11:30","lunchClose":"13:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4'),
+(4, '{"lunchOpen":"11:30","lunchClose":"13:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4');
 
 -- 21. Insérer des données dans `_tag`
 INSERT INTO _tag (typeTag, typeRestauration) VALUES 
