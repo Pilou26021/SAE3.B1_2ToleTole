@@ -194,17 +194,17 @@
                         ?> <h2>Veuillez choisir une catégorie pour votre offre.</h2> <?php
                 } if($cat != '' ) { ?>
 
-                    <div class="input-row-offre">
-                    <div class="container-offre">
-                    <h2>Prix minimum de l'offre</h2>
-                    <div class ="price">
-                        <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
-                    </div>
-                    <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
-                    </div>
-
                     <!-- Si pro public alors mise en relief et à la une sont désactivés et donne comme value à la checkbox "off" -->
                     <?php if($ispropublic){ ?>
+                        <div class="input-row-offre">
+                        <div class="container-offre">
+                        <h2>Prix minimum de l'offre</h2>
+                        <div class ="price">
+                            <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                        </div>
+                        <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                        </div>
+
                         <div class="container-offre" style="display:none;"></div>
                         <div class="type_offre">
                                 <div class="type-offre">
@@ -222,6 +222,16 @@
                         </div>
                     </div>
                     <?php } else { ?>
+                    <div class="input-row-offre">
+                    <div class="container-offre">
+                    <h2>Prix minimum de l'offre</h2>
+                    <div class ="price">
+                        <input id="min_price" class="zone-number" type="number" name="minPrice" placeholder="Prix Minimum" value="" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    </div>
+                    <p id="error-min_price" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
+                    </div>
+
+
                     <div class="container-offre">
                         <div class="type_offre">
                             <h2>Type de L'offre</h2>
