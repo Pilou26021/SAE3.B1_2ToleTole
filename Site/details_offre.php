@@ -28,10 +28,17 @@
         $idmembre = $stmt->fetchColumn();
     }
 
-    var_dump($idmembre);
-
     // Vérification que c'est bien le professionel connecté qui a créé l'offre
     if ($professionel) {
+
+        //récupérer l'id du professionnel
+        $sql = "SELECT idpro FROM public.professionnel WHERE idcompte = :idcompte";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':idcompte', $idcompte, PDO::PARAM_INT);
+        $stmt->execute();
+        $idpro = $stmt->fetchColumn();
+
+        
         $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);

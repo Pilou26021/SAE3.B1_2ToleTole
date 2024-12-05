@@ -8,12 +8,20 @@
     $membre = false;
     if (isset($_SESSION['membre'])) {
         $membre = true;
-        $idmembre = $_SESSION['membre'];
+        $idcompte = $_SESSION['membre'];
     } elseif (isset($_SESSION['professionnel'])) {
         header('Location: index.php');
     } else {
         header('Location: index.php');
     }
+
+    //récupérer l'idmembre depuis l'idcompte
+    $sql = "SELECT idmembre FROM _membre WHERE idcompte = :idcompte";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':idcompte', $idcompte, PDO::PARAM_INT);
+    $stmt->execute();
+    $idmembreArray = $stmt->fetch();
+    $idmembre = $idmembreArray['idmembre'];
 
     $idoffre = intval($_POST['idoffre']);
     $note = intval($_POST['note']);
@@ -61,8 +69,9 @@
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':idmembre', $idmembre, PDO::PARAM_INT);
                 $stmt->execute();
-
+                $avis = $stmt->fetch(PDO::FETCH_ASSOC);
                 //si il à déjà un avis sur cette offre on ne peut pas en ajouter un autre
+
                 if ($avis['idoffre'] == $idoffre) { ?> 
                     <h1>ERREUR: VOUS AVEZ DÉJÀ LAISSÉ UN AVIS POUR CETTE OFFRE.</h1>
                     <?php 
@@ -86,10 +95,12 @@
                     $stmt->bindParam(':blacklistavis', $blacklistavis, PDO::PARAM_BOOL);
                     $stmt->bindParam(':reponsepro', $reponsepro, PDO::PARAM_BOOL);
                     $stmt->execute();
+                    $stmt->fetch(PDO::FETCH_ASSOC);
+
                     
                     if ($result) { ?>
                         <h1>L'AVIS A ÉTÉ AJOUTÉ AVEC SUCCÈS.</h1>
-                        <?php header("refresh:3;url=details_offre.php?idoffre=$idoffre");?>
+                        <?php header("refresh:0;url=details_offre.php?idoffre=$idoffre");?>
                         <?php
                     } else { ?>
                         <h1>ERREUR: L'AVIS N'A PAS PU ÊTRE AJOUTÉ.</h1>

@@ -11,17 +11,19 @@
     $idoffre = $_GET['idoffre'];
     $idmembre = $_GET['idmembre'];
     $idavis = $_GET['idavis'];
+    $idcompte = $_SESSION['membre'];
 
     // On vérifie si l'utilisateur est connecté
-    if (isset($_SESSION['membre'])) {
-        $idmembre = $_SESSION['membre'];
+    if (isset($_GET['membre'])) {
+        $idcompte = $_GET['membre'];
     } else {
         //rediriger vers l'offre 
         header("Location: details_offre.php?idoffre=$idoffre");
     }
 
     // On vérifie que le bon utilisateur est connecté
-    if ($idmembre == $_SESSION['membre']) {
+    var_dump($idcompte, $_SESSION['membre']);
+    if ($idcompte == $_SESSION['membre']) {
         $bonmembre = true;
     } else {
         //rediriger vers l'offre 
@@ -59,6 +61,8 @@
         //rediriger vers l'offre 
         header("Location: details_offre.php?idoffre=$idoffre");
     }
+
+    var_dump($bonmembre, $avis_existe, $avis_appartient, $avis_offre);
 
     // On supprime l'avis
     if ($bonmembre && $avis_existe && $avis_appartient && $avis_offre) {
