@@ -263,7 +263,7 @@
                     <div class="input-row-offre3">
                     <div class="container-offre">
                     <h2>Numéro de la rue</h2>
-                    <input id="adNumRue" type="number" width="100%" class="textarea-creer_offre" name="adNumRue" placeholder="13" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
+                    <input id="adNumRue" type="text" width="100%" class="textarea-creer_offre" name="adNumRue" placeholder="13" required oninput="checkNegativeValue(this)" onkeypress="preventInvalidChars(event)">
                     <p id="error-adNumRue" style="color:red; display:none;">Veuillez entrer une valeur positive.</p>
                     </div>
 
@@ -289,7 +289,12 @@
                     <div class="input-row-offre3">
                     <div class="container-offre">
                     <h2>Département</h2>
-                    <input type="text" width="100%" class="textarea-creer_offre" name="adDepartement" placeholder="Côtes-d'Armor" required>
+                    <select class="dropdown-creer_offre" name="adDepartement" id="adDepartement" placeholder="Côtes-d'Armor" required>
+                        <option value="Côtes-d'Armor">22 - Côtes-d'Armor</option>
+                        <option value="Finistère">29 - Finistère</option>
+                        <option value="Ille-et-Vilaine">35 - Ille-et-Vilaine</option>
+                        <option value="Morbihan">56 - Morbihan</option>
+                    </select>
                     </div>
 
                     <div class="container-offre">

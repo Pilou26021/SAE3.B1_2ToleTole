@@ -68,6 +68,7 @@
         $adCodePostal = $_POST['adCodePostal'];
         $adVille = $_POST['adVille'];
         $adDepartement = $_POST['adDepartement'];
+        var_dump($_POST);
         $adPays = $_POST['adPays'];
 
         // Informations parcs
@@ -475,11 +476,6 @@
         <div id="header"></div>
 
         <main>
-            <?php 
-                if ("no error"){ //TODO
-                    echo "<h1>OFFRE BIEN AJOUTER A LA BASE DE DONNEE</h1>";
-                }
-            ?>
         </main>
 
         <div id="footer"></div>

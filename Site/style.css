@@ -458,7 +458,7 @@ input[type="radio"]+label {
 	position: relative;
 }
 
-.container-offre input, .textarea-creer_offre {
+.container-offre input, .textarea-creer_offre, .dropdown-creer_offre {
     width: 100%;
     padding: 15px; /* Agrandi */
     border: 1px solid #040316;
@@ -526,6 +526,16 @@ input[type="radio"]+label {
 	border-radius: 5px;
 	font-size: 1em;
 	resize: none;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.dropdown-creer_offre{
+	display: flex;
+	justify-content: center;
+	background-color: white;
+	font-size: 1em;
+	margin-bottom: 15px;
+	width: 111%;
 }
 
 .creer-offre-main h2 {
