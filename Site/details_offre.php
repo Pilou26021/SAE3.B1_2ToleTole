@@ -329,7 +329,7 @@
                                             <!-- On affiche la carte du parc -->
                                             <?php
                                             $stmt = $conn->prepare("SELECT pathimage FROM public._image WHERE idimage = :idimage");
-                                            $stmt->execute([':idimage' => $offreDetails['carteParc']]);
+                                            $stmt->execute([':idimage' => $offreDetails['carteparc']]);
                                             $imagecarteresto = $stmt->fetchColumn();
                                             ?>
                                             <h2>Carte du parc</h2>
@@ -338,16 +338,18 @@
                                             <table>
                                                 <thead>
                                                     <tr>
-                                                        <th>Indication de durée</th>
+                                                        <th>Date d'ouverture</th>
+                                                        <th>Date de fermeture</th>
+                                                        <th>Nombre d'attractions</th>
                                                         <th>Age minimum</th>
-                                                        <th>Prestation incluse</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><?php echo htmlspecialchars($offreDetails['indicationduree']); ?> heures</td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['dateouverture']); ?></td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['datefermeture']); ?></td>
+                                                        <td><?php echo htmlspecialchars($offreDetails['nbrattraction']); ?></td>
                                                         <td><?php echo htmlspecialchars($offreDetails['ageminimum']); ?> ans</td>
-                                                        <td><?php echo htmlspecialchars($offreDetails['prestationincluse']); ?></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
