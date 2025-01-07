@@ -1,5 +1,6 @@
 <?php 
     ob_start();
+    session_start();
     include "header.php";
     include "../SQL/connection_local.php";
 
@@ -487,28 +488,28 @@
                     <?php
                         if($membre){
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur sauf pour l'utilisateur connecté
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre AND m.idmembre <> :conn_membre
-                            ORDER BY a.dateavis DESC";
+                            ORDER BY a.scorepouce DESC";
 
-                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre AND m.idmembre = :conn_membre
-                            ORDER BY a.dateavis DESC";
+                            ORDER BY a.scorepouce DESC";
                             
                         } else {
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre
-                            ORDER BY a.dateavis DESC";
+                            ORDER BY a.scorepouce DESC";
                         }
                         
 
@@ -719,10 +720,16 @@
 
                             }
                             
-
                             if ($avis) {
                                 foreach ($avis as $avis) {
-
+                                    $avisId = $avis['idavis'];
+                                    $scorePouce = $avis['scorepouce'];
+                                    if($_SESSION['thumbed'][$avisId]){
+                                        $thumbsClicked[$avisId] = true;
+                                    } else {
+                                        $thumbsClicked[$avisId] = false;
+                                    }
+                                    
                                     $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
 
                                     ?>
@@ -732,43 +739,21 @@
                                             <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                         </p>
                                         <p><?= $avis['commentaireavis'] ?></p>
-                                        <?php
-                                            for ($i = 0; $i < $avis['noteavis']; $i++) {
-                                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
-                                            }
-                                            for ($i = $avis['noteavis']; $i < 5; $i++) {
-                                                ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
-                                            }
-                                        ?>
-                                        <div class="scorePouce">
+                                        <div class="avis_stars_score">
                                             <?php
-                                                $thumbsClicked = $_SESSION['thumbed'][$avis['idavis']] == true;
-                                                var_dump($thumbsClicked);
+                                                for ($i = 0; $i < $avis['noteavis']; $i++) {
+                                                    ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                                }
+                                                for ($i = $avis['noteavis']; $i < 5; $i++) {
+                                                    ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
+                                                }
                                             ?>
-                                            <a href="#" id="thumbs-up-<?=$avisId?>" onclick="modifierScore(<?=$avisId?>, 'plus')" <?= $thumbsClicked ? 'style="pointer-events: none; opacity: 0.5;"' : '' ?>><img src="./img/icons/thumbs-up.svg" alt="pouce en l'air"> Pertinent</a>
-                                            <a href="#" id="thumbs-down-<?=$avisId?>" onclick="modifierScore(<?=$avisId?>, 'moins')" <?= $thumbsClicked ? 'style="pointer-events: none; opacity: 0.5;"' : '' ?>><img src="./img/icons/thumbs-down.svg" alt="pouce en bas"> Non pertinent</a>
+                                            <p>Score de pertinence : <?= $scorePouce ?> </p>
                                         </div>
-
-                                        <script>
-                                            /**
-                                             * Fonction pour modifier le score d'un avis
-                                             */
-                                            function modifierScore(idAvis, scoreType) {
-                                                $.ajax({
-                                                    url: "update_score_avis.php?id_avis=" + idAvis + "&score=" + scoreType,
-                                                    method: "GET",
-                                                    success: function(response) {
-                                                        alert("Score modifié pour l'avis " + idAvis);
-                                                    },
-                                                    error: function() {
-                                                        alert("Erreur lors de la modification du score.");
-                                                    }
-                                                });
-                                            }
-
-
-                                        </script>
-
+                                        <div class="scorePouce">
+                                            <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=plus" id="thumbs-up-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-up.svg" alt="Avis pertinent">Pertinent</a>
+                                            <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=moins" id="thumbs-down-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-down.svg" alt="Avis non-pertinent">Non pertinent</a>
+                                        </div>
                                     </div>
                                     <?php
                                 }
