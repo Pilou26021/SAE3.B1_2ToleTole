@@ -89,8 +89,9 @@
 
         <main>
 
-
-            
+            <h1>Photo de profil mise à jour</h1>
+            <p>Redirection vers la page d'accueil...</p>
+            <?php header("Location: mon_compte.php"); ?>
 
         </main>
 
