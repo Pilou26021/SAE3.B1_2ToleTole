@@ -321,7 +321,7 @@
                                                                 ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
 
                                                             } else {
-                                                                echo "<p>Note non disponible</p>";
+                                                                echo "<p>Pas d'évaluations</p>";
                                                             }
 
                                                             ?>
@@ -432,7 +432,7 @@
                                                     ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
 
                                                 } else {
-                                                    echo "<p>Note non disponible</p>";
+                                                    echo "<p>Pas d'évaluations</p>";
                                                 }
 
                                                 ?>
@@ -515,7 +515,7 @@
                                                     ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
 
                                                 } else {
-                                                    echo "<p>Note non disponible</p>";
+                                                    echo "<p>Pas d'évaluations</p>";
                                                 }
 
                                                 ?>
