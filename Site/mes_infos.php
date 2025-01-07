@@ -307,6 +307,23 @@
                         }
                     });
 
+                    ///////////////////////////
+                    // Vérification de la ville
+                    ///////////////////////////
+
+                    const ChampVilleJS = document.getElementById('MI_champVille');
+
+                    ChampVilleJS.addEventListener('input', () => {
+                        if (ChampVilleJS.value.trim() === '') {
+                                messageErreur.textContent = 'Le nom de la ville ne peut être vide';
+                                valide = false;
+                        }
+                        else {
+                                messageErreur.textContent = "";
+                                valide = true;
+                        }
+                    });
+
                     /////////////////////////
                     // Vérification de la rue
                     /////////////////////////
@@ -323,7 +340,7 @@
                             messageErreur.textContent = "";
                             valide = true;
                         }
-                    })
+                    });
 
                     ////////////////////////////
                     // Vérification de l'adresse
@@ -340,7 +357,7 @@
                             messageErreur.textContent = "";
                             valide = true;
                         }
-                    })
+                    });
 
                     //////////////////////////////
                     // Vérification du code postal
@@ -358,7 +375,7 @@
                             messageErreur.textContent = "";
                             valide = true;
                         }
-                    })
+                    });
 
                     ///////////////////////////
                     // Vérification de la siren
@@ -378,7 +395,7 @@
                                 messageErreur.textContent = "";
                                 valide = true;
                             }
-                        })
+                        });
                     }
 
                     //////////////////////////////////
@@ -398,7 +415,7 @@
                                 messageErreur.textContent = "";
                                 valide = true;
                             }
-                        })
+                        });
                     }
 
                     ///////////////////////
