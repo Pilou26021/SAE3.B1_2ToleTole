@@ -170,13 +170,13 @@ if ($Tprix === 'CroissantP') {
     $orderBy = 'o.prixminoffre ASC';
 } elseif ($Tprix === 'DecroissantP') {
     $orderBy = 'o.prixminoffre DESC';
-} elseif ($Tnote === 'CroissantN') {
+} elseif ($Tprix === 'CroissantN') {
     $orderBy = 'o.notemoyenneoffre ASC';
-} elseif ($Tnote === 'DecroissantN') {
+} elseif ($Tprix === 'DecroissantN') {
     $orderBy = 'o.notemoyenneoffre DESC';
-} elseif ($Tdate === 'Recent') {
+} elseif ($Tprix === 'Recent') {
     $orderBy = 'o.datecreationoffre DESC';
-} elseif ($Tdate === 'Ancien') {
+} elseif ($Tprix === 'Ancien') {
     $orderBy = 'o.datecreationoffre ASC';
 }
 

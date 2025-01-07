@@ -222,25 +222,15 @@
                 </div>
                 <h3>Tri</h3>
 
-                <label for="TrieC">Tri par Prix  :</label>
+                <label for="TrieC">Trie :</label>
                 <select class="choose" id="Tprix" name="Tprix">
                     <option value="">--Choisissez une option--</option>
-                    <option value="CroissantP">Tri par ordre Croissant</option>
-                    <option value="DecroissantP">Tri par ordre Decroissant</option>
-                </select>
-
-                <label for="TrieC">Tri par Notes  :</label>
-                <select class="choose" id="Tnote" name="Tnote">
-                    <option value="">--Choisissez une option--</option>
-                    <option value="CroissantN">Tri par ordre Croissant</option>
-                    <option value="DecroissantN">Tri par ordre Decroissant</option>
-                </select>
-
-                <label for="TrieC">Tri par Dates  :</label>
-                <select class="choose" id="Tdate">
-                    <option value="">--Choisissez une option--</option>
-                    <option value="Recent">Plus récent</option>
-                    <option value="Ancien">Plus ancien</option>
+                    <option value="CroissantP">Tri par Prix Croissant</option>
+                    <option value="DecroissantP">Tri par Prix Decroissant</option>
+                    <option value="CroissantN">Tri par Notes Croissante</option>
+                    <option value="DecroissantN">Tri par Notes Decroissante</option>
+                    <option value="Recent">Tri par Date la plus Recente</option>
+                    <option value="Ancien">Tri par Date la plus Ancienne</option>
                 </select>
 
                 <div style="display: flex; justify-content: right;">
@@ -464,8 +454,8 @@
                         ?>
                     <?php endforeach; ?>
                 </div>
-                <!-- <hr style=" width:70%; border-top: 2px solid #040316; "> -->
-                <div>
+                
+                <div style="padding: 20px 0;" >
                     <h1>Toutes les Offres</h1>
                 </div>
                 <div class="offres-container">
