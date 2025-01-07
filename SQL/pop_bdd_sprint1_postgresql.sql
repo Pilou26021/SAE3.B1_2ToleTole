@@ -22,7 +22,8 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image17.png'),
 ('./img/uploaded/image18.png'),
 ('./img/uploaded/image19.png'),
-('./img/uploaded/image20.png');
+('./img/uploaded/image20.png'),
+('./img/uploaded/image21.png'); -- carte parc d'attraction Le Village Gaulois
 
 -- 2. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
@@ -157,13 +158,16 @@ INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncl
 (10, 2, 12, 'Guide inclus');
 
 -- 17. Insérer des données dans `_offreSpectacle`
--- INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
+INSERT INTO _offreSpectacle (idOffre, dateOffre, indicationDuree, capaciteAcceuil) VALUES 
+(8, '2025-07-26', 2, 500);
 
 -- 18. Insérer des données dans `_offreParcAttraction`
--- INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum) VALUES 
+INSERT INTO _offreParcAttraction (idOffre, dateOuverture, dateFermeture, carteParc, nbrAttraction, ageMinimum) VALUES 
+(9, '2025-07-01', '2025-08-31', 21, 15, 6);
 
 -- 19. Insérer des données dans `_offreVisite`
--- INSERT INTO _offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees) VALUES 
+INSERT INTO _offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees) VALUES 
+(7, '2025-06-15', TRUE, '["français", "anglais"]');
 
 -- 20. Insérer des données dans `_offreRestaurant`
 INSERT INTO _offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto) VALUES 
