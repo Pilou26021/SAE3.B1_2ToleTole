@@ -741,8 +741,12 @@
                                             }
                                         ?>
                                         <div class="scorePouce">
-                                            <a href="#" onclick="modifierScore(<?=$avis['idavis']?>, 'plus')"><img src="./img/icons/thumbs-up.svg" alt="pouce en l'air"> Pertinent</a>
-                                            <a href="#" onclick="modifierScore(<?=$avis['idavis']?>, 'moins')"><img src="./img/icons/thumbs-down.svg" alt="pouce en bas"> Non pertinent</a>
+                                            <?php
+                                                $thumbsClicked = $_SESSION['thumbed'][$avis['idavis']] == true;
+                                                var_dump($thumbsClicked);
+                                            ?>
+                                            <a href="#" id="thumbs-up-<?=$avisId?>" onclick="modifierScore(<?=$avisId?>, 'plus')" <?= $thumbsClicked ? 'style="pointer-events: none; opacity: 0.5;"' : '' ?>><img src="./img/icons/thumbs-up.svg" alt="pouce en l'air"> Pertinent</a>
+                                            <a href="#" id="thumbs-down-<?=$avisId?>" onclick="modifierScore(<?=$avisId?>, 'moins')" <?= $thumbsClicked ? 'style="pointer-events: none; opacity: 0.5;"' : '' ?>><img src="./img/icons/thumbs-down.svg" alt="pouce en bas"> Non pertinent</a>
                                         </div>
 
                                         <script>

@@ -19,7 +19,7 @@
     $stmt->bindParam(':idAvis', $id_avis, PDO::PARAM_INT);
     $stmt->execute();
 
-    var_dump($_GET);
+    $_SESSION['thumbed'][$id_avis] = true;
 
 
 ?>
@@ -29,7 +29,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Changement de score de l'avis</title>
 </head>
 <body>
     
