@@ -95,18 +95,18 @@ INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptio
 (3, 6, 'La Ville Blanche', 'Une expérience gastronomique', 'Un restaurant au cœur du Trégor offrant des plats raffinés dans un cadre historique.', 50, FALSE, TRUE, 1, 'https://la-ville-blanche.example.com', 4.5, FALSE, '2023-09-15', 'Accessible', FALSE);
 
 -- 9. Insérer des données dans `_avis`
-INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro) VALUES 
-(1, 5, 'Excellente offre!', 1, '2023-05-15', '2023-05-10', FALSE, TRUE),
-(2, 3, 'La piste pourrait être mieux indiquée', 4, '2023-06-15', '2023-06-10', FALSE, FALSE),
-(2, 4, 'Super balade en famille !', 2, '2023-06-15', '2023-06-10', FALSE, FALSE),
-(3, 4, 'Bonne offre! J''y retournerais sans problème !', 4, '2023-05-15', '2023-05-10', FALSE, FALSE),
-(3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE),
-(3, 2, 'Pas encore ouvert :''(', 2, '1955-11-11', '1955-11-11', FALSE, FALSE),
-(3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE),
-(4, 5, 'Bien gourmand 😋', 2, '2024-12-02', '2024-12-01', FALSE, FALSE),
-(10, 2, 'Elastique un peu trop détendu...', 5, '2024-12-02', '2024-12-01', FALSE, FALSE),
-(10, 5, 'Professionnel et sécurité au top !', 4, '2024-12-02', '2024-12-01', FALSE, FALSE),
-(9, 4, 'Super oeuvres d''art', 4, '2024-12-02', '2024-12-01', FALSE, FALSE);
+INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro, scorePouce) VALUES 
+(1, 5, 'Excellente offre!', 1, '2023-05-15', '2023-05-10', FALSE, TRUE, 0),
+(2, 3, 'La piste pourrait être mieux indiquée', 4, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
+(2, 4, 'Super balade en famille !', 2, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
+(3, 4, 'Bonne offre! J''y retournerais sans problème !', 4, '2023-05-15', '2023-05-10', FALSE, FALSE, 0),
+(3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE, 0),
+(3, 2, 'Pas encore ouvert :''(', 2, '1955-11-11', '1955-11-11', FALSE, FALSE, 0),
+(3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE, 0),
+(4, 5, 'Bien gourmand 😋', 2, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(10, 2, 'Elastique un peu trop détendu...', 5, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(10, 5, 'Professionnel et sécurité au top !', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(9, 4, 'Super oeuvres d''art', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0);
 
 -- 10. Insérer des données dans `_signalement`
 INSERT INTO _signalement (raison) VALUES 

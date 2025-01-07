@@ -68,7 +68,7 @@
             $(function(){
                 $("#footer").load("footer.html"); 
             });
-        </script> 
+        </script>
         <?php 
             // Vérification de l'ID de l'offre dans l'URL
             if (isset($_GET['idoffre'])) {
@@ -727,6 +727,37 @@
                                                 ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                             }
                                         ?>
+                                        <div class="scorePouce">
+                                            <button id="scorePlus"><img src="./img/icons/thumbs-up.svg" alt="pouce en l'air"> Pertinent</a>
+                                            <button id="scoreMoins"><img src="./img/icons/thumbs-down.svg" alt="pouce en bas"> Non pertinent</a>
+                                        </div>
+
+                                        <script>
+                                            /**
+                                             * Fonction pour modifier le score d'un avis
+                                             */
+                                            $("#scorePlus").click(function() {
+                                                $.ajax({
+                                                    url: "update_score_avis.php?id_avis=<?=$avis['idavis']?>&score=plus",
+                                                    method: "GET",
+                                                    success: function(response) {
+                                                        alert("Valeur modifiée!");
+                                                    }
+                                                });
+                                            });
+
+                                            $("#scoreMoins").click(function() {
+                                                $.ajax({
+                                                    url: "update_score_avis.php?id_avis=<?=$avis['idavis']?>&score=moins",
+                                                    method: "GET",
+                                                    success: function(response) {
+                                                        alert("Valeur modifiée!");
+                                                    }
+                                                });
+                                            });
+
+                                        </script>
+
                                     </div>
                                     <?php
                                 }
