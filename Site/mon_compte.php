@@ -135,7 +135,7 @@
             }
 
             /* CSS pour le bloc central des boutons-liens */
-            p{
+            .p-moncompte {
                 font-size: 20px;
                 margin: auto auto 5px auto;
             }
@@ -408,7 +408,7 @@
             
                 ?>
 
-                <p>Vous êtes inscris depuis le <?php echo $jourCrea . " " . $moisCrea . " " . $anneeCrea . " et votre dernière connexion remonte au " . $jourCo . " " . $moisCo . " " . $anneeCo?></p>
+                <p class="p-moncompte">Vous êtes inscris depuis le <?php echo $jourCrea . " " . $moisCrea . " " . $anneeCrea . " et votre dernière connexion remonte au " . $jourCo . " " . $moisCo . " " . $anneeCo?></p>
             </section>
 
             <?php

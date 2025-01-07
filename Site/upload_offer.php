@@ -476,6 +476,9 @@
         <div id="header"></div>
 
         <main>
+            <?php 
+                header("Location: ./index.php");
+            ?>
         </main>
 
         <div id="footer"></div>
