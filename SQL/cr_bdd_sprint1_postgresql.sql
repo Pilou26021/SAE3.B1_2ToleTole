@@ -273,14 +273,14 @@ CREATE OR REPLACE FUNCTION update_note_moyenne_offre()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE public._offre
-    SET noteMoyenneOffre = (SELECT AVG(noteAvis) FROM public._avis WHERE idOffre = NEW.idOffre)
-    WHERE idOffre = NEW.idOffre;
+    SET noteMoyenneOffre = (SELECT AVG(noteAvis) FROM public._avis WHERE idOffre = COALESCE(NEW.idOffre, OLD.idOffre))
+    WHERE idOffre = COALESCE(NEW.idOffre, OLD.idOffre);
     RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE TRIGGER trg_update_note_moyenne_offre
-AFTER INSERT
+CREATE TRIGGER trg_update_note_moyenne_offre_insert
+AFTER INSERT OR DELETE OR UPDATE
 ON public._avis
 FOR EACH ROW
 EXECUTE FUNCTION update_note_moyenne_offre();
