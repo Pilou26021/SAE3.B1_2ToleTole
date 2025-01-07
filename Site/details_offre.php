@@ -493,7 +493,7 @@
                             $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
-                            JOIN public._image i ON m.idmembre = i.idimage
+                            JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre
                             ORDER BY a.dateavis DESC";
                         }
