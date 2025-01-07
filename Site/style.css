@@ -1921,11 +1921,6 @@ td {
 	align-items: center;
 }
 
-.boutons-bas-offre :hover{
-	background-color: var(--color-primary-hover);
-
-}
-
 .carousel-container {
     position: relative;
     overflow: hidden; /* Cacher la partie débordante */
