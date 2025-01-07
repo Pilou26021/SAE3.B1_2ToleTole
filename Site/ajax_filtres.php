@@ -263,7 +263,7 @@ if (count($offres) > 0) {
                                 ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
 
                             } else {
-                                echo "<p>Note non disponible</p>";
+                                echo "<p>Pas d'évaluations</p>";
                             }
 
                             ?>
