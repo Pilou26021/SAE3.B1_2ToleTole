@@ -325,6 +325,23 @@
                         }
                     })
 
+                    ////////////////////////////
+                    // Vérification de l'adresse
+                    ////////////////////////////
+
+                    const ChampAdresseJS = document.getElementById('MI_champAdresse');
+
+                    ChampAdresseJS.addEventListener('input', () => {
+                        if (ChampAdresseJS.value.trim() === '') {
+                            messageErreur.textContent = "L'adresse ne peut être vide";
+                            valide = false;
+                        }
+                        else{
+                            messageErreur.textContent = "";
+                            valide = true;
+                        }
+                    })
+
                     //////////////////////////////
                     // Vérification du code postal
                     //////////////////////////////
