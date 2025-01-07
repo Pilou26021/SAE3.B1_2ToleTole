@@ -728,33 +728,27 @@
                                             }
                                         ?>
                                         <div class="scorePouce">
-                                            <button id="scorePlus"><img src="./img/icons/thumbs-up.svg" alt="pouce en l'air"> Pertinent</a>
-                                            <button id="scoreMoins"><img src="./img/icons/thumbs-down.svg" alt="pouce en bas"> Non pertinent</a>
+                                            <a href="#" onclick="modifierScore(<?=$avis['idavis']?>, 'plus')"><img src="./img/icons/thumbs-up.svg" alt="pouce en l'air"> Pertinent</a>
+                                            <a href="#" onclick="modifierScore(<?=$avis['idavis']?>, 'moins')"><img src="./img/icons/thumbs-down.svg" alt="pouce en bas"> Non pertinent</a>
                                         </div>
 
                                         <script>
                                             /**
                                              * Fonction pour modifier le score d'un avis
                                              */
-                                            $("#scorePlus").click(function() {
+                                            function modifierScore(idAvis, scoreType) {
                                                 $.ajax({
-                                                    url: "update_score_avis.php?id_avis=<?=$avis['idavis']?>&score=plus",
+                                                    url: "update_score_avis.php?id_avis=" + idAvis + "&score=" + scoreType,
                                                     method: "GET",
                                                     success: function(response) {
-                                                        alert("Valeur modifiée!");
+                                                        alert("Score modifié pour l'avis " + idAvis);
+                                                    },
+                                                    error: function() {
+                                                        alert("Erreur lors de la modification du score.");
                                                     }
                                                 });
-                                            });
+                                            }
 
-                                            $("#scoreMoins").click(function() {
-                                                $.ajax({
-                                                    url: "update_score_avis.php?id_avis=<?=$avis['idavis']?>&score=moins",
-                                                    method: "GET",
-                                                    success: function(response) {
-                                                        alert("Valeur modifiée!");
-                                                    }
-                                                });
-                                            });
 
                                         </script>
 
