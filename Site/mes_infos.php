@@ -9,219 +9,14 @@
 
 <!DOCTYPE html>
 <html lang="fr">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="./style.css">   
     <title>Mes infos</title>
-
-        <style>
-            main {
-                background-color: #F2F1E9;
-                display: flex;
-                /*flex-direction: row;*/
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                margin-bottom: 40px;
-            }
-
-            /* Zone gauche de la page (du main) */
-            .mes_infos_main_zone_gauche {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                margin-left: 5%;
-                width: 60%;
-                padding: 20px;
-            }
-
-            /* Zone droite de la page (du main) */
-            .mes_infos_main_zone_droite {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                box-sizing: border-box;
-                margin: 40px;
-                width: 30%;
-                min-width: 200px;
-            }
-
-            /* On montre à l'utilisateur sur quelle page il se trouve */
-            #lien_page{
-                background-color: #36D673;
-            }
-
-            /*======================
-             Style des boutons-liens 
-             ======================*/
-
-            .liens-boutons {
-                width: 90%;
-                padding: 15px 15px;
-                color: black;
-                text-decoration: none;
-                font-size: 16px;
-                border-radius: 5px;
-                text-align: center;
-                transition: background-color 0.3s ease;
-                background-color: #F2F1E9;
-                margin: 10px 0px 10px 0px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                box-sizing: border-box;
-                flex-grow: 1;
-                min-width: 200px;
-            }
-
-            .liens-boutons:hover {
-                color: inherit;
-                background-color: #36D673;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
-            }
-
-            /*===================================================================================
-             Style du conteneur central pour la modification des informations de l'utilisateur 
-             ===================================================================================*/
-
-            .mes_infos_titre{
-                margin-bottom: 30px;
-                text-decoration: none;
-            }
-
-            .mes_infos_conteneur {
-                width: 90%;
-                border-radius: 10px;
-                
-                text-align: center;
-                padding: 0;
-            }
-
-            .mes_infos_form label {
-                font-size: 14px;
-                margin-bottom: 5px;
-                text-align: left;
-            }
-
-            .mes_infos_form input {
-                width: 100%;
-                padding: 10px;
-                border: none;
-                border-radius: 5px;
-                background-color: #F2F1E9;
-                border: 1px solid #31CEA6;
-                font-size: 16px;
-                box-sizing: border-box;
-                text-align: center;
-                color: black;
-            }
-
-            .mes_infos_form input:focus {
-                outline: none;
-            }
-
-            #mes_infos_toggleButton {
-                font-size: 16px;
-                width: 80%;
-                border-radius: 5px;
-                border: 1px solid #a5d6a7;
-                color: black;
-                cursor: pointer;
-                margin-top: 40px;
-                
-            }
-
-            #mes_infos_toggleButton:hover {
-                background-color: #36D673;
-            }
-
-            /* Style des lignes du conteneur */
-            .mes_infos_ligne {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                max-width: none;
-            }
-
-            /* Style des colonnes du conteneur */
-            .mes_infos_colonne {
-                display: flex;
-                flex-direction: column;
-                margin: 15px;        
-                flex: 1;   
-            }
-
-            /* Styles particuliers */
-            #colonne_champRue, #colonne_champTel, #colonne_champNumsiren, #colonne_champCP{
-                flex: 0;
-            }
-
-            #champRue{
-                width: 100px;
-            }
-
-            #champTel, #champNumsiren, #champCP{
-                width: 200px;
-            }
-
-
-        @media (max-width: 1200px){
-
-            .mes_infos_ligne {
-                flex-direction: column;
-            }
-
-            .mes_infos_main_zone_gauche{
-                margin: 0;
-            }
-
-            .liens-boutons {
-                font-size: 15px;
-                padding: 20px 20px;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 700px){
-
-            main{
-                flex-direction: column;
-            }
-
-            .mes_infos_conteneur{
-                width: 100%;
-            }
-
-            .mes_infos_form{
-                width: 100%;
-            }
-
-            .mes_infos_main_zone_gauche{
-                width: 90%;
-            }
-
-            .mes_infos_main_zone_droite{
-                width: 90%;
-            }
-
-            .mes_infos_lignes{
-                width: 100%;
-            }
-
-            .mes_infos_colonnes{
-                margin: 30px 0 30px 0;
-            }
-
-            .liens-boutons {
-                font-size: 15px;
-                padding: 20px 20px;
-                width: 100%;
-            }
-        }
-
-    </style>
-
 </head>
+
     <body>
         <?php
 
@@ -266,7 +61,7 @@
                 <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="./mon_compte.php">&#8617;</a>
         </div>
         
-        <main>
+        <main class = "mes_infos_main">
                 <!-- Zone gauche de la page (Le conteneur avec les informations de l'utilisateur) -->
                 <section class="mes_infos_main_zone_gauche">
 
@@ -282,8 +77,8 @@
                                     <!-- Pseudo -->
                                     <div class="mes_infos_ligne">
                                         <div class="mes_infos_colonne">
-                                            <label for="champPseudo">Pseudonyme</label>
-                                            <input type="text" id="champPseudo" name="pseudo" value="<?php echo $infos_compte['pseudonyme'] ?>" required readonly>
+                                            <label for="MI_champPseudo">Pseudonyme</label>
+                                            <input type="text" id="MI_champPseudo" name="pseudo" value="<?php echo $infos_compte['pseudonyme'] ?>" required readonly>
                                         </div> 
                                     </div>
                                 
@@ -294,14 +89,14 @@
 
                                 <!-- Nom -->
                                 <div class="mes_infos_colonne">
-                                    <label for="nom">Nom</label>
-                                    <input type="text" id="nom" name="nom" value="<?php echo $infos_compte['nomcompte'] ?>" required readonly>
+                                    <label for="MI_champNom">Nom</label>
+                                    <input type="text" id="MI_champNom" name="nom" value="<?php echo $infos_compte['nomcompte'] ?>" required readonly>
                                 </div> 
 
                                 <!-- Prénom -->
                                 <div class="mes_infos_colonne">
-                                    <label for="prenom">Prénom</label>
-                                    <input type="text" id="prenom" name="prenom" value="<?php echo $infos_compte['prenomcompte'] ?>" required readonly>
+                                    <label for="MI_champPrenom">Prénom</label>
+                                    <input type="text" id="MI_champPrenom" name="prenom" value="<?php echo $infos_compte['prenomcompte'] ?>" required readonly>
                                 </div>
                             </div>
 
@@ -309,15 +104,15 @@
                             <div class="mes_infos_ligne">
 
                                 <!-- Téléphone -->
-                                <div id="colonne_champTel" class="mes_infos_colonne">
-                                    <label for="telephone">Téléphone</label>
-                                    <input type="tel" id="champTel" name="telephone" value="<?php echo $infos_compte['numtelcompte'] ?>" required readonly>
+                                <div id="MI_colonne_champTel" class="mes_infos_colonne">
+                                    <label for="MI_champTel">Téléphone</label>
+                                    <input type="tel" id="MI_champTel" name="telephone" value="<?php echo $infos_compte['numtelcompte'] ?>" required readonly>
                                 </div>
 
                                 <!-- Email -->
                                 <div class="mes_infos_colonne">
-                                    <label for="email">Email</label>
-                                    <input type="text" id="mail" name="email" value="<?php echo $infos_compte['mailcompte'] ?>" required readonly>
+                                    <label for="MI_champEmail">Email</label>
+                                    <input type="text" id="MI_champEmail" name="email" value="<?php echo $infos_compte['mailcompte'] ?>" required readonly>
                                 </div>
                             </div>
 
@@ -326,14 +121,14 @@
 
                                 <!-- Ville -->
                                 <div class="mes_infos_colonne">
-                                    <label for="ville">Ville</label>
-                                    <input type="text" id="champVille" name="ville" value="<?php echo $infos_compte['ville'] ?>" required readonly>
+                                    <label for="MI_champVille">Ville</label>
+                                    <input type="text" id="MI_champVille" name="ville" value="<?php echo $infos_compte['ville'] ?>" required readonly>
                                 </div>
 
                                 <!-- Code Postal -->
-                                <div id ="colonne_champCP" class="mes_infos_colonne">
-                                    <label for="cp">Code Postal</label>
-                                    <input type="text" id="champCP" name="cp" value="<?php echo $infos_compte['codepostal'] ?>" required readonly>
+                                <div id ="MI_colonne_champCP" class="mes_infos_colonne">
+                                    <label for="MI_champCP">Code Postal</label>
+                                    <input type="text" id="MI_champCP" name="cp" value="<?php echo $infos_compte['codepostal'] ?>" required readonly>
                                 </div>
                             </div>
 
@@ -341,21 +136,21 @@
                             <div class="mes_infos_ligne">
 
                                 <!-- Numéro de rue -->
-                                <div id="colonne_champRue" class="mes_infos_colonne">
-                                    <label for="rue">N° de rue</label>
-                                    <input type="text" id="champRue" name="rue" value="<?php echo $infos_compte['numrue'] ?>" required readonly>
+                                <div id="MI_colonne_champRue" class="mes_infos_colonne">
+                                    <label for="MI_champRue">N° de rue</label>
+                                    <input type="text" id="MI_champRue" name="rue" value="<?php echo $infos_compte['numrue'] ?>" required readonly>
                                 </div>
 
                                 <!-- Adresse -->
                                 <div class="mes_infos_colonne">
-                                    <label for="adresse">Adresse</label>
-                                    <input type="text" id="champAdresse" name="adresse" value="<?php echo $infos_compte['adresse'] ?>" required readonly>
+                                    <label for="MI_champAdresse">Adresse</label>
+                                    <input type="text" id="MI_champAdresse" name="adresse" value="<?php echo $infos_compte['adresse'] ?>" required readonly>
                                 </div>
 
                                 <!-- Supplément d'adresse -->
                                 <div class="mes_infos_colonne">
-                                    <label for="supAdresse">Supplément d'adresse (facultatif)</label>
-                                    <input type="text" id="champSupAdresse" name="supAdresse" value="<?php echo $infos_compte['supplementadresse'] ?>" readonly>
+                                    <label for="MI_champSupAdresse">Supplément d'adresse (facultatif)</label>
+                                    <input type="text" id="MI_champSupAdresse" name="supAdresse" value="<?php echo $infos_compte['supplementadresse'] ?>" readonly>
                                 </div>
 
                             </div>
@@ -368,15 +163,15 @@
 
                                     <!-- Dénomination sociale -->
                                     <div class="mes_infos_colonne">
-                                        <label for="denominationpro">Dénomination professionnelle</label>
-                                        <input type="text" id="denomination" name="denominationpro" value="<?php echo $infos_compte['denominationpro'] ?>" required readonly>
+                                        <label for="MI_champDenominationPro">Dénomination professionnelle</label>
+                                        <input type="text" id="MI_champDenominationPro" name="denominationpro" value="<?php echo $infos_compte['denominationpro'] ?>" required readonly>
                                     </div>
                                     
                                     <?php if ($_SESSION['typePro'] == 'prive'){ ?>
                                         <!-- Numéro de siren -->
-                                        <div id="colonne_champNumsiren" class="mes_infos_colonne">
-                                            <label for="numsiren">N° de siren</label>
-                                            <input type="text" id="champNumsiren" name="numsiren" value="<?php echo $infos_compte['numsirenpro'] ?>" required readonly>
+                                        <div id="MI_colonne_champNumsiren" class="mes_infos_colonne">
+                                            <label for="MI_champNumSiren">N° de siren</label>
+                                            <input type="text" id="MI_champNumSiren" name="numsiren" value="<?php echo $infos_compte['numsirenpro'] ?>" required readonly>
                                         </div>
                                     <?php } ?>
 
@@ -385,7 +180,7 @@
                             <?php } ?>
                             
                             <!-- Bouton pour modifier ses informations personnelles -->
-                            <button type="button" class="liens-boutons" id="mes_infos_toggleButton">Modifier mes informations personnelles</button>
+                            <button type="button" class="mes_infos_liens-boutons" id="mes_infos_toggleButton">Modifier mes informations personnelles</button>
 
                             <!-- Message d'erreur qui n'apparait pas tant qu'il n'y a pas d'erreur -->
                             <p id="message_erreur"></p>
@@ -430,91 +225,186 @@
         </main>
         <div id="footer"></div>
 
-        <!-- Script pour le bouton de modification des informations personnelles -->
+        <!-- Script pour la vérification des informations personnelles -->
         <script>
                 document.addEventListener("DOMContentLoaded", function() {
+
                     const form = document.getElementById('infoForm');
-                    const toggleButton = document.getElementById('mes_infos_toggleButton');
                     const inputs = form.querySelectorAll('input');
+                    const toggleButton = document.getElementById('mes_infos_toggleButton');
                     const messageErreur = document.getElementById('message_erreur');
                     messageErreur.style.color = "red"; 
                     let isEditing = false;
+                    let valide = true;
 
-                    // Action quand le bouton de modification est cliqué
+                    //////////////////////
+                    // Vérification du nom
+                    //////////////////////
+
+                    const ChampNomJS = document.getElementById('MI_champNom');
+
+                    ChampNomJS.addEventListener('input', () => {
+                        if (ChampNomJS.value.trim() === ""){
+                            messageErreur.textContent = 'Le nom ne peut être vide';
+                            valide = false;
+                        }
+                        else{
+                            messageErreur.textContent = '';
+                            valide = true;
+                        }
+                    });
+
+                    /////////////////////////
+                    // Vérification du prenom
+                    /////////////////////////
+
+                    const ChampPrenomJS = document.getElementById('MI_champPrenom');
+
+                    ChampPrenomJS.addEventListener('input', () => {
+                        if (ChampPrenomJS.value.trim() === ""){
+                            messageErreur.textContent = 'Le prenom ne peut être vide';
+                            valide = false;
+                        }
+                        else{
+                            messageErreur.textContent = '';
+                            valide = true;
+                        }
+                    });
+
+                    //////////////////////////////////////
+                    // Vérification du numéro de telephone
+                    //////////////////////////////////////
+
+                    const ChampNumJS = document.getElementById('MI_champTel');
+                    const regex = /^[0-9]{10}$/;
+
+                    ChampNumJS.addEventListener('input', () => {
+                        if (!regex.test(ChampNumJS.value)) {
+                                messageErreur.textContent = "Le numéro de téléphone doit comporter exactement 10 chiffres.";
+                                valide = false;
+                        }
+                        else {
+                                messageErreur.textContent = "";
+                                valide = true;
+                        }
+                    });
+
+                    //////////////////////////
+                    // Vérification de l'Email
+                    //////////////////////////
+
+                    const ChampEmailJS = document.getElementById('MI_champEmail');
+                    const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+                    ChampEmailJS.addEventListener('input', () => {
+                        if (!regexEmail.test(ChampEmailJS.value)) {
+                                messageErreur.textContent = 'Veuillez renseigner une adresse E-mail valide';
+                                valide = false;
+                        }
+                        else {
+                                messageErreur.textContent = "";
+                                valide = true;
+                        }
+                    });
+
+                    /////////////////////////
+                    // Vérification de la rue
+                    /////////////////////////
+
+                    const ChampRueJS = document.getElementById('MI_champRue');
+                    const regexRue = /^\d+$/;
+
+                    ChampRueJS.addEventListener('input', () => {
+                        if (!regexRue.test(ChampRueJS.value)) {
+                            messageErreur.textContent = 'Veuillez renseigner un numéro de rue valide';
+                            valide = false;
+                        }
+                        else{
+                            messageErreur.textContent = "";
+                            valide = true;
+                        }
+                    })
+
+                    //////////////////////////////
+                    // Vérification du code postal
+                    //////////////////////////////
+
+                    const ChampCPJS = document.getElementById("MI_champCP");
+                    const regexCP = /^\d{5}$/;
+
+                    ChampCPJS.addEventListener('input', () => {
+                        if (!regexCP.test(ChampCPJS.value)) {
+                            messageErreur.textContent = 'Le code postal doit faire exactement 5 chiffres';
+                            valide = false;
+                        }
+                        else{
+                            messageErreur.textContent = "";
+                            valide = true;
+                        }
+                    })
+
+                    ///////////////////////////
+                    // Vérification de la siren
+                    ///////////////////////////
+                    
+                    if ((document.getElementById('MI_champNumSiren')) !== null){
+
+                        const ChampSirenJS = document.getElementById('MI_champNumSiren');
+                        const regexSiren = /^\d{9}$/;
+
+                        ChampSirenJS.addEventListener('input', () => {
+                            if (!regexSiren.test(ChampSirenJS.value)) {
+                                messageErreur.textContent = "Veuillez renseigner un numéro de siren valide";
+                                valide = false;
+                            }
+                            else{
+                                messageErreur.textContent = "";
+                                valide = true;
+                            }
+                        })
+                    }
+
+                    //////////////////////////////////
+                    // Vérification de la dénomination
+                    //////////////////////////////////
+                    
+                    if ((document.getElementById('MI_champDenominationPro')) !== null){
+
+                        const ChampDenominationJS = document.getElementById('MI_champDenominationPro');
+
+                        ChampDenominationJS.addEventListener('input', () => {
+                            if (ChampDenominationJS.value.trim() === '') {
+                                messageErreur.textContent = "La dénomination sociale ne peut être vide";
+                                valide = false;
+                            }
+                            else{
+                                messageErreur.textContent = "";
+                                valide = true;
+                            }
+                        })
+                    }
+
+                    ///////////////////////
+                    // Clique sur le bouton
+                    ///////////////////////
+
                     toggleButton.addEventListener('click', () => {
                         if (isEditing) {
 
-                            // On récupère les champs à vérifier
-                            const phoneNumber = document.getElementById('champTel').value;
-                            const email = document.getElementById('mail').value;
-                            const rue = document.getElementById('champRue').value;
-                            const cp = document.getElementById('champCP').value;
-
-                            var pro_valide = true;
-                            
-
-                            // Ici, indirectement, on vérifie si l'utilisateur est un pro
-                            if ((document.getElementById('champNumsiren')) !== null){
-                                const numsirenP = document.getElementById('champNumsiren').value;
-
-                                const regexSiren = /^\d{9}$/;
-
-                                if (!regexSiren.test(numsirenP)) {
-                                        if (messageErreur) {
-                                            messageErreur.textContent = "Veuillez renseigner un numéro de siren valide";
-                                            pro_valide = false;
-                                        }
-                                    }
-                            }
-                            
-                            // Constantes regex pour nous permettre de vérifier les champs répérés plus tôt
-                            const regex = /^[0-9]{10}$/;
-                            const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-                            const regexRue = /^\d+$/
-                            const regexCP = /^\d{5}$/;
-
-                            // Test du numéro de téléphone
-                            if (!regex.test(phoneNumber)) {
-                                if (messageErreur) {
-                                    messageErreur.textContent = "Le numéro de téléphone doit comporter exactement 10 chiffres.";
-                                }
-                            }
-
-                            // Test de l'email
-                            else if (!regexEmail.test(email)) {
-                                if (messageErreur) {
-                                    messageErreur.textContent = 'Veuillez renseigner une adresse E-mail valide';
-                                }
-                            }
-
-                            // Test du numéro de rue
-                            else if (!regexRue.test(rue)) {
-                                if (messageErreur) {
-                                    messageErreur.textContent = 'Veuillez renseigner un numéro de rue valide';
-                                }
-                            }
-
-                            // Test du code postal
-                            else if (!regexCP.test(cp)) {
-                                if (messageErreur) {
-                                    messageErreur.textContent = 'Le code postal doit faire exactement 5 chiffres';
-                                }
-                            }
-
-                            // Si tout est bon on peut soumettre le formulaire
-                            else if (pro_valide == true){
+                            if (valide == true){
                                 inputs.forEach(input => input.setAttribute('readonly', 'readonly'));
                                 form.submit();
                             }
 
-
                         } else {
                             inputs.forEach(input => input.removeAttribute('readonly'));
-                            inputs.forEach(input => input.style.color = "#31CEA6");
+                            inputs.forEach(input => input.style.backgroundColor = "#79AFA6");
                             toggleButton.textContent = 'Enregistrer les modifications';
                         }
+
                         isEditing = !isEditing;
                     });
+
                 });
 
         </script>
