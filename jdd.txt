@@ -1,0 +1,60 @@
+Jeu de de données pour review :
+
+- Création d'un compte membre :
+    - Nom : Dupont
+    - Prénom : Jean
+    - Email : jean.dupont@gmail.com
+    - Téléphone : 0666666666
+
+    - Numéro de rue : 4
+    - Rue : rue de la paix
+    - Code postal : 75000
+    - Ville : Paris
+    - Departement : Ile de France
+    - Pays : France
+
+    - Pseudonyme : jdupont
+    - Mot de passe : Patate1234!
+
+Création d'un compte professionnel :
+    - Nom : Pat
+    - Prénom : Patrick
+    - Email : patrick.pat@gmail.com
+    - Téléphone : 0612346578
+    
+    - Numéro de rue : 5
+    - Rue : rue de la guerre
+    - Code postal : 75000
+    - Ville : Paris
+    - Departement : Ile de France
+    - Pays : France
+
+    - Denomination : SARL
+    - Raison sociale : PatPat
+    - SIREN : 154875649
+    - BIC : BNPAFRPPXXX
+    - IBAN : FR7630006000011234567890189
+
+    - Mot de passe : Patrick1234!
+
+Création d'une offre :
+    - Nom de l'offre : Séjour Bien-Être à la Montagne
+    - Résumé de l'offre : Profitez d'un séjour de 3 jours dans un chalet luxueux avec spa et vue imprenable sur les Alpes.
+    - Description :
+    Offrez-vous une pause ressourçante dans un cadre idyllique.
+    Hébergement dans un chalet tout confort, équipé d'un jacuzzi privé.
+    Accès illimité à un espace spa avec sauna et hammam.
+    Randonnées guidées pour découvrir les panoramas alpins.
+    Dîner gastronomique chaque soir, mettant à l'honneur les spécialités locales.
+
+    - Accessibilité : Personnes à mobilité réduite
+    - URL : https://www.chalet-montagne.com
+
+    - Numéro de rue : 25
+    - Rue : Rue des Chalets
+    - Code postal : 74400
+    - Ville : Chamonix-Mont-Blanc
+    - Département : Haute-Savoie
+    - Pays : France
+
+    - Prestation incluse : Hébergement, Restauration, Activités
