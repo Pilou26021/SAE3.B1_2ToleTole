@@ -1181,7 +1181,7 @@ td {
 }
 
 .detail-offer-btn:hover {
-    background-color: var(--color-accent-hover); /* Changement de couleur au survol */
+    background-color: var(--color-background); /* Changement de couleur au survol */
 }
 
 
