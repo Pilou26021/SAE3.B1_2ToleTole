@@ -524,11 +524,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="success">
         <h1>Votre compte a été créé avec succès !</h1>
         <p>Vous allez être redirigé vers la page de connexion...</p>
-        <script>
-            setTimeout(() => {
-                window.location.href = 'connexion_pro.php';
-            }, 3000);
-        </script>
+        <?php header("Location: connexion_pro.php"); ?>
     </div>
 <?php endif; ?>
 
