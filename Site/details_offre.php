@@ -326,6 +326,15 @@
                                     case 'parc':
                                 ?>
                                         <section class="details_offre_mobile">
+                                            <!-- On affiche la carte du parc -->
+                                            <?php
+                                            $stmt = $conn->prepare("SELECT pathimage FROM public._image WHERE idimage = :idimage");
+                                            $stmt->execute([':idimage' => $offreDetails['carteParc']]);
+                                            $imagecarteresto = $stmt->fetchColumn();
+                                            ?>
+                                            <h2>Carte du parc</h2>
+                                            <img src="<?php echo $imagecarteresto; ?>" alt="Carte du parc" style="width:100%;max-width:500px; margin-bottom: 20px;">
+                                            
                                             <table>
                                                 <thead>
                                                     <tr>

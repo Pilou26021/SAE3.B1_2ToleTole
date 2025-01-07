@@ -152,9 +152,6 @@ INSERT INTO _offreActivite (idOffre, indicationDuree, ageMinimum, prestationIncl
 (2, 3, 10, 'Collation incluse'),
 (5, 2, 12, 'Guide inclus'),
 (6, 2, 12, 'Guide inclus'),
-(7, 2, 12, 'Guide inclus'),
-(8, 2, 12, 'Guide inclus'),
-(9, 2, 12, 'Guide inclus'),
 (10, 2, 12, 'Guide inclus');
 
 -- 17. Insérer des données dans `_offreSpectacle`
