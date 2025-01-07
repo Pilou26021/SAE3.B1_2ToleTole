@@ -1987,4 +1987,33 @@ td {
 	resize: none;
 }
 
+.scorePouce {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 20px; /* Espacement des bords */
+}
 
+.scorePouce a {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	text-decoration: none;
+	border-radius: 10px;
+	color: #040316;
+	transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.scorePouce a:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.scorePouce img {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+}

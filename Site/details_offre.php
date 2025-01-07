@@ -68,7 +68,7 @@
             $(function(){
                 $("#footer").load("footer.html"); 
             });
-        </script> 
+        </script>
         <?php 
             // Vérification de l'ID de l'offre dans l'URL
             if (isset($_GET['idoffre'])) {
@@ -727,6 +727,31 @@
                                                 ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                             }
                                         ?>
+                                        <div class="scorePouce">
+                                            <a href="#" onclick="modifierScore(<?=$avis['idavis']?>, 'plus')"><img src="./img/icons/thumbs-up.svg" alt="pouce en l'air"> Pertinent</a>
+                                            <a href="#" onclick="modifierScore(<?=$avis['idavis']?>, 'moins')"><img src="./img/icons/thumbs-down.svg" alt="pouce en bas"> Non pertinent</a>
+                                        </div>
+
+                                        <script>
+                                            /**
+                                             * Fonction pour modifier le score d'un avis
+                                             */
+                                            function modifierScore(idAvis, scoreType) {
+                                                $.ajax({
+                                                    url: "update_score_avis.php?id_avis=" + idAvis + "&score=" + scoreType,
+                                                    method: "GET",
+                                                    success: function(response) {
+                                                        alert("Score modifié pour l'avis " + idAvis);
+                                                    },
+                                                    error: function() {
+                                                        alert("Erreur lors de la modification du score.");
+                                                    }
+                                                });
+                                            }
+
+
+                                        </script>
+
                                     </div>
                                     <?php
                                 }

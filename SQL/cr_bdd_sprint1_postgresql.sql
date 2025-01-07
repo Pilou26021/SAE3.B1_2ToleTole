@@ -107,6 +107,7 @@ CREATE TABLE public._avis (
     dateVisiteAvis DATE NOT NULL,
     blacklistAvis BOOLEAN NOT NULL,
     reponsePro BOOLEAN NOT NULL,
+    scorePouce INT NOT NULL,
     CONSTRAINT unique_avis UNIQUE (idAvis, idOffre, idMembre),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre)
