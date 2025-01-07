@@ -2017,3 +2017,210 @@ td {
 	height: 20px;
 	margin-right: 10px;
 }
+
+
+/*==================
+ Page mes_infos.php
+==================*/
+
+
+	.mes_infos_main {
+		background-color: #F2F1E9;
+		display: flex;
+		/*flex-direction: row;*/
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		margin-bottom: 40px;
+	}
+
+	/* Zone gauche de la page (du main) */
+	.mes_infos_main_zone_gauche {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		margin-left: 5%;
+		width: 60%;
+		padding: 20px;
+	}
+
+	/* Zone droite de la page (du main) */
+	.mes_infos_main_zone_droite {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		box-sizing: border-box;
+		margin: 40px;
+		width: 30%;
+		min-width: 200px;
+	}
+
+	/* On montre à l'utilisateur sur quelle page il se trouve */
+	#mes_infos_lien_page{
+		background-color: #36D673;
+	}
+
+	/*======================
+		Style des boutons-liens 
+		======================*/
+
+	.mes_infos_liens-boutons {
+		width: 90%;
+		padding: 15px 15px;
+		color: black;
+		text-decoration: none;
+		font-size: 16px;
+		border-radius: 5px;
+		text-align: center;
+		transition: background-color 0.3s ease;
+		background-color: #F2F1E9;
+		margin: 10px 0px 10px 0px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		box-sizing: border-box;
+		flex-grow: 1;
+		min-width: 200px;
+	}
+
+	.mes_infos_liens-boutons:hover {
+		color: inherit;
+		background-color: #36D673;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+	}
+
+	/*===================================================================================
+		Style du conteneur central pour la modification des informations de l'utilisateur 
+		===================================================================================*/
+
+	.mes_infos_titre{
+		margin-bottom: 30px;
+		text-decoration: none;
+	}
+
+	.mes_infos_conteneur {
+		width: 90%;
+		border-radius: 10px;
+		
+		text-align: center;
+		padding: 0;
+	}
+
+	.mes_infos_form label {
+		font-size: 14px;
+		margin-bottom: 5px;
+		text-align: left;
+	}
+
+	.mes_infos_form input {
+		width: 100%;
+		padding: 10px;
+		border: none;
+		border-radius: 5px;
+		background-color: #F2F1E9;
+		border: 1px solid #31CEA6;
+		font-size: 16px;
+		box-sizing: border-box;
+		color: black;
+	}
+
+	.mes_infos_form input:focus {
+		outline: none;
+	}
+
+	#mes_infos_toggleButton {
+		font-size: 16px;
+		width: 80%;
+		border-radius: 5px;
+		border: 1px solid #a5d6a7;
+		color: black;
+		cursor: pointer;
+		margin-top: 40px;     
+	}
+
+	#mes_infos_toggleButton:hover {
+		background-color: #36D673;
+	}
+
+	/* Style des lignes du conteneur */
+	.mes_infos_ligne {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		max-width: none;
+	}
+
+	/* Style des colonnes du conteneur */
+	.mes_infos_colonne {
+		display: flex;
+		flex-direction: column;
+		margin: 15px;        
+		flex: 1;   
+	}
+
+	/* Styles particuliers */
+	#MI_colonne_champRue, #MI_colonne_champTel, #MI_colonne_champNumsiren, #MI_colonne_champCP{
+		flex: 0;
+	}
+
+	#MI_champRue{
+		width: 100px;
+	}
+
+	#MI_champTel, #MI_champNumSiren, #MI_champCP{
+		width: 200px;
+	}
+
+
+@media (max-width: 1200px){
+
+	.mes_infos_ligne {
+		flex-direction: column;
+	}
+
+	.mes_infos_main_zone_gauche{
+		margin: 0;
+	}
+
+	.mes_infos_liens-boutons {
+		font-size: 15px;
+		padding: 20px 20px;
+		width: 100%;
+	}
+}
+
+@media (max-width: 700px){
+
+	.mes_infos_main{
+		flex-direction: column;
+	}
+
+	.mes_infos_conteneur{
+		width: 100%;
+	}
+
+	.mes_infos_form{
+		width: 100%;
+	}
+
+	.mes_infos_main_zone_gauche{
+		width: 90%;
+	}
+
+	.mes_infos_main_zone_droite{
+		width: 90%;
+	}
+
+	.mes_infos_lignes{
+		width: 100%;
+	}
+
+	.mes_infos_colonnes{
+		margin: 30px 0 30px 0;
+	}
+
+	.mes_infos_liens-boutons {
+		font-size: 15px;
+		padding: 20px 20px;
+		width: 100%;
+	}
+}
