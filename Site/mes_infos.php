@@ -408,7 +408,7 @@
 
                         ChampDenominationJS.addEventListener('input', () => {
                             if (ChampDenominationJS.value.trim() === '') {
-                                messageErreur.textContent = "La dénomination sociale ne peut être vide";
+                                messageErreur.textContent = "La dénomination ne peut être vide";
                                 valide = false;
                             }
                             else{
