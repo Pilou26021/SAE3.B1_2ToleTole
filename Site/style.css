@@ -1688,6 +1688,17 @@ td {
 	color: #040316;
 }
 
+.texte_note_etoiles_container{
+	display: flex;
+	flex-direction: row;
+	padding-top: 2px;
+}
+
+.nombre_note{
+	left: 3px;
+	bottom: 5px;
+}
+
 @font-face {
 	font-family: 'firasans';
 	src: url('./font/firasans-regular-webfont.woff2') format('woff2');

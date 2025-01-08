@@ -288,7 +288,9 @@
                                                     <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : '0' ?> €</p>
 
                                                     <div class="titre-moy-index">
-                                                        <p class="offre-resume"> <strong> Note :</strong></p>
+                                                        <p class="offre-resume"> <strong> Note : </strong></p>
+                                                        <div class="texte_note_etoiles_container">
+                                                            
                                                         <?php if(!empty($offre['notemoyenneoffre'])){
                                                                 $noteMoyenne = $offre['notemoyenneoffre'];
 
@@ -318,13 +320,14 @@
                                                                     <?php
                                                                 }
 
-                                                                ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
+                                                                ?><p class="nombre_note" ><?=$offre['notemoyenneoffre']?>/5</p><?php
 
                                                             } else {
-                                                                echo "<p>Pas d'évaluations</p>";
+                                                                ?> <p>Pas d'évaluations</p><?php
                                                             }
 
                                                             ?>
+                                                        </div>
 
                                                     </div>
 
@@ -399,7 +402,8 @@
                                         <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : '0' ?> €</p>
 
                                         <div class="titre-moy-index">
-                                            <p class="offre-resume"> <strong> Note :</strong></p>
+                                            <p class="offre-resume"> <strong> Note : </strong></p>
+                                            <div class="texte_note_etoiles_container">
                                             <?php if(!empty($offre['notemoyenneoffre'])){
                                                     $noteMoyenne = $offre['notemoyenneoffre'];
 
@@ -429,13 +433,14 @@
                                                         <?php
                                                     }
 
-                                                    ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
+                                                    ?><p class="nombre_note"><?= $offre['notemoyenneoffre']?>/5</p><?php
 
                                                 } else {
-                                                    echo "<p>Pas d'évaluations</p>";
+                                                    ?> <p>Pas d'évaluations</p><?php
                                                 }
 
                                                 ?>
+                                            </div>
 
                                         </div>
                                         <p class="offre-resume">Offre publié le : <?= !empty($offre['datecreationoffre']) ? htmlspecialchars($offre['datecreationoffre']) : 'Date non disponible' ?> </p>
@@ -483,6 +488,7 @@
 
                                         <div class="titre-moy-index">
                                             <p class="offre-resume"> <strong> Note :</strong></p>
+                                            <div class="texte_note_etoiles_container">
                                             <?php if(!empty($offre['notemoyenneoffre'])){
                                                     $noteMoyenne = $offre['notemoyenneoffre'];
 
@@ -512,13 +518,14 @@
                                                         <?php
                                                     }
 
-                                                    ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
+                                                    ?><p class="nombre_note"><?= $offre['notemoyenneoffre']?>/5</p><?php
 
                                                 } else {
-                                                    echo "<p>Pas d'évaluations</p>";
+                                                    ?> <p>Pas d'évaluations</p><?php
                                                 }
 
                                                 ?>
+                                            </div>
 
                                         </div>
 

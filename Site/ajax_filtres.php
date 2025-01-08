@@ -231,6 +231,7 @@ if (count($offres) > 0) {
 
                     <div class="titre-moy-index">
                         <p class="offre-resume"> <strong> Note :</strong></p>
+                        <div class="texte_note_etoiles_container">
                         <?php if(!empty($offre['notemoyenneoffre'])){
                                 $noteMoyenne = $offre['notemoyenneoffre'];
 
@@ -260,13 +261,14 @@ if (count($offres) > 0) {
                                     <?php
                                 }
 
-                                ?><p><?= $offre['notemoyenneoffre']?>/5</p><?php
+                                ?><p class="nombre_note"><?= $offre['notemoyenneoffre']?>/5</p><?php
 
                             } else {
-                                echo "<p>Pas d'évaluations</p>";
+                                ?> <p>Pas d'évaluations</p><?php
                             }
 
                             ?>
+                        </div>
 
                     </div>
                     <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
