@@ -30,22 +30,22 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'), -- 1
 (5, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'), -- 2
 (4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'), -- 3
-(21, 'Appartement 3B', 'Rue de la Liberté', 75000, 'Paris', 'Ile-de-France', 'France'), -- 4
-(12, '', 'Avenue des Champs-Élysées', 75008, 'Paris', 'Ile-de-France', 'France'), -- 5
-(3, '', 'Rue de la République', 69001, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 6
-(7, '', 'Rue de la Paix', 69001, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 7
-(35, '', 'Boulevard Haussmann', 75009, 'Paris', 'Ile-de-France', 'France'), -- 8
-(2, '', 'Rue de la République', 69002, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 9
-(9, '', 'Rue de Rivoli', 75001, 'Paris', 'Ile-de-France', 'France'), -- 10
-(1, '', 'Lloret de Mar', 17310, 'Lloret de Mar', 'Catalogne', 'Espagne'), -- 11
-(95, '', ' Rue du Palais', 93800, 'Épinay-sur-seine', 'Île-de-France', 'France'), -- 12
+(7, '', 'Avenue Saint-Denis', 29000, 'Quimper', 'Finistère', 'France'), -- 4
+(6, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 5
+(58, '', 'Rue Amiral Romain Desfosses', 29200, 'Brest', 'Finistère', 'France'), -- 6
+(43, '', 'Rue de la Fontaine', 56000, 'Vannes', 'Morbihan', 'France'), -- 7
+(35, '', 'Avenue Paul Cezanne', 56000, 'Vannes', 'Morbihan', 'France'), -- 8
+(2, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'), -- 9
+(43, '', 'Rue Isambard', 35300, 'Fougères', 'Ille-et-Vilaine', 'France'), -- 10
+(96, '', 'Rue des Nations Unies', 22000, 'Saint-Brieuc', 'Côtes-d''Armor', 'France'), -- 11
+(6, '', 'Rue Lenotre', 35700, 'Rennes', 'Ille-et-Vilaine', 'France'), -- 12
 (10, '', 'Rue de la Gare', 35000, 'Rennes', 'Bretagne', 'France'), -- 13
-(15, '', 'Avenue Jean Jaurès', 69007, 'Lyon', 'Auvergne-Rhône-Alpes', 'France'), -- 14
-(22, '', 'Boulevard de la République', 13001, 'Marseille', 'Provence-Alpes-Côte d''Azur', 'France'), -- 15
-(8, '', 'Rue de la Paix', 75002, 'Paris', 'Ile-de-France', 'France'), -- 16
-(14, '', 'Rue de la Liberté', 21000, 'Dijon', 'Bourgogne-Franche-Comté', 'France'), -- 17
-(30, '', 'Rue Nationale', 37000, 'Tours', 'Centre-Val de Loire', 'France'), -- 18
-(32, '', 'Rue Nationale', 37000, 'Tours', 'Centre-Val de Loire', 'France'); -- 19
+(85, '', 'Rue des Dunes', 35400, 'Saint-Malo', 'Ille-et-Vilaine', 'France'), -- 14
+(22, '', 'Rue Petite Fusterie', 29200, 'Brest', 'Finistère', 'France'), -- 15
+(77, '', 'Avenue de Provence', 56000, 'Vannes', 'Morbihan', 'France'), -- 16
+(47, '', 'Rue Hubert de Lisle', 56100, 'Lorient', 'Morbihan', 'France'), -- 17
+(25, '', 'Avenue Jean Jaures', 56600, 'Lanester', 'Morbihan', 'France'), -- 17
+(14, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'); -- 18
 
 -- 3. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
