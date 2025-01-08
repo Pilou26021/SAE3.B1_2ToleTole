@@ -731,8 +731,6 @@
                                     } else {
                                         $thumbsClicked[$avisId] = false;
                                     }
-
-                                    var_dump($_SESSION);
                                     
                                     $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
 
