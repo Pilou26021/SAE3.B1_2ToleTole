@@ -178,14 +178,14 @@
                     </div>
                 </div>
 
-                <label for="date">Date :</label>
+                <label for="datedeb">Date :</label>
                 <div style="display: flex; align-items:center; justify-content: space-around;">
                     <input id="datedeb" class="input-filtre"  style="width: 40%;" type="date" >
-                    <p>a</p>
+                    <p>à</p>
                     <input id="datefin" class="input-filtre"  style="width: 40%;" type="date" >
                 </div>
 
-                <label for="priceRange">Gamme de prix :</label>
+                <label for="price-range-min">Gamme de prix :</label>
                 <div class="slider-container">
                     <div class="price-label">
                         Prix: <span id="price-value-min"><?php echo $min[0]['min']; ?></span>€ a <span id="price-value-max"><?php echo $max[0]['max']; ?></span>€
@@ -200,7 +200,7 @@
                 </div>
 
 
-                <label for="sort">Notes :</label>
+                <label for="notemin">Notes :</label>
                 <div style="display: flex; justify-content: space-around;">
                     <select  class="choose" id="notemin" name="notemin" style="width: 30%; height: 30px;" data-url="ajax_filtres.php">
                         <option value="0" selected="selected">0</option>
@@ -220,9 +220,9 @@
                         <option value="5" selected="selected">5</option>
                     </select>
                 </div>
-                <h3>Tri</h3>
+                <h3>Tris</h3>
 
-                <label for="TrieC">Trie :</label>
+                <label for="Tprix">Tris :</label>
                 <select class="choose" id="Tprix" name="Tprix">
                     <option value="">--Choisissez une option--</option>
                     <option value="CroissantP">Tri par Prix Croissant</option>
