@@ -1052,6 +1052,13 @@ p.cp_mobile_erreur {
 	border-radius: 10px;
 }
 
+.details-offre-image {
+	width: 1000px;
+	height: 300px;
+	object-fit: cover;
+	border-radius: 10px;
+}
+
 /* Grille tarifaire */
 section.details_offre_mobile_tarifs {
 	display: flex;
