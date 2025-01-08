@@ -689,6 +689,7 @@
                         <?php 
                             // on affiche l'avis du membre si le membre est connecté et à un avis
                             if(isset($avis_membre)){
+                                $scorePouce = $avis_membre['scorepouce'];
                                 if ($avis_membre){
                                     $date_formated = date("d/m/Y", strtotime($avis_membre['dateavis']));
                                     ?>
@@ -700,16 +701,17 @@
                                         </p>
                                         <p><?= $avis_membre['commentaireavis'] ?></p>
 
-                                                
-                                        <?php
-                                            for ($i = 0; $i < $avis_membre['noteavis']; $i++) {
-                                                ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                        <div class="avis_stars_score">
+                                            <?php
+                                                for ($i = 0; $i < $avis_membre['noteavis']; $i++) {
+                                                    ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
+                                                }
+                                                for ($i = $avis_membre['noteavis']; $i < 5; $i++) {
+                                                    ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                             }
-                                            for ($i = $avis_membre['noteavis']; $i < 5; $i++) {
-                                                ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
-                                           }
-                                        ?>
-                                        <br><br>
+                                            ?>
+                                            <p>Score de pertinence : <?= $scorePouce ?> </p>
+                                        </div>
                                         <div class="suppr-avis">
                                             <a class="bouton-supprimer-avis" href="delete_avis.php?idoffre=<?=$idoffre?>&idmembre=<?=$idmembre?>&idavis=<?=$avis_membre['idavis']?>">Supprimer mon avis</a>
                                             
@@ -729,6 +731,8 @@
                                     } else {
                                         $thumbsClicked[$avisId] = false;
                                     }
+
+                                    var_dump($_SESSION);
                                     
                                     $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
 
