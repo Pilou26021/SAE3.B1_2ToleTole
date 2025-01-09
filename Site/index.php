@@ -268,7 +268,7 @@
                                     }
                                     if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
                                         <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid #36D673;' " ;} ?> >
+                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid var(--color-primary-pro);' " ;} ?> >
                                                 <div class="offre-image-container" style="position: relative;">
                                                     <!-- Affichage de l'image -->
                                                     <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -382,7 +382,7 @@
                         }
                         if(!$professionel && $offre['horsligne'] == false ) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid #36D673;' " ;} ?>>
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid var(--color-primary-pro);' " ;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -467,7 +467,7 @@
                     <?php foreach ($offres as $offre): ?>
                         <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid #36D673;;' " ;} ?>>
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo "style = 'border: 3px solid var(--color-primary-pro);;' " ;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
