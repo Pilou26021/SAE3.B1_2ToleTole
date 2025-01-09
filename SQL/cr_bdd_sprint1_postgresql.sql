@@ -399,3 +399,10 @@ SELECT o.idOffre, t.typeTag, t.typeRestauration
 FROM public._offre o
 JOIN public._theme th ON o.idOffre = th.idOffre
 JOIN public._tag t ON th.idTag = t.idTag;
+
+-- Vue pour avoir avis, alerteravis et signalement
+CREATE VIEW public.avisSignalement AS
+SELECT a.idAvis, a.idOffre, a.noteAvis, a.commentaireAvis, a.idMembre, a.dateAvis, a.dateVisiteAvis, a.blacklistAvis, a.reponsePro, a.scorePouce, s.raison
+FROM public._avis a
+JOIN public._alerterAvis aa ON a.idAvis = aa.idAvis
+JOIN public._signalement s ON aa.idSignalement = s.idSignalement;

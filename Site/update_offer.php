@@ -154,11 +154,18 @@
             $stmt->bindParam(':idOffre', $idOffre);
             $stmt->execute();
         } else if ($cat == 'visite') {
-            $sql = "UPDATE public._offreVisite SET dateOffre = :dateOffre, visiteGuidee = :visiteGuidee, langueProposees = :langueProposees WHERE idOffre = :idOffre";
+            $langues = implode(',', $_POST['langues']);
+
+            // On ajoute autreLangue si elle est renseignée
+            if (isset($_POST['autreLangue']) && $_POST['autreLangue'] != '') {
+                $langues .= $_POST['autreLangue'];
+            }
+
+            $sql = "UPDATE public._offrevisite SET dateoffre = :dateOffre, visiteguidee = :visiteGuidee, langueproposees = :langueProposees WHERE idoffre = :idOffre";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':dateOffre', $_POST['dateOffre']);
             $stmt->bindParam(':visiteGuidee', $_POST['visiteGuidee']);
-            $stmt->bindParam(':langueProposees', $_POST['langues']);
+            $stmt->bindParam(':langueProposees', $langues);
             $stmt->bindParam(':idOffre', $idOffre);
             $stmt->execute();
         }
