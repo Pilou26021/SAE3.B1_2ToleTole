@@ -14,8 +14,9 @@
     $stmt = $conn->prepare($sql);
     try {
         $stmt->execute();
+        $_SESSION['signalement_avis_ok'] = true;
     } catch (Exception $e) {
-        echo $e;
+        $_SESSION['signalement_avis_ok'] = false;
     }
     
 ?>
@@ -29,11 +30,7 @@
     </head>
 
     <body>
-
-    <script>
-        alert("Votre signalement a bien été pris en compte.");
-    </script>
-
+        
     <?php
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     ?>
