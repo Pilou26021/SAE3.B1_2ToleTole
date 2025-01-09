@@ -2279,51 +2279,6 @@ td {
 	}
 }
 
-/* Style de base pour la modale d'avis */
-.modal_avis {
-    display: none; /* La modale est cachée par défaut */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal_avis-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 300px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.close_avis {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close_avis:hover,
-.close_avis:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.container_pdp-name-date_options{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
-
-
 /*******************
 Page mon_compte.php
 *******************/
@@ -2357,48 +2312,78 @@ img {
 	right: 0;
 }
 
-/* Styles pour la modale */
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
+/* Style de base pour la modale d'avis */
+.modal_avis {
+    display: none; /* La modale est cachée par défaut */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_avis-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.modal_avis-content textarea{
 	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
+	padding: 10px;
+	margin: 0px;
+	border: 1px solid #040316;
+	border-radius: 5px;
+	font-size: 1em;
+	resize: none;
+}
+
+.close_avis {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close_avis:hover,
+.close_avis:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.container_pdp-name-date_options{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.form_avis_signalement{
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
 
-.modal-content {
-	background-color: white;
-	min-width: 300px;
-	padding: 20px;
-	border-radius: 5px;
-	width: 20%;
-	text-align: center;
-
-}
-
-.modal-content-btn {
+.dropdown-signalement{
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-}
-
-.close-btn {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-	color: black;
+	justify-content: center;
+	background-color: white;
+	padding-left: 10px;
+	font-size: 1em;
+	width: 67%;
+    padding: 15px; /* Agrandi */
+    border: 1px solid #040316;
+    border-radius: 8px; /* Plus arrondi */
+    color: #333;
 }
 
 input[type="file"] {
