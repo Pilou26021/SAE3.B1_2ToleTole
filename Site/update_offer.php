@@ -157,8 +157,10 @@
             $langues = implode(',', $_POST['langues']);
 
             // On ajoute autreLangue si elle est renseignée
-            if (isset($_POST['autreLangue']) && $_POST['autreLangue'] != '') {
-                $langues .= $_POST['autreLangue'];
+            if (!empty($_POST['autreCheckboxCheck'])) {
+                if (isset($_POST['autreLangue']) && $_POST['autreLangue'] != '' && in_array('on', $_POST['autreCheckboxCheck'])) {   
+                    $langues .= ',' . $_POST['autreLangue'];
+                }
             }
 
             $sql = "UPDATE public._offrevisite SET dateoffre = :dateOffre, visiteguidee = :visiteGuidee, langueproposees = :langueProposees WHERE idoffre = :idOffre";
@@ -356,7 +358,7 @@
                 if ("no error"){ //TODO
                     echo "<h1>VOTRE OFFRE EST BIEN MODIFIEE !</h1>";
                     
-                    header("refresh:3;url=" . $origin . ".php?idoffre=$idOffre");
+                    header("refresh:0;url=" . $origin . ".php?idoffre=$idOffre");
                 }
             ?>
         </main>

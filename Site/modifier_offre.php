@@ -287,7 +287,7 @@
                     <label><input type="checkbox" name="langues[]" value="Espagnol" <?= in_array('Espagnol', $offreLangues) ? 'checked' : ''; ?>> Espagnol</label>
                     <label><input type="checkbox" name="langues[]" value="Allemand" <?= in_array('Allemand', $offreLangues) ? 'checked' : ''; ?>> Allemand</label>
                     <label><input type="checkbox" name="langues[]" value="Italien" <?= in_array('Italien', $offreLangues) ? 'checked' : ''; ?>> Italien</label>
-                    <label><input type="checkbox" name="langues[]" value="" id="autreCheckbox" <?= !empty($languesautres) ? 'checked' : ''; ?>> Autre</label>
+                    <label><input type="checkbox" name="autreCheckboxCheck[]" value="on" id="autreCheckbox" <?= !empty($languesautres) ? 'checked' : ''; ?>> Autre</label>
                 </div>
                 <input type="text" width="100%" class="textarea-creer_offre" name="autreLangue" placeholder="Préciser les autres langues" style="display: <?= !empty($languesautres) ? 'block' : 'none'; ?>;" id="autreLangueInput" value="<?= htmlspecialchars(implode(', ', $languesautres)); ?>">
 
