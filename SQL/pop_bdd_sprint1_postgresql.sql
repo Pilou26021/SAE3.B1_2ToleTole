@@ -111,7 +111,17 @@ INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateV
 -- 10. Insérer des données dans `_signalement`
 INSERT INTO _signalement (raison) VALUES 
 ('Spam'),
-('Contenu inapproprié');
+('Contenu inapproprié'),
+('Avis faux ou trompeur'),
+('Non-respect des conditions d''utilisation'),
+('Publicité déguisée'),
+('Harcèlement ou comportement abusif'),
+('Discours haineux ou discriminatoire'),
+('Violence ou incitation à la violence'),
+('Usurpation d''identité'),
+('Contenu haineux ou offensant'),
+('Langage vulgaire ou offensant'),
+('Contenu illégal');
 
 -- 11. Insérer des données dans `_alerterOffre`
 INSERT INTO _alerterOffre (idSignalement, idOffre) VALUES 

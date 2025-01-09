@@ -119,16 +119,16 @@ CREATE TABLE public._signalement (
 );
 
 CREATE TABLE public._alerterOffre (
+    idAlerterOffre SERIAL PRIMARY KEY,
     idSignalement BIGINT NOT NULL,
     idOffre BIGINT NOT NULL,
-    CONSTRAINT pk_alerterOffre PRIMARY KEY (idSignalement, idOffre),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
 );
 
 CREATE TABLE public._alerterAvis (
+    idAlerterAvis SERIAL PRIMARY KEY,
     idSignalement BIGINT NOT NULL,
     idAvis BIGINT NOT NULL,
-    CONSTRAINT pk_alerterAvis PRIMARY KEY (idSignalement, idAvis),
     FOREIGN KEY (idAvis) REFERENCES public._avis(idAvis)
 );  
 
