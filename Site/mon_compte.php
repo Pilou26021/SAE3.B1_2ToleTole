@@ -125,9 +125,9 @@
                     <h2>Modifier votre photo de profil</h2>
                     <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
                         <div class="modal-content-btn">
-                            <input class="offer-btn" type="file" name="newProfileImage" accept="image/*" required>
+                            <input class="offer-btn <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" type="file" name="newProfileImage" accept="image/*" required>
                             <div class="modal-footer">
-                                <button type="submit" class="offer-btn">Enregistrer</button>
+                                <button type="submit" class="offer-btn <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Enregistrer</button>
                             </div>
                         </div>
                     </form>
@@ -223,9 +223,9 @@
                     <div class="conteneur-boutons">
                         <section class="creer_ligne">
                             <!-- <div class="creer_colonne conteneur-gauche"> -->
-                                <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+                                <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="mes_infos.php">Gérer mes informations personnelles</a>
                                 <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
-                                <a class="liens-boutons" href="mes_infos_bancaires.php">Gérer mes coordonnées bancaires</a>
+                                <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="mes_infos_bancaires.php">Gérer mes coordonnées bancaires</a>
                             <!-- </div> -->
 
                             <!-- <div class="creer_colonne conteneur-droit"> -->

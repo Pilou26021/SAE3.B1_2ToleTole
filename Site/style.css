@@ -2441,6 +2441,14 @@ input[type="file"] {
 	flex-grow: 1;
 }
 
+.liens-boutons.professionnel {
+	border: 1px solid var(--color-primary-hover-pro);
+}
+
+.liens-boutons.professionnel:hover {
+	background-color: var(--color-primary-pro);
+}
+
 .liens-boutons:visited {
 	color: inherit;
 }
