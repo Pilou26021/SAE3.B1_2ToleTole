@@ -750,8 +750,28 @@
                                         <div id="modalAvis" class="modal_avis">
                                             <div class="modal_avis-content">
                                                 <span class="close_avis" onclick="closeModalAvis()">&times;</span>
-                                                <h2>Signaler l'avis aux administrateurs ?</h2><br>
-                                                <button class="bouton-supprimer-avis" onclick="submitSignalementAvis(<?=$avisId?>)">Signaler l'avis</button>
+                                                <form action="report_avis.php" method="POST">
+                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <div class="form_avis_signalement">
+                                                        <h2>Signaler l'avis aux administrateurs ?</h2><br>
+                                                        <select class="dropdown-signalement" name="raison" id="raison">
+                                                            <option value="1">Spam</option>
+                                                            <option value="2">Contenu inapproprié</option>
+                                                            <option value="3">Avis faux ou trompeur</option>
+                                                            <option value="4">Non-respect des conditions d'utilisation</option>
+                                                            <option value="5">Publicité déguisée</option>
+                                                            <option value="6">Harcèlement ou comportement abusif</option>
+                                                            <option value="7">Discours haineux ou discriminatoire</option>
+                                                            <option value="8">Violence ou incitation à la violence</option>
+                                                            <option value="9">Usurpation d'identité</option>
+                                                            <option value="10">Contenu haineux ou offensant</option>
+                                                            <option value="11">Langage vulgaire ou offensant</option>
+                                                            <option value="12">Contenu illégal</option>
+                                                        </select>
+                                                        <br><br>
+                                                        <button type="submit" class="bouton-supprimer-avis">Signaler l'avis</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
 

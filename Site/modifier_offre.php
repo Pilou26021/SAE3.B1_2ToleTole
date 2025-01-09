@@ -242,18 +242,18 @@
             <?php elseif ($cat === 'visite' && $offreDetails['visiteguidee'] === true): ?>
                 <h2>Visite guidée</h2>
                 <label >
-                    <input class="visite" type="radio" name="visiteGuidee" value="oui" checked required> Oui
+                    <input class="visite" type="radio" name="visiteGuidee" value="true" checked required> Oui
                 </label>
                 <label >
-                    <input class="visite" type="radio" name="visiteGuidee" value="non" required> Non
+                    <input class="visite" type="radio" name="visiteGuidee" value="false" required> Non
                 </label>
             <?php elseif ($cat === 'visite' && $offreDetails['visiteguidee'] === false): ?>
                 <h2>Visite guidée</h2>
                 <label >
-                    <input class="visite" type="radio" name="visiteGuidee" value="oui" required> Oui
+                    <input class="visite" type="radio" name="visiteGuidee" value="true" required> Oui
                 </label>
                 <label >
-                    <input class="visite" type="radio" name="visiteGuidee" value="non" checked required> Non
+                    <input class="visite" type="radio" name="visiteGuidee" value="false" checked required> Non
                 </label>
             <?php endif; ?>
             <?php if ($cat === 'visite') : ?>
@@ -266,6 +266,7 @@
                     // Créer un tableau pour les langues standard
                     $languesStandard = ['Français', 'Anglais', 'Espagnol', 'Allemand', 'Italien'];
                     $offreLangues = [];
+                    $languesautres = [];
 
                     // Remplir le tableau d'offres avec les langues standards
                     foreach ($languestableau as $langue) {
@@ -273,13 +274,8 @@
                         if (in_array($langue, $languesStandard)) {
                             $offreLangues[] = $langue; // Ajouter au tableau d'offres si c'est une langue standard
                         }
-                    }
-
-                    // Vérifier s'il y a des autres langues
-                    $languesautres = [];
-                    foreach ($languestableau as $langue) {
-                        if (strpos($langue, 'Autres langues :')) {
-                            $languesautres[] = trim(substr($langue, strpos($langue, ':') + 1)); // Extraire les autres langues
+                        else {
+                            $languesautres[] = $langue; // Ajouter au tableau d'autres langues si ce n'est pas une langue standard
                         }
                     }
                 ?>
@@ -291,7 +287,7 @@
                     <label><input type="checkbox" name="langues[]" value="Espagnol" <?= in_array('Espagnol', $offreLangues) ? 'checked' : ''; ?>> Espagnol</label>
                     <label><input type="checkbox" name="langues[]" value="Allemand" <?= in_array('Allemand', $offreLangues) ? 'checked' : ''; ?>> Allemand</label>
                     <label><input type="checkbox" name="langues[]" value="Italien" <?= in_array('Italien', $offreLangues) ? 'checked' : ''; ?>> Italien</label>
-                    <label><input type="checkbox" name="langues[]" value="Autre" id="autreCheckbox" <?= !empty($languesautres) ? 'checked' : ''; ?>> Autre</label>
+                    <label><input type="checkbox" name="langues[]" value="" id="autreCheckbox" <?= !empty($languesautres) ? 'checked' : ''; ?>> Autre</label>
                 </div>
                 <input type="text" width="100%" class="textarea-creer_offre" name="autreLangue" placeholder="Préciser les autres langues" style="display: <?= !empty($languesautres) ? 'block' : 'none'; ?>;" id="autreLangueInput" value="<?= htmlspecialchars(implode(', ', $languesautres)); ?>">
 

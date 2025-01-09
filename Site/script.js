@@ -357,6 +357,8 @@ function closeModalAvis() {
 }
 
 function submitSignalementAvis(idAvis) {
-    fetch('ajax_signalement_avis.php?id_avis=' + idAvis);
+    
+    
+
     alert('Le signalement a bien été pris en compte.');
 }

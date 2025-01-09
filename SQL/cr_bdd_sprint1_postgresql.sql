@@ -119,16 +119,16 @@ CREATE TABLE public._signalement (
 );
 
 CREATE TABLE public._alerterOffre (
+    idAlerterOffre SERIAL PRIMARY KEY,
     idSignalement BIGINT NOT NULL,
     idOffre BIGINT NOT NULL,
-    CONSTRAINT pk_alerterOffre PRIMARY KEY (idSignalement, idOffre),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre)
 );
 
 CREATE TABLE public._alerterAvis (
+    idAlerterAvis SERIAL PRIMARY KEY,
     idSignalement BIGINT NOT NULL,
     idAvis BIGINT NOT NULL,
-    CONSTRAINT pk_alerterAvis PRIMARY KEY (idSignalement, idAvis),
     FOREIGN KEY (idAvis) REFERENCES public._avis(idAvis)
 );  
 
@@ -399,3 +399,10 @@ SELECT o.idOffre, t.typeTag, t.typeRestauration
 FROM public._offre o
 JOIN public._theme th ON o.idOffre = th.idOffre
 JOIN public._tag t ON th.idTag = t.idTag;
+
+-- Vue pour avoir avis, alerteravis et signalement
+CREATE VIEW public.avisSignalement AS
+SELECT a.idAvis, a.idOffre, a.noteAvis, a.commentaireAvis, a.idMembre, a.dateAvis, a.dateVisiteAvis, a.blacklistAvis, a.reponsePro, a.scorePouce, s.raison
+FROM public._avis a
+JOIN public._alerterAvis aa ON a.idAvis = aa.idAvis
+JOIN public._signalement s ON aa.idSignalement = s.idSignalement;
