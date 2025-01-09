@@ -203,6 +203,10 @@ main {
 
 }
 
+.button_1.professionnel {
+	background-color: var(--color-primary-pro);
+}
+
 .button_2 {
 	height: 30px;
     font-family: medium;
@@ -349,6 +353,11 @@ p {
 	text-decoration: none;
 }
 
+.offer-btn.professionnel{
+	border: 2px solid var(--color-primary-pro); /* Bordure verte */
+
+}
+
 .offer-btn .icon {
 	display: inline-block;
 	margin-right: 10px;
@@ -359,6 +368,12 @@ p {
 	padding: 2px 7px;
 	border: 2px solid var(--color-primary);
 	border-radius: 50%;
+}
+
+.offer-btn .icon.professionnel {
+	color: var(--color-primary-pro);
+	border: 2px solid var(--color-primary-pro);
+
 }
 
 .offer-btn:hover {
@@ -1109,8 +1124,12 @@ td {
 
 .offre-prix {
 	font-size: 1.2em;
-	color: #27ae60;
+	color: var(--color-primary);
 	font-weight: bold;
+}
+
+.offre-prix.professionnel {
+	color: var(--color-primary-pro);
 }
 
 .offres-display {
