@@ -694,11 +694,11 @@
                                     $date_formated = date("d/m/Y", strtotime($avis_membre['dateavis']));
                                     ?>
                                     <div class="avis_m">
-                                        <p><strong>Mon avis</strong></p>
-                                        <p class ="pdp-name-date">
-                                            <img class="pdp-avis" src="<?php echo $avis_membre['pathimage'] ?>" alt="image utilisateur">
-                                            <strong style="margin-right:3px;"><?= $avis_membre['nomcompte'] . ' ' . $avis_membre['prenomcompte'] ?></strong> - <?= $date_formated ?>
-                                        </p>
+                                            <p><strong>Mon avis</strong></p>
+                                            <p class ="pdp-name-date">
+                                                <img class="pdp-avis" src="<?php echo $avis_membre['pathimage'] ?>" alt="image utilisateur">
+                                                <strong style="margin-right:3px;"><?= $avis_membre['nomcompte'] . ' ' . $avis_membre['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                            </p>
                                         <p><?= $avis_membre['commentaireavis'] ?></p>
 
                                         <div class="avis_stars_score">
@@ -736,10 +736,35 @@
 
                                     ?>
                                     <div class="avis">
-                                        <p class ="pdp-name-date">
-                                            <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
-                                            <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
-                                        </p>
+                                        <div class="container_pdp-name-date_options">
+                                            <p class="pdp-name-date">
+                                                <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
+                                                <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                            </p>
+                                            <a class="avis_options" onclick="openModalAvis(event)">
+                                                <img src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
+                                            </a>
+                                        </div>
+
+                                        <!-- option avis modale -->
+                                        <div id="modalAvis" class="modal_avis">
+                                            <div class="modal_avis-content">
+                                                <span class="close_avis" onclick="closeModalAvis()">&times;</span>
+                                                <h2>Signaler l'avis aux administrateurs ?</h2><br>
+                                                <button class="bouton-supprimer-avis" onclick="submitSignalementAvis(<?=$avisId?>)">Signaler l'avis</button>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            //fermer la modale si clic en dehors de la modale
+                                            window.onclick = function(event) {
+                                                var modal = document.getElementById("modalAvis");
+                                                if (event.target === modal) {
+                                                    closeModalAvis();
+                                                }
+                                            }
+                                        </script>
+
                                         <p><?= $avis['commentaireavis'] ?></p>
                                         <div class="avis_stars_score">
                                             <?php

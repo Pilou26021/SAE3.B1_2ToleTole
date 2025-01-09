@@ -346,14 +346,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// MODALE MENU AVIS
+function openModalAvis() {
+    document.getElementById("modalAvis").style.display = "block";
+}
 
+// fermer la fenêtre
+function closeModalAvis() {
+    document.getElementById("modalAvis").style.display = "none";
+}
 
-
-
-
-
-
-
-
-
-
+function submitSignalementAvis(idAvis) {
+    fetch('ajax_signalement_avis.php?id_avis=' + idAvis);
+    alert('Le signalement a bien été pris en compte.');
+}

@@ -191,6 +191,10 @@ main {
 	width: 200px;
 }
 
+button {
+	all: unset;
+}
+
 .button_1 {
 	height: 30px;
 	font-family: medium;
