@@ -234,7 +234,7 @@
                 </select>
 
                 <div style="display: flex; justify-content: right;">
-                    <a href="index.php" class="button_2">Reset</a>
+                    <a href="index.php" class="button_2 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Reset</a>
                 </div>
 
             </form>
@@ -333,7 +333,7 @@
 
                                                 <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                                 <?php if ($professionel) { ?>
-                                                        <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=index" class="bouton-modifier-offre">Modifier</a>
+                                                        <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=index" class="bouton-modifier-offre <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Modifier</a>
                                                         <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
                                                     <?php } ?>
 

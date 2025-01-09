@@ -11,6 +11,8 @@
 	--color-border: #333;
 	--color-primary-pro: #f5bc42;
 	--color-accent-pro:#f58142;
+	--color-primary-hover-pro:#ebab34;
+	--color-accent-hover-pro: #eb9834;
 }
 
 /* CORPS **/
@@ -224,9 +226,11 @@ button {
     align-items: center;
     justify-content: center;
 	text-decoration: none;
-
 }
 
+.button_2.professionnel{
+	background-color: var(--color-primary-pro);
+}
 
 /* FOOTER **/
 
@@ -1038,8 +1042,16 @@ p.cp_mobile_erreur {
 	text-decoration: none;
 }
 
+.bouton-modifier-offre.professionnel {
+	background-color: var(--color-primary-pro);
+}
+
 .bouton-modifier-offre:hover {
 	background-color: var(--color-primary-hover);
+}
+
+.bouton-modifier-offre.professionnel:hover {
+	background-color: var(--color-primary-hover-pro);
 }
 
 .bouton-supprimer-offre {
@@ -1097,6 +1109,10 @@ section.details_offre_mobile_tarifs table {
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	text-align: center;
+}
+
+section.details_offre_mobile_tarifs.professionnel table{
+	background-color: var(--color-primary-pro);
 }
 
 section.details_offre_mobile_tarifs th,
@@ -1183,6 +1199,11 @@ td {
 	border-right: 2px solid #36D673; /* Couleur de la ligne de séparation */
 }
 
+.details_offre_mobile.professionnel td, .details_offre_mobile.professionnel th {
+	padding: 10px;
+	border-right: 2px solid var(--color-accent-pro); /* Couleur de la ligne de séparation */
+}
+
 .details_offre_mobile td:last-child, .details_offre_mobile th:last-child {
 	border-right: none; /* Supprime la ligne de séparation pour la dernière colonne */
 }
@@ -1213,7 +1234,7 @@ td {
 }
 
 .detail-offer-btn {
-    background-color: #36D673;
+    background-color: var(--color-primary);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -1221,15 +1242,22 @@ td {
     font-size: 16px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	text-decoration: none;
 }
 
 .detail-offer-btn:hover {
-    background-color: var(--color-background); /* Changement de couleur au survol */
+    background-color: var(--color-primary-hover); /* Changement de couleur au survol */
 }
 
+.detail-offer-btn.professionnel{
+	background-color: var(--color-primary-pro);
 
+}
 
+.detail-offer-btn.professionnel:hover{
+	background-color: var(--color-primary-hover-pro);
 
+}
 
 
 /*** DROPDOWN ***/

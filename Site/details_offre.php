@@ -203,7 +203,7 @@
                     <?php if ($bonProfessionnel) { ?>
                     
                         <div style="display:flex; align-items:center; justify-content:center;">
-                            <br><a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=details_offre" class="bouton-modifier-offre">Modifier mon offre</a><br><br>
+                            <br><a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=details_offre" class="bouton-modifier-offre <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Modifier mon offre</a><br><br>
                         </div>
 
                     <?php } ?>
@@ -235,7 +235,7 @@
                             </div>
                             <p class="adresse-detail"><?php echo $adresseComplete ?><p>
 
-                            <section class="details_offre_mobile_tarifs">
+                            <section class="details_offre_mobile_tarifs <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                                 <table>
                                     <thead>
                                         <tr>
@@ -252,7 +252,7 @@
 
                             <div class="detail-btn-container">
                                 <a href="<?php echo $offre['siteweboffre']; ?>"  target="_blank" class="detail-offre-btn">
-                                    <button class="detail-offer-btn">Site web de l'offre</button>
+                                    <button class="detail-offer-btn <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Site web de l'offre</button>
                                 </a>
                             </div>
 
@@ -362,7 +362,7 @@
                                     case 'restauration':
                                         $horaires = json_decode($offreDetails['horairesemaine'], true);
                                 ?>
-                                        <section class="details_offre_mobile">
+                                        <section class="details_offre_mobile <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                                             <!-- On affiche la carte du restaurant -->
                                             <?php
                                             $stmt = $conn->prepare("SELECT pathimage FROM public._image WHERE idimage = :idimage");
@@ -395,7 +395,7 @@
                                     break;
                                     case 'spectacle':
                                 ?>
-                                        <section class="details_offre_mobile">
+                                        <section class="details_offre_mobile <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                                             <table>
                                                 <thead>
                                                     <tr>
@@ -417,7 +417,7 @@
                                     break;
                                     case 'visite':
                                 ?>
-                                        <section class="details_offre_mobile">
+                                        <section class="details_offre_mobile <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                                             <table>
                                                 <thead>
                                                     <tr>
@@ -458,14 +458,14 @@
                                         <form style="display:flex;justify-content:center;" method="POST" action="">
                                             <input type="hidden" name="horsligne" value="true">
                                             <input type="hidden" name="idoffre" value="<?= $offre['idoffre'] ?>">
-                                            <button type="submit" class="offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
+                                            <button type="submit" class="offer-btn <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" onclick="return confirm('Êtes-vous sûr de vouloir passer cette offre hors ligne ?');">
                                                 Passer l'offre hors ligne
                                             </button>
                                         </form>
                                     <?php } ?>
                                 <?php } ?>
 
-                                <a href="index.php" class="offer-btn">Retour aux offres</a>
+                                <a href="index.php" class="offer-btn <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Retour aux offres</a>
 
                             </div>
 
