@@ -119,8 +119,8 @@
             </div>
 
             <!-- Modale pour l'upload de l'image -->
-            <div id="imageModal" class="modal">
-                <div class="modal-content">
+            <div id="imageModal" class="imageModal">
+                <div class="image-modal-content">
                     <span class="close-btn">&times;</span>
                     <h2>Modifier votre photo de profil</h2>
                     <form id="editImageForm" action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
