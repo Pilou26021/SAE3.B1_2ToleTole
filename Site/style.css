@@ -2335,16 +2335,6 @@ img {
     border-radius: 10px;
 }
 
-.modal_avis-content textarea{
-	width: 100%;
-	padding: 10px;
-	margin: 0px;
-	border: 1px solid #040316;
-	border-radius: 5px;
-	font-size: 1em;
-	resize: none;
-}
-
 .close_avis {
     color: #aaa;
     float: right;
@@ -2379,7 +2369,7 @@ img {
 	background-color: white;
 	padding-left: 10px;
 	font-size: 1em;
-	width: 67%;
+	width: 70%;
     padding: 15px; /* Agrandi */
     border: 1px solid #040316;
     border-radius: 8px; /* Plus arrondi */
