@@ -1,4 +1,5 @@
 # Ignorer un fichier spécifique
 /SQL/connection_local.php
 connection_local.php
+./connection_local.php
 /docker/Dockerfile-apache-pdo
