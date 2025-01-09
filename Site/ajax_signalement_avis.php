@@ -4,13 +4,10 @@
     session_start();
     include "../SQL/connection_local.php";
 
-    $id_avis = intval($_GET['id_avis']);
+    var_dump($_POST);
 
-    $sql = "UPDATE public._avis SET scorepouce = scorepouce + 1 WHERE idavis = :idAvis";
+    $id_avis = intval($_POST['id_avis']);
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':idAvis', $id_avis, PDO::PARAM_INT);
-    $stmt->execute();
-    $_SESSION['thumbed'][$id_avis] = true;
+    
     
 ?>

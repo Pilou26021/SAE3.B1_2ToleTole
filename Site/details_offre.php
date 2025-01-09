@@ -750,8 +750,12 @@
                                         <div id="modalAvis" class="modal_avis">
                                             <div class="modal_avis-content">
                                                 <span class="close_avis" onclick="closeModalAvis()">&times;</span>
-                                                <h2>Signaler l'avis aux administrateurs ?</h2><br>
-                                                <button class="bouton-supprimer-avis" onclick="submitSignalementAvis(<?=$avisId?>)">Signaler l'avis</button>
+                                                <form action="report_avis.php">
+                                                    <h2>Signaler l'avis aux administrateurs ?</h2><br>
+                                                    <label for="raison_signalement">Raison du signalement</label><br>
+                                                    <textarea name="raison_signalement" id="raison_signalement" cols="30" rows="10" required></textarea>
+                                                    <button type="submit" class="bouton-supprimer-avis">Signaler l'avis</button>
+                                                </form>
                                             </div>
                                         </div>
 
