@@ -51,6 +51,14 @@
             $bonProfessionnel = true; // Utiliser cette variable pour vérifier que c'est le professionel qui a créé l'offre
         }
     }
+    if (isset($_SESSION['signalement_avis_ok'])){
+        if ($_SESSION['signalement_avis_ok']) {
+            ?> <script> alert("Votre signalement a bien été pris en compte"); </script> <?php
+        } else {
+            ?> <script> alert("Une erreur est survenue lors du signalement de l'avis"); </script> <?php
+        }
+        unset($_SESSION['signalement_avis_ok']);
+    }
 
 ?>
 <!DOCTYPE html>
