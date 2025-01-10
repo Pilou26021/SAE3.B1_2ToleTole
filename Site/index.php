@@ -244,7 +244,7 @@
                 </select>
 
                 <div style="display: flex; justify-content: right;">
-                    <a href="index.php" class="button_2">Reset</a>
+                    <a href="index.php" class="button_2 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Reset</a>
                 </div>
 
             </form>
