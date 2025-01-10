@@ -36,8 +36,30 @@ CREATE TABLE public._compte (
     idAdresse BIGINT NOT NULL,
     dateCreationCompte DATE DEFAULT NOW(),
     dateDerniereConnexionCompte DATE NOT NULL,
+    chat_cleApi TEXT,
     FOREIGN KEY (idImagePdp) REFERENCES public._image(idImage),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
+);
+
+CREATE TABLE public._chat_tokensession (
+    idChatTokenSession SERIAL PRIMARY KEY,
+    idCompte BIGINT NOT NULL,
+    tokenSession TEXT NOT NULL,
+    -- Le token de session est valide 1h
+    dateExpiration TIMESTAMP NOT NULL DEFAULT NOW() + INTERVAL '1 hour',
+    FOREIGN KEY (idCompte) REFERENCES public._compte(idCompte)
+);
+
+CREATE TABLE public._chat_message (
+    idmessage SERIAL PRIMARY KEY,
+    timestamp_envoie TIMESTAMP NOT NULL DEFAULT NOW(),
+    derniere_modif TIMESTAMP NOT NULL DEFAULT NOW(),
+    emetteur VARCHAR(255) NOT NULL,
+    destinataire VARCHAR(255) NOT NULL,
+    direction VARCHAR(10) NOT NULL CHECK (direction IN ('reçu', 'émis')), -- Sens : reçu ou émis
+    est_supprime BOOLEAN NOT NULL DEFAULT FALSE,
+    content TEXT NOT NULL CHECK (LENGTH(content) <= 1000),
+    CONSTRAINT check_max_size CHECK (LENGTH(content) <= 1000) 
 );
 
 -- 2. Créer les tables liées à public._compte

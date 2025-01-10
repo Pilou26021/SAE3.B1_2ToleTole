@@ -227,7 +227,7 @@ if (count($offres) > 0) {
                     <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                     
                     <!-- Prix minimum de l'offre -->
-                    <p class="offre-prix"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : 'Prix non disponible' ?> €</p>
+                    <p class="offre-prix"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
 
                     <div class="titre-moy-index">
                         <p class="offre-resume"> <strong> Note :</strong></p>

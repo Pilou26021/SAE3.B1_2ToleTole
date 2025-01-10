@@ -97,8 +97,8 @@
         <?php if ($professionel): ?>
             <!-- Afficher un bouton de création d'offre pour les professionnels -->
             <a style="text-decoration:none;" href="creer_offre.php"> 
-            <button class="offer-btn <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : ''); ?>">
-                <span class="icon <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : ''); ?>">+</span> Créer une nouvelle offre
+            <button class="offer-btn">
+                <span class="icon">+</span> Créer une nouvelle offre
             </button> </a>
         <?php endif; ?>
 
@@ -111,7 +111,7 @@
                 </div>
                 <hr>
                 <div>
-                    <input class="button_1 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : ''); ?>" type="submit" value="Recherche" >
+                    <input class="button_1" type="submit" value="Recherche" >
                 </div>
             </form>
         </div>
@@ -234,7 +234,7 @@
                 </select>
 
                 <div style="display: flex; justify-content: right;">
-                    <a href="index.php" class="button_2 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Reset</a>
+                    <a href="index.php" class="button_2">Reset</a>
                 </div>
 
             </form>
@@ -285,7 +285,7 @@
                                                     <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                                                     
                                                     <!-- Prix minimum de l'offre -->
-                                                    <p class="offre-prix <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : ''); ?>"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : '0' ?> €</p>
+                                                    <p class="offre-prix"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
 
                                                     <div class="titre-moy-index">
                                                         <p class="offre-resume"> <strong> Note : </strong></p>
@@ -333,7 +333,7 @@
 
                                                 <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                                 <?php if ($professionel) { ?>
-                                                        <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=index" class="bouton-modifier-offre <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Modifier</a>
+                                                        <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=index" class="bouton-modifier-offre">Modifier</a>
                                                         <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
                                                     <?php } ?>
 
@@ -399,7 +399,7 @@
                                         <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                                         
                                         <!-- Prix minimum de l'offre -->
-                                        <p class="offre-prix <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : ''); ?>"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : '0' ?> €</p>
+                                        <p class="offre-prix"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
 
                                         <div class="titre-moy-index">
                                             <p class="offre-resume"> <strong> Note : </strong></p>
@@ -484,7 +484,7 @@
                                         <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                                         
                                         <!-- Prix minimum de l'offre -->
-                                        <p class="offre-prix <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : ''); ?>"><strong>Prix Minimum:</strong> <?= !empty($offre['prixminoffre']) ? htmlspecialchars($offre['prixminoffre']) : '0' ?> €</p>
+                                        <p class="offre-prix"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
 
                                         <div class="titre-moy-index">
                                             <p class="offre-resume"> <strong> Note :</strong></p>

@@ -32,9 +32,6 @@ if (isset($_SESSION['membre'])) {
                 $stmt->bindValue(1, $idcompte, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                /* result :
-                array(4) { ["nomcompte"]=> string(5) "Smith" ["prenomcompte"]=> string(4) "John" ["mailcompte"]=> string(22) "john.smith@example.com" ["pathimage"]=> string(18) "path/to/image1.jpg" }
-                */
                 ?>
                 <img src="<?= $result['pathimage'] ?>" alt="" width="70px" height="70px" style="border-radius:50%;">
                 <p><?= $result['prenomcompte'] . ' ' . $result['nomcompte'] ?></p>

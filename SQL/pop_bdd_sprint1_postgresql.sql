@@ -48,15 +48,15 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (14, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'); -- 18
 
 -- 3. Insérer des données dans `_compte`
-INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte) VALUES 
-('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 12, '2023-01-15', '2025-01-15'),
-('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-01-15', '2025-01-15'),
-('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-02-20', '2025-02-20'),
-('Smath', 'Johnny', 'johnny.smath@example.com', '0123456789', 20, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 15, '2023-01-15', '2025-01-15'),
-('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 16, '2023-01-15', '2025-01-15'),
-('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 17, '2023-02-20', '2025-02-20'),
-('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 18, '2023-01-15', '2025-01-15'),
-('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 19, '2023-01-15', '2025-01-15');
+INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte, chat_cleApi) VALUES 
+('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 12, '2023-01-15', '2025-01-15', 'rwd-b894e4c2-6eee-4b9c-b01e-456b8b45e28b'),
+('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-01-15', '2025-01-15', 'rw-89af9b99-ad08-4a93-b8c9-d8398c18c016'),
+('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-02-20', '2025-02-20', 'rw-6488bd30-b1fa-4dc6-be1c-b4bc16d261e8'),
+('Smath', 'Johnny', 'johnny.smath@example.com', '0123456789', 20, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 15, '2023-01-15', '2025-01-15', 'rw-c6b4ea24-684f-4d9b-b838-0e74f9f107bd'),
+('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 16, '2023-01-15', '2025-01-15', 'rw-6526e1ae-a426-42f7-9f24-96735b2b5085'),
+('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 17, '2023-02-20', '2025-02-20', 'rw-d07777ac-304d-4ba8-b571-cdb6dd5bc71d'),
+('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 18, '2023-01-15', '2025-01-15', 'rw-6a06de67-e327-4dd9-a6e1-3b0bbfa05040'),
+('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 19, '2023-01-15', '2025-01-15', 'rw-39d2fe11-39b2-4a55-b2d8-ca72ebeaf9db');
 
 -- 4. Insérer des données dans `_professionnel`
 INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES 
