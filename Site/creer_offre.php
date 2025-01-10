@@ -84,6 +84,105 @@
 
         <div id="header"></div>
 
+        <?php 
+            // Récupération de tarif des options si l'utilisateur n'est pas pro public
+            if (!$ispropublic) {
+                $sql = "SELECT * FROM _constprix ORDER BY datetarif DESC LIMIT 1";
+                $result = $conn->query($sql);
+
+                if ($result && $result->rowCount() > 0) {
+                    $row = $result->fetch(PDO::FETCH_ASSOC);
+                    // Affectation des prix depuis les résultats de la requête
+                    $prixStdHT = isset($row['prixstdht']) ? $row['prixstdht'] : null;
+                    $prixStdTTC = isset($row['prixstdttc']) ? $row['prixstdttc'] : null;
+                    $prixPremHT = isset($row['prixpremht']) ? $row['prixpremht'] : null;
+                    $prixPremTTC = isset($row['prixpremttc']) ? $row['prixpremttc'] : null;
+                    $prixAlauneHT = isset($row['prixalauneht']) ? $row['prixalauneht'] : null;
+                    $prixAlauneTTC = isset($row['prixalaunettc']) ? $row['prixalaunettc'] : null;
+                    $prixEnreliefHT = isset($row['prixenreliefht']) ? $row['prixenreliefht'] : null;
+                    $prixEnreliefTTC = isset($row['prixenreliefttc']) ? $row['prixenreliefttc'] : null;
+                } else {
+                    // Gestion du cas où aucun tarif n'est trouvé
+                    $prixStdHT = $prixStdTTC = $prixPremHT = $prixPremTTC = null;
+                    $prixAlauneHT = $prixAlauneTTC = $prixEnreliefHT = $prixEnreliefTTC = null;
+                }
+            }
+            else {
+                // Si l'utilisateur est pro public alors on met les prix à null
+                $prixStdHT = $prixStdTTC = $prixPremHT = $prixPremTTC = null;
+                $prixAlauneHT = $prixAlauneTTC = $prixEnreliefHT = $prixEnreliefTTC = null;
+            }
+        ?>
+
+        <!-- Sticky en haut à droite -->
+        <script>
+            // Vérifie dynamiquement que les options Gratuite, Standard ou Premium sont cochées
+            function checkOptions() {
+                var aLaUne = document.getElementById('aLaUneOffre');
+                var enRelief = document.getElementById('enReliefOffre');
+                var typeOffre = document.getElementById('typeOffre');
+            }
+        </script>
+        <div class="infoprix">
+            <div class="infoprix-content">
+                <h2>Informations sur les tarifs</h2>
+                <p>Les tarifs sont les suivants :</p>
+                <ul>
+                    <li>Standard : <?php echo $prixStdHT ?>€ HT / <?php echo $prixStdTTC ?>€ TTC par jour</li>
+                    <li>Premium : <?php echo $prixPremHT ?>€ HT / <?php echo $prixPremTTC ?>€ TTC par jour</li>
+                    <li>À la une : <?php echo $prixAlauneHT ?>€ HT / <?php echo $prixAlauneTTC ?>€ TTC par semaine</li>
+                    <li>En relief : <?php echo $prixEnreliefHT ?>€ HT / <?php echo $prixEnreliefTTC ?>€ TTC par semaine</li>
+                </ul>
+            </div>
+            <!-- Affiche le prix des options sélectionnées -->
+            <div class="infoprix-content">
+                <h2>Prix de l'offre</h2>
+                <p>Le prix de l'offre par mois est de : <span id="prixOffreHT"><?php echo $prixStdHT*30 ?></span>€ HT | <span id="prixOffreTTC"><?php echo $prixStdTTC*30 ?></span>€ TTC</p>
+                <script>
+                    // Affiche du texte selon les options cochées
+
+                
+                </script>
+            </div>
+            <script>
+                function updatePrixOffre() {
+                    var typeOffre = document.querySelector('input[name="typeOffre"]:checked').value;
+                    var prixHT = 0;
+                    var prixTTC = 0;
+
+                    switch(typeOffre) {
+                        case 'Standard':
+                            prixHT = <?php echo $prixStdHT ?> * 30;
+                            prixTTC = <?php echo $prixStdTTC ?> * 30;
+                            break;
+                        case 'Premium':
+                            prixHT = <?php echo $prixPremHT ?> * 30;
+                            prixTTC = <?php echo $prixPremTTC ?> * 30;
+                            break;
+                    }
+
+                    if (document.getElementById('aLaUneOffre').checked) {
+                        prixHT += <?php echo $prixAlauneHT ?> * 4;
+                        prixTTC += <?php echo $prixAlauneTTC ?> * 4;
+                    }
+
+                    if (document.getElementById('enReliefOffre').checked) {
+                        prixHT += <?php echo $prixEnreliefHT ?> * 4;
+                        prixTTC += <?php echo $prixEnreliefTTC ?> * 4;
+                    }
+
+                    document.getElementById('prixOffreHT').innerText = prixHT;
+                    document.getElementById('prixOffreTTC').innerText = prixTTC;
+                }
+
+                document.querySelectorAll('input[name="typeOffre"], #aLaUneOffre, #enReliefOffre').forEach(function(element) {
+                    element.addEventListener('change', updatePrixOffre);
+                });
+
+                updatePrixOffre();
+            </script>
+        </div>
+
         <main class="creer-offre-main">
 
             <!-- Dropdown -->
