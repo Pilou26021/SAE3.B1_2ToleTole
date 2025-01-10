@@ -2610,6 +2610,7 @@ input[type="file"] {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin-bottom: 0px;
 }
 
 .bouton-repondre-avis {
@@ -2634,10 +2635,46 @@ input[type="file"] {
 	background-color: var(--color-primary-hover-pro);
 }
 
+.bouton-envoyer-reponse {
+	background-color: var(--color-primary-pro);
+	color: var(--color-background);
+	border: none;
+	border-radius: 10px;
+	padding: 10px;
+	font-size: 15px;
+	cursor: pointer;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	text-decoration: none;
+	width: 100px;
+	display: flex;
+	justify-content: center;
+}
+
+.bouton-envoyer-reponse:hover {
+	background-color: var(--color-primary-hover-pro);
+}
+
+
+
 .reply-form{
 	display: none;
-	width: 100%;
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
+	margin-bottom: 0px;
+}
+
+/* pdp user header */
+.header-pdp-user{
+	width:50px; 
+	height:50px;
+	border-radius:50%;
+	transition: all 0.33 ease;
+}
+
+.header-pdp-user:hover{
+	border: 1px solid rgba(0, 0, 0, 0.5);
 }

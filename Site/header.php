@@ -77,7 +77,7 @@ if (isset($_SESSION['membre'])) {
     } else {
         ?> <a href="connexion_membre.php"> <?php
     } ?>
-        <img src="<?php echo (!empty($professionel) || !empty($membre)) ? $result['pathimage'] : './img/icons/user.png'; ?>" alt="image user" title="image user" style="width:50px; height:50px;border-radius:50%;">
+        <img class="header-pdp-user" src="<?php echo (!empty($professionel) || !empty($membre)) ? $result['pathimage'] : './img/icons/user.png'; ?>" alt="image user" title="image user">
     </a>
 </header>
 <?php

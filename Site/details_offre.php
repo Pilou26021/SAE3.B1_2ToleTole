@@ -811,11 +811,12 @@
                                         </div>
                                         <div class="container-repondre-avis">
                                             <?php if ($professionel) { ?>
-                                                <a href="javascript:void(0);" class="reply-btn bouton-repondre-avis" onclick="openReplyForm(<?= $avisId ?>)">Répondre</a>
+                                                <!-- afficher une petite flèche à droite de répondre qui change de sens si le form est ouver ou non -->
+                                                <a id="replyButton-<?= $avisId ?>" href="javascript:void(0);" class="reply-btn bouton-repondre-avis" onclick="openReplyForm(<?= $avisId ?>)">Répondre</a>
                                                 <form id="replyForm-<?= $avisId ?>" class="reply-form" style="display:none;" action="upload_reply.php" method="POST">
                                                     <input type="hidden" name="idavis" value="<?= $avisId ?>">
-                                                    <textarea name="reply" required></textarea>
-                                                    <button class="bouton-repondre-avis" type="submit">Envoyer</button>
+                                                    <textarea name="reply" placeholder="Votre réponse à l'avis" cols="29" rows="5" required></textarea>
+                                                    <button class="bouton-envoyer-reponse" type="submit">Envoyer</button>
                                                 </form>
                                             <?php } ?>
                                             <script>
@@ -826,6 +827,13 @@
                                                     } else {
                                                         form.style.display = 'none';
                                                     }
+                                                    var replyB = document.getElementById('replyButton-' + avisId);
+                                                    if (form.style.display === 'none') {
+                                                        replyB.style.margin = "10px 10px 5px 10px"
+                                                    } else {
+                                                        replyB.style.margin = "10px"
+                                                    }
+                                                    
                                                 }
                                             </script>
                                         </div>
