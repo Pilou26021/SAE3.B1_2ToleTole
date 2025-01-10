@@ -97,8 +97,8 @@
         <?php if ($professionel): ?>
             <!-- Afficher un bouton de création d'offre pour les professionnels -->
             <a style="text-decoration:none;" href="creer_offre.php"> 
-            <button class="offer-btn">
-                <span class="icon">+</span> Créer une nouvelle offre
+            <button class="offer-btn <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                <span class="icon <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">+</span> Créer une nouvelle offre
             </button> </a>
         <?php endif; ?>
 
@@ -111,7 +111,7 @@
                 </div>
                 <hr>
                 <div>
-                    <input class="button_1" type="submit" value="Recherche" >
+                    <input class="button_1 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" type="submit" value="Recherche" >
                 </div>
             </form>
         </div>
@@ -285,7 +285,7 @@
                                                     <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                                                     
                                                     <!-- Prix minimum de l'offre -->
-                                                    <p class="offre-prix"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
+                                                    <p class="offre-prix <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
 
                                                     <div class="titre-moy-index">
                                                         <p class="offre-resume"> <strong> Note : </strong></p>
@@ -399,7 +399,7 @@
                                         <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                                         
                                         <!-- Prix minimum de l'offre -->
-                                        <p class="offre-prix"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
+                                        <p class="offre-prix <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
 
                                         <div class="titre-moy-index">
                                             <p class="offre-resume"> <strong> Note : </strong></p>
@@ -484,7 +484,7 @@
                                         <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                                         
                                         <!-- Prix minimum de l'offre -->
-                                        <p class="offre-prix"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
+                                        <p class="offre-prix <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
 
                                         <div class="titre-moy-index">
                                             <p class="offre-resume"> <strong> Note :</strong></p>
