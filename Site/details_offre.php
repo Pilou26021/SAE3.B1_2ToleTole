@@ -809,6 +809,26 @@
                                             <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=plus" id="thumbs-up-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-up.svg" alt="Avis pertinent">Pertinent</a>
                                             <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=moins" id="thumbs-down-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-down.svg" alt="Avis non-pertinent">Non pertinent</a>
                                         </div>
+                                        <div class="container-repondre-avis">
+                                            <?php if ($professionel) { ?>
+                                                <a href="javascript:void(0);" class="reply-btn bouton-repondre-avis" onclick="openReplyForm(<?= $avisId ?>)">Répondre</a>
+                                                <form id="replyForm-<?= $avisId ?>" class="reply-form" style="display:none;" action="upload_reply.php" method="POST">
+                                                    <input type="hidden" name="idavis" value="<?= $avisId ?>">
+                                                    <textarea name="reply" required></textarea>
+                                                    <button class="bouton-repondre-avis" type="submit">Envoyer</button>
+                                                </form>
+                                            <?php } ?>
+                                            <script>
+                                                function openReplyForm(avisId) {
+                                                    var form = document.getElementById('replyForm-' + avisId);
+                                                    if (form.style.display === 'none') {
+                                                        form.style.display = 'flex';
+                                                    } else {
+                                                        form.style.display = 'none';
+                                                    }
+                                                }
+                                            </script>
+                                        </div>
                                     </div>
                                     <?php
                                 }
