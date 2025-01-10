@@ -44,7 +44,7 @@
                     <div class="mes_infos_conteneur">
                         <h3 class="mes_infos_titre">Mes coordonnées bancaires</h3>
 
-                        <form class="mes_infos_form" id="infoForm" action="modifier_infos.php" method="POST">
+                        <form class="mes_infos_form <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" id="infoForm" action="modifier_infos.php" method="POST">
 
                             <!-- Ligne du BIC -->
                             <div class="mes_infos_ligne">
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
 
-                            <button type="button" class="liens-boutons" id="mes_infos_toggleButton">Modifier mes coordonnées bancaires</button>
+                            <button type="button" class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" id="mes_infos_toggleButton<?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Modifier mes coordonnées bancaires</button>
                             <p id="message_erreur"></p>
 
                         </form>
@@ -89,7 +89,7 @@
         <script>
                 document.addEventListener("DOMContentLoaded", function() {
                     const form = document.getElementById('infoForm');
-                    const toggleButton = document.getElementById('mes_infos_toggleButton');
+                    const toggleButton = document.getElementById('mes_infos_toggleButton<?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>');
                     const inputs = form.querySelectorAll('input');
                     const messageErreur = document.getElementById('message_erreur');
                     messageErreur.style.color = "red"; 
@@ -123,7 +123,7 @@
 
                         } else {
                             inputs.forEach(input => input.removeAttribute('readonly'));
-                            inputs.forEach(input => input.style.color = "#31CEA6");
+                            inputs.forEach(input => input.style.color = "var(--color-accent-pro)");
                             toggleButton.textContent = 'Enregistrer les modifications';
                         }
                         isEditing = !isEditing;

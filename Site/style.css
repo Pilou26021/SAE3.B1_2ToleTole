@@ -2459,6 +2459,7 @@ input[type="file"] {
 
 .liens-boutons.professionnel {
 	border: 1px solid var(--color-primary-hover-pro);
+	width: 80%;
 }
 
 .liens-boutons.professionnel:hover {
