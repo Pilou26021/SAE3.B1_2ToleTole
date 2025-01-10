@@ -69,7 +69,7 @@
 
                         <h3 class="mes_infos_titre">Mes informations personnelles</h3>
 
-                        <form class="mes_infos_form" id="infoForm" action="modifier_infos.php" method="POST">
+                        <form class="mes_infos_form <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" id="infoForm" action="modifier_infos.php" method="POST">
 
                             <!-- Première ligne SI membre -->
                             <?php if (isset($_SESSION['membre'])){ ?>
@@ -180,7 +180,7 @@
                             <?php } ?>
                             
                             <!-- Bouton pour modifier ses informations personnelles -->
-                            <button type="button" class="mes_infos_liens-boutons" id="mes_infos_toggleButton">Modifier mes informations personnelles</button>
+                            <button type="button" class="mes_infos_liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" id="mes_infos_toggleButton<?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Modifier mes informations personnelles</button>
 
                             <!-- Message d'erreur qui n'apparait pas tant qu'il n'y a pas d'erreur -->
                             <p id="message_erreur"></p>
@@ -231,7 +231,7 @@
 
                     const form = document.getElementById('infoForm');
                     const inputs = form.querySelectorAll('input');
-                    const toggleButton = document.getElementById('mes_infos_toggleButton');
+                    const toggleButton = document.getElementById('mes_infos_toggleButton<?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>');
                     const messageErreur = document.getElementById('message_erreur');
                     messageErreur.style.color = "red"; 
                     let isEditing = false;
@@ -432,6 +432,10 @@
 
                         } else {
                             inputs.forEach(input => input.removeAttribute('readonly'));
+                            if (document.body.classList.contains("#mes_infos_toggleButton.professionnel")) {
+                            // Couleur pour les professionnels
+                            inputs.forEach(input => input.style.backgroundColor = "var(--color-primary-pro)");
+                        }
                             inputs.forEach(input => input.style.backgroundColor = "#79AFA6");
                             toggleButton.textContent = 'Enregistrer les modifications';
                         }
