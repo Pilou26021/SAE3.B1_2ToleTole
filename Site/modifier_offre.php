@@ -25,10 +25,11 @@
         $stmt->execute([':idOffre' => $idOffre]);
         $offre = $stmt->fetch();
 
-        if (!$offre || $offre['idpropropose'] !== $_SESSION['professionnel']) {
+
+        if (!$offre || (string)$offre['idpropropose'] !== (string)$_SESSION['professionnel']) {
             echo "<script>window.location.replace('index.php');</script>";
             exit();
-        }
+        }        
 
         // Récupération des détails dans sa catégorie
         // Appelle de la fonction trouver_categorie_offre dans la base de données

@@ -419,7 +419,7 @@ p {
 }
 
 input[type="radio"]:checked+.category {
-	background-color: #88b0a2;
+	background-color: var(--color-primary-pro);
 }
 
 input[type="radio"] {
@@ -438,7 +438,7 @@ input[type="radio"]+label {
 }
 
 .category:hover {
-	background-color: #88b0a2;
+	background-color: var(--color-primary-pro);
 }
 
 .price {
@@ -517,7 +517,7 @@ input[type="radio"]+label {
 	justify-content: center;
 	align-items: center;
 	height: 150px;
-	background-color: #a3d1c5;
+	background-color: var(--color-primary-pro);
 	border-radius: 5px;
 	cursor: pointer;
 }
@@ -634,7 +634,7 @@ input[type="radio"]+label {
 	/* Retire le style par défaut de la checkbox */
 	width: 20px;
 	height: 20px;
-	border: 2px solid #27772e;
+	border: 2px solid var(--color-primary-pro);
 	/* Vert de base */
 	border-radius: 4px;
 	background-color: white;
@@ -643,9 +643,9 @@ input[type="radio"]+label {
 }
 
 .tags input[type="checkbox"]:checked {
-	background-color: var(--color-primary-hover);
+	background-color: var(--color-primary-hover-pro);
 	/* Vert plus foncé lorsqu'il est sélectionné */
-	border-color: #146a51;
+	border-color: var(--color-primary-pro);
 }
 
 .tags input[type="checkbox"]::after {
@@ -669,7 +669,7 @@ input[type="radio"]+label {
 	/* Retire le style par défaut de la checkbox */
 	width: 20px;
 	height: 20px;
-	border: 2px solid #a3d1c5;
+	border: 2px solid var(--color-primary-pro);
 	/* Vert de base */
 	border-radius: 4px;
 	background-color: white;
@@ -678,9 +678,9 @@ input[type="radio"]+label {
 }
 
 .langues input[type="checkbox"]:checked {
-	background-color: #88b0a2;
+	background-color: var(--color-accent-hover-pro);
 	/* Vert plus foncé lorsqu'il est sélectionné */
-	border-color: #88b0a2;
+	border-color: var(--color-accent-pro);
 }
 
 .langues input[type="checkbox"]::after {
@@ -704,7 +704,7 @@ input[type="radio"]+label {
 	/* Retire le style par défaut du bouton radio */
 	width: 20px;
 	height: 20px;
-	border: 2px solid var(--color-primary-hover);
+	border: 2px solid var(--color-primary-hover-pro);
 	/* Bordure verte de base */
 	border-radius: 50%;
 	/* Pour que le bouton soit rond */
@@ -714,9 +714,9 @@ input[type="radio"]+label {
 }
 
 .visite:checked {
-	background-color: var(--color-primary-hover);
+	background-color: var(--color-primary-hover-pro);
 	/* Fond vert plus foncé lorsqu'il est sélectionné */
-	border-color: #146a51;
+	border-color: var(--color-accent-pro);
 }
 
 .visite::after {
@@ -1311,13 +1311,13 @@ td {
 
 /* Style au survol des options */
 .dropdown-content a:hover {
-	color: var(--color-primary);
+	color: var(--color-primary-hover-pro);
 	font-size: large;
 }
 
 /* Effet de survol sur le bouton */
 .dropdown:hover .dropdown-btn {
-    border-color: var(--color-primary);
+    border-color: var(--color-primary-hover-pro);
     background-color: white; /* Changement de couleur de fond */
     outline: none;
 }
