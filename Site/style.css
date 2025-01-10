@@ -2166,10 +2166,18 @@ td {
 		min-width: 200px;
 	}
 
+	.mes_infos_liens-boutons.professionnel{
+		border: 1px solid var(--color-primary-pro);
+	}
+
 	.mes_infos_liens-boutons:hover {
 		color: inherit;
 		background-color: #36D673;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+	}
+
+	.mes_infos_liens-boutons.professionnel:hover{
+		background-color: var(--color-primary-hover-pro);
 	}
 
 	/*===================================================================================
@@ -2207,6 +2215,10 @@ td {
 		color: black;
 	}
 
+	.mes_infos_form.professionnel input{
+		border: 1px solid var(--color-accent-pro);
+	}
+
 	.mes_infos_form input:focus {
 		outline: none;
 	}
@@ -2221,8 +2233,17 @@ td {
 		margin-top: 40px;     
 	}
 
+	#mes_infos_toggleButton.professionnel {
+		border: 1px solid var(--color-primary-pro);
+		background-color: var(--color-primary-pro);
+	}
+
 	#mes_infos_toggleButton:hover {
 		background-color: #36D673;
+	}
+
+	#mes_infos_toggleButton.professionnel:hover {
+		border: 1px solid var(--color-primary-hover-pro);
 	}
 
 	/* Style des lignes du conteneur */
