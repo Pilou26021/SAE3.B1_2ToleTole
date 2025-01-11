@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Section pour permettre l'alignement du texte -->
             <section class="cp_mobile">
                 <label for="email_cp_mob">E-mail:</label><br>
-                <input type="email" id="email_cp_mob" name="email_cp_mob" placeholder="jeanDuchamp@exemple.com" required class="cp_mobile"><br><br><br>
+                <input type="email" id="email_cp_mob" name="email_cp_mob" placeholder="jeanDuchamp@exemple.com" required class="cp_mobile"><br><br>
                 
                 <label for="mdp_cp_mob">Mot de passe:</label><br>
                 <input type="password" id="mdp_cp_mob" name="mdp_cp_mob" placeholder="***************" required class="cp_mobile">

@@ -48,7 +48,9 @@
         $stmt->execute();
         $idproOffre = $stmt->fetchColumn();
         if ($idproOffre == $idpro) {
-            $bonProfessionnel = true; // Utiliser cette variable pour vérifier que c'est le professionel qui a créé l'offre
+            $bonProfessionnel = true; //variable pour vérifier que c'est le professionel qui a créé l'offre
+        } else {
+            header("Location: index.php");
         }
     }
     if (isset($_SESSION['signalement_avis_ok'])){
@@ -811,8 +813,9 @@
                                         </div>
                                         <div class="container-repondre-avis">
                                             <?php if ($professionel) { ?>
-                                                <!-- afficher une petite flèche à droite de répondre qui change de sens si le form est ouver ou non -->
-                                                <a id="replyButton-<?= $avisId ?>" href="javascript:void(0);" class="reply-btn bouton-repondre-avis" onclick="openReplyForm(<?= $avisId ?>)">Répondre</a>
+                                                <!-- afficher une petite flèche à droite de répondre qui change de sens si le form est ouvert ou non -->
+                                                <a id="replyButton-<?= $avisId ?>" href="javascript:void(0);" class="reply-btn bouton-repondre-avis" onclick="openReplyForm(<?= $avisId ?>)">Répondre <img id="arrow-<?= $avisId ?>" src="./img/icons/arrow-down.svg"></a>
+                                                
                                                 <form id="replyForm-<?= $avisId ?>" class="reply-form" style="display:none;" action="upload_reply.php" method="POST">
                                                     <input type="hidden" name="idavis" value="<?= $avisId ?>">
                                                     <textarea name="reply" placeholder="Votre réponse à l'avis" cols="29" rows="5" required></textarea>
@@ -824,15 +827,35 @@
                                                     var form = document.getElementById('replyForm-' + avisId);
                                                     if (form.style.display === 'none') {
                                                         form.style.display = 'flex';
+                                                        form.style.transition = 'all 0.3s ease';
+                                                        form.style.opacity = '0';
+                                                        form.style.maxHeight = '0';
+                                                        setTimeout(() => {
+                                                            form.style.opacity = '1';
+                                                            form.style.maxHeight = '500px';
+                                                        }, 10);
                                                     } else {
-                                                        form.style.display = 'none';
+                                                        form.style.transition = 'all 0.3s ease';
+                                                        form.style.opacity = '0';
+                                                        form.style.maxHeight = '0';
+                                                        setTimeout(() => {
+                                                            form.style.display = 'none';
+                                                        }, 300);
                                                     }
                                                     var replyB = document.getElementById('replyButton-' + avisId);
                                                     if (form.style.display === 'none') {
-                                                        replyB.style.margin = "10px 10px 5px 10px"
+                                                        replyB.style.margin = "10px 0px 5px 0px"
                                                     } else {
-                                                        replyB.style.margin = "10px"
+                                                        replyB.style.margin = "10px 0px 5px 0px"
                                                     }
+                                                    
+                                                    var arrow = document.getElementById('arrow-' + avisId);
+                                                    if (form.style.display === 'none') {
+                                                        arrow.style.transform = 'rotate(0deg)';
+                                                    } else {
+                                                        arrow.style.transform = 'rotate(-180deg)';
+                                                    }
+                                                    arrow.style.transition = 'transform 0.3s ease';
                                                     
                                                 }
                                             </script>
