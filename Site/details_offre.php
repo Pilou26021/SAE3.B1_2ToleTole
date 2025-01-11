@@ -62,6 +62,13 @@
         unset($_SESSION['signalement_avis_ok']);
     }
 
+    //récupérer l'id du pro qui a créé l'offre
+    $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
+    $stmt->execute();
+    $idproOffre = $stmt->fetchColumn();
+
     //récupérer les infos du pro
     $sql = "SELECT * from public.professionnel where idpro = :idproOffre";
     $stmt = $conn->prepare($sql);
