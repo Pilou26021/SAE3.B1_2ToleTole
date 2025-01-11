@@ -1713,7 +1713,17 @@ td {
 	align-items: center;
 }
 
+.pdp-name-date-pro {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0px;
+}
+
 .pdp-name-date strong {
+	margin-left : 10px;
+}
+
+.pdp-name-date-pro strong {
 	margin-left : 10px;
 }
 
@@ -2397,7 +2407,6 @@ mc_main {
 .container_pdp-name-date_options{
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
 	align-items: center;
 }
 
@@ -2630,7 +2639,7 @@ input[type="file"] {
 }
 
 .bouton-repondre-avis:hover {
-	/* background-color: var(--color-primary-hover-pro); */
+	background-color: rgba(0, 0, 0, 0.1);
 }
 
 .bouton-repondre-avis img{
@@ -2679,4 +2688,20 @@ input[type="file"] {
 
 .header-pdp-user:hover{
 	border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.text-reponse-pro{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 20px;
+}
+
+.text-reponse-pro p{
+	margin-top: 17px;
+	margin-left: 10px;
+}
+
+.title-reponse{
+	margin-bottom: 0px;
 }

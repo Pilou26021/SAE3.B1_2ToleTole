@@ -357,9 +357,10 @@ JOIN public._compte c ON m.idCompte = c.idCompte;
 
 -- vue professionnel
 CREATE VIEW public.professionnel AS
-SELECT p.idPro, c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.hashMdpCompte, c.idImagePdp
+SELECT p.idPro, c.idCompte, c.nomCompte, c.prenomCompte, c.mailCompte, c.numTelCompte, c.hashMdpCompte, c.idImagePdp, i.pathImage
 FROM public._professionnel p
-JOIN public._compte c ON p.idCompte = c.idCompte;
+JOIN public._compte c ON p.idCompte = c.idCompte
+JOIN public._image i ON c.idImagePdp = i.idImage;
 
 -- vue avis avec leur réponse
 CREATE VIEW public.avisReponse AS

@@ -62,6 +62,12 @@
         unset($_SESSION['signalement_avis_ok']);
     }
 
+    //récupérer les infos du pro
+    $sql = "SELECT * from public.professionnel where idpro = :idproOffre";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':idproOffre', $idproOffre, PDO::PARAM_INT);
+    $stmt->execute();
+    $infosPro = $stmt->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -498,14 +504,14 @@
                     <?php
                         if($membre){
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur sauf pour l'utilisateur connecté
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre AND m.idmembre <> :conn_membre
                             ORDER BY a.scorepouce DESC";
 
-                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
@@ -514,7 +520,7 @@
                             
                         } else {
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
@@ -734,6 +740,10 @@
                             
                             if ($avis) {
                                 foreach ($avis as $avis) {
+                                    $hasReponse = false;
+                                    if($avis['reponsepro'] == true){
+                                        $hasReponse = true;
+                                    }
                                     $avisId = $avis['idavis'];
                                     $scorePouce = $avis['scorepouce'];
                                     if($_SESSION['thumbed'][$avisId]){
@@ -741,8 +751,19 @@
                                     } else {
                                         $thumbsClicked[$avisId] = false;
                                     }
-                                    
+
                                     $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
+
+                                    //recuperer les infos de la réponse si il y en a une
+                                    $sql = "SELECT * from avisreponse where idavis = :idavis";
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->bindValue(':idavis', $avisId, PDO::PARAM_INT);
+                                    $stmt->execute();
+                                    $reponse = $stmt->fetch();
+
+                                    if($reponse){
+                                        $dateReponse = date("d/m/Y", strtotime($reponse['datereponse']));
+                                    } 
 
                                     ?>
                                     <div class="avis">
@@ -811,56 +832,38 @@
                                             <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=plus" id="thumbs-up-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-up.svg" alt="Avis pertinent">Pertinent</a>
                                             <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=moins" id="thumbs-down-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-down.svg" alt="Avis non-pertinent">Non pertinent</a>
                                         </div>
-                                        <div class="container-repondre-avis">
-                                            <?php if ($professionel) { ?>
-                                                <!-- afficher une petite flèche à droite de répondre qui change de sens si le form est ouvert ou non -->
-                                                <a id="replyButton-<?= $avisId ?>" href="javascript:void(0);" class="reply-btn bouton-repondre-avis" onclick="openReplyForm(<?= $avisId ?>)">Répondre <img id="arrow-<?= $avisId ?>" src="./img/icons/arrow-down.svg"></a>
-                                                
-                                                <form id="replyForm-<?= $avisId ?>" class="reply-form" style="display:none;" action="upload_reply.php" method="POST">
-                                                    <input type="hidden" name="idavis" value="<?= $avisId ?>">
-                                                    <textarea name="reply" placeholder="Votre réponse à l'avis" cols="29" rows="5" required></textarea>
-                                                    <button class="bouton-envoyer-reponse" type="submit">Envoyer</button>
-                                                </form>
-                                            <?php } ?>
-                                            <script>
-                                                function openReplyForm(avisId) {
-                                                    var form = document.getElementById('replyForm-' + avisId);
-                                                    if (form.style.display === 'none') {
-                                                        form.style.display = 'flex';
-                                                        form.style.transition = 'all 0.3s ease';
-                                                        form.style.opacity = '0';
-                                                        form.style.maxHeight = '0';
-                                                        setTimeout(() => {
-                                                            form.style.opacity = '1';
-                                                            form.style.maxHeight = '500px';
-                                                        }, 10);
-                                                    } else {
-                                                        form.style.transition = 'all 0.3s ease';
-                                                        form.style.opacity = '0';
-                                                        form.style.maxHeight = '0';
-                                                        setTimeout(() => {
-                                                            form.style.display = 'none';
-                                                        }, 300);
-                                                    }
-                                                    var replyB = document.getElementById('replyButton-' + avisId);
-                                                    if (form.style.display === 'none') {
-                                                        replyB.style.margin = "10px 0px 5px 0px"
-                                                    } else {
-                                                        replyB.style.margin = "10px 0px 5px 0px"
-                                                    }
+
+                                            <?php if ($professionel && !$hasReponse) { ?>
+                                                <div class="container-repondre-avis">
+                                                    <!-- afficher une petite flèche à droite de répondre qui change de sens si le form est ouvert ou non -->
+                                                    <a id="replyButton-<?= $avisId ?>" href="javascript:void(0);" class="reply-btn bouton-repondre-avis" onclick="openReplyForm(<?= $avisId ?>)">Répondre <img id="arrow-<?= $avisId ?>" src="./img/icons/arrow-down.svg"></a>
                                                     
-                                                    var arrow = document.getElementById('arrow-' + avisId);
-                                                    if (form.style.display === 'none') {
-                                                        arrow.style.transform = 'rotate(0deg)';
-                                                    } else {
-                                                        arrow.style.transform = 'rotate(-180deg)';
-                                                    }
-                                                    arrow.style.transition = 'transform 0.3s ease';
-                                                    
-                                                }
-                                            </script>
+                                                    <form id="replyForm-<?= $avisId ?>" class="reply-form" style="display:none;" action="upload_reply.php" method="POST">
+                                                        <input type="hidden" name="idavis" value="<?= $avisId ?>">
+                                                        <textarea name="reply" placeholder="Votre réponse à l'avis" cols="29" rows="5" required></textarea>
+                                                        <button class="bouton-envoyer-reponse" type="submit">Envoyer</button>
+                                                    </form>
+                                                </div>
+                                            <?php } elseif ($hasReponse) { ?>
+
+                                                <div class="container-reponse">
+
+                                                    <p class="title-reponse"><strong>Réponse du professionnel :</strong></p>    
+                                                    <div class="container_pdp-name-date_options">
+                                                        <p class="pdp-name-date-pro">
+                                                            <img class="pdp-avis" src="<?php echo $infosPro['pathimage'] ?>" alt="image utilisateur">
+                                                            <strong style="margin-right:3px;"><?= $infosPro['nomcompte'] . ' ' . $infosPro['prenomcompte'] ?></strong> - <?= $dateReponse ?>
+                                                        </p>
+                                                    </div>
+                                                    <div class="text-reponse-pro">
+                                                        <img src="./img/icons/arrow-enter-right.svg" alt="arrow enter right">
+                                                        <p><?= $reponse['textereponse'] ?></p>
+                                                    </div>
+
+                                                </div>
+                                                <?php
+                                            } ?>
                                         </div>
-                                    </div>
                                     <?php
                                 }
                             } else {
