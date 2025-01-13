@@ -2714,3 +2714,11 @@ input[type="file"] {
 .title-reponse{
 	margin-bottom: 0px;
 }
+
+/*	PAGE LIEN FOOTER **/
+
+.corps-footer {
+	text-align: left;
+	align-items: center;
+	margin: 0 20% ;
+}
