@@ -222,3 +222,6 @@ INSERT INTO _theme (idOffre, idTag) VALUES
 INSERT INTO _constPrix (dateTarif, prixSTDht, prixSTDttc, prixPREMht, prixPREMttc, prixALaUneht, prixALaUnettc, prixEnReliefht, prixEnReliefttc) VALUES 
 ('2024-11-25', 1.67, 2.0, 3.34, 4.0, 16.68, 20.0, 8.34, 10.0);
 
+INSERT INTO _facture (idproprive, idconstprix, datefacture, montantht, montantttc, nbjoursmisehorsligne) VALUES 
+(1, 1, '2024-12-01', 2000, 2400, 0),
+(1, 1, '2025-01-01-', 2000, 2400, 0);

@@ -13,7 +13,7 @@
         $professionel = true;
         $idProPropose = $_SESSION['professionnel'];
     } else {
-        ?> <script>window.location.replace('index.php');</script> <!-- Redirection en quittant la page actuelle --> <?php
+        header("Location: ".$_SERVER['HTTP_REFERER']);
     }
 
     $ispropublic = $_SESSION['propublic'];
