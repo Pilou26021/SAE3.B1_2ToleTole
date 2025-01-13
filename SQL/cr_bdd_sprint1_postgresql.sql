@@ -55,9 +55,12 @@ CREATE TABLE public._chat_message (
     timestamp_envoie TIMESTAMP NOT NULL DEFAULT NOW(),
     derniere_modif TIMESTAMP NOT NULL DEFAULT NOW(),
     emetteur VARCHAR(255) NOT NULL,
+    id_emetteur INT NOT NULL,
     destinataire VARCHAR(255) NOT NULL,
-    direction VARCHAR(10) NOT NULL CHECK (direction IN ('reçu', 'émis')), -- Sens : reçu ou émis
+    id_destinataire INT NOT NULL,
+    direction VARCHAR(10) NOT NULL CHECK (direction IN ('recu', 'emis')), -- Sens : reçu ou émis
     est_supprime BOOLEAN NOT NULL DEFAULT FALSE,
+    est_lu BOOLEAN NOT NULL DEFAULT FALSE,
     content TEXT NOT NULL CHECK (LENGTH(content) <= 1000),
     CONSTRAINT check_max_size CHECK (LENGTH(content) <= 1000) 
 );
