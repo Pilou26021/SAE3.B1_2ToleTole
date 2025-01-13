@@ -198,7 +198,7 @@
                 <label for="price-range-min">Gamme de prix :</label>
                 <div class="slider-container">
                     <div class="price-label">
-                        Prix: <span id="price-value-min"><?php echo $min[0]['min']; ?></span>€ a <span id="price-value-max"><?php echo $max[0]['max']; ?></span>€
+                        Prix: <span id="price-value-min"><?php echo $min[0]['min']; ?></span>€ à <span id="price-value-max"><?php echo $max[0]['max']; ?></span>€
                     </div>
                     <input data-url="ajax_filtres.php" type="range" id="price-range-min" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max'] ; ?> step="10" value=<?php echo $min[0]['min']; ?>>
                     <input data-url="ajax_filtres.php" type="range" id="price-range-max" class="slider" min=<?php echo $min[0]['min']; ?> max=<?php echo $max[0]['max']+10 ; ?> step="10" value=<?php echo $max[0]['max']+10; ?>>
@@ -213,21 +213,21 @@
                 <label for="notemin">Notes :</label>
                 <div style="display: flex; justify-content: space-around;">
                     <select  class="choose" id="notemin" name="notemin" style="width: 30%; height: 30px;" data-url="ajax_filtres.php">
-                        <option value="0" selected="selected">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="0" selected="selected">0 étoiles</option>
+                        <option value="1">1 étoiles</option>
+                        <option value="2">2 étoiles</option>
+                        <option value="3">3 étoiles</option>
+                        <option value="4">4 étoiles</option>
+                        <option value="5">5 étoiles</option>
                     </select>
-                    <p>a</p>
+                    <p>à</p>
                     <select  class="choose" id="notemax" name="notemax" style="width: 30%; height: 30px;" data-url="ajax_filtres.php">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5" selected="selected">5</option>
+                        <option value="0">0 étoiles</option>
+                        <option value="1">1 étoiles</option>
+                        <option value="2">2 étoiles</option>
+                        <option value="3">3 étoiles</option>
+                        <option value="4">4 étoiles</option>
+                        <option value="5" selected="selected">5 étoiles</option>
                     </select>
                 </div>
                 <h3>Tris</h3>
