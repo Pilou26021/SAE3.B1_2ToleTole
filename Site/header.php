@@ -54,6 +54,7 @@ if (isset($_SESSION['membre'])) {
             <!-- REPETITION !!! -->
             <?php if ($professionel): ?>
                 <li><a href="mon_compte.php">Mon compte</a></li>
+                <li><a href="mes_factures.php">Mes factures</a></li>
                 <!-- <li><a href="#">Mes offres</a></li> -->
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="deconnexion.php">Déconnexion</a></li>
