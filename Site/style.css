@@ -1633,6 +1633,53 @@ td {
     cursor: pointer;
 }
 
+.infoprix {
+    position: fixed;
+	top: 8em; 
+    right: 20px; 
+    width: 300px; 
+	margin-left: auto;
+	padding: 15px;
+	background-color: var(--color-background); /* Couleur de fond douce pour le contraste */
+    border: 1px solid var(--color-border); /* Bordure légère */
+    border-radius: 8px; /* Coins arrondis pour un style moderne */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre portée */
+    font-family: Arial, sans-serif;
+    font-size: 14px; /* Taille de police lisible */
+    color: var(--color-text); /* Texte sombre pour un bon contraste */
+    z-index: 1000; /* S'assurer que l'élément reste au-dessus des autres contenus */
+}
+
+.infoprix h2 {
+    font-size: 20px; /* Taille légèrement plus grande pour les titres */
+    margin-bottom: 10px; /* Espacement sous les titres */
+    color: var(--color-text); /* Couleur distincte pour attirer l'attention */
+}
+
+.infoprix p, .infoprix li {
+    margin: 5px 0; /* Espacement vertical entre les paragraphes et les éléments de liste */
+}
+
+.infoprix ul {
+    list-style: none; /* Supprime les puces */
+    padding: 0; /* Supprime le retrait par défaut */
+}
+
+.infoprix li {
+    padding: 5px 0; /* Espacement interne pour chaque élément */
+    border-bottom: 1px dashed var(--color-border); /* Ligne de séparation discrète entre les éléments */
+}
+
+.infoprix li:last-child {
+    border-bottom: none; /* Supprime la bordure pour le dernier élément */
+}
+
+#prixOffreHT, #prixOffreTTC {
+    font-weight: bold; /* Texte en gras pour attirer l'attention */
+    color: var(--color-accent-pro); /* Couleur verte pour une connotation positive */
+}
+
+
 /* Responsive Design */
 @media (max-width: 600px) {
     .form-container {
