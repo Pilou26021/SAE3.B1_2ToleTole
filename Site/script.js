@@ -362,3 +362,33 @@ function submitSignalementAvis(idAvis) {
 
     alert('Le signalement a bien été pris en compte.');
 }
+
+function openReplyForm(avisId) {
+    var form = document.getElementById('replyForm-' + avisId);
+    var arrow = document.getElementById('arrow-' + avisId);
+    var replyB = document.getElementById('replyButton-' + avisId);
+
+    if (form.style.display === 'none' || !form.style.display) {
+        form.style.display = 'flex';
+        form.style.transition = 'all 0.3s ease';
+        form.style.opacity = '0';
+        form.style.maxHeight = '0';
+        setTimeout(() => {
+            form.style.opacity = '1';
+            form.style.maxHeight = '500px';
+        }, 10);
+
+        //Rotation de la flèche
+        arrow.style.transform = 'rotate(-180deg)';
+    } else {
+        form.style.transition = 'all 0.3s ease';
+        form.style.opacity = '0';
+        form.style.maxHeight = '0';
+        setTimeout(() => {
+            form.style.display = 'none';
+        }, 300);
+        arrow.style.transform = 'rotate(0deg)';
+    }
+    replyB.style.margin = "10px 0px 5px 0px";
+    arrow.style.transition = 'transform 0.3s ease';
+}

@@ -11,7 +11,7 @@
         //récupération de l'id du pro
         $idProPropose = $_SESSION['professionnel'];
     } else {
-        ?> <script>window.location.replace('index.php');</script> <!-- Redirection en quittant la page actuelle --> <?php
+        header('Location: index.php');
     }
     
     if (isset($_POST)){
