@@ -252,6 +252,15 @@ footer {
 	padding-left: 20px;
 }
 
+.list-footer li {
+	margin-bottom: 0.5em;
+}
+
+.list-footer li a {
+	text-decoration: none;
+	color: var(--color-text);
+}
+
 .text-footer {
 	text-align: center;
 }
