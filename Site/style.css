@@ -305,6 +305,7 @@ h3 {
 	text-decoration: underline;
 	font-weight: normal;
 	margin: 10px;
+	text-decoration: none;
 }
 
 h4 {
@@ -820,6 +821,7 @@ section.cp_mobile input.cp_mobile {
 	/* Ombre */
 	margin: 0px 40px 40px 40px;
 	font-size: 20px;
+	cursor:pointer;
 }
 
 /*Bouton submit au survol*/
@@ -1245,14 +1247,14 @@ td {
 }
 
 .detail-offer-btn {
-    background-color: var(--color-primary);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	background-color: var(--color-primary);
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 16px;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 	text-decoration: none;
 }
 
@@ -2465,6 +2467,7 @@ mc_main {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .form_avis_signalement{
@@ -2774,4 +2777,16 @@ input[type="file"] {
 .list-footer li:hover a {
 	border-radius: 5px;
 	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.container-facture{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.erreur404{
+	height: 19%;
+	width: 19%;
 }

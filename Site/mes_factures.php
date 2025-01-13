@@ -83,6 +83,7 @@
         </script>
         <script> 
             $(function(){
+            $("#header").load("header.php");
             $("#footer").load("footer.html"); 
             });
         </script> 
@@ -97,9 +98,13 @@
                 $mois_facture = substr($facture['datefacture'], 0, -3);
                 ?> 
                     <div class="container-facture">
-                        <h3><?= nbr2month(explode("-", $facture['datefacture'])[1]) . " " . explode("-", $facture['datefacture'])[0]?></h3>
-                        <a href="convert_facture.php?id=$facture" . <?= $facture['idfacture'] ?>>Générer le pdf de la facture</a>
+                        <h3><?= nbr2month(explode("-", $facture['datefacture'])[1]) . 
+                                " " . explode("-", $facture['datefacture'])[0] . 
+                                " - Montant TTC : " . $facture['montantttc'] . "€" ?>
+                        </h3>
+                        <a href="convert_facture.php?idfacture=<?=$facture['idfacture']?>">Générer le pdf de la facture</a>
                     </div>
+                    <br class="br-factures">
                 <?php
             }
 
