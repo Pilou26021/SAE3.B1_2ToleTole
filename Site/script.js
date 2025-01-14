@@ -182,12 +182,14 @@ function resetButtonText(cat) {
 
 //si restauration est séléctionné dans les filtres, afficher la checkbox dateouvert
 function showDateOuvert() {
-    if (document.getElementById('category').value == 'restauration') {
-        document.getElementById('dateouvert').style.display = 'block';
+    if (document.getElementById('category').value == 'Restauration') {
+        document.getElementById('switch').style.display = 'inline-block';
         document.getElementById('textedateouvert').style.display = 'block';
+        document.getElementById('category').style.paddingRight = '320px';
     } else {
-        document.getElementById('dateouvert').style.display = 'none';
+        document.getElementById('switch').style.display = 'none';
         document.getElementById('textedateouvert').style.display = 'none';
+        document.getElementById('category').style.paddingRight = '417px';
     }
 }
 
@@ -208,6 +210,7 @@ async function applyFilters() {
     const search = document.getElementById('search-query').value;
     const startDate = document.getElementById('datedeb').value;
     const endDate = document.getElementById('datefin').value;
+    const ouvert = document.getElementById('ouvert').value;
     let Tprix = document.getElementById('Tprix').value;
 
     
@@ -230,6 +233,7 @@ async function applyFilters() {
     filters.append('Tprix', Tprix);
     filters.append('mavant', mavant);
     filters.append('type', type);
+    filters.append('ouvert', ouvert);
     
     try {
         // Effectuer la requête AJAX en envoyant tous les filtres
@@ -267,6 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('Tprix').addEventListener('change', applyFilters);
     document.getElementById('Mavant').addEventListener('change', applyFilters);
     document.getElementById('type').addEventListener('change', applyFilters);
+    document.getElementById('ouvert').addEventListener('change', applyFilters);
+    });
+
     document.getElementById('Alaune').addEventListener('click', function () {
         // Définir une valeur par défaut pour le champ Mavant
         const mavantSelect = document.getElementById('Mavant');
@@ -274,9 +281,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Appeler la fonction applyFilters pour appliquer les filtres
         applyFilters();
-    });
-    
 });
+
+
 
 function validImages(inputElements) {
     var validExtensions = ['image/jpeg', 'image/png', 'image/jpg']; // Formats acceptés

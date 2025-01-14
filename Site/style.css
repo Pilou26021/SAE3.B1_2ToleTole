@@ -113,6 +113,15 @@ header {
 	border-color: #040316;
 }
 
+.choosecat{
+	padding: 5px;
+	border-radius: 10px;
+	background-color: var(--color-background);
+	border-color: #040316;
+    padding-right: 417px;
+
+}
+
 .filter-form {
 	z-index: 20;
 	top: 5vw;
@@ -670,6 +679,40 @@ input[type="radio"]+label {
 }
 
 .tags input[type="checkbox"]:checked::after {
+	display: block;
+	/* Montre la coche lorsqu'il est sélectionné */
+}
+
+.checkbox-member input[type="checkbox"] {
+	appearance: none;
+	/* Retire le style par défaut de la checkbox */
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--color-primary);
+	/* Vert de base */
+	border-radius: 4px;
+	background-color: white;
+	cursor: pointer;
+	position: relative;
+}
+
+.checkbox-member input[type="checkbox"]:checked {
+	background-color: var(--color-primary-hover);
+	/* Vert plus foncé lorsqu'il est sélectionné */
+	border-color: var(--color-primary);
+}
+
+.checkbox-member input[type="checkbox"]::after {
+	content: '';
+	position: absolute;
+	display: none;
+	top: 4px;
+	left: 4px;
+	width: 10px;
+	height: 10px;
+}
+
+.checkbox-member input[type="checkbox"]:checked::after {
 	display: block;
 	/* Montre la coche lorsqu'il est sélectionné */
 }
@@ -2795,16 +2838,83 @@ input[type="file"] {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .container-category{
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+}
+
+.container-category label{
+	margin-bottom: 10px;
 }
 
 .container-ouvert{
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	margin-top: -20px;
+}
+
+/* Style pour le switch */
+.switch {
+	position: relative;
+	display: none;
+	width: 40px;
+	height: 20px;
+	top: 15px;
+	right: 2px;
+}
+
+/* Cacher le checkbox original */
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+/* Slider du switch */
+.sliderswitch {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: -5px;
+	bottom: 0;
+	background-color: #ccc;
+	transition: .4s;
+	border-radius: 34px;
+}
+
+.sliderswitch:before {
+	position: absolute;
+	content: "";
+	height: 11px;
+	width: 11px;
+	left: 4px;
+	bottom: 5px;
+	background-color: white;
+	transition: .4s;
+	border-radius: 50%;
+}
+
+/* Quand le checkbox est coché, changer la couleur du slider */
+input:checked + .sliderswitch {
+	background-color: var(--color-primary);
+}
+
+input:checked + .sliderswitch.pro {
+	background-color: var(--color-primary-pro);
+}
+
+/* Déplacer le bouton quand le checkbox est coché */
+input:checked + .sliderswitch:before {
+	transform: translateX(26px);
+}
+
+.textedateouvert{
+	display: flex;
+	flex-direction: row;
 	align-items: center;
 }

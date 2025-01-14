@@ -131,7 +131,7 @@
                 <div class="container-category-ouvert">
                     <div class="container-category">
                         <label for="category">Catégorie :</label>
-                        <select class="choose" id="category" name="category">
+                        <select class="choosecat" id="category" name="category" onchange="showDateOuvert()">
                             <option value="">--Choisissez une option--</option>
                             <option value="Restauration">Restauration</option>
                             <option value="Spectacles">Spectacles</option>
@@ -141,9 +141,21 @@
                         </select>
                     </div>
 
-                    <div class="container-ouvert">
-                        <label for="ouvert" id="textedateouvert">Ouvert :</label>
-                        <input type="checkbox" id="ouvert" name="ouvert" style="display:none;">
+                    <div class="container-ouvert checkbox-member">
+                        <label for="ouvert" class="textedateouvert" id="textedateouvert" style="display:none;">Ouvert</label>
+                        <label class="switch" id="switch" style="display:none;">
+                            <input type="checkbox" id="ouvert" class="switch" name="ouvert" value="0" style="display:none;">
+                            <span class="sliderswitch <?php if($professionel){echo "pro";} ?> "></span>
+                        </label>
+                        <script>
+                            document.getElementById('ouvert').addEventListener('change', function() {
+                                if (this.checked) {
+                                    this.value = 1;
+                                } else {
+                                    this.value = 0;
+                                }
+                            });
+                        </script>
                     </div>
 
                 </div>
