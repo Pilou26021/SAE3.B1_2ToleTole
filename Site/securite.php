@@ -50,7 +50,7 @@
             <!-- Modification du mot de passe -->
             <div class="securite_div">
                 <h2>Modifier le mot de passe</h2>
-                <form onsubmit="return verifierMotDePasse()">
+                <form>
                     <label for="mdp">Mot de passe actuel</label>
                     <input type="password" id="mdp" name="mdp" required>
                     <br>
@@ -62,7 +62,7 @@
                     <input type="password" id="mdp2" name="mdp2" required oninput="verifierCorrespondanceMdp()">
                     <small id="correspondanceMessage" class="message-erreur"></small>
                     <br>
-                    <input type="submit" value="Modifier">
+                    <button type="button" onclick="verifierMotDePasse()">Modifier</button>
                 </form>
                 <section class="alerte_mdp">
                     <p>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.</p>
@@ -116,30 +116,43 @@
                         return false;
                     }
                     // Requete pour changer le mot de passe
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "./api/changer_mdp.php", true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.send("mdp=" + mdp1 + "&idcompte=" + <?php echo $idCompte; ?>);
-                    alert("Mot de passe modifié avec succès.");
-                    return true;
+                    valideMotDePasse(function(success) {
+                        if (success) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", "./api/changer_mdp.php", true);
+                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                            xhr.send("mdp=" + mdp1 + "&idcompte=" + <?php echo $idCompte; ?>);
+                            // Alerte l'utilisateur que le mot de passe a été modifié et raffaichie la page quand il clique sur ok
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    alert("Le mot de passe a été modifié.");
+                                    location.reload();
+                                }
+                            };
+                        } else {
+                            alert("Le mot de passe actuel est incorrect.");
+                        }
+                    });
                 }
 
-                function valideMotDePasse() {
-                    var mdp = document.getElementById("mdp").value;
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "./api/valider_mdp.php", true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.send("mdp=" + mdp + "&idcompte=" + <?php echo $idCompte; ?>);
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            if (xhr.responseText == "true") {
-                                alert("Mot de passe valide.");
-                            } else {
-                                alert("Mot de passe invalide.");
-                            }
+            function valideMotDePasse(callback) {
+                var mdp = document.getElementById("mdp").value;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "./api/valider_mdp.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            callback(response.success); // Exécute le callback avec true ou false.
+                        } else {
+                            callback(false); // En cas d'erreur serveur, retourne false.
                         }
                     }
-                }
+                };
+                xhr.send("mdp=" + encodeURIComponent(mdp) + "&idcompte=" + <?php echo $idCompte; ?>);
+            }
+
             </script>
 
             </div>
@@ -224,6 +237,8 @@
                     </div>
                     <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
                     <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
+                    <p>Conservez cette clé API en lieu sûr. Elle vous permet d'accéder à l'API de notre site. Une fois générée, vous ne pourrez plus la voir en clair.</p>
+                    <p>Si vous avez perdu votre clé API, vous pouvez en générer une nouvelle en cliquant sur le bouton "Regénérer la clé API".</p>
             </div>
         </main>
         <div id="footer"></div>
