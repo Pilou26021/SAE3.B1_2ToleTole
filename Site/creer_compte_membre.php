@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <label for="code_postale">Code Postal</label>
                         <div class="input-container">
-                            <input type="number" id="code_postal" name="code_postal" placeholder="Votre code postal" value="<?= htmlspecialchars($_POST['code_postal'] ?? '') ?>"required>
+                            <input type="text" id="code_postal" name="code_postal" placeholder="Votre code postal" value="<?= htmlspecialchars($_POST['code_postal'] ?? '') ?>"required>
                             <p class="error"><?= $errors['code_postal'] ?? '' ?></p>
                             <span class="required">*</span>
                         </div>
