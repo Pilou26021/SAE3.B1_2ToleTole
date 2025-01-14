@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $cleapi = generateAPIKey("membre", $conn);
             
             // Ajout de la clé API
-            $stmt = $conn->prepare("UPDATE _compte SET chat_cleapi = ? WHERE idCompte = ?");
+            $stmt = $conn->prepare("UPDATE _compte SET chat_cleapi = ? WHERE idcompte = ?");
             $stmt->bindValue(1, $cleapi, PDO::PARAM_STR); 
             $stmt->bindValue(2, $idCompte, PDO::PARAM_INT);
             $stmt->execute();
