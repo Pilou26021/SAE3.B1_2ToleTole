@@ -61,7 +61,6 @@ CREATE TABLE public._chat_message (
     id_destinataire INT NOT NULL,
     direction VARCHAR(10) NOT NULL CHECK (direction IN ('recu', 'emis')), -- Sens : reçu ou émis
     est_supprime BOOLEAN NOT NULL DEFAULT FALSE,
-    est_lu BOOLEAN NOT NULL DEFAULT FALSE,
     content TEXT NOT NULL CHECK (LENGTH(content) <= 1000),
     CONSTRAINT check_max_size CHECK (LENGTH(content) <= 1000) 
 );
