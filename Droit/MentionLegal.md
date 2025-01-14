@@ -24,5 +24,8 @@ TripEnArvor s’efforce d’assurer l’exactitude et la mise à jour des inform
 Données personnelles
 Conformément au Règlement Général sur la Protection des Données (RGPD), TripEnArvor s’engage à protéger la confidentialité des données personnelles des utilisateurs. Les informations collectées via le site PACT sont uniquement destinées à un usage interne et ne seront en aucun cas cédées à des tiers sans consentement explicite. Pour toute demande relative à vos données personnelles (accès, rectification, suppression), vous pouvez nous contacter à : reclamation@tripenarvor.fr
 
+Cookies
+TripEnArvor utilise des cookies seulement pour le bon fonctionnement du site PACT. Ces cookies ne collectent pas de données personnelles et sont automatiquement supprimés à la fin de votre session de navigation. Vous pouvez désactiver les cookies dans les paramètres de votre navigateur.
+
 Sécurité
 TripEnArvor met en œuvre des mesures de sécurité pour protéger le site PACT contre les attaques informatiques. Toutefois, l’association ne saurait être tenue responsable des dommages causés par des tiers malveillants.
