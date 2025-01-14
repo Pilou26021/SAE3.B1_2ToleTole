@@ -37,6 +37,7 @@ CREATE TABLE public._compte (
     dateCreationCompte DATE DEFAULT NOW(),
     dateDerniereConnexionCompte DATE NOT NULL,
     chat_cleApi TEXT,
+    chat_cledevoile BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (idImagePdp) REFERENCES public._image(idImage),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
