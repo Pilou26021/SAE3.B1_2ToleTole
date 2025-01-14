@@ -10,7 +10,8 @@ ob_start();
 session_start();
 
 //connecteur pour requête
-include "../SQL/connection_local.php";   
+include "../SQL/connection_local.php";
+include "./apikeygen.php";
 
 // Vérification des étapes
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -213,6 +214,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bindValue(1, $idPro, PDO::PARAM_INT);
                 $stmt->execute();
             }
+
+            $cleapi = '';
+            while ($cleapi == '' or $cleapi == null)
+                $cleapi = generateAPIKey("professionel", $conn);
+            
+            // Ajout de la clé API
+            $stmt = $conn->prepare("UPDATE _compte SET chat_cleapi = ? WHERE idCompte = ?");
+            $stmt->bindValue(1, $cleapi, PDO::PARAM_STR); 
+            $stmt->bindValue(2, $idCompte, PDO::PARAM_INT);
+            $stmt->execute();
 
             session_destroy();
             $step = 5; // Passer à l'étape 5 si tout est valide
