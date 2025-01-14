@@ -18,7 +18,6 @@ $Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
 $Tdate = isset($_GET['Tdate']) ? $_GET['Tdate'] : '';
 $type = isset($_GET['type']) ? $_GET['type'] : '';
 $ouvert = isset($_GET['ouvert']) ? $_GET['ouvert'] : '';
-file_put_contents('debug.txt', $ouvert);
 if ($ouvert == 1) {
     $ouvert = 'true';
 } else {
