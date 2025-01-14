@@ -128,15 +128,25 @@
         <div id="filterForm" class="filter-form">
             <h3> Filtres</h3>
             <form action="#">
-                <label for="category">Catégorie :</label>
-                <select class="choose" id="category" name="category">
-                    <option value="">--Choisissez une option--</option>
-                    <option value="Restauration">Restauration</option>
-                    <option value="Spectacles">Spectacles</option>
-                    <option value="Visites">Visites</option>
-                    <option value="Activités">Activités</option>
-                    <option value="Parcs">Parcs d’attractions</option>
-                </select>
+                <div class="container-category-ouvert">
+                    <div class="container-category">
+                        <label for="category">Catégorie :</label>
+                        <select class="choose" id="category" name="category">
+                            <option value="">--Choisissez une option--</option>
+                            <option value="Restauration">Restauration</option>
+                            <option value="Spectacles">Spectacles</option>
+                            <option value="Visites">Visites</option>
+                            <option value="Activités">Activités</option>
+                            <option value="Parcs">Parcs d’attractions</option>
+                        </select>
+                    </div>
+
+                    <div class="container-ouvert">
+                        <label for="ouvert" id="textedateouvert">Ouvert :</label>
+                        <input type="checkbox" id="ouvert" name="ouvert" style="display:none;">
+                    </div>
+
+                </div>
 
                 <label for="Mavant">Mise en avant :</label>
                 <select class="choose" id="Mavant" name="category">
@@ -194,6 +204,7 @@
                     <p>à</p>
                     <input id="datefin" class="input-filtre"  style="width: 40%;" type="date" >
                 </div>
+                
 
                 <label for="price-range-min">Gamme de prix :</label>
                 <div class="slider-container">

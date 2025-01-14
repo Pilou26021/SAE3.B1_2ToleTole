@@ -19,11 +19,11 @@
     $date = date("d-m-Y");
 
     // On insère la réponse dans la base de données
-    $sql = "INSERT INTO _reponseavis (idavis, textereponse, datereponse) VALUES (:idavis, :reply, :dateReponse)";
+    $sql = "INSERT INTO _reponseavis (idavis, textereponse, datereponse) VALUES (:idavis, :reply, :datereponse)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':idavis', $idavis, PDO::PARAM_INT);
     $stmt->bindParam(':reply', $reply, PDO::PARAM_STR);
-    $stmt->bindParam(':dateReponse', $date, PDO::PARAM_STR);
+    $stmt->bindParam(':datereponse', $date, PDO::PARAM_STR);
     $stmt->execute();
 
     // On met à jour la table avis pour dire que l'avis a été répondu

@@ -180,6 +180,17 @@ function resetButtonText(cat) {
     }
 }
 
+//si restauration est séléctionné dans les filtres, afficher la checkbox dateouvert
+function showDateOuvert() {
+    if (document.getElementById('category').value == 'restauration') {
+        document.getElementById('dateouvert').style.display = 'block';
+        document.getElementById('textedateouvert').style.display = 'block';
+    } else {
+        document.getElementById('dateouvert').style.display = 'none';
+        document.getElementById('textedateouvert').style.display = 'none';
+    }
+}
+
 // FILTRES
 
 async function applyFilters() {

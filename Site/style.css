@@ -2790,3 +2790,21 @@ input[type="file"] {
 	height: 19%;
 	width: 19%;
 }
+
+.container-category-ouvert{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.container-category{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.container-ouvert{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
