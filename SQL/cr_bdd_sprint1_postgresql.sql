@@ -75,6 +75,14 @@ CREATE TABLE public._professionnel (
     FOREIGN KEY (idCompte) REFERENCES public._compte(idCompte)
 );
 
+CREATE TABLE public._notification (
+    idNotification SERIAL PRIMARY KEY,
+    idCompte BIGINT NOT NULL,
+    messageNotification TEXT NOT NULL,
+    dateNotification DATE NOT NULL,
+    FOREIGN KEY (idCompte) REFERENCES public._compte(idCompte)
+);
+
 CREATE TABLE public._membre (
     idMembre SERIAL PRIMARY KEY,
     idCompte BIGINT NOT NULL,

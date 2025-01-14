@@ -10,6 +10,7 @@
     $stmt = $conn->prepare("SELECT idCompte FROM _professionnel WHERE idPro = ?");
     $stmt->execute(array($idPro));
     $idCompte = $stmt->fetch(PDO::FETCH_ASSOC);
+    $idCompte = $idCompte['idCompte'];
 ?>
 
 <!DOCTYPE html>
@@ -47,21 +48,24 @@
             <div class="securite_div">
                 <!-- Clé API dans une zone flouté and fait un appelle à la bdd pour la récupérer -->
                     <h2>Clé API</h2>
+                    <script>
+
+                    </script>
                     <div class="cleapi">
                         <p></p>
                     </div>
                     <?php
                         // Vérifie que la clé API n'a jamais été révélée
-                        $stmt = $conn->prepare("SELECT chat_cledevoile FROM _compte WHERE idCompte = ?");
-                        $stmt->execute(array($_SESSION['idCompte']));
+                        $stmt = $conn->prepare("SELECT chat_cledevoile FROM _compte WHERE idcompte = ?");
+                        $stmt->bindParam(1, $idCompte['idCompte']);
                         $chat_cledevoile = $stmt->fetch(PDO::FETCH_ASSOC);
                         if($chat_cledevoile['chat_cledevoile'] == false){
                             echo "<button id='btn_cleapi' onclick='afficher_cleapi()'>Afficher la clé API</button>";
                         } else {
                             echo "La clé API a déjà été révélée, veuillez la regénérer si vous la perdez.";
                         }
-                        
                     ?>
+                    <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
             </div>
         </main>
         <div id="footer"></div>
