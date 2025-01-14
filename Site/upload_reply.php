@@ -16,7 +16,8 @@
 
     $idavis = intval($_POST['idavis']);
     $reply = $_POST['reply'];
-    $date = date("d-m-Y");
+    $date = new DateTime('now', new DateTimeZone('Europe/Paris'));
+    $date = $date->format('Y-m-d');
 
     // On insère la réponse dans la base de données
     $sql = "INSERT INTO _reponseavis (idavis, textereponse, datereponse) VALUES (:idavis, :reply, :datereponse)";
