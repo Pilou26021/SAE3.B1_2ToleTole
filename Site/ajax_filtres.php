@@ -17,6 +17,14 @@ $Tprix = isset($_GET['Tprix']) ? $_GET['Tprix'] : '';
 $Tnote = isset($_GET['Tnote']) ? $_GET['Tnote'] : '';
 $Tdate = isset($_GET['Tdate']) ? $_GET['Tdate'] : '';
 $type = isset($_GET['type']) ? $_GET['type'] : '';
+$ouvert = isset($_GET['ouvert']) ? $_GET['ouvert'] : '';
+file_put_contents('debug.txt', $ouvert);
+if ($ouvert == 1) {
+    $ouvert = 'true';
+} else {
+    $ouvert = 'false';
+}
+
 
 // Initialiser les conditions de la requête
 $tableJoin = '';
@@ -96,6 +104,48 @@ if ($professionel) {
 
 
 // Ajouter les conditions supplémentaires (filtrage par ville, prix, note)
+if($ouvert == 'true') {
+
+    $heure = $date = new DateTime('now', new DateTimeZone('Europe/Paris'));
+    $heure = $date->format('Hi');
+
+    $sql_horaires = "SELECT idoffre, horairesemaine FROM _offrerestaurant";
+    $stmt = $conn->prepare($sql_horaires);
+    $stmt->execute();
+    $horaires = $stmt->fetchAll();
+    $results = "";
+
+    foreach($horaires as $horaire){
+        $horaire_decoded = json_decode($horaire['horairesemaine'], true);
+
+        // Convertir les heures pour être comparées
+        $lunchOpen = str_replace(':', '', $horaire_decoded['lunchOpen']);
+        $lunchClose = str_replace(':', '', $horaire_decoded['lunchClose']);
+        $dinnerOpen = str_replace(':', '', $horaire_decoded['dinnerOpen']);
+        $dinnerClose = str_replace(':', '', $horaire_decoded['dinnerClose']);
+
+        if (($lunchOpen < $heure && $lunchClose > $heure) || ($dinnerOpen < $heure && $dinnerClose > $heure)) {
+            $results .= strval($horaire['idoffre']) . ",";
+        }
+    }
+
+    // Retirer la dernière virgule s'il y en a
+    $results = rtrim($results, ',');
+
+    if (!empty($results)) {
+        $resultsArray = explode(',', $results);
+        $placeholders = implode(',', array_map(function($key) { return ":id_$key"; }, array_keys($resultsArray)));
+
+        // Ajouter la condition dans whereConditions
+        $whereConditions[] = "o.idoffre IN ($placeholders)";
+
+        // Lier les paramètres pour chaque id dans le tableau
+        foreach ($resultsArray as $key => $value) {
+            $bindings[":id_$key"] = intval($value);
+        }
+    }
+}
+
 if (!is_null($minPrice)) {
     $whereConditions[] = "o.prixminoffre >= :minPrice";
     $bindings[':minPrice'] = $minPrice;

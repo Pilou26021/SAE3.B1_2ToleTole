@@ -179,7 +179,8 @@ INSERT INTO _offreVisite (idOffre, dateOffre, visiteGuidee, langueProposees) VAL
 -- 20. Insérer des données dans `_offreRestaurant`
 INSERT INTO _offreRestaurant (idOffre, horaireSemaine, gammePrix, carteResto) VALUES 
 (3, '{"lunchOpen":"11:30","lunchClose":"13:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4'),
-(4, '{"lunchOpen":"11:30","lunchClose":"13:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4');
+(4, '{"lunchOpen":"11:30","lunchClose":"13:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4'),
+(10, '{"lunchOpen":"11:30","lunchClose":"16:30","dinnerOpen":"00:00","dinnerClose":"00:00"}', 1, '4');
 
 -- 21. Insérer des données dans `_tag`
 INSERT INTO _tag (typeTag, typeRestauration) VALUES 
