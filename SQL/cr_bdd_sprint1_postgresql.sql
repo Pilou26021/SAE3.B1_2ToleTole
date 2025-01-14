@@ -80,6 +80,7 @@ CREATE TABLE public._notification (
     idCompte BIGINT NOT NULL,
     messageNotification TEXT NOT NULL,
     dateNotification DATE NOT NULL,
+    lu BOOLEAN NOT NULL,
     FOREIGN KEY (idCompte) REFERENCES public._compte(idCompte)
 );
 
