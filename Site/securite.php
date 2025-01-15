@@ -162,7 +162,7 @@
                     // Fonction pour regénérer la clé API
                     function regenerer_cleapi() {
                         var cleapi = "<?php echo generateAPIKey($typecompte, $conn); ?>";
-                        document.querySelector(".cleapi p").innerHTML = cleapi;
+                        document.querySelector(".cleapi p").innerHTML = 'xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
                         document.querySelector(".cleapi").classList.add("floutage");
                         changer_cleapi(cleapi);
                     }
@@ -223,7 +223,7 @@
                 </script>
 
                 <div class="cleapi floutage">
-                    <p><?php echo $cleapi; ?></p>
+                    <p>xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</p>
                 </div>
                 <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
                 <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
