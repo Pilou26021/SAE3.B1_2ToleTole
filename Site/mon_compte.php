@@ -236,6 +236,7 @@
                         </section>
                         <section class="creer_ligne">
                             <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
+                            <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="securite.php">Gérer mon mot de passe</a> 
                         </section>
 
                         <!-- <a class="liens-boutons" href="">Mes factures</a>  
@@ -259,6 +260,8 @@
                         </section>
                         <section class="creer_ligne">
                             <a class="liens-boutons" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
+                            <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="securite.php">Gérer mon mot de passe</a> 
+
                         </section>
 
                         <!-- <a class="liens-boutons" href="">Consulter les signalements</a>
@@ -273,6 +276,7 @@
                     <section class="creer_ligne">
                         <!-- <div class="creer_colonne conteneur-gauche"> -->
                             <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+
                             <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
                         <!-- </div> -->
                         <!-- <div class="creer_colonne conteneur-droit"> -->
