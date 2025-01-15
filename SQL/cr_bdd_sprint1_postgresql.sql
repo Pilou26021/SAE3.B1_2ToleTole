@@ -99,6 +99,7 @@ CREATE TABLE public._professionnel (
 CREATE TABLE public._notification (
     idNotification SERIAL PRIMARY KEY,
     idCompte BIGINT NOT NULL,
+    idOffre SERIAL NOT NULL,
     messageNotification TEXT NOT NULL,
     dateNotification DATE NOT NULL,
     lu BOOLEAN DEFAULT FALSE,
