@@ -35,6 +35,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<script>
+    // Pop up de succès stylisé
+    function alerte(message) {
+        var alert = document.createElement('div');
+        alert.style.position = 'fixed';
+        alert.style.top = '50%';
+        alert.style.left = '50%';
+        alert.style.transform = 'translate(-50%, -50%)';
+        alert.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+        alert.style.padding = '20px';
+        alert.style.borderRadius = '10px';
+        alert.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+        alert.style.zIndex = '1000';
+        alert.innerHTML = message;
+        document.body.appendChild(alert);
+        setTimeout(function() {
+            alert.remove();
+        }, 5000);
+
+        alert.addEventListener('click', function() {
+            alert.remove();
+        });
+    }
+</script>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -55,6 +79,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
         </div>
         
+        <?php
+            if (isset($_GET['success'])) {
+                // Pop up de succès
+                echo '<script>alerte("Votre compte a bien été créé. Vous pouvez maintenant vous connecter.")</script>';
+            }
+        ?>
 
 
         <!-- Logo -->

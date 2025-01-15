@@ -533,9 +533,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 <?php if ($step === 5): ?>
     <div class="success">
-        <h1>Votre compte a été créé avec succès !</h1>
-        <p>Vous allez être redirigé vers la page de connexion...</p>
-        <?php header("Location: connexion_pro.php"); ?>
+        <p>Votre compte a été créé avec succès !</p>
+        <p>Si vous n'êtes pas rediriger cliquez <a href="connexion_pro.php?success=1">ici</a> pour vous connecter.</p>   
+        <?php header("Location: connexion_pro.php?success=1"); ?>
     </div>
 <?php endif; ?>
 
