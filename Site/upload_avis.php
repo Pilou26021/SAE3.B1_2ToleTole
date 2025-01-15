@@ -114,11 +114,12 @@
                     $idProOffre = $idProOffre['idpropropose']; 
 
 
-                    $sqlNotif = "INSERT INTO _notification (idcompte, messagenotification, datenotification)
-                                 VALUES (:idcompte, :messageNotif, :dateNotif)";
+                    $sqlNotif = "INSERT INTO _notification (idcompte, idoffre, messagenotification, datenotification)
+                                 VALUES (:idcompte, :idoffre, :messageNotif, :dateNotif)";
 
                     $sqlNotif = $conn->prepare($sqlNotif);
                     $sqlNotif->bindParam(':idcompte', $idProOffre);
+                    $sqlNotif->bindParam(':idoffre', $idoffre);
                     $sqlNotif->bindParam(':messageNotif', $commentaire);
                     $sqlNotif->bindParam(':dateNotif', $dateavis);
                     $sqlNotif->execute();
