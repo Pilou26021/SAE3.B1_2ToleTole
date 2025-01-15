@@ -157,89 +157,80 @@
 
             </div>
             <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                <!-- Clé API dans une zone flouté and fait un appelle à la bdd pour la récupérer -->
-                    <h2>Clé API</h2>
-                    <script>
-                        // Fonction php pour regénérer la clé API function generateAPIKey($typecompte, $conn)
-                        function regenerer_cleapi(){
-                            var cleapi = "<?php echo generateAPIKey($typecompte, $conn); ?>";
-                            // On change la valeur de la variable php
-                            // Cache la zone de texte avec du flou
-                            document.querySelector(".cleapi p").innerHTML = cleapi;
-                            document.querySelector(".cleapi p").style.color = "white";
-                            changer_cleapi();
-                        }
+                <h2>Clé API</h2>
+                <script>
+                    // Fonction pour regénérer la clé API
+                    function regenerer_cleapi() {
+                        var cleapi = "<?php echo generateAPIKey($typecompte, $conn); ?>";
+                        document.querySelector(".cleapi p").innerHTML = cleapi;
+                        document.querySelector(".cleapi").classList.add("floutage");
+                        changer_cleapi(cleapi);
+                    }
 
-                        function afficher_cleapi(){
-                            // Si la clé n'a pas été dévoilée alors on la dévoile
-                            cleapi_devoile(function(cleEstDevoile) {
-                                if (cleEstDevoile == 0) {
-                                    get_cleapi(function(cleapi) {
-                                        document.querySelector(".cleapi p").innerHTML = cleapi;
-                                        document.querySelector(".cleapi p").style.color = "black";
-                                        devoiler_cleapi();
-                                    });
-                                } else {
-                                    // Texte pour dire de regénérer la clé API
-                                    document.querySelector(".cleapi p").innerHTML = "La clé API a déjà été dévoilée";
-                                    document.querySelector(".cleapi p").style.color = "black";
-                                }
-                            });
-                        }
-
-                        // Requête pour changer la clé API
-                        function changer_cleapi(){
-                            var cleapi = document.querySelector(".cleapi p").innerHTML;
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("POST", "./api/changer_cleapi.php", true);
-                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                            xhr.send("cleapi=" + cleapi + "&idcompte=" + <?php echo $idCompte; ?>);
-                        }
-
-                        // Requête pour passer la cle API comme devoiler
-                        function devoiler_cleapi(){
-                            var cleapi = document.querySelector(".cleapi p").innerHTML;
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("POST", "./api/devoiler_cleapi.php", true);
-                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                            xhr.send("idcompte=" + <?php echo $idCompte; ?>);
-                        }
-                        // Requête pour récupérer la clé API
-                        function get_cleapi(callback){
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("POST", "./api/get_cleapi.php", true);
-                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                            xhr.send("idcompte=" + <?php echo $idCompte; ?>);
-                            xhr.onreadystatechange = function() {
-                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                    callback(xhr.responseText);
-                                }
+                    // Fonction pour afficher la clé API
+                    function afficher_cleapi() {
+                        cleapi_devoile(function (cleEstDevoile) {
+                            if (cleEstDevoile == 0) {
+                                get_cleapi(function (cleapi) {
+                                    document.querySelector(".cleapi p").innerHTML = cleapi;
+                                    document.querySelector(".cleapi").classList.remove("floutage");
+                                    devoiler_cleapi();
+                                });
+                            } else {
+                                document.querySelector(".cleapi p").innerHTML = "La clé API a déjà été dévoilée.";
+                                document.querySelector(".cleapi").classList.remove("floutage");
                             }
-                        }
+                        });
+                    }
 
-                        // Clé dévoilé ?
-                        function cleapi_devoile(callback){
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("POST", "./api/cleapi_devoile.php", true);
-                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                            xhr.send("idcompte=" + <?php echo $idCompte; ?>);
-                            xhr.onreadystatechange = function() {
-                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                    callback(xhr.responseText);
-                                }
+                    function changer_cleapi(cleapi) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "./api/changer_cleapi.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send("cleapi=" + cleapi + "&idcompte=" + <?php echo $idCompte; ?>);
+                    }
+
+                    function devoiler_cleapi() {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "./api/devoiler_cleapi.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send("idcompte=" + <?php echo $idCompte; ?>);
+                    }
+
+                    function get_cleapi(callback) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "./api/get_cleapi.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send("idcompte=" + <?php echo $idCompte; ?>);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                callback(xhr.responseText);
                             }
-                        }
-                    </script>
+                        };
+                    }
+
+                    function cleapi_devoile(callback) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "./api/cleapi_devoile.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.send("idcompte=" + <?php echo $idCompte; ?>);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                callback(xhr.responseText);
+                            }
+                        };
+                    }
+                </script>
+
+                <div class="cleapi floutage">
                     <p><?php echo $cleapi; ?></p>
-
-                    <div class="cleapi">
-                        <p></p>
-                    </div>
-                    <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
-                    <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
-                    <p>Conservez cette clé API en lieu sûr. Elle vous permet d'accéder à l'API de notre site. Une fois générée, vous ne pourrez plus la voir en clair.</p>
-                    <p>Si vous avez perdu votre clé API, vous pouvez en générer une nouvelle en cliquant sur le bouton "Regénérer la clé API".</p>
+                </div>
+                <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
+                <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
+                <p>Conservez cette clé API en lieu sûr. Elle vous permet d'accéder à l'API de notre site. Une fois générée, vous ne pourrez plus la voir en clair.</p>
+                <p>Si vous avez perdu votre clé API, vous pouvez en générer une nouvelle en cliquant sur le bouton "Regénérer la clé API".</p>
             </div>
+
         </main>
         <div id="footer"></div>
 

@@ -3107,3 +3107,13 @@ input:checked + .sliderswitch:before {
 .alerte_mdp.professionnel {
 	border-left: 4px solid var(--color-primary-pro);
 }
+
+/* Floutage de la clé */
+.cleapi.floutage p {
+    filter: blur(6px); /* Ajoute un effet de flou */
+    transition: filter 0.3s ease;
+}
+
+.cleapi:not(.floutage) p {
+    filter: none; /* Affiche le texte en clair */
+}
