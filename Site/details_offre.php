@@ -4,11 +4,11 @@
     include "header.php";
     include "../SQL/connection_local.php";
 
-    /*
+    
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    */
+    
 
     $professionel = false;
     $bonProfessionnel = false;
@@ -753,7 +753,7 @@
                                     }
                                     $avisId = $avis['idavis'];
                                     $scorePouce = $avis['scorepouce'];
-                                    if($_SESSION['thumbed'][$avisId]){
+                                    if(isset($_SESSION['thumbed'][$avisId]) && $_SESSION['thumbed'][$avisId] == true){
                                         $thumbsClicked[$avisId] = true;
                                     } else {
                                         $thumbsClicked[$avisId] = false;
@@ -768,7 +768,7 @@
                                     $stmt->execute();
                                     $reponse = $stmt->fetch();
 
-                                    if($reponse){
+                                    if($reponse && $reponse['datereponse'] != NULL){
                                         $dateReponse = date("d/m/Y", strtotime($reponse['datereponse']));
                                     } 
 
