@@ -235,7 +235,7 @@
                             <!-- </div> -->
                         </section>
                         <section class="creer_ligne">
-                            <a class="liens-boutons" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
+                            <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
                         </section>
 
                         <!-- <a class="liens-boutons" href="">Mes factures</a>  
