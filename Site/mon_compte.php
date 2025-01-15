@@ -234,6 +234,9 @@
                                 <a class="liens-boutons" href="">Ajouter une offre</a>   -->
                             <!-- </div> -->
                         </section>
+                        <section class="creer_ligne">
+                            <a class="liens-boutons" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
+                        </section>
 
                         <!-- <a class="liens-boutons" href="">Mes factures</a>  
                         <a class="liens-boutons" href="">Supprimer mon compte</a> -->
@@ -253,6 +256,9 @@
                                 <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
                                 <a class="liens-boutons" href="">Ajouter une offre</a>   -->
                             <!-- </div> -->
+                        </section>
+                        <section class="creer_ligne">
+                            <a class="liens-boutons" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
                         </section>
 
                         <!-- <a class="liens-boutons" href="">Consulter les signalements</a>
