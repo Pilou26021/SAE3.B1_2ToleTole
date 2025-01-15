@@ -308,7 +308,7 @@ CREATE OR REPLACE FUNCTION update_note_moyenne_offre()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE public._offre
-    SET noteMoyenneOffre = (SELECT AVG(noteAvis) FROM public._avis WHERE idOffre = COALESCE(NEW.idOffre, OLD.idOffre))
+    SET noteMoyenneOffre = COALESCE((SELECT AVG(noteAvis) FROM public._avis WHERE idOffre = COALESCE(NEW.idOffre, OLD.idOffre)), 0)
     WHERE idOffre = COALESCE(NEW.idOffre, OLD.idOffre);
     RETURN NEW;
 END;
