@@ -2177,7 +2177,6 @@ td {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px; /* Espacement entre les cartes */
-	height: 570px;
 	margin: 20px auto;
 }
 
