@@ -185,11 +185,11 @@ function showDateOuvert() {
     if (document.getElementById('category').value == 'Restauration') {
         document.getElementById('switch').style.display = 'inline-block';
         document.getElementById('textedateouvert').style.display = 'block';
-        document.getElementById('category').style.paddingRight = '320px';
+        document.getElementById('category').style.width = '30vw';
     } else {
         document.getElementById('switch').style.display = 'none';
         document.getElementById('textedateouvert').style.display = 'none';
-        document.getElementById('category').style.paddingRight = '417px';
+        document.getElementById('category').style.width = '34.65vw';
     }
 }
 
