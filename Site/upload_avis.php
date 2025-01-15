@@ -124,7 +124,7 @@
                     
                     if ($stmt) { ?>
                         <h1>L'AVIS A ÉTÉ AJOUTÉ AVEC SUCCÈS.</h1>
-                        <?php header("refresh:0;url=details_offre.php?idoffre=$idoffre");?>
+                        <?php header("Location: offre.php?id=$idoffre"); ?>
                         <?php
                     } else { ?>
                         <h1>ERREUR: L'AVIS N'A PAS PU ÊTRE AJOUTÉ.</h1>
