@@ -189,7 +189,7 @@ function showDateOuvert() {
     } else {
         document.getElementById('switch').style.display = 'none';
         document.getElementById('textedateouvert').style.display = 'none';
-        document.getElementById('category').style.width = '34.65vw';
+        document.getElementById('category').style.width = '34.7vw';
     }
 }
 
