@@ -125,7 +125,7 @@ header {
 	width: 500px;
 	border-radius: 50px;
 	max-height: 600px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .notif_close {
@@ -2979,9 +2979,7 @@ input:checked + .sliderswitch:before {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-items: start;
-	/* justify-content: center;    */
-	margin-left: 4.5%;
+	justify-content: center;   
 	align-items: flex-start;
 }
 
@@ -2995,6 +2993,7 @@ input:checked + .sliderswitch:before {
 
 	border: 1px solid black;
 	border-radius: 20px;
+	flex-grow: 1;
 
 }
 
