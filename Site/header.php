@@ -131,7 +131,7 @@ if (isset($_SESSION['membre'])) {
                         if ($notifications != NULL){
 
                             echo "<h3 style='text-align: center;'>Vous avez " . $compteur . " avis non-lu(s) !</h3>";
-                            echo "<a href='avis_mes_offres.php' style='display: block; text-align: center; text-decoration: none; color: black;'>Cliquez ici pour voir les avis sur vos offres</a>";
+                            echo "<a href='mise_en_lu.php' style='display: block; text-align: center; color: black;'>Cliquez ici pour consulter les avis sur vos offres</a>";
 
 
                             $dateDepart = Null;
@@ -191,15 +191,6 @@ if (isset($_SESSION['membre'])) {
                                 echo "<p class='notif_comment'>" . $notif["messagenotification"] . "</p>";
                             }
 
-                            // On met les avis en "lu"
-                            $mettreEnLu = "UPDATE _notification
-                                        SET lu = true
-                                        WHERE idcompte = :idPro AND lu = false";
-
-                            $mettreEnLu = $conn->prepare($mettreEnLu);
-                            $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
-                            $mettreEnLu->execute();
-
                         }
                         else{
                             echo "<h3 style='text-align: center;'> Vous n'avez aucune nouvelle notification </h3>";
@@ -221,7 +212,6 @@ if (isset($_SESSION['membre'])) {
                     // Si le modal est déjà visible, le cacher, sinon l'afficher
                     if (modal.style.display === "block") {
                         modal.style.display = "none";
-                        location.reload();
                         
                     } else {
                         var rect = btn.getBoundingClientRect();
@@ -239,7 +229,6 @@ if (isset($_SESSION['membre'])) {
                 // Lorsque l'utilisateur clique sur la croix pour fermer le modal
                 span.onclick = function() {
                     modal.style.display = "none";
-                    location.reload();
 
                 };
 
