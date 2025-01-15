@@ -1846,7 +1846,7 @@ td {
 
 .avis-offre {
 	flex: 1; /* Partie des avis */
-	padding: 20px;
+	padding: 20px 100px 20px 20px;
 	border-left: 1px solid #ccc; /* Ligne séparatrice */
 }
 
