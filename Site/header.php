@@ -183,7 +183,7 @@ if (isset($_SESSION['membre'])) {
     
 
                                 if ($mon_offre["idoffre"] != $offre_affichee) {
-                                    echo "<p> Offre: " . $mon_offre["titreoffre"] . "</p>";
+                                    echo "<p> Offre: " . $mon_offre["titreoffre"] . var_dump($notif["idoffre"]) . "</p>";
                                     // Mettre à jour l'ID de l'offre affichée
                                     $offre_affichee = $mon_offre["idoffre"];
                                 }
@@ -192,13 +192,13 @@ if (isset($_SESSION['membre'])) {
                             }
 
                             // On met les avis en "lu"
-                            // $mettreEnLu = "UPDATE _notification
-                            //             SET lu = true
-                            //             WHERE idcompte = :idPro AND lu = false";
+                            $mettreEnLu = "UPDATE _notification
+                                        SET lu = true
+                                        WHERE idcompte = :idPro AND lu = false";
 
-                            // $mettreEnLu = $conn->prepare($mettreEnLu);
-                            // $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
-                            // $mettreEnLu->execute();
+                            $mettreEnLu = $conn->prepare($mettreEnLu);
+                            $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
+                            $mettreEnLu->execute();
 
                         }
                         else{
