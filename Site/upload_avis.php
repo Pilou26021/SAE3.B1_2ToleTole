@@ -83,9 +83,12 @@
                     <h1>ERREUR: LA NOTE DOIT ÊTRE COMPRIS ENTRE 1 ET 5.</h1>
                     <?php
                 } else {
-                    $sql = "INSERT INTO _avis (idoffre, noteavis, commentaireavis, idmembre, dateavis, datevisiteavis, blacklistavis, reponsepro)
-                            VALUES (:idoffre, :note, :commentaire, :idmembre, :dateavis, :datevisiteavis, :blacklistavis, :reponsepro)";
+                    $sql = "INSERT INTO _avis (idoffre, noteavis, commentaireavis, idmembre, dateavis, datevisiteavis, blacklistavis, reponsepro, scorepouce)
+                            VALUES (:idoffre, :note, :commentaire, :idmembre, :dateavis, :datevisiteavis, :blacklistavis, :reponsepro, :scorepouce)";
                     $stmt = $conn->prepare($sql);
+
+                    $scorepouce = 0;
+
                     $stmt->bindParam(':idoffre', $idoffre, PDO::PARAM_INT);
                     $stmt->bindParam(':note', $note, PDO::PARAM_INT);
                     $stmt->bindParam(':commentaire', $commentaire, PDO::PARAM_STR);
@@ -94,9 +97,30 @@
                     $stmt->bindParam(':datevisiteavis', $datevisiteavis, PDO::PARAM_STR);
                     $stmt->bindParam(':blacklistavis', $blacklistavis, PDO::PARAM_BOOL);
                     $stmt->bindParam(':reponsepro', $reponsepro, PDO::PARAM_BOOL);
+                    $stmt->bindParam(':scorepouce', $scorepouce, PDO::PARAM_INT);
                     $stmt->execute();
                     $stmt->fetch(PDO::FETCH_ASSOC);
 
+                    // Pour les notifications
+                    $sqlPro = "SELECT _offre.idpropropose
+                               FROM _offre
+                               WHERE idoffre = :idoffre";
+
+                    $sqlPro = $conn->prepare($sqlPro);
+                    $sqlPro->bindParam(':idoffre', $idoffre, PDO::PARAM_INT);
+                    $sqlPro->execute();
+                    $idProOffre = $sqlPro->fetch();
+                    $idProOffre = $idProOffre['idpropropose']; 
+
+
+                    $sqlNotif = "INSERT INTO _notification (idcompte, messagenotification, datenotification)
+                                 VALUES (:idcompte, :messageNotif, :dateNotif)";
+
+                    $sqlNotif = $conn->prepare($sqlNotif);
+                    $sqlNotif->bindParam(':idcompte', $idProOffre);
+                    $sqlNotif->bindParam(':messageNotif', $commentaire);
+                    $sqlNotif->bindParam(':dateNotif', $dateavis);
+                    $sqlNotif->execute();
                     
                     if ($result) { ?>
                         <h1>L'AVIS A ÉTÉ AJOUTÉ AVEC SUCCÈS.</h1>

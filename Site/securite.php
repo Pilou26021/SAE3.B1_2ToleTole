@@ -48,7 +48,7 @@
         
         <main class = "securite_main">
             <!-- Modification du mot de passe -->
-            <div class="securite_div">
+            <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                 <h2>Modifier le mot de passe</h2>
                 <form>
                     <label for="mdp">Mot de passe actuel</label>
@@ -64,7 +64,7 @@
                     <br>
                     <button type="button" onclick="verifierMotDePasse()">Modifier</button>
                 </form>
-                <section class="alerte_mdp">
+                <section class="alerte_mdp <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                     <p>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.</p>
                 </section>
             </div>
@@ -156,7 +156,7 @@
             </script>
 
             </div>
-            <div class="securite_div">
+            <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                 <!-- Clé API dans une zone flouté and fait un appelle à la bdd pour la récupérer -->
                     <h2>Clé API</h2>
                     <script>

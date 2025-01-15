@@ -97,6 +97,60 @@ header {
 	list-style: none;
 }
 
+/* HEADER NOTIFICATIONS */
+
+.header_partie_notif{
+	display: flex;
+	flex-direction: row;
+	margin: 15px;
+	margin-left: 0px;
+}
+
+.notif_surmodal{
+	border-radius: 50px;
+	max-height:600px;
+	overflow: hidden;
+}
+
+.notif_modal {
+	display: none;
+	position: absolute;
+	z-index: 1;
+}
+
+.notif_modal-content {
+	background-color: #F2F1E9;
+	border: 1px solid #888;
+	padding: 20px;
+	width: 500px;
+	border-radius: 50px;
+	max-height: 600px;
+	overflow-y: scroll;
+}
+
+.notif_close {
+	color: black;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.notif_close:hover,
+.notif_close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.notif_comment{
+	margin-left: 10px;
+	background-color: #f5bc42;
+	border-radius: 10px;
+	padding: 10px;
+	word-wrap: break-word;
+	
+}
+
 /* MENU FILTRE **/
 
 .input-filtre {
@@ -2917,4 +2971,139 @@ input:checked + .sliderswitch:before {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+}
+
+/* PAGE TOUS LES AVIS DES OFFRES */
+
+.AMO_main{
+	background-color: #F2F1E9;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: start;
+	/* justify-content: center;    */
+	margin-left: 4.5%;
+	align-items: flex-start;
+}
+
+.AMO_offre{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 20px;
+	width: 45%;
+
+	border: 1px solid black;
+	border-radius: 20px;
+
+}
+
+/* Avis */
+
+.AMO_titre-moy{
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.AMO_avis-container{
+	width: 90%;
+
+}
+
+.AMO_avis{
+	width: 100%;
+}
+
+/* page sécurité **/
+
+/* Conteneur principal */
+.securite_div {
+    width: 100%;
+    max-width: 400px; /* Largeur maximale pour un affichage compact */
+    margin: 20px auto; /* Centrer sur la page */
+    padding: 20px;
+    background-color: var(--color-background); /* Couleur de fond douce */
+    border: 1px solid var(--color-border); /* Bordure légère */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Titre */
+.securite_div h2 {
+    text-align: center;
+    font-size: 20px;
+    color: var(--color-text);
+    margin-bottom: 20px;
+}
+
+/* Formulaire */
+.securite_div form {
+    display: flex;
+    flex-direction: column; /* Alignement vertical */
+}
+
+/* Étiquettes */
+.securite_div label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+/* Champs de saisie */
+.securite_div input[type="password"] {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Messages d'erreur */
+.message-erreur {
+    font-size: 12px;
+    color: #d9534f; /* Rouge pour les erreurs */
+    margin-bottom: 10px;
+    display: none; /* Masqué par défaut */
+}
+
+/* Bouton */
+.securite_div button {
+    padding: 10px;
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+	text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.securite_div.professionnel button{
+	background-color: var(--color-primary-pro);
+}
+
+.securite_div.professionnel button:hover{
+	background-color: var(--color-primary-hover-pro);
+}
+
+.securite_div button:hover {
+    background-color: var(--color-primary-hover); /* Couleur légèrement plus sombre au survol */
+}
+
+/* Section alerte mot de passe */
+.alerte_mdp {
+    margin-top: 15px;
+    font-size: 12px;
+    color: var(--color-text);
+    background-color: var(--color-background); /* Couleur de fond douce */
+    padding: 10px;
+    border-left: 4px solid var(--color-primary);
+    border-radius: 4px;
+}
+
+.alerte_mdp.professionnel {
+	border-left: 4px solid var(--color-primary-pro);
 }
