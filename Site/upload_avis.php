@@ -27,7 +27,8 @@
     $note = intval($_POST['note']);
     $commentaire = $_POST['commentaire'];
     //idmembre
-    $dateavis = date("d-m-Y");
+    $dateavis = new DateTime('now', new DateTimeZone('Europe/Paris'));
+    $dateavis = $dateavis->format('Y-m-d');
     $datevisiteavis = $_POST['datevisite'];
     $blacklistavis = false;
     $reponsepro = false;
@@ -124,7 +125,7 @@
                     
                     if ($stmt) { ?>
                         <h1>L'AVIS A ÉTÉ AJOUTÉ AVEC SUCCÈS.</h1>
-                        <?php header("Location: offre.php?id=$idoffre"); ?>
+                        <?php header("Location: " . $_SERVER['HTTP_REFERER']); ?>
                         <?php
                     } else { ?>
                         <h1>ERREUR: L'AVIS N'A PAS PU ÊTRE AJOUTÉ.</h1>

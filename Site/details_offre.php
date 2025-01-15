@@ -49,7 +49,7 @@
         $idproOffre = $stmt->fetchColumn();
         if ($idproOffre == $idpro) {
             $bonProfessionnel = true; //variable pour vérifier que c'est le professionel qui a créé l'offre
-        } else {
+        } elseif ($professionel) {
             header("Location: index.php");
         }
     }
