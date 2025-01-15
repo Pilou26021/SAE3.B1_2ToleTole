@@ -27,7 +27,8 @@
     $note = intval($_POST['note']);
     $commentaire = $_POST['commentaire'];
     //idmembre
-    $dateavis = date("d-m-Y");
+    $dateavis = new DateTime('now', new DateTimeZone('Europe/Paris'));
+    $dateavis = $dateavis->format('Y-m-d');
     $datevisiteavis = $_POST['datevisite'];
     $blacklistavis = false;
     $reponsepro = false;
