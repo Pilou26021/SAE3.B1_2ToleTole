@@ -127,9 +127,12 @@ if (isset($_SESSION['membre'])) {
                     <span class="notif_close">&times;</span>
 
                     <?php
+                        $offre_affichee = null;
                         if ($notifications != NULL){
 
                             echo "<h3 style='text-align: center;'>Vous avez " . $compteur . " avis non-lu(s) !</h3>";
+                            echo "<a href='avis_mes_offres.php' style='display: block; text-align: center; text-decoration: none; color: black;'>Cliquez ici pour voir les avis sur vos offres</a>";
+
 
                             $dateDepart = Null;
 
@@ -166,17 +169,36 @@ if (isset($_SESSION['membre'])) {
                                     
                                 }
 
+                                //Avoir les offres
+                                $getOffre = "SELECT *
+                                             FROM _offre o
+                                             WHERE o.idoffre = :idoffre";
+
+                                $getOffre = $conn->prepare($getOffre);
+
+                                $getOffre->bindValue(':idoffre', $notif["idoffre"]);
+                                $getOffre->execute();
+                                $mon_offre = $getOffre->fetch();
+
+    
+
+                                if ($mon_offre["idoffre"] != $offre_affichee) {
+                                    echo "<p> Offre: " . $mon_offre["titreoffre"] . "</p>";
+                                    // Mettre à jour l'ID de l'offre affichée
+                                    $offre_affichee = $mon_offre["idoffre"];
+                                }
+
                                 echo "<p class='notif_comment'>" . $notif["messagenotification"] . "</p>";
                             }
 
                             // On met les avis en "lu"
-                            $mettreEnLu = "UPDATE _notification
-                                        SET lu = true
-                                        WHERE idcompte = :idPro AND lu = false";
+                            // $mettreEnLu = "UPDATE _notification
+                            //             SET lu = true
+                            //             WHERE idcompte = :idPro AND lu = false";
 
-                            $mettreEnLu = $conn->prepare($mettreEnLu);
-                            $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
-                            $mettreEnLu->execute();
+                            // $mettreEnLu = $conn->prepare($mettreEnLu);
+                            // $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
+                            // $mettreEnLu->execute();
 
                         }
                         else{
