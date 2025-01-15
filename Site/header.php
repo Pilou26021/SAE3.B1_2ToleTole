@@ -167,13 +167,13 @@ if (isset($_SESSION['membre'])) {
                             }
 
                             // On met les avis en "lu"
-                            // $mettreEnLu = "UPDATE _notification
-                            //             SET lu = true
-                            //             WHERE idcompte = :idPro AND lu = false";
+                            $mettreEnLu = "UPDATE _notification
+                                        SET lu = true
+                                        WHERE idcompte = :idPro AND lu = false";
 
-                            // $mettreEnLu = $conn->prepare($mettreEnLu);
-                            // $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
-                            // $mettreEnLu->execute();
+                            $mettreEnLu = $conn->prepare($mettreEnLu);
+                            $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
+                            $mettreEnLu->execute();
 
                         }
                         else{
