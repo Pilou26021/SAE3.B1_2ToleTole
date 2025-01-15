@@ -6,9 +6,9 @@ $sql = file_get_contents(__DIR__ . '/cr_bdd_sprint1_postgresql.sql');
 
 // Exécute le script sur la base de données
 if ($conn->exec($sql) === false) {
-    echo "Erreur lors de la création de la base de données";
+    echo "Erreur lors de la création de la base de données\n";
 } else {
-    echo "Base de données créée avec succès";
+    echo "Base de données créée avec succès\n";
 }
 
 // Récupère le script de peuplage de la base de données
