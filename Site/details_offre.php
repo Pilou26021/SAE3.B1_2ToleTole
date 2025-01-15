@@ -453,7 +453,17 @@
                                                     <tr>
                                                         <td><?php echo htmlspecialchars($offreDetails['dateoffre']); ?></td>
                                                         <td><?php echo htmlspecialchars($offreDetails['visiteguidee']); ?></td>
-                                                        <td><?php echo htmlspecialchars($offreDetails['langueproposees']); ?></td>
+                                                        <?php
+                                                            $langues = json_decode($offreDetails['langueproposees'], true);
+                                                            $langueproposees = '';
+                                                            foreach ($langues as $langue) {
+                                                                $langue = ucfirst($langue);
+                                                                $langueproposees .= $langue . ', ';
+                                                            }
+                                                        
+                                                            $langueproposees = rtrim($langueproposees, ', ');
+                                                        ?>
+                                                        <td><?php echo htmlspecialchars($langueproposees); ?></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

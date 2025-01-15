@@ -113,6 +113,7 @@ if($ouvert == 'true') {
     $stmt->execute();
     $horaires = $stmt->fetchAll();
     $results = "";
+    $nbr_restos_ouverts = 0;
 
     foreach($horaires as $horaire){
         $horaire_decoded = json_decode($horaire['horairesemaine'], true);
@@ -134,14 +135,14 @@ if($ouvert == 'true') {
     if (!empty($results)) {
         $resultsArray = explode(',', $results);
         $placeholders = implode(',', array_map(function($key) { return ":id_$key"; }, array_keys($resultsArray)));
-
-        // Ajouter la condition dans whereConditions
         $whereConditions[] = "o.idoffre IN ($placeholders)";
 
         // Lier les paramètres pour chaque id dans le tableau
         foreach ($resultsArray as $key => $value) {
             $bindings[":id_$key"] = intval($value);
         }
+    } else {
+        $whereConditions[] = "o.idoffre = -1";
     }
 }
 
