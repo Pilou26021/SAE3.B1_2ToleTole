@@ -34,7 +34,7 @@
             $userID = $_SESSION['professionnel'];
 
             // 2) On récupère toutes les offres du professionnel
-            $sql = "SELECT * 
+            $sql = "SELECT DISTINCT o.* 
                     FROM _offre o
                     JOIN _professionnel p ON o.idpropropose = p.idcompte
                     JOIN _avis a ON o.idoffre = a.idoffre
