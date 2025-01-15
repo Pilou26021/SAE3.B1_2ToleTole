@@ -183,7 +183,7 @@ if (isset($_SESSION['membre'])) {
     
 
                                 if ($mon_offre["idoffre"] != $offre_affichee) {
-                                    echo "<p> Offre: " . $mon_offre["titreoffre"] . var_dump($notif["idoffre"]) . "</p>";
+                                    echo "<p> Offre: " . $mon_offre["titreoffre"] . "</p>";
                                     // Mettre à jour l'ID de l'offre affichée
                                     $offre_affichee = $mon_offre["idoffre"];
                                 }
