@@ -92,7 +92,7 @@ INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptio
 (1, 3, 'Découverte des Sept-Îles', 'Excursion vers les Sept-Îles', 'Découvrez la plus grande réserve ornithologique de France avec une visite guidée en bateau.', 15, TRUE, TRUE, 0, 'https://armor-navigation.example.com', 0, FALSE, '2023-06-15', 'Accessible avec fauteuil manuel', FALSE),
 (3, 4, 'La Magie des arbres', 'Un spectacle son et lumière', 'Un festival unique mêlant musique, lumière, et effets pyrotechniques sur la Côte de Granit Rose.', 5, TRUE, FALSE, 1, 'https://magie-des-arbres.example.com', 0, FALSE, '2023-07-26', 'Accessible', FALSE),
 (2, 5, 'Le Village Gaulois', 'Découvrez l histoire Gauloise', 'Un parc d attractions immersif recréant la vie à l époque des Gaulois.', 10, FALSE, TRUE, 2, 'https://village-gaulois.example.com', 0, TRUE, '2023-08-01', 'Accessible', FALSE),
-(3, 6, 'La Ville Blanche', 'Une expérience gastronomique', 'Un restaurant au cœur du Trégor offrant des plats raffinés dans un cadre historique.', 50, FALSE, TRUE, 1, 'https://la-ville-blanche.example.com', 4.5, FALSE, '2023-09-15', 'Accessible', FALSE);
+(3, 6, 'La Ville Blanche', 'Une expérience gastronomique', 'Un restaurant au cœur du Trégor offrant des plats raffinés dans un cadre historique.', 50, FALSE, TRUE, 1, 'https://la-ville-blanche.example.com', 0, FALSE, '2023-09-15', 'Accessible', FALSE);
 
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro, scorePouce) VALUES 
