@@ -1,5 +1,8 @@
 <?php
 // Création de la session
+
+error_reporting(0);
+
 ob_start();
 session_start();
 

@@ -42,6 +42,8 @@ CREATE TABLE public._compte (
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
 
+-- Chatator
+
 CREATE TABLE public._chat_tokensession (
     idChatTokenSession SERIAL PRIMARY KEY,
     idCompte BIGINT NOT NULL,
@@ -63,6 +65,25 @@ CREATE TABLE public._chat_message (
     est_supprime BOOLEAN NOT NULL DEFAULT FALSE,
     content TEXT NOT NULL CHECK (LENGTH(content) <= 1000),
     CONSTRAINT check_max_size CHECK (LENGTH(content) <= 1000) 
+);
+
+CREATE TABLE public._chat_blocage (
+    idBlocage SERIAL PRIMARY KEY,
+    idCompteBloque BIGINT NOT NULL,
+    idCompteBloquant BIGINT NOT NULL,
+    dateBlocage DATE NOT NULL,
+    tempsBlocage INT NOT NULL,
+    FOREIGN KEY (idCompteBloque) REFERENCES public._compte(idCompte),
+    FOREIGN KEY (idCompteBloquant) REFERENCES public._compte(idCompte)
+);
+
+CREATE TABLE public._chat_bannissement (
+    idBannissement SERIAL PRIMARY KEY,
+    idCompteBanni BIGINT NOT NULL,
+    idCompteBannisseur BIGINT NOT NULL,
+    dateBannissement DATE NOT NULL,
+    FOREIGN KEY (idCompteBanni) REFERENCES public._compte(idCompte),
+    FOREIGN KEY (idCompteBannisseur) REFERENCES public._compte(idCompte)
 );
 
 -- 2. Créer les tables liées à public._compte

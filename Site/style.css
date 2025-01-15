@@ -2177,7 +2177,6 @@ td {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px; /* Espacement entre les cartes */
-	height: 570px;
 	margin: 20px auto;
 }
 
@@ -3021,7 +3020,7 @@ input:checked + .sliderswitch:before {
 /* Conteneur principal */
 .securite_div {
     width: 100%;
-    max-width: 400px; /* Largeur maximale pour un affichage compact */
+    max-width: 500px; /* Largeur maximale pour un affichage compact */
     margin: 20px auto; /* Centrer sur la page */
     padding: 20px;
     background-color: var(--color-background); /* Couleur de fond douce */
@@ -3029,6 +3028,7 @@ input:checked + .sliderswitch:before {
     border-radius: 8px; /* Coins arrondis */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
+
 
 /* Titre */
 .securite_div h2 {
