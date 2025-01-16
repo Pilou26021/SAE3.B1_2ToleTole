@@ -276,6 +276,7 @@
                     <section class="creer_ligne">
                         <!-- <div class="creer_colonne conteneur-gauche"> -->
                             <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
+                            <a class="liens-boutons">Gérer mon mot de passe</a> 
                             <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
                         <!-- </div> -->
                         <!-- <div class="creer_colonne conteneur-droit"> -->
