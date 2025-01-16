@@ -1616,9 +1616,8 @@ td {
     color: black;
     font-size: 1.2em; /* Augmenté */
     padding: 15px; /* Agrandi */
-	margin-left: 30px;
-    margin-top: 15px;
-	width: 90%;
+	margin: 15px 0 20px 20px;
+	width: 88%;
 	border-radius: 20px;
 	background-color: var(--color-background);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -1653,8 +1652,8 @@ td {
 .valide-groupe{
 	background-color: var(--color-accent);
 	border-radius: 20px;
-	margin-right: 20px;
-	width: 105%;
+	margin: 20px 20px;
+	width: 100%;
 }
 
 .valide-groupe2{
