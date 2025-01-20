@@ -13,19 +13,15 @@
     }
 
     if (isset($_SESSION['membre'])) {
-        $id = $_SESSION['idmembre'];
-        $stmt = $conn->prepare("SELECT idcompte FROM _membre WHERE idmembre = ?");
-        $stmt->bindParam(1, $_SESSION['membre'], PDO::PARAM_INT);
-        $stmt->execute();
-        $idCompte = $stmt->fetch(PDO::FETCH_ASSOC); 
+        $idCompte = $_SESSION['membre'];
     } elseif (isset($_SESSION['professionnel'])) {
         $id = $_SESSION['idpro'];
         $stmt = $conn->prepare("SELECT idcompte FROM _professionnel WHERE idpro = ?");
         $stmt->bindParam(1, $_SESSION['professionel'], PDO::PARAM_INT);
         $stmt->execute();
         $idCompte = $stmt->fetch(PDO::FETCH_ASSOC);
+        $idCompte = $idCompte['idcompte'];  
     }
-    $idCompte = $idCompte['idcompte'];
 
     $professionel = false;
     $membre = false;
