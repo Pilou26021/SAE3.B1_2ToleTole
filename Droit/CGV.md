@@ -1,5 +1,12 @@
 Conditions Générales de Vente (CGV)
 
+Article 0 - Glossaire
+Back Office : Espace personnel accessible aux Professionnels pour gérer leurs Offres.
+Offre : Une annonce publiée par un Professionnel sur la Plateforme d’Avis et Conseils Touristiques (PACT).
+PACT : Plateforme d’Avis et Conseils Touristiques éditée par l’association TripEnArvor.
+Professionnel : Utilisateur de la PACT souhaitant promouvoir ses Offres.
+TripEnArvor : Association éditrice de la PACT.
+
 Article 1 – Objet
 Les présentes Conditions Générales de Vente (CGV) régissent l’accès et l’utilisation de la Plateforme d’Avis et Conseils Touristiques (PACT) éditée par l’association TripEnArvor, et encadrent les relations entre les professionnels du tourisme (« Professionnels ») et l’éditeur du site.
 
@@ -62,6 +69,3 @@ Les données collectées sont traitées conformément au Règlement Général su
 
 Article 8 – Modification des CGV
 TripEnArvor se réserve le droit de modifier les présentes CGV à tout moment. Les Professionnels seront informés des modifications par e-mail ou via le Back Office.
-
-Article 9 – Droit applicable et juridiction compétente
-Les présentes CGV sont soumises au droit français. En cas de litige, les parties s’engagent à rechercher une solution amiable avant de saisir les tribunaux compétents du ressort du siège social de TripEnArvor.

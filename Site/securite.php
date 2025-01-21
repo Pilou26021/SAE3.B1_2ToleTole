@@ -17,10 +17,10 @@
     } elseif (isset($_SESSION['professionnel'])) {
         $id = $_SESSION['idpro'];
         $stmt = $conn->prepare("SELECT idcompte FROM _professionnel WHERE idpro = ?");
-        $stmt->bindParam(1, $_SESSION['professionel'], PDO::PARAM_INT);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->execute();
         $idCompte = $stmt->fetch(PDO::FETCH_ASSOC);
-        $idCompte = $idCompte['idcompte'];  
+        $idCompte = $idCompte['idcompte'];
     }
 
     $professionel = false;
