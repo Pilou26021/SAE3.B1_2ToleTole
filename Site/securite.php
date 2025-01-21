@@ -4,8 +4,6 @@
 
     include "header.php";
     include "../SQL/connection_local.php";
-    include "apikeygen.php";
-
     // Vérifie qu'un utilisateur est connecté
     if (!isset($_SESSION['membre']) && !isset($_SESSION['professionnel'])) {
         header("Location: ./connexion_membre.php");
@@ -131,10 +129,19 @@
                     
             // Fonction pour regénérer la clé API
             function regenerer_cleapi() {
-                var cleapi = "<?php echo generateAPIKey($typecompte, $conn); ?>";
-                document.querySelector(".cleapi p").innerHTML = 'xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
-                document.querySelector(".cleapi").classList.add("floutage");
-                changer_cleapi(cleapi);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "./api/cleapi_generation.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("typecompte=" + "<?php echo $typecompte; ?>");
+                // On reçois la clé API générée
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var cleapi = xhr.responseText;
+                        document.querySelector(".cleapi p").innerHTML = 'xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+                        document.querySelector(".cleapi").classList.add("floutage");
+                        changer_cleapi(cleapi);
+                    }
+                };
             }
                 
             // Fonction pour afficher la clé API
