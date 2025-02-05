@@ -1,5 +1,17 @@
 Conditions Générales de Vente (CGV)
 
+Sommaire : 
+    - Article 0 - Glossaire
+    - Article 1 - Objet
+    - Article 2 - Acceptation des CGV
+    - Article 3 - Types d’Offres
+    - Article 4 - Tarification et Facturation
+    - Article 5 - Engagements et Responsabilités
+    - Article 6 - Résiliation
+    - Article 7 - Droit de rétractation
+    - Article 8 - Données personnelles
+    - Article 9 - Modification des CGV
+
 Article 0 - Glossaire
 Back Office : Espace personnel accessible aux Professionnels pour gérer leurs Offres.
 Offre : Une annonce publiée par un Professionnel sur la Plateforme d’Avis et Conseils Touristiques (PACT).
@@ -64,8 +76,14 @@ La suppression d’un compte Professionnel ne peut être effectuée qu’une foi
 
 TripEnArvor se réserve le droit de suspendre ou résilier un compte en cas de non-respect des CGV.
 
-Article 7 – Données personnelles
+Article 7 – Droit de rétractation
+Conformément à l'article L. 221-28 du Code de la consommation, le droit de rétractation ne s'applique pas aux prestations de services d'hébergement qui doivent être fournies à une date ou à une période déterminée.
+Ainsi, les Offres proposées sur la PACT, notamment les services liés à la promotion d'activités ou d'événements, ne permettent pas l'exercice du droit de rétractation une fois la commande validée et le service activé.
+
+Toutefois, pour les options payantes ajoutées aux Offres, les Professionnels peuvent les modifier ou les annuler sans frais avant leur activation, conformément à l'Article 4 des présentes CGV. Une fois activées, ces options ne sont ni modifiables ni remboursables.
+
+Article 8 – Données personnelles
 Les données collectées sont traitées conformément au Règlement Général sur la Protection des Données (RGPD). Les Professionnels peuvent accéder, modifier ou supprimer leurs données en contactant : [contact de l’association].
 
-Article 8 – Modification des CGV
+Article 9 – Modification des CGV
 TripEnArvor se réserve le droit de modifier les présentes CGV à tout moment. Les Professionnels seront informés des modifications par e-mail ou via le Back Office.
