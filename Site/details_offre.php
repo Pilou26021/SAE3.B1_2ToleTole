@@ -241,17 +241,19 @@
                             <?php
                                 if ($offre["alauneoffre"]==true) {
                             ?>
-                                <p style="color:#36D673;" class="offre-resume-detail" ><strong>Cette offre est à la Une</strong></p>
+                                <p class="offre-resume-detail" ><strong>Cette offre est à la Une</strong></p>
                             <?php 
                                 }
                             ?>
                             <div class="offre-image-container" style="text-align:center;">
                                 <img class="details-offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
                             </div>
-                            <p class="offre-resume-detail"><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
-                            <p class="offre-resume-detail"><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
-                            <p class="offre-resume-detail"><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
-
+                            <div class="offre-description">
+                            <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
+                            <p><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
+                            <p><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
+                            </div>
+                            
                             <p class="adresse-detail">Localisation de l'offre</p>
                             <div id="map" style="display:flex;align-items:center;justify-content:center;">
                                 <h2 id="text-chargement" >Chargement de la carte</h2>
