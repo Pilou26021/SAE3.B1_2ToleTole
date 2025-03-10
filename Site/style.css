@@ -940,6 +940,92 @@ p.cp_mobile_erreur {
 	font-weight: bold;
 }
 
+/* Styles généraux pour les petits écrans */
+@media (max-width: 480px) {
+    body.cp_mobile {
+        font-size: 16px; /* Augmente la taille de la police */
+        padding: 10px;
+    }
+
+    .cp_mobile {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cp_mobile input[type="email"],
+    .cp_mobile input[type="password"] {
+        width: 100%;
+        padding: 15px; /* Augmente le padding pour les champs de saisie */
+        margin-bottom: 15px; /* Augmente la marge inférieure */
+        font-size: 18px; /* Augmente la taille de la police */
+    }
+
+    .cp_mobile_btn {
+        width: 100%;
+        padding: 15px; /* Augmente le padding pour le bouton */
+        font-size: 18px; /* Augmente la taille de la police */
+        background-color: #000;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    .cp_mobile_btn:hover {
+        background-color: #333;
+    }
+
+    .cp_mobile_erreur {
+        color: red;
+        font-size: 16px; /* Augmente la taille de la police */
+        text-align: center;
+    }
+
+    .cp_mobile a {
+        font-size: 16px; /* Augmente la taille de la police */
+        text-align: center;
+        display: block;
+        margin-bottom: 15px; /* Augmente la marge inférieure */
+    }
+
+    .cp_mobile section {
+        padding: 10px;
+    }
+
+    .cp_mobile h1 {
+        font-size: 28px; /* Augmente la taille de la police */
+        text-align: center;
+    }
+
+    .cp_mobile img {
+        display: block;
+        margin: 0 auto 20px;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .offer-btn {
+        font-size: 16px; /* Augmente la taille de la police */
+        text-align: center;
+        display: block;
+        margin-bottom: 15px; /* Augmente la marge inférieure */
+    }
+
+    .offer-btn:hover {
+        text-decoration: underline;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container a {
+        font-size: 16px; /* Augmente la taille de la police */
+        text-align: center;
+        margin-bottom: 15px; /* Augmente la marge inférieure */
+    }
+}
 
 /** PAGE DETAIL OFFRE*/
 
@@ -1342,7 +1428,9 @@ td {
 	margin-bottom: 20px;
 	text-align: center;
 }
-
+.offre-resume-detail.professionnel {
+	color: var(--color-primary-pro);
+}
 .offre-titre-index{
 	font-size: 1em;
 	font-weight: bold;
@@ -1464,7 +1552,9 @@ td {
 	color: var(--color-text);
 	line-height: 1.5;
 }
-
+.offre-description.professionnel {
+	border-left: 5px solid var(--color-primary-pro);
+}
 .detail-btn-container {
 	text-align: center; /* Centre le contenu du conteneur */
 	margin: 20px 0; /* Ajoute un peu d'espace en haut et en bas */
@@ -2119,73 +2209,6 @@ td {
 
 /*page connexion*/
 
-@media screen and (max-width: 360px) {
-    /* Corps de la page */
-    body.cp_mobile {
-        padding: 15px;
-        font-size: 14px; /* Taille de police légèrement augmentée */
-    }
-
-    /* Grand titre */
-    h1.cp_mobile {
-        font-size: 26px; /* Titre plus grand mais toujours adapté */
-    }
-
-    /* Champs de saisie */
-    section.cp_mobile input.cp_mobile {
-        width: 95%; /* Utilise presque toute la largeur de l'écran */
-        height: 48px; /* Augmenter légèrement la hauteur pour plus de confort */
-        font-size: 15px; /* Texte plus grand */
-        border-radius: 12px; /* Coins légèrement plus arrondis */
-    }
-
-    /* Bouton submit */
-    .cp_mobile_btn {
-        width: 95%; /* Adapte à la largeur de l'écran */
-        height: 60px; /* Bouton légèrement plus haut */
-        font-size: 18px; /* Texte plus grand */
-        margin: 20px auto; /* Centrer et réduire les marges */
-    }
-
-    /* Case à cocher */
-    .cp_mobile_chkbox {
-        width: 22px; /* Légèrement plus grande */
-        height: 22px;
-    }
-
-    /* Messages d'erreurs */
-    p.cp_mobile_erreur {
-        font-size: 14px; /* Texte plus grand et lisible */
-    }
-
-    /* Alignement des liens et boutons */
-    .cp_mobile a,
-    .offer-btn {
-        font-size: 14px; /* Texte légèrement plus grand */
-        padding: 8px; /* Espacement suffisant autour */
-        text-align: center;
-    }
-
-    /* Logo */
-    /* img {
-        width: 200px;
-        height: auto;
-    } */
-
-    /* Liens hypertextes */
-    a.cp_mobile {
-        font-size: 14px; /* Texte légèrement plus grand */
-    }
-
-    /* Section regroupant les champs */
-    section.cp_mobile {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-
-}
-
 @media screen and (max-width: 600px){
 	.carousel-slide{
 		overflow-x: scroll; /* Active le défilement horizontal */
@@ -2628,7 +2651,7 @@ td {
 Page mon_compte.php
 *******************/
 
-mc_main {
+.mc_main {
 	background-color: #F2F1E9;
 	display: flex;
 	flex-direction: column;
@@ -2804,19 +2827,36 @@ input[type="file"] {
 	margin: 0 0 0 10px;
 }
 
-@media (max-width: 1000px){
+@media (max-width: 480px){
 
 	p{
 		font-size: 15px;
 	}
 
+	.mc_main {
+        padding: 10px;
+    }
 	#afficher_cat{
 		font-size: 10px;
 	}
 
-	h2{
-		font-size: 20px;
-	}
+	h1, h2 {
+        font-size: 24px; /* Augmente la taille de la police pour les titres */
+        text-align: center;
+    }
+
+	.p-moncompte {
+        font-size: 16px; /* Augmente la taille de la police pour les paragraphes */
+        text-align: center;
+    }
+
+    .image-edit-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
 
 	.creer_ligne {
 		flex-direction: column;
@@ -2835,14 +2875,30 @@ input[type="file"] {
 	}
 
 	.liens-boutons {
-
-		font-size: 15px;
-		padding: 20px 20px;
-	}
+        width: 70%;
+        padding: 15px;
+        font-size: 16px; /* Augmente la taille de la police pour les liens */
+        text-align: center;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
 
 	.conteneur-boutons {
-		min-width: 300px;
-	}
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+    }
+
+	.creer_ligne {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        margin-bottom: 20px;
+    }
+
 }
 
 /* Style pour la modale d'upload d'image */
