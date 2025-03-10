@@ -2326,6 +2326,7 @@ td {
 }
 
 .carousel-slide {
+	list-style: none; /* Supprime les puces de la liste */
     display: flex;
     flex-wrap: nowrap;
     gap: 10px; /* Espacement entre les cartes */
