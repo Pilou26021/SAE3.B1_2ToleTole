@@ -24,6 +24,6 @@ jobs:
     - name: Execute pull and deploy script
       run: |
         ssh -i ~/.ssh/id_github debian@tole-tole.ventsdouest.dev << 'EOF'
-          cd /docker/sae/data/SAE3.B1_2ToleTole/
+          cd /docker/sae/data/
           bash /docker/sae/data/autosetup.sh
         EOF
