@@ -1,4 +1,4 @@
-name: Auto Pull on Dev
+name: Auto Pull on Main
 
 on:
   push:
