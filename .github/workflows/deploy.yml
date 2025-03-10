@@ -17,6 +17,7 @@ jobs:
     - name: Configure SSH key
       run: |
         mkdir -p ~/.ssh
+        echo "${{secrets.SSH_PRIVATE_KEY}}"
         echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_github
         chmod 600 ~/.ssh/id_github
         ssh-keyscan -H tole-tole.ventsdouest.dev >> ~/.ssh/known_hosts
