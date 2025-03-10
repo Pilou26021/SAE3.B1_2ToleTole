@@ -792,7 +792,7 @@
                                                 <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                             </p>
                                             <a class="avis_options" onclick="openModalAvis(event)">
-                                                <img src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
+                                                <img class="report_avis" src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
                                             </a>
                                         </div>
 
