@@ -149,6 +149,7 @@ CREATE TABLE public._offre (
     dateCreationOffre DATE NOT NULL,
     conditionAccessibilite TEXT NOT NULL,
     horsLigne BOOLEAN NOT NULL,
+    nbrJetonBlacklistageRestant INT NOT NULL DEFAULT 3 CHECK (nbrJetonBlacklistageRestant >= 0),
     FOREIGN KEY (idProPropose) REFERENCES public._professionnel(idPro),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
@@ -161,9 +162,10 @@ CREATE TABLE public._avis (
     idMembre BIGINT NOT NULL,
     dateAvis DATE NOT NULL,
     dateVisiteAvis DATE NOT NULL,
-    blacklistAvis BOOLEAN NOT NULL,
     reponsePro BOOLEAN NOT NULL,
     scorePouce INT NOT NULL,
+    blacklistAvis BOOLEAN NOT NULL,
+    blacklistEndDate DATE,
     CONSTRAINT unique_avis UNIQUE (idAvis, idOffre, idMembre),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre)
