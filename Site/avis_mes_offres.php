@@ -179,7 +179,7 @@
                                                 <?php } ?>
                                             </p>
                                             <div class="buttons_avis">
-                                                <?php if(true){ ?>
+                                                <?php if(!$blacklisted){ ?>
                                                     <a class="avis_blacklist" onclick="openModalBlacklist(event)">
                                                         <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
                                                     </a>
