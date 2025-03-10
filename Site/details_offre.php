@@ -523,14 +523,14 @@
                     <?php
                         if($membre){
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur sauf pour l'utilisateur connecté
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, a.blacklistavis, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre AND m.idmembre <> :conn_membre
                             ORDER BY a.scorepouce DESC";
 
-                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, a.blacklistavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
@@ -539,7 +539,7 @@
                             
                         } else {
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, a.blacklistavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
@@ -759,11 +759,15 @@
                             
                             if ($avis) {
                                 foreach ($avis as $avis) {
+                                    if($avis['blacklistavis'] == true){
+                                        continue;
+                                    }
                                     $hasReponse = false;
                                     if($avis['reponsepro'] == true){
                                         $hasReponse = true;
                                     }
                                     $avisId = $avis['idavis'];
+                                    
                                     $scorePouce = $avis['scorepouce'];
                                     if(isset($_SESSION['thumbed'][$avisId]) && $_SESSION['thumbed'][$avisId] == true){
                                         $thumbsClicked[$avisId] = true;
@@ -837,6 +841,7 @@
                                                 <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
                                                 <form action="blacklist_avis.php" method="POST">
                                                     <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <input type="hidden" name="idoffre" value="<?=$idoffre?>">
                                                     <div class="form_avis_signalement">
                                                         <h2>Blacklister l'avis ?</h2>
                                                         <div style="display:flex; flex-direction:row; align-items:center;">
