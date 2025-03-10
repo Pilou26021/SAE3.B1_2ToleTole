@@ -1053,7 +1053,102 @@ p.cp_mobile_erreur {
 	padding: 10px;
 	margin-bottom: 10px;
 }
+/* Styles généraux pour les petits écrans */
+@media (max-width: 480px) {
+    .container-details-offre {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
 
+    .details-offre {
+        width: 100%;
+        margin-bottom: 20px;
+        padding-left: 0; /* Supprime le padding gauche */
+    }
+
+    .offre-detail-container {
+        width: 100%;
+    }
+
+    .offre-image-container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .offre-description {
+        padding: 10px;
+    }
+
+    .details_offre_mobile_tarifs,
+    .details_offre_mobile {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .details_offre_mobile table,
+    .details_offre_mobile_tarifs table {
+        width: 100%;
+    }
+
+    .detail-btn-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .detail-offer-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .avis-offre {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .avis-container {
+        width: 100%;
+    }
+
+    .avis,
+    .avis_m {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .avis_stars_score img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .avis_stars_score p {
+        font-size: 14px;
+    }
+
+    .scorePouce a {
+        font-size: 14px;
+    }
+
+    .boutons-bas-offre {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .boutons-bas-offre a,
+    .boutons-bas-offre button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+}
 /* Media query for mobile screens */
 @media (max-width: 360px) {
 	.body-detail {
@@ -1212,10 +1307,10 @@ section.details_offre_mobile_tarifs {
 }
 
 section.details_offre_mobile_tarifs table {
-	width: 100%;
+	width: 30%;
 	margin: auto;
 	border-collapse: collapse;
-	background-color: #36D673;
+	background-color: var(--color-accent);
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	text-align: center;
@@ -1238,11 +1333,11 @@ td {
 }
 
 .offre-titre {
-	font-size: 1.2em;
+	font-size: 2em;
 	font-weight: bold;
-	color: #333;
-	margin-bottom: 10px;
-	margin-left: 0;
+	color: var(--color-text);
+	margin-bottom: 20px;
+	text-align: center;
 }
 
 .offre-resume {
@@ -1333,19 +1428,41 @@ td {
 }
 
 .offre-resume-detail {
-	font-size: 16px;
-	color: #040316;
+	font-size: 20px;
+	color: var(--color-accent);
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.offre-description {
+	margin: 20px 0;
+	padding: 10px;
+	background-color: var(--color-background);
+	border-left: 5px solid var(--color-primary);
+}
+
+.offre-description h2 {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: var(--color-primary);
 	margin-bottom: 10px;
 }
 
+.offre-description p {
+	font-size: 1em;
+	color: var(--color-text);
+	line-height: 1.5;
+}
+
 .detail-btn-container {
-    text-align: center; /* Centre le contenu du conteneur */
-    margin: 20px 0; /* Ajoute un peu d'espace en haut et en bas */
+	text-align: center; /* Centre le contenu du conteneur */
+	margin: 20px 0; /* Ajoute un peu d'espace en haut et en bas */
+	text-decoration: none;
 }
 
 .detail-offer-btn {
 	background-color: var(--color-primary);
-	color: white;
+	color: var(--color-text);
 	border: none;
 	padding: 10px 20px;
 	cursor: pointer;
