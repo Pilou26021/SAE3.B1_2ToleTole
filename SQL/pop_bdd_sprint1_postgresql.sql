@@ -85,7 +85,7 @@ INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) V
 INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
 (3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 15, TRUE, FALSE, 0, 'https://ilovemyself.com',0, FALSE, '2023-05-01', 'Accessible', FALSE),
 (2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 10, TRUE, TRUE, 2, 'https://pnevot.com',0, TRUE, '2023-06-01', 'Non accessible', FALSE),
-(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 1, FALSE, FALSE, 1, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
+(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 1, FALSE, FALSE, 2, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
 (3, 4, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 12, TRUE, FALSE, 0, 'https://boulangerie.example.com', 0, FALSE, '2023-07-10', 'Accessible', FALSE),
 (3, 1, 'Archipel de Bréhat en kayak', 'Découvrez l archipel en kayak', 'Les sorties sont limitées entre 15 et 20 km, adaptées aux familles avec pauses régulières. Accessibilité pour les personnes en situation de handicap.', 0, TRUE, FALSE, 0, 'https://planete-kayak.example.com', 0, FALSE, '2023-05-01', 'Accessible', FALSE),
 (2, 2, 'Balade familiale à vélo', 'Balade à vélo dans le Trégor', 'Une sortie sur de petites routes tranquilles, adaptée aux enfants à partir de 6 ans. Équipement requis pour les plus jeunes.', 0, TRUE, TRUE, 0, 'https://tregor-bicyclette.example.com', 0, FALSE, '2023-06-01', 'Accessible', FALSE),
@@ -99,7 +99,7 @@ INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateV
 (1, 5, 'Excellente offre!', 1, '2023-05-15', '2023-05-10', FALSE, TRUE, 0),
 (2, 3, 'La piste pourrait être mieux indiquée', 4, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
 (2, 4, 'Super balade en famille !', 2, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
-(3, 4, 'Bonne offre! J''y retournerais sans problème !', 4, '2023-05-15', '2023-05-10', FALSE, FALSE, 1),
+(3, 4, 'Bonne offre! J''y retournerais sans problème !', 4, '2023-05-15', '2023-05-10', TRUE, FALSE, 1),
 (3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE, 0),
 (3, 2, 'Pas encore ouvert :''(', 2, '1955-11-11', '1955-11-11', FALSE, FALSE, 0),
 (3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE, 0),

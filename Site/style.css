@@ -3200,6 +3200,11 @@ input:checked + .sliderswitch:before {
 	width: 100%;
 }
 
+.AMO_avis_b{
+	border-radius: 20px;
+	/*background-color: rgba(0, 0, 0, 0.1);*/
+}
+
 /* page sécurité **/
 
 /* Conteneur principal */

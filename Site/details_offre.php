@@ -102,7 +102,7 @@
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite, o.nbrjetonblacklistagerestant 
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite, o.typeoffre, o.nbrjetonblacklistagerestant 
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -120,6 +120,10 @@
 
                 // Récupérer les détails de l'offre
                 $offre = $stmt->fetch();
+
+                if ($offre['typeoffre'] == 2){
+                    $offrepremium = true;
+                }
             } else {
                 // Redirection si l'ID de l'offre n'est pas fourni
                 header("Location: index.php");
@@ -523,14 +527,14 @@
                     <?php
                         if($membre){
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur sauf pour l'utilisateur connecté
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, a.blacklistavis, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre AND m.idmembre <> :conn_membre
                             ORDER BY a.scorepouce DESC";
 
-                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, a.blacklistavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
@@ -539,7 +543,7 @@
                             
                         } else {
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, a.blacklistavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
@@ -759,11 +763,15 @@
                             
                             if ($avis) {
                                 foreach ($avis as $avis) {
+                                    if($avis['blacklistavis'] == true){
+                                        continue;
+                                    }
                                     $hasReponse = false;
                                     if($avis['reponsepro'] == true){
                                         $hasReponse = true;
                                     }
                                     $avisId = $avis['idavis'];
+                                    
                                     $scorePouce = $avis['scorepouce'];
                                     if(isset($_SESSION['thumbed'][$avisId]) && $_SESSION['thumbed'][$avisId] == true){
                                         $thumbsClicked[$avisId] = true;
@@ -792,7 +800,7 @@
                                                 <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                             </p>
                                             <div class="buttons_avis">
-                                                <?php if($bonProfessionnel){ ?>
+                                                <?php if($bonProfessionnel && $offrepremium){ ?>
                                                     <a class="avis_blacklist" onclick="openModalBlacklist(event)">
                                                         <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
                                                     </a>
@@ -837,6 +845,7 @@
                                                 <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
                                                 <form action="blacklist_avis.php" method="POST">
                                                     <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <input type="hidden" name="idoffre" value="<?=$idoffre?>">
                                                     <div class="form_avis_signalement">
                                                         <h2>Blacklister l'avis ?</h2>
                                                         <div style="display:flex; flex-direction:row; align-items:center;">
