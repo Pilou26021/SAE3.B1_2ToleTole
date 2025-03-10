@@ -241,14 +241,14 @@
                             <?php
                                 if ($offre["alauneoffre"]==true) {
                             ?>
-                                <p class="offre-resume-detail" ><strong>Cette offre est à la Une</strong></p>
+                                <p class="offre-resume-detail <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" ><strong>Cette offre est à la Une</strong></p>
                             <?php 
                                 }
                             ?>
                             <div class="offre-image-container" style="text-align:center;">
                                 <img class="details-offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
                             </div>
-                            <div class="offre-description">
+                            <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                             <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
                             <p><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
                             <p><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
@@ -792,7 +792,7 @@
                                                 <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                             </p>
                                             <a class="avis_options" onclick="openModalAvis(event)">
-                                                <img src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
+                                                <img class="report_avis" src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
                                             </a>
                                         </div>
 

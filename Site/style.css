@@ -1342,7 +1342,9 @@ td {
 	margin-bottom: 20px;
 	text-align: center;
 }
-
+.offre-resume-detail.professionnel {
+	color: var(--color-primary-pro);
+}
 .offre-titre-index{
 	font-size: 1em;
 	font-weight: bold;
@@ -1464,7 +1466,9 @@ td {
 	color: var(--color-text);
 	line-height: 1.5;
 }
-
+.offre-description.professionnel {
+	border-left: 5px solid var(--color-primary-pro);
+}
 .detail-btn-container {
 	text-align: center; /* Centre le contenu du conteneur */
 	margin: 20px 0; /* Ajoute un peu d'espace en haut et en bas */
@@ -3244,4 +3248,12 @@ input:checked + .sliderswitch:before {
 
 .cleapi:not(.floutage) p {
     filter: none; /* Affiche le texte en clair */
+}
+
+.report_avis{
+	border-radius: 8px;
+}
+
+.report_avis:hover{
+	background-color: rgba(0, 0, 0, 0.1);
 }
