@@ -7,16 +7,18 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
 
-    - name: Execute pull and deploy script
+    - name: Configure SSH key
       run: |
-        ssh debian@tole-tole.ventsdouest.dev << 'EOF'
-          cd /docker/sae/data/SAE3.B1_2ToleTole/
-          git pull origin main
-          bash /docker/sae/data/autosetup.sh
-          EOF
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_githubactions
+        chmod 600 ~/.ssh/id_githubactions
+        ssh-keyscan -H tole-tole.ventsdouest.dev >> ~/.ssh/known_hosts
+
+    - name: Execute deploy script
+      run: ssh -i ~/.ssh/id_githubactions -o StrictHostKeyChecking=no debian@tole-tole.ventsdouest.dev "bash /docker/sae/data/autosetup.sh"
