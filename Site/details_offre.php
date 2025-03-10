@@ -102,7 +102,7 @@
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite, o.nbrjetonblacklistagerestant 
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -241,17 +241,19 @@
                             <?php
                                 if ($offre["alauneoffre"]==true) {
                             ?>
-                                <p style="color:#36D673;" class="offre-resume-detail" ><strong>Cette offre est à la Une</strong></p>
+                                <p class="offre-resume-detail <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" ><strong>Cette offre est à la Une</strong></p>
                             <?php 
                                 }
                             ?>
                             <div class="offre-image-container" style="text-align:center;">
                                 <img class="details-offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
                             </div>
-                            <p class="offre-resume-detail"><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
-                            <p class="offre-resume-detail"><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
-                            <p class="offre-resume-detail"><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
-
+                            <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                            <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
+                            <p><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
+                            <p><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
+                            </div>
+                            
                             <p class="adresse-detail">Localisation de l'offre</p>
                             <div id="map" style="display:flex;align-items:center;justify-content:center;">
                                 <h2 id="text-chargement" >Chargement de la carte</h2>
@@ -789,9 +791,16 @@
                                                 <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
                                                 <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                             </p>
-                                            <a class="avis_options" onclick="openModalAvis(event)">
-                                                <img src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
-                                            </a>
+                                            <div class="buttons_avis">
+                                                <?php if($bonProfessionnel){ ?>
+                                                    <a class="avis_blacklist" onclick="openModalBlacklist(event)">
+                                                        <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
+                                                    </a>
+                                                <?php } ?>
+                                                <a class="avis_options" onclick="openModalAvis(event)">
+                                                    <img class="report_avis" src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
+                                                </a>
+                                            </div>
                                         </div>
 
                                         <!-- option avis modale -->
@@ -818,6 +827,28 @@
                                                         </select>
                                                         <br><br>
                                                         <button type="submit" class="bouton-supprimer-avis">Signaler l'avis</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div id="modalBlacklist" class="modal_avis">
+                                            <div class="modal_avis-content">
+                                                <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
+                                                <form action="blacklist_avis.php" method="POST">
+                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <div class="form_avis_signalement">
+                                                        <h2>Blacklister l'avis ?</h2>
+                                                        <div style="display:flex; flex-direction:row; align-items:center;">
+                                                            <p style="padding-right:5px;">Vous disposez de <?= $offre['nbrjetonblacklistagerestant'] ?> jetons pour cette offre.</p>
+                                                            <div class="tooltip_jetons">
+                                                                <img src="./img/icons/infos.svg" width=20px height=20px alt="infos">
+                                                                <div class="tooltip_text">
+                                                                Les jetons de blacklistage vous permettent de recourir à votre droit de veto sur un avis, vous récupérez des jetons quand la durée de blacklistage arrive à son terme (12 mois) ou si l'utilisateur supprime son avis blacklisté.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" class="bouton-blacklist-avis">Blacklister l'avis</button>
                                                     </div>
                                                 </form>
                                             </div>

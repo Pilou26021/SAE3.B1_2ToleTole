@@ -311,7 +311,7 @@
 
                                     if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
                                         <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?> >
+                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) {echo $style;}?>>
                                                 <div class="offre-image-container" style="position: relative;">
                                                     <!-- Affichage de l'image -->
                                                     <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -322,7 +322,7 @@
                                                 </div>
                                                 <div class="offre-details">
                                                     <!-- Titre de l'offre -->
-                                                    <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                                    <h2 class="offre-titre-index"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
                                                     
                                                     <!-- Résumé de l'offre -->
                                                     <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
@@ -376,7 +376,7 @@
 
                                                 <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
                                                 <?php if ($professionel) { ?>
-                                                        <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=index" class="bouton-modifier-offre">Modifier</a>
+                                                        <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=index" class="bouton-modifier-offre <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Modifier</a>
                                                         <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
                                                     <?php } ?>
 
@@ -436,7 +436,7 @@
                                     </div>
                                     <div class="offre-details">
                                         <!-- Titre de l'offre -->
-                                        <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                        <h2 class="offre-titre-index"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
                                         
                                         <!-- Résumé de l'offre -->
                                         <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
@@ -508,9 +508,19 @@
                 </div>
                 <div class="offres-container">
                     <?php foreach ($offres as $offre): ?>
+                        <?php
+                            $style = "";
+                            if ($offre['enreliefoffre']==true) {
+                                if ($professionel) {
+                                    $style = "style = 'border: 3px solid var(--color-accent-pro);'";
+                                } else {
+                                    $style = "style = 'border: 3px solid #36D673;'";
+                                }
+                            }
+                        ?>
                         <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo $style;} ?>>
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -521,7 +531,7 @@
                                     </div>
                                     <div class="offre-details">
                                         <!-- Titre de l'offre -->
-                                        <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                        <h2 class="offre-titre-index"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
                                         
                                         <!-- Résumé de l'offre -->
                                         <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
