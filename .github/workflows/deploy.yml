@@ -16,9 +16,13 @@ jobs:
     - name: Configure SSH key
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_githubactions
-        chmod 600 ~/.ssh/id_githubactions
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_github
+        chmod 600 ~/.ssh/id_github
         ssh-keyscan -H tole-tole.ventsdouest.dev >> ~/.ssh/known_hosts
 
-    - name: Execute deploy script
-      run: ssh -i ~/.ssh/id_githubactions -o StrictHostKeyChecking=no debian@tole-tole.ventsdouest.dev "bash /docker/sae/data/autosetup.sh"
+    - name: Execute pull and deploy script
+      run: |
+        ssh -i ~/.ssh/id_github debian@tole-tole.ventsdouest.dev << 'EOF'
+          cd /docker/sae/data/SAE3.B1_2ToleTole/
+          bash /docker/sae/data/autosetup.sh
+        EOF
