@@ -58,6 +58,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             alert.remove();
         });
     }
+
+    // Une erreur qui apparait et disparait dynamiquement (par exemple l'email n'a pas le bon format)
+    // Le texte apparaît en dessous du champ concerné
+    function erreur(message) {
+        var error = document.createElement('div');
+        error.style.position = 'absolute';
+        error.style.top = 'calc(100% + 5px)';
+        error.style.left = '0';
+        error.style.color = 'red';
+        error.style.fontSize = '0.8em';
+        error.innerHTML = message;
+        this.parentNode.appendChild(error);
+        var inputElement = this;
+        inputElement.addEventListener('input', function() {
+            if (error.parentNode) {
+                error.parentNode.removeChild(error);
+            }
+        });
+    }
 </script>
 
 <!DOCTYPE html>
@@ -97,6 +116,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <section class="cp_mobile">
                 <label for="email_cp_mob">E-mail:</label><br>
                 <input type="email" id="email_cp_mob" name="email_cp_mob" placeholder="jeanDuchamp@exemple.com" required class="cp_mobile"><br><br>
+                <script>
+                    document.getElementById('email_cp_mob').addEventListener('input', function() {
+                        if (!this.value.includes('@')) {
+                            erreur.call(this, 'L\'email doit contenir un @');
+                        }
+                    });
+                </script>
                 
                 <label for="mdp_cp_mob">Mot de passe:</label><br>
                 <input type="password" id="mdp_cp_mob" name="mdp_cp_mob" placeholder="***************" required class="cp_mobile">

@@ -311,7 +311,7 @@
 
                                     if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
                                         <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?> >
+                                            <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) {echo $style;}?>>
                                                 <div class="offre-image-container" style="position: relative;">
                                                     <!-- Affichage de l'image -->
                                                     <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
@@ -508,9 +508,19 @@
                 </div>
                 <div class="offres-container">
                     <?php foreach ($offres as $offre): ?>
+                        <?php
+                            $style = "";
+                            if ($offre['enreliefoffre']==true) {
+                                if ($professionel) {
+                                    $style = "style = 'border: 3px solid var(--color-accent-pro);'";
+                                } else {
+                                    $style = "style = 'border: 3px solid #36D673;'";
+                                }
+                            }
+                        ?>
                         <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
                             <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) { echo $style;} ?>>
+                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
