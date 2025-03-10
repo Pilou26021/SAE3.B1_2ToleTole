@@ -3253,3 +3253,54 @@ input:checked + .sliderswitch:before {
 .report_avis:hover{
 	background-color: rgba(0, 0, 0, 0.1);
 }
+
+.avis_blacklist > :nth-child(1){
+	padding: 0px;
+}
+
+.bouton-blacklist-avis {
+	background-color: var(--color-delete);
+	color: var(--color-background);
+	text-decoration: none;
+	border: none;
+	border-radius: 10px;
+	padding: 10px;
+	font-size: 15px;
+	cursor: pointer;
+	margin-bottom: 10px;
+	transition: all 0.3s ease;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bouton-blacklist-avis:hover {
+	background-color: var(--color-delete-hover);
+}
+
+.tooltip_jetons {
+	position: relative;
+	display: inline-block;
+}
+
+.tooltip_text {
+	visibility: hidden;
+	width: 400px;
+	background-color: #fff;
+	color: var(--color-text);
+	border-color: var(--color-border);
+	border : 2px solid;
+	text-align: center;
+	padding: 5px;
+	border-radius: 6px;
+	position: absolute;
+	z-index: 1;
+	bottom: 100%; /* Position au-dessus de l'élément */
+	left: 50%;
+	margin-left: -60px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.tooltip_jetons:hover .tooltip_text {
+	visibility: visible;
+	opacity: 1;
+}

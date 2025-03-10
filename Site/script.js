@@ -374,6 +374,16 @@ function closeModalAvis() {
     document.getElementById("modalAvis").style.display = "none";
 }
 
+// MODALE MENU AVIS
+function openModalBlacklist() {
+    document.getElementById("modalBlacklist").style.display = "block";
+}
+
+// fermer la fenêtre
+function closeModalBlacklist() {
+    document.getElementById("modalBlacklist").style.display = "none";
+}
+
 function submitSignalementAvis(idAvis) {
     
     
