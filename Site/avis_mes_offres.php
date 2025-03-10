@@ -68,7 +68,7 @@
                     <?php
 
                         // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur
-                        $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                        $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, a.blacklistavis, m.nomcompte, m.prenomcompte, i.pathimage
                         FROM public._avis a
                         JOIN public.membre m ON a.idmembre = m.idmembre
                         JOIN public._image i ON m.idimagepdp = i.idimage
@@ -143,6 +143,10 @@
                                     if($avis['reponsepro'] == true){
                                         $hasReponse = true;
                                     }
+                                    $blacklisted = false;
+                                    if($avis['blacklistavis'] == true){
+                                        $blacklisted = true;
+                                    }
                                     $avisId = $avis['idavis'];
                                     $scorePouce = $avis['scorepouce'];
                                     if($_SESSION['thumbed'][$avisId]){
@@ -165,15 +169,25 @@
                                     } 
 
                                     ?>
-                                    <div class="AMO_avis">
+                                    <div <?php if ($blacklisted) { ?> class="AMO_avis_b" <?php } else { ?>class="AMO_avis" <?php } ?>>
                                         <div class="container_pdp-name-date_options">
                                             <p class="pdp-name-date">
                                                 <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
                                                 <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                                <?php if ($blacklisted) { ?>
+                                                    <p style="color:red;">Avis blacklisté</p>
+                                                <?php } ?>
                                             </p>
-                                            <a class="avis_options" onclick="openModalAvis(event)">
-                                                <img src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
-                                            </a>
+                                            <div class="buttons_avis">
+                                                <?php if(true){ ?>
+                                                    <a class="avis_blacklist" onclick="openModalBlacklist(event)">
+                                                        <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
+                                                    </a>
+                                                <?php } ?>
+                                                <a class="avis_options" onclick="openModalAvis(event)">
+                                                    <img class="report_avis" src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
+                                                </a>
+                                            </div>
                                         </div>
 
                                         <!-- option avis modale -->
@@ -200,6 +214,29 @@
                                                         </select>
                                                         <br><br>
                                                         <button type="submit" class="bouton-supprimer-avis">Signaler l'avis</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div id="modalBlacklist" class="modal_avis">
+                                            <div class="modal_avis-content">
+                                                <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
+                                                <form action="blacklist_avis.php" method="POST">
+                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <input type="hidden" name="idoffre" value="<?=$idoffre?>">
+                                                    <div class="form_avis_signalement">
+                                                        <h2>Blacklister l'avis ?</h2>
+                                                        <div style="display:flex; flex-direction:row; align-items:center;">
+                                                            <p style="padding-right:5px;">Vous disposez de <?= $offre['nbrjetonblacklistagerestant'] ?> jetons pour cette offre.</p>
+                                                            <div class="tooltip_jetons">
+                                                                <img src="./img/icons/infos.svg" width=20px height=20px alt="infos">
+                                                                <div class="tooltip_text">
+                                                                Les jetons de blacklistage vous permettent de recourir à votre droit de veto sur un avis, vous récupérez des jetons quand la durée de blacklistage arrive à son terme (12 mois) ou si l'utilisateur supprime son avis blacklisté.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" class="bouton-blacklist-avis">Blacklister l'avis</button>
                                                     </div>
                                                 </form>
                                             </div>

@@ -102,7 +102,7 @@
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite, o.nbrjetonblacklistagerestant 
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite, o.typeoffre, o.nbrjetonblacklistagerestant 
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -120,6 +120,10 @@
 
                 // Récupérer les détails de l'offre
                 $offre = $stmt->fetch();
+
+                if ($offre['typeoffre'] == 2){
+                    $offrepremium = true;
+                }
             } else {
                 // Redirection si l'ID de l'offre n'est pas fourni
                 header("Location: index.php");
@@ -796,7 +800,7 @@
                                                 <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                             </p>
                                             <div class="buttons_avis">
-                                                <?php if($bonProfessionnel){ ?>
+                                                <?php if($bonProfessionnel && $offrepremium){ ?>
                                                     <a class="avis_blacklist" onclick="openModalBlacklist(event)">
                                                         <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
                                                     </a>
