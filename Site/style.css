@@ -1343,6 +1343,14 @@ td {
 	text-align: center;
 }
 
+.offre-titre-index{
+	font-size: 1.5em;
+	font-weight: bold;
+	color: var(--color-text);
+	margin-bottom: 20px;
+	text-align: center;
+}
+
 .offre-resume {
 	font-size: 1em;
 	color: #666;
