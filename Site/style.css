@@ -1469,12 +1469,7 @@ td {
 
 
 
-/* Media query pour les écrans de plus de 800px */
-@media (min-width: 800px) {
-	.offres-display {
-		justify-content: left;
-	}
-}
+
 
 .details_offre_mobile {
 	display: flex;
@@ -2323,6 +2318,8 @@ td {
     display: flex;
     transition: transform 0.5s ease-in-out; /* Animation fluide */
     width: 100%;
+	align-items: center;
+	list-style: none;
 }
 
 .carousel-slide {
@@ -2332,6 +2329,7 @@ td {
     gap: 10px; /* Espacement entre les cartes */
 	margin: 20px auto;
 }
+
 
 
 

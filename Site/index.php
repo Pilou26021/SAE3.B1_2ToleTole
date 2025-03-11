@@ -116,13 +116,13 @@
             <form action="">
                 <div class="recherche_top">
                     <img src="img/icons/search.png" alt="Search">
-                    <input id="search-query" class="input" placeholder="Votre recherche" type="text">
+                    <input id="search-query" class="input" placeholder="Votre recherche" type="text" style="margin:auto 10px;">
                     <img src="img/icons/filtre.png" alt="Filtre" id="filterBtn">
                 </div>
                 <hr>
-                <div>
+                <!-- <div>
                     <input class="button_1 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" type="submit" value="Recherche" >
-                </div>
+                </div> -->
             </form>
         </div>
         <div id="filterForm" class="filter-form">
@@ -294,7 +294,7 @@
                     <div class="carousel-container" id="carousel1">
                         <button class="carousel-btn prev-btn " data-carousel="1">&#9664;</button>
                         <div class="carousel-track">
-                            <ul class="carousel-slide">
+                            <ul class="carousel-slide" id="carousel-slide-1">
                                 <?php foreach ($offres as $offre): 
                                     if ($countU >= $maxOffresU) {
                                         break; // Arrêter le traitement après 10 offres
