@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div style=" position:fixed; top:20px; width: 95%; display:flex; justify-content:space-between;">
             <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="index.php">&#8617;</a>
             <div style="display:flex;align-items:center;flex-direction:column; align-items: flex-end;">
-                <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Créer un compte ou se connecter en tant que membre</a>
+                <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Plateforme membre</a>
                 <a class="offer-btn" href="creer_compte_pro.php" class="cp_mobile">Créer un compte professionnel</a>
             </div>
         </div>
@@ -110,11 +110,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Section pour permettre l'alignement du texte -->
             <section class="cp_mobile">
                 <label for="email_cp_mob">E-mail:</label><br>
-                <input type="email" id="email_cp_mob" name="email_cp_mob" placeholder="jeanDuchamp@exemple.com" required class="cp_mobile"><br><br>
+                <input type="email" id="email_cp_mob" name="email_cp_mob" placeholder="jeanDuchamp@exemple.com" required class="cp_mobile"><br>
                 
+                <p id="erreur_email" class="cp_mobile_erreur"></p>
+
+                <script>
+                    const validateEmail = (email) => {
+                        return String(email)
+                            .toLowerCase()
+                            .match(
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        );
+                    };
+
+                    document.getElementById('email_cp_mob').addEventListener('input', function() {
+                        document.getElementById('erreur_email').innerHTML = '';
+                        if (!validateEmail(this.value)) {
+                            console.log('Adresse email invalide');
+                            document.getElementById('erreur_email').innerHTML = '⨯ Adresse email invalide';
+                        }
+                        else {
+                            document.getElementById('erreur_email').innerHTML = '';
+                        }
+                    });
+                </script>
+
+
                 <label for="mdp_cp_mob">Mot de passe:</label><br>
                 <input type="password" id="mdp_cp_mob" name="mdp_cp_mob" placeholder="***************" required class="cp_mobile">
-                <br><br>
+                <br>
                 <div>
                     <a style="display:flex;justify-content:center;" href="#" class="cp_mobile">Mot de passe oublié ?</a><br>
                 </div>
