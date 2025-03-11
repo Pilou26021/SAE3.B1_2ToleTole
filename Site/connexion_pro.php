@@ -86,13 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <body class="cp_mobile" style="overflow:hidden;">
-        <div style=" position:fixed; top:20px; width: 95%; display:flex; justify-content:space-between;">
-            <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="index.php">&#8617;</a>
-            <div style="display:flex;align-items:center;flex-direction:column; align-items: flex-end;">
-                <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Plateforme membre</a>
-                <a class="offer-btn" href="creer_compte_pro.php" class="cp_mobile">Créer un compte professionnel</a>
-            </div>
-        </div>
+    <a style="position: absolute; top: 20px; left: 20px; text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="index.php">&#8617;</a>
 
         <?php
             if (isset($_GET['success'])) {
@@ -151,9 +145,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <!-- Bouton de validation -->
             <input type="submit" value="Se connecter" class="cp_mobile_btn">
+               
+            <a class="lien-creer" href="creer_compte_pro.php" class="cp_mobile">Créer un compte professionnel</a>
 
         </form>
-
+        <div>
+            <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Plateforme membre</a>
+        </div>
     </body>
 </html>
 <?php
