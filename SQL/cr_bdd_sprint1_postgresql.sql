@@ -469,20 +469,22 @@ JOIN public._signalement s ON aa.idSignalement = s.idSignalement;
 
 -- Trigger et fonction pour le blacklistage
 CREATE OR REPLACE FUNCTION update_blacklist()
-RETURNS TRIGGER AS $$
+RETURNS void AS $$
 BEGIN
-    -- Si blacklistEndDate n'est pas NULL et est avant ou égale à la date actuelle
-    IF NEW.blacklistEndDate IS NOT NULL AND NEW.blacklistEndDate <= CURRENT_DATE THEN
-        -- Mettre à jour blacklistAvis et blacklistEndDate
-        NEW.blacklistAvis := FALSE;
-        NEW.blacklistEndDate := NULL;
+    -- Mettre à jour toutes les lignes d'avis
+    UPDATE public._avis
+    SET blacklistAvis = FALSE,
+        blacklistEndDate = NULL
+    WHERE blacklistEndDate IS NOT NULL 
+    AND blacklistEndDate <= CURRENT_TIMESTAMP;
 
-        -- Ajouter un jeton à l'offre liée à cet avis
-        UPDATE public._offre
-        SET nbrJetonBlacklistageRestant = nbrJetonBlacklistageRestant + 1
-        WHERE idOffre = NEW.idOffre;
-    END IF;
-
-    RETURN NEW;
+    -- Ajouter un jeton à l'offre liée à chaque avis mis à jour
+    UPDATE public._offre
+    SET nbrJetonBlacklistageRestant = nbrJetonBlacklistageRestant + 1
+    WHERE idOffre IN (
+        SELECT DISTINCT idOffre
+        FROM public._avis
+        WHERE blacklistEndDate IS NOT NULL AND blacklistEndDate <= CURRENT_TIMESTAMP
+    );
 END;
 $$ LANGUAGE plpgsql;
