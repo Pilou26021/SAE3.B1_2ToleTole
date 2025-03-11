@@ -165,7 +165,7 @@ CREATE TABLE public._avis (
     reponsePro BOOLEAN NOT NULL,
     scorePouce INT NOT NULL,
     blacklistAvis BOOLEAN NOT NULL,
-    blacklistEndDate DATE,
+    blacklistEndDate TIMESTAMP DEFAULT NULL,
     CONSTRAINT unique_avis UNIQUE (idAvis, idOffre, idMembre),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre)
@@ -465,3 +465,26 @@ SELECT a.idAvis, a.idOffre, a.noteAvis, a.commentaireAvis, a.idMembre, a.dateAvi
 FROM public._avis a
 JOIN public._alerterAvis aa ON a.idAvis = aa.idAvis
 JOIN public._signalement s ON aa.idSignalement = s.idSignalement;
+
+
+-- Trigger et fonction pour le blacklistage
+CREATE OR REPLACE FUNCTION update_blacklist()
+RETURNS void AS $$
+BEGIN
+    -- Mettre à jour toutes les lignes d'avis
+    UPDATE public._avis
+    SET blacklistAvis = FALSE,
+        blacklistEndDate = NULL
+    WHERE blacklistEndDate IS NOT NULL 
+    AND blacklistEndDate <= CURRENT_TIMESTAMP;
+
+    -- Ajouter un jeton à l'offre liée à chaque avis mis à jour
+    UPDATE public._offre
+    SET nbrJetonBlacklistageRestant = nbrJetonBlacklistageRestant + 1
+    WHERE idOffre IN (
+        SELECT DISTINCT idOffre
+        FROM public._avis
+        WHERE blacklistEndDate IS NOT NULL AND blacklistEndDate <= CURRENT_TIMESTAMP
+    );
+END;
+$$ LANGUAGE plpgsql;

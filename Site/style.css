@@ -916,7 +916,7 @@ section.cp_mobile input.cp_mobile {
 	background-color: var(--color-background);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 	/* Ombre */
-	margin: 0px 40px 40px 40px;
+	margin: 0px 40px 20px 40px;
 	font-size: 20px;
 	cursor:pointer;
 }
@@ -940,91 +940,30 @@ p.cp_mobile_erreur {
 	font-weight: bold;
 }
 
-/* Styles généraux pour les petits écrans */
-@media (max-width: 480px) {
-    body.cp_mobile {
-        font-size: 16px; /* Augmente la taille de la police */
-        padding: 10px;
-    }
+.lien-creer{
+	margin-top: 0;
+	text-align: center;
+	color: var(--color-text);
+}
 
-    .cp_mobile {
-        width: 100%;
-        box-sizing: border-box;
-    }
+.offer-btn.orange{
+	border-color: var(--color-primary-pro);
+}
 
-    .cp_mobile input[type="email"],
-    .cp_mobile input[type="password"] {
-        width: 100%;
-        padding: 15px; /* Augmente le padding pour les champs de saisie */
-        margin-bottom: 15px; /* Augmente la marge inférieure */
-        font-size: 18px; /* Augmente la taille de la police */
-    }
+.fleche{
+	position: absolute; 
+	top: 20px; 
+	left: 20px; 
+	text-decoration: none; 
+	font-size: 30px; 
+	color: #040316; 
+	cursor: pointer;
+}
 
-    .cp_mobile_btn {
-        width: 100%;
-        padding: 15px; /* Augmente le padding pour le bouton */
-        font-size: 18px; /* Augmente la taille de la police */
-        background-color: #000;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-    }
-
-    .cp_mobile_btn:hover {
-        background-color: #333;
-    }
-
-    .cp_mobile_erreur {
-        color: red;
-        font-size: 16px; /* Augmente la taille de la police */
-        text-align: center;
-    }
-
-    .cp_mobile a {
-        font-size: 16px; /* Augmente la taille de la police */
-        text-align: center;
-        display: block;
-        margin-bottom: 15px; /* Augmente la marge inférieure */
-    }
-
-    .cp_mobile section {
-        padding: 10px;
-    }
-
-    .cp_mobile h1 {
-        font-size: 28px; /* Augmente la taille de la police */
-        text-align: center;
-    }
-
-    .cp_mobile img {
-        display: block;
-        margin: 0 auto 20px;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .offer-btn {
-        font-size: 16px; /* Augmente la taille de la police */
-        text-align: center;
-        display: block;
-        margin-bottom: 15px; /* Augmente la marge inférieure */
-    }
-
-    .offer-btn:hover {
-        text-decoration: underline;
-    }
-
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .container a {
-        font-size: 16px; /* Augmente la taille de la police */
-        text-align: center;
-        margin-bottom: 15px; /* Augmente la marge inférieure */
-    }
+@media screen and (max-width: 480px) {
+	body.cp_mobile {
+		min-height: 50lvh;
+	}
 }
 
 /** PAGE DETAIL OFFRE*/

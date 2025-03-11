@@ -11,7 +11,7 @@ session_start();
 
 //connecteur pour requête
 include "../SQL/connection_local.php";
-include "./apikeygen.php";
+include "./api/fonction_gencle.php";
 
 // Vérification des étapes
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -164,11 +164,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(1, $idCompte, PDO::PARAM_INT);
             $stmt->bindValue(2, $pseudonyme, PDO::PARAM_STR);
             $stmt->execute();
-
-            $cleapi = '';
-            while ($cleapi == '' or $cleapi == null)
-                $cleapi = generateAPIKey("membre", $conn);
             
+            $typecompte = "membre";
+
+            // Génération de la clé API
+            $cleapi = cleapigen($typecompte, $conn);
+                    
             // Ajout de la clé API
             $stmt = $conn->prepare("UPDATE _compte SET chat_cleapi = ? WHERE idcompte = ?");
             $stmt->bindValue(1, $cleapi, PDO::PARAM_STR); 
@@ -234,6 +235,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="error"><?= $errors['email'] ?? '' ?></p>   
                             <span class="required">*</span>
                         </div>
+                                        
+                        <p id="erreur_email" class="cp_mobile_erreur"></p>
+
+                        <script>
+                            const validateEmail = (email) => {
+                                return String(email)
+                                    .toLowerCase()
+                                    .match(
+                                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                                );
+                            };
+
+                            document.getElementById('email').addEventListener('input', function() {
+                                document.getElementById('erreur_email').innerHTML = '';
+                                if (!validateEmail(this.value)) {
+                                    document.getElementById('erreur_email').innerHTML = '⨯ Adresse email invalide';
+                                }
+                                else {
+                                    document.getElementById('erreur_email').innerHTML = '';
+                                }
+                            });
+                        </script>
                     </div>
 
                     <!-- Téléphone -->
