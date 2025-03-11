@@ -483,7 +483,7 @@ BEGIN
     SET nbrJetonBlacklistageRestant = nbrJetonBlacklistageRestant + 1
     WHERE idOffre IN (
         SELECT DISTINCT idOffre
-        FROM public.avis
+        FROM public._avis
         WHERE blacklistEndDate IS NOT NULL AND blacklistEndDate <= CURRENT_DATE
     );
 END;
