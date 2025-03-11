@@ -916,7 +916,7 @@ section.cp_mobile input.cp_mobile {
 	background-color: var(--color-background);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 	/* Ombre */
-	margin: 0px 40px 40px 40px;
+	margin: 0px 40px 20px 40px;
 	font-size: 20px;
 	cursor:pointer;
 }
@@ -938,6 +938,16 @@ p.cp_mobile_erreur {
 	color: red;
 	font-size: 14px;
 	font-weight: bold;
+}
+
+.lien-creer{
+	margin-top: 0;
+	text-align: center;
+	color: var(--color-text);
+}
+
+.offer-btn.orange{
+	border-color: var(--color-primary-pro);
 }
 
 /* Styles généraux pour les petits écrans */
