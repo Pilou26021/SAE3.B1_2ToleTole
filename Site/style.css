@@ -2143,13 +2143,19 @@ td {
 
 /*page connexion*/
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 700px){
 	.carousel-slide{
+		display: flex;
 		overflow-x: scroll; /* Active le défilement horizontal */
         scroll-behavior: smooth; /* Défilement fluide */
         -webkit-overflow-scrolling: touch;
 		
 	}
+
+	.carousel-slide > * {
+        flex: 0 0 auto; /* Empêche les éléments enfants de se rétrécir */
+		width: 100%;
+    }
 
 	.carousel-btn {
 		display: none;
