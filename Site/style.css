@@ -961,7 +961,7 @@ p.cp_mobile_erreur {
 }
 
 @media screen and (max-width: 480px) {
-	body.cp_mobile {
+	.cp_mobile_test {
 		min-height: 50lvh;
 	}
 }
