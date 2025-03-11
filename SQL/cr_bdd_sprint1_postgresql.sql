@@ -472,7 +472,7 @@ CREATE OR REPLACE FUNCTION update_blacklist()
 RETURNS void AS $$
 BEGIN
     -- Mettre à jour toutes les lignes d'avis
-    UPDATE public.avis
+    UPDATE public._avis
     SET blacklistAvis = FALSE,
         blacklistEndDate = NULL
     WHERE blacklistEndDate IS NOT NULL 
