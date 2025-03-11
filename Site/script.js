@@ -299,68 +299,54 @@ function validImages(inputElements) {
     return true;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const track = document.querySelector('.carousel-track');
-    const slides = document.querySelectorAll('.offer-alaune');
-    const slideWidth = 371; // Largeur de chaque carte
-    let currentIndex = 0;
-    let cardsPerView = calculateCardsPerView()-1;
+document.addEventListener('DOMContentLoaded', function () {
+    const carousels = document.querySelectorAll('.carousel-container');
 
-    // Fonction pour calculer le nombre de cartes visibles
-    function calculateCardsPerView() {
-        const containerWidth = document.querySelector('.carousel-container').offsetWidth;
-        return Math.floor(containerWidth / slideWidth);
-    }
+    carousels.forEach(carousel => {
+        const track = carousel.querySelector('.carousel-track');
+        const slides = track.querySelectorAll('.carousel-slide li');
+        const prevButton = carousel.querySelector('.prev-btn');
+        const nextButton = carousel.querySelector('.next-btn');
+        const slideWidth = slides[0].getBoundingClientRect().width;
 
-    // Fonction pour mettre à jour la visibilité des boutons
-    function updateButtonVisibility() {
-        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
-        if (currentIndex === 0) {
-            prevBtn.classList.add('hidden');
-        } else {
-            prevBtn.classList.remove('hidden');
+        // Clone slides to make the carousel infinite
+        slides.forEach(slide => {
+            const clone = slide.cloneNode(true);
+            track.appendChild(clone);
+        });
+
+        let currentIndex = 0;
+
+        function moveToSlide(index) {
+            track.style.transform = `translateX(-${index * slideWidth}px)`;
+            currentIndex = index;
         }
 
-        if (currentIndex === maxIndex) {
-            nextBtn.classList.add('hidden');
-        } else {
-            nextBtn.classList.remove('hidden');
-        }
-    }
+        nextButton.addEventListener('click', () => {
+            if (currentIndex >= slides.length) {
+                track.style.transition = 'none';
+                moveToSlide(0);
+                setTimeout(() => {
+                    track.style.transition = 'transform 0.5s ease-in-out';
+                    moveToSlide(currentIndex + 1);
+                }, 20);
+            } else {
+                moveToSlide(currentIndex + 1);
+            }
+        });
 
-    // Fonction pour gérer le changement de la taille de la fenêtre
-    function onResize() {
-        cardsPerView = calculateCardsPerView();
-        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
-        if (currentIndex > maxIndex) {
-            currentIndex = maxIndex; // Réinitialiser l'index si nécessaire
-        }
-        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        updateButtonVisibility();
-    }
-
-    // Initialiser la visibilité des boutons et écouter le redimensionnement
-    updateButtonVisibility();
-    window.addEventListener('resize', onResize);
-
-    // Événements de clic pour faire défiler le slider
-    nextBtn.addEventListener('click', () => {
-        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            updateButtonVisibility();
-        }
-    });
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            updateButtonVisibility();
-        }
+        prevButton.addEventListener('click', () => {
+            if (currentIndex <= 0) {
+                track.style.transition = 'none';
+                moveToSlide(slides.length);
+                setTimeout(() => {
+                    track.style.transition = 'transform 0.5s ease-in-out';
+                    moveToSlide(currentIndex - 1);
+                }, 20);
+            } else {
+                moveToSlide(currentIndex - 1);
+            }
+        });
     });
 });
 
