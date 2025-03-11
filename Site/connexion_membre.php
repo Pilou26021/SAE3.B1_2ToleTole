@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <body class="cp_mobile" style="overflow:hidden;">
-    <a style="position: absolute; top: 20px; left: 20px; text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="index.php">&#8617;</a>
+    <a class="fleche" href="index.php">&#8617;</a>
         <?php
             if (isset($_GET['success'])) {
                 // Pop up de succès
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         ?>
 
-
+        <main class="cp_mobile_test">
         <!-- Logo -->
         <img src="img/logos/fond_remove_big.png" alt="Logo" style="width: 230px; height: auto;">
         <h1 class="cp_mobile">Membre</h1>
@@ -134,11 +134,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Se connecter" class="cp_mobile_btn">
             
             <a class="lien-creer" href="creer_compte_membre.php">Créer un compte membre</a>
-
         </form>
         <div class="right-links">            
             <a class="offer-btn orange" href="connexion_pro.php">Plateforme professionnelle</a>
         </div>
+        </main> 
     </body>
 </html>
 <?php
