@@ -476,7 +476,7 @@ BEGIN
     SET blacklistAvis = FALSE,
         blacklistEndDate = NULL
     WHERE blacklistEndDate IS NOT NULL 
-    AND blacklistEndDate <= CURRENT_DATE;
+    AND blacklistEndDate <= CURRENT_TIMESTAMP;
 
     -- Ajouter un jeton à l'offre liée à chaque avis mis à jour
     UPDATE public._offre
@@ -484,7 +484,7 @@ BEGIN
     WHERE idOffre IN (
         SELECT DISTINCT idOffre
         FROM public._avis
-        WHERE blacklistEndDate IS NOT NULL AND blacklistEndDate <= CURRENT_DATE
+        WHERE blacklistEndDate IS NOT NULL AND blacklistEndDate <= CURRENT_TIMESTAMP
     );
 END;
 $$ LANGUAGE plpgsql;
