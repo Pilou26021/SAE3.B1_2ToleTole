@@ -2278,19 +2278,19 @@ td {
 
 
 .carousel-btn {
-    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-    color: #fff;
     border: none;
-	font-size: 25px;
     text-align: center;
     cursor: pointer;
-	width: 50px;
-	height: 50px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
     border-radius: 50%;
+}
+
+.img_button{
+	width: 70px;
+	height: 70px;
 }
 
 .prev-btn {
@@ -2301,9 +2301,6 @@ td {
     right: 30px;
 }
 
-.carousel-btn:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-}
 
 .carousel-btn.hidden {
     display: none;
