@@ -2154,7 +2154,6 @@ td {
 
 	.carousel-slide > * {
         flex: 0 0 auto; /* Empêche les éléments enfants de se rétrécir */
-		width: 100%;
     }
 
 	.carousel-btn {

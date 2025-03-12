@@ -302,53 +302,85 @@ function validImages(inputElements) {
 document.addEventListener('DOMContentLoaded', function () {
     const carousels = document.querySelectorAll('.carousel-container');
 
-    carousels.forEach(carousel => {
-        const track = carousel.querySelector('.carousel-track');
-        const slides = track.querySelectorAll('.carousel-slide li');
-        const prevButton = carousel.querySelector('.prev-btn');
-        const nextButton = carousel.querySelector('.next-btn');
-        const slideWidth = slides[0].getBoundingClientRect().width;
+    function updateCarouselBehavior() {
+        const isSmallScreen = window.innerWidth < 700;
 
-        // Clone slides to make the carousel infinite
-        slides.forEach(slide => {
-            const clone = slide.cloneNode(true);
-            track.appendChild(clone);
-        });
+        carousels.forEach(carousel => {
+            const track = carousel.querySelector('.carousel-track');
+            const slides = track.querySelectorAll('.carousel-slide li');
+            const prevButton = carousel.querySelector('.prev-btn');
+            const nextButton = carousel.querySelector('.next-btn');
+            const slideWidth = slides[0].getBoundingClientRect().width;
 
-        let currentIndex = 0;
-
-        function moveToSlide(index) {
-            track.style.transform = `translateX(-${index * slideWidth}px)`;
-            currentIndex = index;
-        }
-
-        nextButton.addEventListener('click', () => {
-            if (currentIndex >= slides.length) {
+            // Remove cloned slides if screen width is below 700px
+            if (isSmallScreen) {
+                const clones = track.querySelectorAll('.carousel-slide li.clone');
+                clones.forEach(clone => clone.remove());
+                track.style.transform = 'translateX(0)';
                 track.style.transition = 'none';
-                moveToSlide(0);
-                setTimeout(() => {
-                    track.style.transition = 'transform 0.5s ease-in-out';
-                    moveToSlide(currentIndex + 1);
-                }, 20);
             } else {
-                moveToSlide(currentIndex + 1);
+                // Clone slides to make the carousel infinite
+                slides.forEach(slide => {
+                    if (!slide.classList.contains('clone')) {
+                        const clone = slide.cloneNode(true);
+                        clone.classList.add('clone');
+                        track.appendChild(clone);
+                    }
+                });
             }
-        });
 
-        prevButton.addEventListener('click', () => {
-            if (currentIndex <= 0) {
-                track.style.transition = 'none';
-                moveToSlide(slides.length);
-                setTimeout(() => {
-                    track.style.transition = 'transform 0.5s ease-in-out';
-                    moveToSlide(currentIndex - 1);
-                }, 20);
-            } else {
-                moveToSlide(currentIndex - 1);
+            let currentIndex = 0;
+
+            function moveToSlide(index) {
+                track.style.transform = `translateX(-${index * slideWidth}px)`;
+                currentIndex = index;
             }
+
+            nextButton.addEventListener('click', () => {
+                if (isSmallScreen) {
+                    if (currentIndex < slides.length - 1) {
+                        moveToSlide(currentIndex + 1);
+                    }
+                } else {
+                    if (currentIndex >= slides.length) {
+                        track.style.transition = 'none';
+                        moveToSlide(0);
+                        setTimeout(() => {
+                            track.style.transition = 'transform 0.5s ease-in-out';
+                            moveToSlide(currentIndex + 1);
+                        }, 20);
+                    } else {
+                        moveToSlide(currentIndex + 1);
+                    }
+                }
+            });
+
+            prevButton.addEventListener('click', () => {
+                if (isSmallScreen) {
+                    if (currentIndex > 0) {
+                        moveToSlide(currentIndex - 1);
+                    }
+                } else {
+                    if (currentIndex <= 0) {
+                        track.style.transition = 'none';
+                        moveToSlide(slides.length);
+                        setTimeout(() => {
+                            track.style.transition = 'transform 0.5s ease-in-out';
+                            moveToSlide(currentIndex - 1);
+                        }, 20);
+                    } else {
+                        moveToSlide(currentIndex - 1);
+                    }
+                }
+            });
         });
-    });
+    }
+
+    // Call the function on load and on resize
+    updateCarouselBehavior();
+    window.addEventListener('resize', updateCarouselBehavior);
 });
+
 
 // MODALE MENU AVIS
 function openModalAvis() {

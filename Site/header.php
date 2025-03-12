@@ -112,9 +112,9 @@ if (isset($_SESSION['membre'])) {
         <!-- Icon de notifications -->
         <img class="header-pdp-user" src="
         <?php if ($notifications != false){
-            ?>../img/icons/notifs_true.png<?php
+            ?>img/icons/notifs_true.png<?php
         }
-        else{?>../img/icons/notifs_false.png<?php
+        else{?>img/icons/notifs_false.png<?php
         }?>" id="myBtn" alt="notifications" title="Mes notifications">
             
         <!-- Le Modal -->
