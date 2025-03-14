@@ -3227,18 +3227,18 @@ input:checked + .sliderswitch:before {
 }
 
 .securite_div button:hover {
-    background-color: var(--color-primary-hover); /* Couleur légèrement plus sombre au survol */
+	background-color: var(--color-primary-hover); /* Couleur légèrement plus sombre au survol */
 }
 
 /* Section alerte mot de passe */
 .alerte_mdp {
-    margin-top: 15px;
-    font-size: 12px;
-    color: var(--color-text);
-    background-color: var(--color-background); /* Couleur de fond douce */
-    padding: 10px;
-    border-left: 4px solid var(--color-primary);
-    border-radius: 4px;
+	margin-top: 15px;
+	font-size: 12px;
+	color: var(--color-text);
+	background-color: var(--color-background); /* Couleur de fond douce */
+	padding: 10px;
+	border-left: 4px solid var(--color-primary);
+	border-radius: 4px;
 }
 
 .alerte_mdp.professionnel {
@@ -3247,76 +3247,39 @@ input:checked + .sliderswitch:before {
 
 /* Floutage de la clé */
 .cleapi.floutage p {
-    filter: blur(6px); /* Ajoute un effet de flou */
-    transition: filter 0.3s ease;
+	filter: blur(6px); /* Ajoute un effet de flou */
+	transition: filter 0.3s ease;
 }
 
 .cleapi:not(.floutage) p {
-    filter: none; /* Affiche le texte en clair */
+	filter: none; /* Affiche le texte en clair */
 }
 
+/* Responsive Design pour les écrans de largeur <= 480px */
 @media (max-width: 480px) {
-	body {
-		padding: 20px;
-	}
-
-	.securite_main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
 	.securite_div {
-		width: 100%;
-		padding: 20px;
-		box-shadow: none;
-		border-radius: 0;
+		padding: 15px;
+		margin: 10px auto;
+		width: 90%;
 	}
 
 	.securite_div h2 {
-		font-size: 24px;
+		font-size: 18px;
 	}
 
-	.securite_div label,
-	.securite_div input,
-	.securite_div button {
-		font-size: 14px;
-	}
-
-	.securite_div input {
-		width: 100%;
-		padding: 10px;
+	.securite_div input[type="password"] {
+		padding: 6px;
 		margin-bottom: 10px;
-		border: 1px solid #ccc;
-		border-radius: 5px;
 	}
 
 	.securite_div button {
-		width: 100%;
-		padding: 10px;
-		background-color: #007BFF;
-		border: none;
-		border-radius: 5px;
-		color: #fff;
-		font-size: 16px;
-		cursor: pointer;
-	}
-
-	.securite_div button:hover {
-		background-color: #0056b3;
-	}
-
-	.cleapi {
-		width: 100%;
-		padding: 10px;
-		margin-bottom: 10px;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-		text-align: center;
-	}
-
-	.cleapi p {
+		padding: 8px;
 		font-size: 14px;
+	}
+
+	.alerte_mdp {
+		font-size: 10px;
+		padding: 8px;
 	}
 }
 
