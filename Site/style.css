@@ -1123,6 +1123,8 @@ p.cp_mobile_erreur {
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
+		align-items: center;
+		margin-left: 3em;
     }
 
     .detail-offer-btn {
@@ -1171,7 +1173,7 @@ p.cp_mobile_erreur {
 
     .boutons-bas-offre a,
     .boutons-bas-offre button {
-        width: 100%;
+        width: 37%;
         padding: 10px;
         margin-bottom: 10px;
         font-size: 16px;
@@ -1491,20 +1493,21 @@ td {
 }
 .detail-btn-container {
 	text-align: center; /* Centre le contenu du conteneur */
-	margin: 20px 0; /* Ajoute un peu d'espace en haut et en bas */
+	margin: 20px auto; /* Ajoute un peu d'espace en haut et en bas */
 	text-decoration: none;
+	align-items: center;
 }
 
 .detail-offer-btn {
 	background-color: var(--color-primary);
 	color: var(--color-text);
 	border: none;
-	padding: 10px 20px;
 	cursor: pointer;
 	font-size: 16px;
 	border-radius: 5px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 	text-decoration: none;
+	text-align: center;
 }
 
 .detail-offer-btn:hover {
