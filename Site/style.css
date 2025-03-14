@@ -347,6 +347,28 @@ footer {
 	}
 }
 
+@media (max-width : 480px) {
+	.recherche {
+		width: 90%;
+	}
+
+	.input {
+		width: 200px;
+	}
+
+	.price-label {
+		font-size: 10px;
+	}
+
+	.range-value {
+		font-size: 10px;
+	}
+
+	.filter-form{
+		width: 80%;
+	}
+
+}
 
 /* POLICE D'ECRITURE **/
 
