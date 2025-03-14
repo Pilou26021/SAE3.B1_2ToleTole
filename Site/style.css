@@ -1935,6 +1935,7 @@ td {
 @media (max-width: 600px) {
     .form-container {
         padding: 20px;
+		font-size: 1em;
     }
 
     .input-row {
@@ -1944,7 +1945,14 @@ td {
 
     .submit-btn {
         font-size: 1em; /* Réduit légèrement pour s'adapter */
+		padding: 10px; /* Réduit légèrement pour s'adapter */
+		width: 75%;
     }
+
+	.almost-done {
+		font-size: 0.8em; /* Réduit légèrement pour s'adapter */
+		margin-right: 1.5em;
+	}
 }
 
 /* fin page creer pro*/
@@ -3245,6 +3253,71 @@ input:checked + .sliderswitch:before {
 
 .cleapi:not(.floutage) p {
     filter: none; /* Affiche le texte en clair */
+}
+
+@media (max-width: 480px) {
+	body {
+		padding: 20px;
+	}
+
+	.securite_main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.securite_div {
+		width: 100%;
+		padding: 20px;
+		box-shadow: none;
+		border-radius: 0;
+	}
+
+	.securite_div h2 {
+		font-size: 24px;
+	}
+
+	.securite_div label,
+	.securite_div input,
+	.securite_div button {
+		font-size: 14px;
+	}
+
+	.securite_div input {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
+
+	.securite_div button {
+		width: 100%;
+		padding: 10px;
+		background-color: #007BFF;
+		border: none;
+		border-radius: 5px;
+		color: #fff;
+		font-size: 16px;
+		cursor: pointer;
+	}
+
+	.securite_div button:hover {
+		background-color: #0056b3;
+	}
+
+	.cleapi {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		text-align: center;
+	}
+
+	.cleapi p {
+		font-size: 14px;
+	}
 }
 
 .report_avis{

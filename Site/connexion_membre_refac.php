@@ -165,7 +165,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         @media (max-width: 480px) {
             body {
-                height: auto;
                 padding: 20px;
             }
 
