@@ -1099,6 +1099,10 @@ p.cp_mobile_erreur {
         width: 100%;
     }
 
+    .offre-image-container._2 img {
+        width: 100%;
+        height: auto;
+    }
 
     .offre-description {
         padding: 10px;
