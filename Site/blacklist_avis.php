@@ -10,7 +10,8 @@
 
     //recuperation de la config
     $config = parse_ini_file('./.config');
-    $unit_blacklist = $config['unit_blacklist'];  // "seconds"
+    $nbr_blacklist = $config['nbr_blacklist'];  // ex "12"
+    $unit_blacklist = $config['unit_blacklist'];  // ex "months"
 
 
      // Requête SQL pour récupérer les détails de l'offre
@@ -43,7 +44,7 @@
         // Requête SQL pour ajouter un avis à la blacklist
         $sql = "
             UPDATE public._avis
-            SET blacklistavis = true, blacklistenddate = current_timestamp + interval '12 " . $unit_blacklist . "'
+            SET blacklistavis = true, blacklistenddate = current_timestamp + interval '".$nbr_blacklist." ".$unit_blacklist."'
             WHERE idavis = :idavis
         ";
         //
