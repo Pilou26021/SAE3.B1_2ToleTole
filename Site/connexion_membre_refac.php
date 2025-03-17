@@ -164,36 +164,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 20px;
-            }
+    body {
+        padding: 0;
+    }
 
-            .container {
-                padding: 20px;
-                border-radius: 0;
-                box-shadow: none;
-                max-width: none;
-                width: 100%;
-                height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
+    .container {
+        width: 90%; /* Utilise presque toute la largeur de l'écran */
+        max-width: 400px; /* Évite qu'il devienne trop grand sur certaines tailles */
+        height: auto; /* Permet d'ajuster la hauteur selon le contenu */
+        padding: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
 
-            .container img {
-                width: 100px;
-            }
+    .container input[type="email"],
+    .container input[type="password"],
+    .container input[type="submit"] {
+        font-size: 16px; /* Augmente la taille du texte */
+        padding: 12px; /* Rend les champs plus grands */
+    }
 
-            .container h1 {
-                font-size: 24px;
-            }
-
-            .container input[type="email"],
-            .container input[type="password"],
-            .container input[type="submit"] {
-                font-size: 14px;
-            }
-        }
+    .container img {
+        width: 120px; /* Augmente la taille du logo */
+    }
+}
+        
     </style>
 </head>
 <body>

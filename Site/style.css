@@ -3180,16 +3180,21 @@ input:checked + .sliderswitch:before {
 /* page sécurité **/
 
 /* Conteneur principal */
-.securite_div {
-    width: 100%;
-    max-width: 500px; /* Largeur maximale pour un affichage compact */
-    margin: 20px auto; /* Centrer sur la page */
-    padding: 20px;
-    background-color: var(--color-background); /* Couleur de fond douce */
-    border: 1px solid var(--color-border); /* Bordure légère */
-    border-radius: 8px; /* Coins arrondis */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+.securite_container {
+    display: flex;
+    justify-content: space-between; /* Espace entre les blocs */
+    gap: 20px; /* Espacement entre les deux blocs */
+    width: 70%; /* Prend toute la largeur */
 }
+
+.securite_div {
+    flex: 1; /* Chaque bloc prend 50% de l'espace */
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-background);
+}
+
 
 
 /* Titre */
@@ -3282,10 +3287,15 @@ input:checked + .sliderswitch:before {
 
 /* Responsive Design pour les écrans de largeur <= 480px */
 @media (max-width: 480px) {
+	.securite_container {
+        flex-direction: column; /* Empile les blocs en colonne */
+        gap: 10px; /* Réduit l'espacement */
+    }
 	.securite_div {
 		padding: 15px;
 		margin: 10px auto;
 		width: 90%;
+		flex: none;
 	}
 
 	.securite_div h2 {
