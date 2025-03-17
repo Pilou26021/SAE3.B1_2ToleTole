@@ -38,8 +38,18 @@ CREATE TABLE public._compte (
     dateDerniereConnexionCompte DATE NOT NULL,
     chat_cleApi TEXT,
     chat_cledevoile BOOLEAN DEFAULT FALSE,
+    auth_parametre BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (idImagePdp) REFERENCES public._image(idImage),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
+);
+
+-- Authenfikator totp
+
+CREATE TABLE public._auth_totp (
+    idAuthenfikator SERIAL PRIMARY KEY,
+    idCompte BIGINT NOT NULL,
+    secret TEXT NOT NULL,
+    FOREIGN KEY (idCompte) REFERENCES public._compte(idCompte)
 );
 
 -- Chatator
