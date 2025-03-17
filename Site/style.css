@@ -3297,6 +3297,7 @@ input:checked + .sliderswitch:before {
 	.securite_container {
         flex-direction: column; /* Empile les blocs en colonne */
         gap: 10px; /* Réduit l'espacement */
+		width: 100%;
     }
 	.securite_div {
 		padding: 15px;
