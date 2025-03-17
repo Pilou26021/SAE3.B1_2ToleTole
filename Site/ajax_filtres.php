@@ -169,13 +169,6 @@ if (!empty($lieux)) {
     $bindings[':lieux'] = $lieux;
 }
 
-if (!empty($search)) {
-    $whereConditions[] = "(LOWER(o.titreoffre) LIKE LOWER(:search) 
-                         OR LOWER(o.resumeoffre) LIKE LOWER(:search))
-                         OR LOWER(oa.ville) = LOWER(:search)";
-    $bindings[':search'] = '%' . $search . '%';
-}
-
 if(!empty($startDate)) {
     $whereConditions[] = "o.dateCreationOffre >= :startDate";
     $bindings[":startDate"] = $startDate;
@@ -196,6 +189,14 @@ if (!empty($mavant)) {
             break;
     }
 }
+
+if (!empty($search)) {
+    $whereConditions[] = "(LOWER(o.titreoffre) LIKE LOWER(:search) 
+                         OR LOWER(o.resumeoffre) LIKE LOWER(:search))
+                         OR LOWER(oa.ville) = LOWER(:search)";
+    $bindings[':search'] = '%' . $search . '%';
+}
+
 
 if (!empty($type)) {
     switch ($type) {
@@ -233,6 +234,7 @@ if ($Tprix === 'CroissantP') {
 if (!empty($orderBy)) {
     $sql .= " ORDER BY $orderBy";
 }
+echo $sql;
 
 
 

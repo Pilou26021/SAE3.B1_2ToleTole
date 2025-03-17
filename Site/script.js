@@ -274,14 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ouvert').addEventListener('change', applyFilters);
     });
 
-    document.getElementById('Alaune').addEventListener('click', function () {
-        // Définir une valeur par défaut pour le champ Mavant
-        const mavantSelect = document.getElementById('Mavant');
-        mavantSelect.value = 'Alaune'; // Définir "true" ou une valeur par défaut
-
-        // Appeler la fonction applyFilters pour appliquer les filtres
-        applyFilters();
-});
 
 
 
