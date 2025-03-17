@@ -293,7 +293,7 @@
                             <a id="Alaune"  style="color:#040316; cursor: pointer; "  > voir plus</a>
                         </div>
                         <div class="carousel-container" id="carousel1">
-                            <button class="carousel-btn prev-btn " data-carousel="1">&#9664;</button>
+                            <button class="carousel-btn prev-btn " data-carousel="1"><img class='img_button' src="img/icons/fleche-gauche.png" alt="fleche"></button>
                             <div class="carousel-track">
                                 <ul class="carousel-slide" id="carousel-slide-1">
                                     <?php foreach ($offres as $offre): 
@@ -390,7 +390,7 @@
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
-                            <button class="carousel-btn next-btn" data-carousel="1">&#9654;</button>
+                            <button class="carousel-btn next-btn" data-carousel="1"><img class='img_button' src="img/icons/fleche-droite.png" alt="fleche"></button>
                         </div>
                     <?php } ?>
                 <?php } ?>

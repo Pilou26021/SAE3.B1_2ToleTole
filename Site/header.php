@@ -77,7 +77,7 @@ if (isset($_SESSION['membre'])) {
     </nav>
 
     <span class="openbtn" onclick="openNav()">&#9776;</span>
-    <a href="index.php"> <img src="img/logos/fond_remove_big.png" alt="logo site noir" title="logo site noir" style="width: 90px; height: 90x; margin-left: 40%;"></a>
+    <a href="index.php"> <img src="img/logos/fond_remove_big.png" alt="logo site noir" title="logo site noir" style="width: 90px; height: 90x;"></a>
   
 
     <!-- Partie notifications -->
@@ -112,9 +112,9 @@ if (isset($_SESSION['membre'])) {
         <!-- Icon de notifications -->
         <img class="header-pdp-user" src="
         <?php if ($notifications != false){
-            ?>../img/icons/notifs_true.png<?php
+            ?>img/icons/notifs_true.png<?php
         }
-        else{?>../img/icons/notifs_false.png<?php
+        else{?>img/icons/notifs_false.png<?php
         }?>" id="myBtn" alt="notifications" title="Mes notifications">
             
         <!-- Le Modal -->

@@ -249,7 +249,7 @@
                             <?php 
                                 }
                             ?>
-                            <div class="offre-image-container" style="text-align:center;">
+                            <div class="offre-image-container _2" style="text-align:center;">
                                 <img class="details-offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
                             </div>
                             <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
@@ -548,7 +548,7 @@
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre
-                            ORDER BY a.scorepouce DESC";
+                            ORDER BY a.scorepouce DESC, a.dateavis DESC";
                         }
                         
 
@@ -762,24 +762,24 @@
                             }
                             
                             if ($avis) {
-                                foreach ($avis as $avis) {
-                                    if($avis['blacklistavis'] == true){
+                                foreach ($avis as $avi) {
+                                    if($avi['blacklistavis'] == true){
                                         continue;
                                     }
                                     $hasReponse = false;
-                                    if($avis['reponsepro'] == true){
+                                    if($avi['reponsepro'] == true){
                                         $hasReponse = true;
                                     }
-                                    $avisId = $avis['idavis'];
+                                    $avisId = $avi['idavis'];
                                     
-                                    $scorePouce = $avis['scorepouce'];
+                                    $scorePouce = $avi['scorepouce'];
                                     if(isset($_SESSION['thumbed'][$avisId]) && $_SESSION['thumbed'][$avisId] == true){
                                         $thumbsClicked[$avisId] = true;
                                     } else {
                                         $thumbsClicked[$avisId] = false;
                                     }
 
-                                    $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
+                                    $date_formated = date("d/m/Y", strtotime($avi['dateavis']));
 
                                     //recuperer les infos de la réponse si il y en a une
                                     $sql = "SELECT * from avisreponse where idavis = :idavis";
@@ -796,8 +796,8 @@
                                     <div class="avis">
                                         <div class="container_pdp-name-date_options">
                                             <p class="pdp-name-date">
-                                                <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
-                                                <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                                <img class="pdp-avis" src="<?php echo $avi['pathimage'] ?>" alt="image utilisateur">
+                                                <strong style="margin-right:3px;"><?= $avi['nomcompte'] . ' ' . $avi['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                             </p>
                                             <div class="buttons_avis">
                                                 <?php if($bonProfessionnel && $offrepremium){ ?>
@@ -873,13 +873,13 @@
                                             }
                                         </script>
 
-                                        <p><?= $avis['commentaireavis'] ?></p>
+                                        <p><?= $avi['commentaireavis'] ?></p>
                                         <div class="avis_stars_score">
                                             <?php
-                                                for ($i = 0; $i < $avis['noteavis']; $i++) {
+                                                for ($i = 0; $i < $avi['noteavis']; $i++) {
                                                     ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
                                                 }
-                                                for ($i = $avis['noteavis']; $i < 5; $i++) {
+                                                for ($i = $avi['noteavis']; $i < 5; $i++) {
                                                     ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                                 }
                                             ?>
