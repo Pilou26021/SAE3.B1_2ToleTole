@@ -3184,19 +3184,26 @@ input:checked + .sliderswitch:before {
     display: flex;
     justify-content: space-between; /* Espace entre les blocs */
     gap: 20px; /* Espacement entre les deux blocs */
-    width: 70%; /* Prend toute la largeur */
+	display: wrap;
+	width: 70%;
 }
 
 .securite_div {
-    flex: 1; /* Chaque bloc prend 50% de l'espace */
+    flex: 1 1 40%; /* Chaque bloc prend 50% de l'espace */
     padding: 20px;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     background-color: var(--color-background);
 }
 
+.securite_center{
+	text-align: center;
+}
 
-
+.securite_hr{
+	color: var(--color-primary);
+	margin-top: 20px;
+}
 /* Titre */
 .securite_div h2 {
     text-align: center;
