@@ -31,6 +31,13 @@
         $professionel = true;
         $typecompte = "professionel";
     }
+
+    // On récupère si l'authentifikator est activé
+    $stmt = $conn->prepare("SELECT auth_parametre FROM _compte WHERE idcompte = ?");
+    $stmt->bindParam(1, $idCompte, PDO::PARAM_INT);
+    $stmt->execute();
+    $authParametre = $stmt->fetch(PDO::FETCH_ASSOC);
+    $authParametre = $authParametre['auth_parametre'];
 ?>  
 
 <!DOCTYPE html>
@@ -197,43 +204,57 @@
                     }
                 };
             }
+
+            // Pop up pou activer la 2fa ainsi que l'apparation du qr code
+
         </script>
 
         <main class = "securite_main">
-            <!-- Modification du mot de passe -->
-            <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                <h2>Modifier le mot de passe</h2>
-                <form>
-                    <label for="mdp">Mot de passe actuel</label>
-                    <input type="password" id="mdp" name="mdp" required>
-                    <br>
-                    <label for="mdp1">Nouveau mot de passe</label>
-                    <input type="password" id="mdp1" name="mdp1" required oninput="verifierComplexiteMdp()">
-                    <small id="complexiteMessage" class="message-erreur"></small>
-                    <br>
-                    <label for="mdp2">Confirmer le mot de passe</label>
-                    <input type="password" id="mdp2" name="mdp2" required oninput="verifierCorrespondanceMdp()">
-                    <small id="correspondanceMessage" class="message-erreur"></small>
-                    <br>
-                    <button type="button" onclick="verifierMotDePasse()">Modifier</button>
-                </form>
-                <section class="alerte_mdp <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                    <p>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.</p>
-                </section>
-            </div>
-
-            </div>
-            <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                <h2>Clé API</h2>
-                <div class="cleapi floutage">
-                    <p>xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</p>
+            <div class="securite_container">
+                <!-- Modification du mot de passe -->
+                <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                    <h2>Modifier le mot de passe</h2>
+                    <form>
+                        <label for="mdp">Mot de passe actuel</label>
+                        <input type="password" id="mdp" name="mdp" required>
+                        <br>
+                        <label for="mdp1">Nouveau mot de passe</label>
+                        <input type="password" id="mdp1" name="mdp1" required oninput="verifierComplexiteMdp()">
+                        <small id="complexiteMessage" class="message-erreur"></small>
+                        <br>
+                        <label for="mdp2">Confirmer le mot de passe</label>
+                        <input type="password" id="mdp2" name="mdp2" required oninput="verifierCorrespondanceMdp()">
+                        <small id="correspondanceMessage" class="message-erreur"></small>
+                        <br>
+                        <button type="button" onclick="verifierMotDePasse()">Modifier</button>
+                    </form>
+                    <section class="alerte_mdp <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                        <p>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.</p>
+                    </section>
                 </div>
-                <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
-                <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
-                <p>Conservez cette clé API en lieu sûr. Elle vous permet d'accéder à l'API de notre site. Une fois générée, vous ne pourrez plus la voir en clair.</p>
-                <p>Si vous avez perdu votre clé API, vous pouvez en générer une nouvelle en cliquant sur le bouton "Regénérer la clé API".</p>
-            </div>
 
+                </div>
+                <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                    <h2>Clé API</h2>
+                    <div class="cleapi floutage">
+                        <p>xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</p>
+                    </div>
+                    <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
+                    <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
+                    <p>Conservez cette clé API en lieu sûr. Elle vous permet d'accéder à l'API de notre site. Une fois générée, vous ne pourrez plus la voir en clair.</p>
+                    <p>Si vous avez perdu votre clé API, vous pouvez en générer une nouvelle en cliquant sur le bouton "Regénérer la clé API".</p>
+                    <hr>
+                    <?php if ($authParametre == true) { ?>
+                        <h2>Authentification à deux facteurs</h2>
+                        <p>L'authentification à deux facteurs est activée pour votre compte. Pour la désactivée cliquer sur le bouton ci-dessous.</p>
+                        <button id="btn_desactiver" onclick="">Désactiver l'authentification à deux facteurs</button>
+                    <?php } else { ?>
+                        <h2>Authentification à deux facteurs</h2>
+                        <p>L'authentification à deux facteurs est désactivée pour votre compte. Pour l'activé cliquer sur le bouton ci-dessous.</p>
+                        <button id="btn_activer" onclick="">Activer l'authentification à deux facteurs</button>
+                    <?php } ?>
+                </div>
+            </div>
         </main>
         <div id="footer"></div>
 
