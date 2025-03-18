@@ -13,7 +13,20 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./img/icons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <title>Offres</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+<style>
+        
+        #map_offres { 
+            height: 500px; 
+            width: 100%; 
+            display : none;
+            margin : 5%;
+            border: black 2px solid;
+            border-radius: 8px;
+        }
+    </style>
+<title>Offres</title>
     <?php 
         include "../SQL/connection_local.php";
 
@@ -609,6 +622,7 @@
     
     <div id="footer"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <script src="script.js"></script> 
 
 

@@ -260,8 +260,6 @@ main {
 #map_offres {
 	display : none;
     margin : 5%;
-    height: 50vh;  /* Prend toute la hauteur de l'écran */
-    width: 60%;    /* Prend toute la largeur de l'écran */
     border: black 2px solid;
     border-radius: 8px;
 }

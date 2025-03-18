@@ -249,6 +249,7 @@ async function applyFilters() {
             // Récupérer le contenu et l'injecter dans le DOM
             const data = await response.text();
             document.querySelector('.offres-display').innerHTML = data;
+            document.getElementById('map_offres').style.display = 'block';
         } else {
             throw new Error('Erreur lors de la récupération des résultats.');
         }
@@ -259,6 +260,81 @@ async function applyFilters() {
 
 // Ajouter des écouteurs d'événements pour chaque filtre
 document.addEventListener('DOMContentLoaded', () => {
+    var locations = [
+        { lat: 48.8566, lng: 2.3522, name: "Paris" },
+        { lat: 45.7640, lng: 4.8357, name: "Lyon" },
+        { lat: 43.6047, lng: 1.4442, name: "Toulouse" },
+        { lat: 43.2965, lng: 5.3698, name: "Marseille" },
+        { lat: 50.6292, lng: 3.0573, name: "Lille" },
+        { lat: 47.2184, lng: -1.5536, name: "Nantes" },
+        { lat: 48.5734, lng: 7.7521, name: "Strasbourg" }
+    ];
+
+        // Create the map and set the initial view
+    var map = L.map('map_offres', {
+        center: [locations[0].lat, locations[0].lng], // Starting center point
+        zoom: 13, // Starting zoom level
+    });
+
+    // Add tile layer (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    document.querySelectorAll('select, input').forEach(element => {
+        element.addEventListener('change', () => {
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 300);
+        });
+    });
+
+    // Define the custom icon
+    var customIcon = L.icon({
+        iconUrl: 'img/icons/poi/attraction.png',  
+        iconSize: [64, 64], 
+        iconAnchor: [16, 32], 
+        popupAnchor: [0, -32] 
+    });
+
+    // Création du groupe de clusters
+    var markers = L.markerClusterGroup();
+
+    
+
+    // Add markers with the custom icon
+    locations.forEach(location => {
+        var content_popup = `
+            <div class="content_popup">
+                <img class="popup_image" src="icones/image18.png">
+                <div class="titre_note">
+                    <h3><a href="">Titre</a></h3>
+                    <div class="note_moy">
+                        <p>4</p>
+                        <img class="popup_image" src="icones/star-solid.svg">
+                    </div>
+                </div>
+                <div>créée le jj/mm/yyyy</div>
+                <p>Catégorie</p>
+                <p>Adresse</p>
+                <p>Prix Min €</p>
+            </div>
+        `;
+        
+        var marker = L.marker([location.lat, location.lng], { icon: customIcon })
+            .bindPopup(content_popup);
+
+        marker.on('click', function () {
+            marker.openPopup();
+        });
+
+        markers.addLayer(marker);
+    });
+
+    // Ajout du cluster à la carte
+    map.addLayer(markers);
+
+
     document.getElementById('search-query').addEventListener('input', applyFilters);
     document.getElementById('category').addEventListener('change', applyFilters);
     document.getElementById('lieux').addEventListener('input', applyFilters);
@@ -275,57 +351,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-document.getElementById('search-query').addEventListener('input',()=>{
-    // Create the map and set the initial view
-    var map = L.map('map_offres').setView([51.505, -0.09], 13);
-
-    // Add tile layer (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Define the custom icon
-    var customIcon = L.icon({
-        iconUrl: 'img/icons/poi/attraction.png',  
-        iconSize: [64, 64], 
-        iconAnchor: [16, 32], 
-        popupAnchor: [0, -32] 
-    });
-
-    // Create the marker and bind the popup
-    var marker = L.marker([51.5, -0.09], {icon: customIcon}).addTo(map);
-    var content_popup = '<div class="content_popup"> <img class="popup_image" src=" icones/image18.png"><div class="titre_note"><h3><a href="">Titre</a></h3><div class="note_moy"><p>4</p> <img class="popup_image" src=" icones/star-solid.svg"></div> </div> <div>créée le jj/mm/yyyy</div> <p>Catégorie</p> <p>Adresse</p> <p>Prix Min €</p> </div>';
-    marker.bindPopup(content_popup);
-
-    // Create the marker and bind the popup
-    var marker2 = L.marker([51.52, -0.09], {icon: customIcon}).addTo(map);
-    marker2.bindPopup(content_popup);
-
-    
-    
-
-    var ouvert = false;
-    marker.on('click', function() {
-        console.log(ouvert);
-        if(!ouvert){
-            marker.openPopup();
-            ouvert = true;
-        }else{
-            document.getElementById("offre").scrollIntoView()
-            ouvert = false;
-            marker.closePopup();
-        }
-        
-    });
-    
 
 
-    marker2.on('click', function() {
-        marker2.openPopup();
-    });
-
-    document.getElementById('map_offres').style.display = 'block';
-})
 
 
 function validImages(inputElements) {
@@ -481,3 +508,4 @@ function openReplyForm(avisId) {
     replyB.style.margin = "10px 0px 5px 0px";
     arrow.style.transition = 'transform 0.3s ease';
 }
+
