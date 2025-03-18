@@ -234,7 +234,6 @@ if ($Tprix === 'CroissantP') {
 if (!empty($orderBy)) {
     $sql .= " ORDER BY $orderBy";
 }
-echo $sql;
 
 
 

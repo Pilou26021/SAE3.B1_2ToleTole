@@ -385,87 +385,6 @@ function validImages(inputElements) {
     return true;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const carousels = document.querySelectorAll('.carousel-container');
-
-    function updateCarouselBehavior() {
-        const isSmallScreen = window.innerWidth < 700;
-
-        carousels.forEach(carousel => {
-            const track = carousel.querySelector('.carousel-track');
-            const slides = track.querySelectorAll('.carousel-slide li');
-            const prevButton = carousel.querySelector('.prev-btn');
-            const nextButton = carousel.querySelector('.next-btn');
-            const slideWidth = slides[0].getBoundingClientRect().width;
-
-            // Remove cloned slides if screen width is below 700px
-            if (isSmallScreen) {
-                const clones = track.querySelectorAll('.carousel-slide li.clone');
-                clones.forEach(clone => clone.remove());
-                track.style.transform = 'translateX(0)';
-                track.style.transition = 'none';
-            } else {
-                // Clone slides to make the carousel infinite
-                slides.forEach(slide => {
-                    if (!slide.classList.contains('clone')) {
-                        const clone = slide.cloneNode(true);
-                        clone.classList.add('clone');
-                        track.appendChild(clone);
-                    }
-                });
-            }
-
-            let currentIndex = 0;
-
-            function moveToSlide(index) {
-                track.style.transform = `translateX(-${index * slideWidth}px)`;
-                currentIndex = index;
-            }
-
-            nextButton.addEventListener('click', () => {
-                if (isSmallScreen) {
-                    if (currentIndex < slides.length - 1) {
-                        moveToSlide(currentIndex + 1);
-                    }
-                } else {
-                    if (currentIndex >= slides.length) {
-                        track.style.transition = 'none';
-                        moveToSlide(0);
-                        setTimeout(() => {
-                            track.style.transition = 'transform 0.5s ease-in-out';
-                            moveToSlide(currentIndex + 1);
-                        }, 20);
-                    } else {
-                        moveToSlide(currentIndex + 1);
-                    }
-                }
-            });
-
-            prevButton.addEventListener('click', () => {
-                if (isSmallScreen) {
-                    if (currentIndex > 0) {
-                        moveToSlide(currentIndex - 1);
-                    }
-                } else {
-                    if (currentIndex <= 0) {
-                        track.style.transition = 'none';
-                        moveToSlide(slides.length);
-                        setTimeout(() => {
-                            track.style.transition = 'transform 0.5s ease-in-out';
-                            moveToSlide(currentIndex - 1);
-                        }, 20);
-                    } else {
-                        moveToSlide(currentIndex - 1);
-                    }
-                }
-            });
-        });
-    }
-
-    // Call the function on load and on resize
-    updateCarouselBehavior();
-    window.addEventListener('resize', updateCarouselBehavior);
-});
 
 
 // MODALE MENU AVIS
@@ -525,3 +444,124 @@ function openReplyForm(avisId) {
     arrow.style.transition = 'transform 0.3s ease';
 }
 
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.carousel');
+    const container = document.querySelector('.carousel-container');
+    let slides = document.querySelectorAll('.slide');
+    const originalCount = slides.length; // nombre de slides initial
+    let currentIndex = 0;
+    const transitionTime = 500; // Durée de transition en ms
+    let autoSlideInterval = null;
+    let isDesktop = window.innerWidth >= 780;
+    let isDragging = false, startX = 0, currentX = 0;
+    
+    // Mise à jour de la position du carousel
+    function updateCarousel(animate = true) {
+        const slideWidth = slides[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(carousel).gap) || 0;
+        const step = slideWidth + gap;
+        carousel.style.transition = animate ? 'transform 0.5s ease' : 'none';
+        carousel.style.transform = 'translateX(' + (-step * currentIndex) + 'px)';
+    }
+    
+    // Gestion du mode desktop (auto-défilement)
+    function setupDesktop() {
+        // Dupliquer l'ensemble des slides pour un effet continu (si ce n'est pas déjà fait)
+        if (!carousel.dataset.duplicated) {
+            carousel.innerHTML += carousel.innerHTML;
+            slides = document.querySelectorAll('.slide');
+            carousel.dataset.duplicated = 'true';
+        }
+        // Désactiver les écouteurs tactiles
+        container.removeEventListener('touchstart', touchStartHandler);
+        container.removeEventListener('touchmove', touchMoveHandler);
+        container.removeEventListener('touchend', touchEndHandler);
+        // Lancer l'auto-défilement
+        if(autoSlideInterval) clearInterval(autoSlideInterval);
+        currentIndex = 0;
+        updateCarousel(false);
+        autoSlideInterval = setInterval(function() {
+            currentIndex++;
+            updateCarousel();
+            // Réinitialiser dès la fin des slides originales
+            if (currentIndex >= originalCount) {
+                setTimeout(function() {
+                    currentIndex = 0;
+                    updateCarousel(false);
+                }, transitionTime);
+            }
+        }, 2500);
+    }
+    
+    // Gestion des événements tactiles pour le mode mobile
+    function touchStartHandler(e) {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+    }
+    function touchMoveHandler(e) {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const deltaX = currentX - startX;
+        const slideWidth = slides[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(carousel).gap) || 0;
+        const step = slideWidth + gap;
+        carousel.style.transition = 'none';
+        carousel.style.transform = 'translateX(' + (-step * currentIndex + deltaX) + 'px)';
+    }
+    function touchEndHandler() {
+        isDragging = false;
+        const deltaX = currentX - startX;
+        // Seuil de 50px pour passer à la slide suivante ou précédente
+        if (deltaX < -50 && currentIndex < originalCount - 1) {
+            currentIndex++;
+        } else if (deltaX > 50 && currentIndex > 0) {
+            currentIndex--;
+        }
+        updateCarousel();
+    }
+    
+    function setupMobile() {
+        // Annuler auto-défilement s'il existe
+        if(autoSlideInterval) {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = null;
+        }
+        currentIndex = 0;
+        updateCarousel(false);
+        // Ajouter les écouteurs tactiles
+        container.addEventListener('touchstart', touchStartHandler);
+        container.addEventListener('touchmove', touchMoveHandler);
+        container.addEventListener('touchend', touchEndHandler);
+    }
+    
+    // Initialisation en fonction de la largeur actuelle
+    function initCarousel() {
+        if (window.innerWidth >= 780) {
+            isDesktop = true;
+            setupDesktop();
+        } else {
+            isDesktop = false;
+            setupMobile();
+        }
+    }
+    
+    initCarousel();
+    
+    // Réinitialisation dynamique lors du redimensionnement sans recharger la page
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            let newDesktop = window.innerWidth >= 780;
+            if(newDesktop !== isDesktop) {
+                // Reset l'index et réinitialise le carrousel dans le nouveau mode
+                currentIndex = 0;
+                initCarousel();
+            } else {
+                updateCarousel(false);
+            }
+        }, 250);
+    });
+});

@@ -2254,25 +2254,6 @@ td {
 
 /*Média queary*/
 
-/*page connexion*/
-
-@media screen and (max-width: 700px){
-	.carousel-slide{
-		display: flex;
-		overflow-x: scroll; /* Active le défilement horizontal */
-        scroll-behavior: smooth; /* Défilement fluide */
-        -webkit-overflow-scrolling: touch;
-		
-	}
-
-	.carousel-slide > * {
-        flex: 0 0 auto; /* Empêche les éléments enfants de se rétrécir */
-    }
-
-	.carousel-btn {
-		display: none;
-	}
-}
 
 
 /*page connexion*/
@@ -2363,61 +2344,13 @@ td {
 	align-items: center;
 }
 
-.carousel-container {
-    position: relative;
-    overflow: hidden; /* Cacher la partie débordante */
-    width: 100%; /* Ajustez la largeur du conteneur */
-    display: flex;
-    align-items: center;
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out; /* Animation fluide */
-    width: 100%;
-	align-items: center;
-	list-style: none;
-}
-
-.carousel-slide {
-	list-style: none; /* Supprime les puces de la liste */
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px; /* Espacement entre les cartes */
-	margin: 20px auto;
-}
 
 
 
 
-.carousel-btn {
-    border: none;
-    text-align: center;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    border-radius: 50%;
-}
-
-.img_button{
-	width: 70px;
-	height: 70px;
-}
-
-.prev-btn {
-    left: 0;
-}
-
-.next-btn {
-    right: 30px;
-}
 
 
-.carousel-btn.hidden {
-    display: none;
-}
+
 
 .textarea-avis {
 	width: 90%;
@@ -3463,4 +3396,36 @@ input:checked + .sliderswitch:before {
 .tooltip_jetons:hover .tooltip_text {
 	visibility: visible;
 	opacity: 1;
+}
+
+
+/* Carousel Styles */
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px 20px;  /* Optionnel : ajoute un padding latéral */
+}
+.carousel {
+    display: flex;
+    gap: 60px;  /* Espace entre les slides */
+    transition: transform 0.5s ease;
+}
+.slide {
+    flex: 0 0 auto;
+    width: 90%; /* Pour mobile, ajustez selon besoin */
+    max-width: 300px; /* Largeur maximum */
+}
+@media (min-width: 768px) {
+    .slide {
+        width: 300px;
+    }
+}
+
+@media (max-width: 780px) {
+    .carousel-container {
+        overflow-x: auto;           /* Permet le défilement horizontal natif */
+        -webkit-overflow-scrolling: touch; /* Pour un scrolling fluide sur iOS */
+    }
 }
