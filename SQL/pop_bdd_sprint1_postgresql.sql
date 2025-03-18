@@ -27,50 +27,52 @@ INSERT INTO _image (pathImage) VALUES
 
 -- 2. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
-(17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'), -- 1
-(5, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'), -- 2
-(4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'), -- 3
-(7, '', 'Avenue Saint-Denis', 29000, 'Quimper', 'Finistère', 'France'), -- 4
-(6, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 5
-(58, '', 'Rue Amiral Romain Desfosses', 29200, 'Brest', 'Finistère', 'France'), -- 6
-(43, '', 'Rue de la Fontaine', 56000, 'Vannes', 'Morbihan', 'France'), -- 7
-(35, '', 'Avenue Paul Cezanne', 56000, 'Vannes', 'Morbihan', 'France'), -- 8
-(2, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'), -- 9
-(43, '', 'Rue Isambard', 35300, 'Fougères', 'Ille-et-Vilaine', 'France'), -- 10
-(96, '', 'Rue des Nations Unies', 22000, 'Saint-Brieuc', 'Côtes-d''Armor', 'France'), -- 11
-(6, '', 'Rue Lenotre', 35700, 'Rennes', 'Ille-et-Vilaine', 'France'), -- 12
-(10, '', 'Rue de la Gare', 35000, 'Rennes', 'Bretagne', 'France'), -- 13
-(85, '', 'Rue des Dunes', 35400, 'Saint-Malo', 'Ille-et-Vilaine', 'France'), -- 14
-(22, '', 'Rue Petite Fusterie', 29200, 'Brest', 'Finistère', 'France'), -- 15
-(77, '', 'Avenue de Provence', 56000, 'Vannes', 'Morbihan', 'France'), -- 16
-(47, '', 'Rue Hubert de Lisle', 56100, 'Lorient', 'Morbihan', 'France'), -- 17
-(25, '', 'Avenue Jean Jaures', 56600, 'Lanester', 'Morbihan', 'France'), -- 17
-(14, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'); -- 18
+(1, '', 'Anonymous', 0, 'Anonymous', 'Anonymous', 'Anonymous'), -- 1
+(17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'), -- 2
+(5, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'), -- 3
+(4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'), -- 4
+(7, '', 'Avenue Saint-Denis', 29000, 'Quimper', 'Finistère', 'France'), -- 5
+(6, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 6
+(58, '', 'Rue Amiral Romain Desfosses', 29200, 'Brest', 'Finistère', 'France'), -- 7
+(43, '', 'Rue de la Fontaine', 56000, 'Vannes', 'Morbihan', 'France'), -- 8
+(35, '', 'Avenue Paul Cezanne', 56000, 'Vannes', 'Morbihan', 'France'), -- 9
+(2, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'), -- 10
+(43, '', 'Rue Isambard', 35300, 'Fougères', 'Ille-et-Vilaine', 'France'), -- 11
+(96, '', 'Rue des Nations Unies', 22000, 'Saint-Brieuc', 'Côtes-d''Armor', 'France'), -- 12
+(6, '', 'Rue Lenotre', 35700, 'Rennes', 'Ille-et-Vilaine', 'France'), -- 13
+(10, '', 'Rue de la Gare', 35000, 'Rennes', 'Bretagne', 'France'), -- 14
+(85, '', 'Rue des Dunes', 35400, 'Saint-Malo', 'Ille-et-Vilaine', 'France'), -- 15
+(22, '', 'Rue Petite Fusterie', 29200, 'Brest', 'Finistère', 'France'), -- 16
+(77, '', 'Avenue de Provence', 56000, 'Vannes', 'Morbihan', 'France'), -- 17
+(47, '', 'Rue Hubert de Lisle', 56100, 'Lorient', 'Morbihan', 'France'), -- 18
+(25, '', 'Avenue Jean Jaures', 56600, 'Lanester', 'Morbihan', 'France'), -- 19
+(14, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'); -- 20
 
 -- 3. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte, chat_cleApi) VALUES 
-('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 12, '2023-01-15', '2025-01-15', 'rwd-b894e4c2-6eee-4b9c-b01e-456b8b45e28b'),
-('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-01-15', '2025-01-15', 'rw-89af9b99-ad08-4a93-b8c9-d8398c18c016'),
-('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-02-20', '2025-02-20', 'rw-6488bd30-b1fa-4dc6-be1c-b4bc16d261e8'),
-('Smath', 'Johnny', 'johnny.smath@example.com', '0123456789', 20, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 15, '2023-01-15', '2025-01-15', 'rw-c6b4ea24-684f-4d9b-b838-0e74f9f107bd'),
-('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 16, '2023-01-15', '2025-01-15', 'rw-6526e1ae-a426-42f7-9f24-96735b2b5085'),
-('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 17, '2023-02-20', '2025-02-20', 'rw-d07777ac-304d-4ba8-b571-cdb6dd5bc71d'),
-('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 18, '2023-01-15', '2025-01-15', 'rw-6a06de67-e327-4dd9-a6e1-3b0bbfa05040'),
-('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 19, '2023-01-15', '2025-01-15', 'rw-39d2fe11-39b2-4a55-b2d8-ca72ebeaf9db');
+('Anonymous', '', 'anonymous@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '1970-01-01', '1970-01-01', '0'),
+('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-01-15', '2025-01-15', 'rwd-b894e4c2-6eee-4b9c-b01e-456b8b45e28b'),
+('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-01-15', '2025-01-15', 'rw-89af9b99-ad08-4a93-b8c9-d8398c18c016'),
+('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 15, '2023-02-20', '2025-02-20', 'rw-6488bd30-b1fa-4dc6-be1c-b4bc16d261e8'),
+('Smath', 'Johnny', 'johnny.smath@example.com', '0123456789', 20, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 16, '2023-01-15', '2025-01-15', 'rw-c6b4ea24-684f-4d9b-b838-0e74f9f107bd'),
+('Mallet', 'Piel', 'piel.mallet@example.com', '0123456789', 8, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 17, '2023-01-15', '2025-01-15', 'rw-6526e1ae-a426-42f7-9f24-96735b2b5085'),
+('Doe', 'Jane', 'jane.doe@example.com', '0987654321', 9, '$2y$10$R0AEBas/G8eyQM3XWdG.Ie0knRnf1yr4M22WIImwKkxH1IX4grwzu', 18, '2023-02-20', '2025-02-20', 'rw-d07777ac-304d-4ba8-b571-cdb6dd5bc71d'),
+('Buss', 'Gary ', 'gary.buss@example.com', '3015138427', 10, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 19, '2023-01-15', '2025-01-15', 'rw-6a06de67-e327-4dd9-a6e1-3b0bbfa05040'),
+('Laberge', 'Jose ', 'jose.laberge@example.com', '5308287564', 11, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 20, '2023-01-15', '2025-01-15', 'rw-39d2fe11-39b2-4a55-b2d8-ca72ebeaf9db');
 
 -- 4. Insérer des données dans `_professionnel`
 INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES 
-(1, 'SARL - Tech Solutions', '123456789'),
-(2, 'SARL - Design Experts', '987654321'),
-(3, 'SARL - LIAM CO', '983455432');
+(2, 'SARL - Tech Solutions', '123456789'),
+(3, 'SARL - Design Experts', '987654321'),
+(4, 'SARL - LIAM CO', '983455432');
 
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, pseudonyme) VALUES 
-(4, 'JohnnyHally'), -- 1
-(5, 'Piel'), -- 2
-(6, 'Janess'), -- 3
-(7, 'GaryBuss'), -- 4
-(8, 'Josetto'); -- 5
+(5, 'JohnnyHally'), -- 1
+(6, 'Piel'), -- 2
+(7, 'Janess'), -- 3
+(8, 'GaryBuss'), -- 4
+(9, 'Josetto'); -- 5
 
 -- 6. Insérer des données dans `_professionnelPublic`
 INSERT INTO _professionnelPublic (idPro) VALUES 
