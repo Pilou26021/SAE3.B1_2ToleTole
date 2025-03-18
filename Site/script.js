@@ -388,18 +388,26 @@ function validImages(inputElements) {
 
 
 // MODALE MENU AVIS
-function openModalAvis() {
+function openModalAvis(idavis) {
     document.getElementById("modalAvis").style.display = "block";
+    document.getElementById("reportjsavisid").value = idavis;
 }
+
+document.querySelector("form").addEventListener("submit", function(event) {
+    console.log("idavis value: ", document.querySelector('input[name="idavis"]').value);
+});
+
 
 // fermer la fenêtre
 function closeModalAvis() {
     document.getElementById("modalAvis").style.display = "none";
 }
 
-// MODALE MENU AVIS
-function openModalBlacklist() {
+// MODALE blacklist
+function openModalBlacklist(idavis) {
+    console.log("idavis value: ", idavis);
     document.getElementById("modalBlacklist").style.display = "block";
+    document.getElementById("blacklistjsavisid").value = idavis;
 }
 
 // fermer la fenêtre
@@ -408,9 +416,6 @@ function closeModalBlacklist() {
 }
 
 function submitSignalementAvis(idAvis) {
-    
-    
-
     alert('Le signalement a bien été pris en compte.');
 }
 
@@ -442,6 +447,7 @@ function openReplyForm(avisId) {
     }
     replyB.style.margin = "10px 0px 5px 0px";
     arrow.style.transition = 'transform 0.3s ease';
+<<<<<<< HEAD
 }
 
 
@@ -565,3 +571,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
 });
+=======
+}
+>>>>>>> 2458c757f068d662488a5a639b3587a0c1f03a88

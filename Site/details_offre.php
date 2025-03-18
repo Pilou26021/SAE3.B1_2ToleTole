@@ -31,6 +31,13 @@
         $idmembre = $stmt->fetchColumn();
     }
 
+    //récupérer l'id du pro qui a créé l'offre
+    $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
+    $stmt->execute();
+    $idproOffre = $stmt->fetchColumn();
+
     // Vérification que c'est bien le professionel connecté qui a créé l'offre
     if ($professionel) {
 
@@ -41,12 +48,6 @@
         $stmt->execute();
         $idpro = $stmt->fetchColumn();
 
-        
-        $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
-        $stmt->execute();
-        $idproOffre = $stmt->fetchColumn();
         if ($idproOffre == $idpro) {
             $bonProfessionnel = true; //variable pour vérifier que c'est le professionel qui a créé l'offre
         } elseif ($professionel) {
@@ -61,13 +62,6 @@
         }
         unset($_SESSION['signalement_avis_ok']);
     }
-
-    //récupérer l'id du pro qui a créé l'offre
-    $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
-    $stmt->execute();
-    $idproOffre = $stmt->fetchColumn();
 
     //récupérer les infos du pro
     $sql = "SELECT * from public.professionnel where idpro = :idproOffre";
@@ -801,11 +795,11 @@
                                             </p>
                                             <div class="buttons_avis">
                                                 <?php if($bonProfessionnel && $offrepremium){ ?>
-                                                    <a class="avis_blacklist" onclick="openModalBlacklist(event)">
+                                                    <a class="avis_blacklist" onclick="openModalBlacklist(<?= $avisId ?>)">
                                                         <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
                                                     </a>
                                                 <?php } ?>
-                                                <a class="avis_options" onclick="openModalAvis(event)">
+                                                <a class="avis_options" onclick="openModalAvis(<?= $avisId ?>)">
                                                     <img class="report_avis" src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
                                                 </a>
                                             </div>
@@ -816,7 +810,7 @@
                                             <div class="modal_avis-content">
                                                 <span class="close_avis" onclick="closeModalAvis()">&times;</span>
                                                 <form action="report_avis.php" method="POST">
-                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <input id="reportjsavisid" type="hidden" name="idavis" value="">
                                                     <div class="form_avis_signalement">
                                                         <h2>Signaler l'avis aux administrateurs ?</h2><br>
                                                         <select class="dropdown-signalement" name="raison" id="raison">
@@ -840,35 +834,43 @@
                                             </div>
                                         </div>
 
-                                        <div id="modalBlacklist" class="modal_avis">
-                                            <div class="modal_avis-content">
-                                                <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
-                                                <form action="blacklist_avis.php" method="POST">
-                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
-                                                    <input type="hidden" name="idoffre" value="<?=$idoffre?>">
-                                                    <div class="form_avis_signalement">
-                                                        <h2>Blacklister l'avis ?</h2>
-                                                        <div style="display:flex; flex-direction:row; align-items:center;">
-                                                            <p style="padding-right:5px;">Vous disposez de <?= $offre['nbrjetonblacklistagerestant'] ?> jetons pour cette offre.</p>
-                                                            <div class="tooltip_jetons">
-                                                                <img src="./img/icons/infos.svg" width=20px height=20px alt="infos">
-                                                                <div class="tooltip_text">
-                                                                Les jetons de blacklistage vous permettent de recourir à votre droit de veto sur un avis, vous récupérez des jetons quand la durée de blacklistage arrive à son terme (12 mois) ou si l'utilisateur supprime son avis blacklisté.
+                                        <?php if($bonProfessionnel && $offrepremium){ ?>
+                                            
+
+                                            <div id="modalBlacklist" class="modal_avis">
+                                                <div class="modal_avis-content">
+                                                    <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
+                                                    <form action="blacklist_avis.php" method="POST">
+                                                        <input id="blacklistjsavisid" type="hidden" name="idavis" value="">
+                                                        <input type="hidden" name="idoffre" value="<?=$idoffre?>">
+                                                        <div class="form_avis_signalement">
+                                                            <h2>Blacklister l'avis ?</h2>
+                                                            <div style="display:flex; flex-direction:row; align-items:center;">
+                                                                <p style="padding-right:5px;">Vous disposez de <?= $offre['nbrjetonblacklistagerestant'] ?> jetons pour cette offre.</p>
+                                                                <div class="tooltip_jetons">
+                                                                    <img src="./img/icons/infos.svg" width=20px height=20px alt="infos">
+                                                                    <div class="tooltip_text">
+                                                                    Les jetons de blacklistage vous permettent de recourir à votre droit de veto sur un avis, vous récupérez des jetons quand la durée de blacklistage arrive à son terme (12 mois) ou si l'utilisateur supprime son avis blacklisté.
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <button type="submit" class="bouton-blacklist-avis">Blacklister l'avis</button>
                                                         </div>
-                                                        <button type="submit" class="bouton-blacklist-avis">Blacklister l'avis</button>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                        
+                                        <?php } ?>
 
                                         <script>
-                                            //fermer la modale si clic en dehors de la modale
+                                            //fermer les modales si clic en dehors d'une modale
                                             window.onclick = function(event) {
-                                                var modal = document.getElementById("modalAvis");
-                                                if (event.target === modal) {
-                                                    closeModalAvis();
+                                                var modals = document.getElementsByClassName("modal_avis");
+                                                for (var i = 0; i < modals.length; i++) {
+                                                    var modal = modals[i];
+                                                    if (event.target == modal) {
+                                                        modal.style.display = "none";
+                                                    }
                                                 }
                                             }
                                         </script>
