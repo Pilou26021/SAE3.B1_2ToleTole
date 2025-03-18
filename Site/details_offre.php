@@ -840,28 +840,33 @@
                                             </div>
                                         </div>
 
-                                        <div id="modalBlacklist" class="modal_avis">
-                                            <div class="modal_avis-content">
-                                                <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
-                                                <form action="blacklist_avis.php" method="POST">
-                                                    <input id="blacklistjsavisid" type="hidden" name="idavis" value="">
-                                                    <input type="hidden" name="idoffre" value="<?=$idoffre?>">
-                                                    <div class="form_avis_signalement">
-                                                        <h2>Blacklister l'avis ?</h2>
-                                                        <div style="display:flex; flex-direction:row; align-items:center;">
-                                                            <p style="padding-right:5px;">Vous disposez de <?= $offre['nbrjetonblacklistagerestant'] ?> jetons pour cette offre.</p>
-                                                            <div class="tooltip_jetons">
-                                                                <img src="./img/icons/infos.svg" width=20px height=20px alt="infos">
-                                                                <div class="tooltip_text">
-                                                                Les jetons de blacklistage vous permettent de recourir à votre droit de veto sur un avis, vous récupérez des jetons quand la durée de blacklistage arrive à son terme (12 mois) ou si l'utilisateur supprime son avis blacklisté.
+                                        <?php if($bonProfessionnel && $offrepremium){ ?>
+                                            
+
+                                            <div id="modalBlacklist" class="modal_avis">
+                                                <div class="modal_avis-content">
+                                                    <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
+                                                    <form action="blacklist_avis.php" method="POST">
+                                                        <input id="blacklistjsavisid" type="hidden" name="idavis" value="">
+                                                        <input type="hidden" name="idoffre" value="<?=$idoffre?>">
+                                                        <div class="form_avis_signalement">
+                                                            <h2>Blacklister l'avis ?</h2>
+                                                            <div style="display:flex; flex-direction:row; align-items:center;">
+                                                                <p style="padding-right:5px;">Vous disposez de <?= $offre['nbrjetonblacklistagerestant'] ?> jetons pour cette offre.</p>
+                                                                <div class="tooltip_jetons">
+                                                                    <img src="./img/icons/infos.svg" width=20px height=20px alt="infos">
+                                                                    <div class="tooltip_text">
+                                                                    Les jetons de blacklistage vous permettent de recourir à votre droit de veto sur un avis, vous récupérez des jetons quand la durée de blacklistage arrive à son terme (12 mois) ou si l'utilisateur supprime son avis blacklisté.
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <button type="submit" class="bouton-blacklist-avis">Blacklister l'avis</button>
                                                         </div>
-                                                        <button type="submit" class="bouton-blacklist-avis">Blacklister l'avis</button>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                        
+                                        <?php } ?>
 
                                         <script>
                                             //fermer les modales si clic en dehors d'une modale
