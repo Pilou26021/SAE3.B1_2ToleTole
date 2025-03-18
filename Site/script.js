@@ -275,6 +275,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+document.getElementById('search-query').addEventListener('input',()=>{
+    // Create the map and set the initial view
+    var map = L.map('map_offres').setView([51.505, -0.09], 13);
+
+    // Add tile layer (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Define the custom icon
+    var customIcon = L.icon({
+        iconUrl: 'img/icons/poi/attraction.png',  
+        iconSize: [64, 64], 
+        iconAnchor: [16, 32], 
+        popupAnchor: [0, -32] 
+    });
+
+    // Create the marker and bind the popup
+    var marker = L.marker([51.5, -0.09], {icon: customIcon}).addTo(map);
+    var content_popup = '<div class="content_popup"> <img class="popup_image" src=" icones/image18.png"><div class="titre_note"><h3><a href="">Titre</a></h3><div class="note_moy"><p>4</p> <img class="popup_image" src=" icones/star-solid.svg"></div> </div> <div>créée le jj/mm/yyyy</div> <p>Catégorie</p> <p>Adresse</p> <p>Prix Min €</p> </div>';
+    marker.bindPopup(content_popup);
+
+    // Create the marker and bind the popup
+    var marker2 = L.marker([51.52, -0.09], {icon: customIcon}).addTo(map);
+    marker2.bindPopup(content_popup);
+
+    
+    
+
+    var ouvert = false;
+    marker.on('click', function() {
+        console.log(ouvert);
+        if(!ouvert){
+            marker.openPopup();
+            ouvert = true;
+        }else{
+            document.getElementById("offre").scrollIntoView()
+            ouvert = false;
+            marker.closePopup();
+        }
+        
+    });
+    
+
+
+    marker2.on('click', function() {
+        marker2.openPopup();
+    });
+
+    document.getElementById('map_offres').style.display = 'block';
+})
 
 
 function validImages(inputElements) {

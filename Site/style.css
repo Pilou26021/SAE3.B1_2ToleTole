@@ -257,6 +257,76 @@ main {
 	width: 200px;
 }
 
+#map_offres {
+	display : none;
+    margin : 5%;
+    height: 50vh;  /* Prend toute la hauteur de l'écran */
+    width: 60%;    /* Prend toute la largeur de l'écran */
+    border: black 2px solid;
+    border-radius: 8px;
+}
+
+#map_offres .leaflet-popup-content{
+    width: 200px;
+}
+
+#map_offres .leaflet-popup-content .content_popup {
+    font-family: Arial, sans-serif;
+    line-height: 0.5;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: normal;
+}
+
+#map_offres .leaflet-popup-content p{
+    margin-bottom: 0.8em;
+}
+
+#map_offres .leaflet-popup-content .popup_image {
+    width: 100%;
+    height: auto;
+}
+
+#map_offres .leaflet-popup-content .note_moy {
+    display: flex;
+    align-items: center;
+}
+
+#map_offres .leaflet-popup-content .note_moy p{
+    margin-right: 2%;
+}
+
+#map_offres .leaflet-popup-content .note_moy img {
+    width: 20px;
+    height: 20px;
+}
+
+#map_offres #content{
+    background-color: grey;
+    height: 1024px;
+}
+
+#map_offres #offre{
+    height: 50%;
+    width: 50%;
+    background-color: aquamarine;
+}
+
+#map_offres .titre_note{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+/* Médias queries pour les écrans mobiles */
+@media (max-width: 768px) {
+    #map_offres {
+        width: 90%;
+        height: 90vh;  /* Prend toute la hauteur de l'écran en mode mobile */
+    }
+}
+
+
 button {
 	all: unset;
 }

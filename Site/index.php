@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./img/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <title>Offres</title>
     <?php 
         include "../SQL/connection_local.php";
@@ -273,6 +274,8 @@
             </form>
         </div>
         
+        <div id="map_offres"></div>
+
         <div class="offres-display">
             <?php if (count($offres) > 0): ?>
                     <?php 
@@ -605,6 +608,7 @@
     </main>
     
     <div id="footer"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script> 
 
 
