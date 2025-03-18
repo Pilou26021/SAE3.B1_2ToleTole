@@ -250,7 +250,7 @@
                                 }
                             ?>
                             <div class="offre-image-container _2" style="text-align:center;">
-                                <img class="details-offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                <img class="details-offre-image anime" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
                             </div>
                             <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                             <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
@@ -801,11 +801,11 @@
                                             </p>
                                             <div class="buttons_avis">
                                                 <?php if($bonProfessionnel && $offrepremium){ ?>
-                                                    <a class="avis_blacklist" onclick="openModalBlacklist(event)">
+                                                    <a class="avis_blacklist" onclick="openModalBlacklist(<?= $avisId ?>)">
                                                         <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
                                                     </a>
                                                 <?php } ?>
-                                                <a class="avis_options" onclick="openModalAvis(event)">
+                                                <a class="avis_options" onclick="openModalAvis(<?= $avisId ?>)">
                                                     <img class="report_avis" src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
                                                 </a>
                                             </div>
@@ -816,7 +816,7 @@
                                             <div class="modal_avis-content">
                                                 <span class="close_avis" onclick="closeModalAvis()">&times;</span>
                                                 <form action="report_avis.php" method="POST">
-                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <input id="reportjsavisid" type="hidden" name="idavis" value="">
                                                     <div class="form_avis_signalement">
                                                         <h2>Signaler l'avis aux administrateurs ?</h2><br>
                                                         <select class="dropdown-signalement" name="raison" id="raison">
@@ -844,7 +844,7 @@
                                             <div class="modal_avis-content">
                                                 <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
                                                 <form action="blacklist_avis.php" method="POST">
-                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <input id="blacklistjsavisid" type="hidden" name="idavis" value="">
                                                     <input type="hidden" name="idoffre" value="<?=$idoffre?>">
                                                     <div class="form_avis_signalement">
                                                         <h2>Blacklister l'avis ?</h2>
@@ -864,11 +864,14 @@
                                         </div>
 
                                         <script>
-                                            //fermer la modale si clic en dehors de la modale
+                                            //fermer les modales si clic en dehors d'une modale
                                             window.onclick = function(event) {
-                                                var modal = document.getElementById("modalAvis");
-                                                if (event.target === modal) {
-                                                    closeModalAvis();
+                                                var modals = document.getElementsByClassName("modal_avis");
+                                                for (var i = 0; i < modals.length; i++) {
+                                                    var modal = modals[i];
+                                                    if (event.target == modal) {
+                                                        modal.style.display = "none";
+                                                    }
                                                 }
                                             }
                                         </script>

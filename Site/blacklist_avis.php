@@ -6,6 +6,7 @@
 
     //récupération du post
     $idavis = $_POST['idavis'];
+    print_r($_POST);
     $idoffre = $_POST['idoffre'];
 
     //recuperation de la config
@@ -68,7 +69,7 @@
     }
 
     // Rediriger l'utilisateur vers la page précédente
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    //header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit();
 
 ?>

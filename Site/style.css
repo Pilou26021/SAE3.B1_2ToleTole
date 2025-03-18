@@ -177,7 +177,7 @@ header {
 }
 
 .filter-form {
-	z-index: 20;
+	z-index: 500;
 	top: 5vw;
 	display: none;
 	position: absolute;
@@ -1615,6 +1615,17 @@ td {
 
 }
 
+.details-offre-image.anime {
+    transition: transform 0.5s ease, box-shadow 0.5s ease; /* Transition pour un effet fluide */
+    transform: scale(1); /* État initial sans zoom */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre initiale */
+}
+
+.details-offre-image.anime:hover {
+    transform: scale(1.1); /* Zoom à 110% */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Augmente l'ombre lors du survol */
+}
+
 
 /*** DROPDOWN ***/
 /* Assure-toi que le parent a une position relative */
@@ -2520,7 +2531,7 @@ td {
 		transition: background-color 0.3s ease;
 		background-color: #F2F1E9;
 		margin: 10px 0px 10px 0px;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
 		box-sizing: border-box;
 		flex-grow: 1;
 		min-width: 200px;
