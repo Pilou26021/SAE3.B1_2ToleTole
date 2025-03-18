@@ -106,7 +106,8 @@ INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateV
 (4, 5, 'Bien gourmand 😋', 2, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
 (6, 2, 'Chaîne un peu trop détendue...', 5, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
 (6, 5, 'Professionnel et sécurité au top !', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
-(9, 4, 'Super oeuvres d''art', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0);
+(9, 4, 'Super oeuvres d''art', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(7, 4, 'Le paysage est vraiment magnifique, même malgré le mauvais temps.', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0);
 
 -- 10. Insérer des données dans `_signalement`
 INSERT INTO _signalement (raison) VALUES 
