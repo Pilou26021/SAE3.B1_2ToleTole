@@ -39,6 +39,7 @@
         } elseif (isset($_SESSION['professionnel'])) {
             $professionel = true;
             $idpro = $_SESSION['professionnel'];
+            $idProoffre = $_SESSION['idpro'];
         }
 
         // Construction de la requête SQL en fonction du type d'utilisateur
@@ -82,7 +83,7 @@
         $stmtmin = $conn->prepare($sqlprixmin);
 
         if ($professionel) {
-            $stmt->bindValue(':idpro', $idpro, PDO::PARAM_INT);  // Lier l'idPro si l'utilisateur est professionnel
+            $stmt->bindValue(':idpro', $idProoffre, PDO::PARAM_INT);  // Lier l'idPro si l'utilisateur est professionnel
         }
 
         $stmt->execute();
