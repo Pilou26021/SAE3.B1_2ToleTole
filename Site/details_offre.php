@@ -250,7 +250,7 @@
                                 }
                             ?>
                             <div class="offre-image-container _2" style="text-align:center;">
-                                <img class="details-offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                <img class="details-offre-image anime" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
                             </div>
                             <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
                             <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
