@@ -31,6 +31,13 @@
         $idmembre = $stmt->fetchColumn();
     }
 
+    //récupérer l'id du pro qui a créé l'offre
+    $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
+    $stmt->execute();
+    $idproOffre = $stmt->fetchColumn();
+
     // Vérification que c'est bien le professionel connecté qui a créé l'offre
     if ($professionel) {
 
@@ -41,12 +48,6 @@
         $stmt->execute();
         $idpro = $stmt->fetchColumn();
 
-        
-        $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
-        $stmt->execute();
-        $idproOffre = $stmt->fetchColumn();
         if ($idproOffre == $idpro) {
             $bonProfessionnel = true; //variable pour vérifier que c'est le professionel qui a créé l'offre
         } elseif ($professionel) {
@@ -61,13 +62,6 @@
         }
         unset($_SESSION['signalement_avis_ok']);
     }
-
-    //récupérer l'id du pro qui a créé l'offre
-    $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
-    $stmt->execute();
-    $idproOffre = $stmt->fetchColumn();
 
     //récupérer les infos du pro
     $sql = "SELECT * from public.professionnel where idpro = :idproOffre";
