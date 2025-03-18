@@ -177,7 +177,7 @@ header {
 }
 
 .filter-form {
-	z-index: 20;
+	z-index: 500;
 	top: 5vw;
 	display: none;
 	position: absolute;
