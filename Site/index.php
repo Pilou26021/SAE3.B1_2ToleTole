@@ -306,7 +306,7 @@
                     <?php if (!$professionel) { ?>    
                         <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
                             <h1>Offre à la Une </h1>
-                            <a id="Alaune"  style="color:#040316; cursor: pointer; "  > voir plus</a>
+                            <a id="Alaune"  style="color:#040316; cursor: pointer; " > voir plus</a>
                         </div>
                         <div class="carousel-container" id="carousel1">
                             <button class="carousel-btn prev-btn " data-carousel="1"><img class='img_button' src="img/icons/fleche-gauche.png" alt="fleche"></button>

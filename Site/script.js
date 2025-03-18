@@ -351,6 +351,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Ajout de l'event listener pour le lien "voir plus"
+    const alauneLink = document.getElementById("Alaune");
+    const mavantSelect = document.getElementById("Mavant");
+    if (alauneLink && mavantSelect) {
+        alauneLink.addEventListener("click", function() {
+            // Définir le filtre à "À la Une"
+            mavantSelect.value = "Alaune";
+            // Appeler applyFilters() pour mettre à jour les résultats
+            applyFilters();
+        });
+    }
+});
+
+
 
 
 
