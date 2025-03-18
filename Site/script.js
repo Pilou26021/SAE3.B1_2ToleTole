@@ -447,9 +447,7 @@ function openReplyForm(avisId) {
     }
     replyB.style.margin = "10px 0px 5px 0px";
     arrow.style.transition = 'transform 0.3s ease';
-<<<<<<< HEAD
 }
-
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -571,6 +569,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
 });
-=======
-}
->>>>>>> 2458c757f068d662488a5a639b3587a0c1f03a88
