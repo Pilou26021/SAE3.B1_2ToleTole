@@ -36,20 +36,26 @@ function adjustDates() {
 }
 
 $(document).ready(function() {
-    // Lorsque l'utilisateur clique sur le bouton de filtre, affichez le pop-up
-    $("#filterBtn").click(function() {
-        $("#filterForm").fadeIn();
+    // Ouvrir le filtre
+    $("#filterBtn").click(function(event) {
+        event.stopPropagation();
+        $("#filterForm").addClass("open");
     });
 
-    // Lorsque l'utilisateur clique en dehors du pop-up des filtres, le fermer
+    // Fermer à l'aide de la croix
+    $(".filter-close").click(function(event) {
+        event.stopPropagation();
+        $("#filterForm").removeClass("open");
+    });
+
+    // Fermer en cliquant en dehors
     $(document).click(function(event) {
-        // Si le clic a eu lieu en dehors de #filterForm et #filterBtn
-        if (!$(event.target).closest('#filterForm').length && !$(event.target).closest('#filterBtn').length) {
-            $("#filterForm").fadeOut();  // Fermer le filtre
+        if (!$(event.target).closest("#filterForm, #filterBtn").length) {
+            $("#filterForm").removeClass("open");
         }
     });
 
-    // Empêcher le clic sur le filtre de fermer immédiatement le pop-up
+    // Empêcher le clic sur le panneau lui-même de fermer le panneau
     $("#filterForm").click(function(event) {
         event.stopPropagation();
     });
@@ -362,6 +368,24 @@ document.addEventListener('DOMContentLoaded', () => {
             mavantSelect.value = "Alaune";
             // Appeler applyFilters() pour mettre à jour les résultats
             applyFilters();
+            window.scrollTo(0, 0);
+
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Ajout de l'event listener pour le lien "voir plus"
+    const TprixLink = document.getElementById("Nouv");
+    const TprixSelect = document.getElementById("Tprix");
+    if (TprixLink && TprixSelect) {
+        TprixLink.addEventListener("click", function() {
+            // Définir le filtre à "À la Une"
+            TprixSelect.value = "Recent";
+            // Appeler applyFilters() pour mettre à jour les résultats
+            applyFilters();
+            window.scrollTo(0, 0);
         });
     }
 });
@@ -567,5 +591,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateCarousel(false);
             }
         }, 250);
+    });
+});
+
+$(document).ready(function(){
+    $('.vertical-carousel').slick({
+         vertical: true,
+         arrows: false,
+         autoplay: true,
+         autoplaySpeed: 3000,
+         slidesToShow: 1,
+         slidesToScroll: 1,
+         pauseOnHover: false
     });
 });

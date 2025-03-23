@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+    
 <style>
         
         #map_offres { 
@@ -141,6 +147,7 @@
             </form>
         </div>
         <div id="filterForm" class="filter-form">
+            <span class="filter-close">×</span>
             <h3> Filtres</h3>
             <form action="#">
                 <div class="container-category-ouvert">
@@ -407,18 +414,19 @@
                         </div>
                     <?php } ?>
                 <?php } ?>
-                <!-- <hr style=" width:70%; border-top: 2px solid #040316; "> -->
-                <div style="display:none;">
                     <?php
                     if (!$professionel) {
                     ?>
-                        <h1>Nouveautés</h1>
+                        <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
+                            <h1>Nouveautés</h1>
+                            <a id="Nouv"  style="color:#040316; cursor: pointer; " > voir plus</a>
+                        </div>
                     <?php
                     } 
                     ?>
-                </div >
+
                 <?php 
-                    $maxOffresN = 10; // Limite du nombre d'offres à afficher
+                    $maxOffresN = 5; // Limite du nombre d'offres à afficher
                     $countN = 0; 
                     $sqlN = "
                         SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne,o.notemoyenneoffre,o.alauneoffre,o.datecreationoffre
@@ -435,7 +443,7 @@
                     $stmtN->execute();
                     $offresN = $stmtN->fetchAll();
                 ?>
-                <div class="offres-container" style="display:none;">
+                <div class="vertical-carousel" >
                     <?php foreach ($offresN as $offre):
                         if ($countN >= $maxOffresN) {
                             break; // Arrêter le traitement après 10 offres
@@ -621,7 +629,8 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <script src="script.js"></script> 
-
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
 
 </body>
 </html>

@@ -50,7 +50,7 @@ header {
 	height: 100%;
 	width: 0;
 	position: fixed;
-	z-index: 20;
+	z-index: 7000;
 	box-shadow: 5px 0px 30px #040316;
 	top: 0;
 	left: 0;
@@ -177,16 +177,35 @@ header {
 }
 
 .filter-form {
-	z-index: 500;
-	top: 5vw;
-	display: none;
-	position: absolute;
-	margin: 20px auto;
-	padding: 20px;
-	width: 35%;
-	background-color: var(--color-background);
-	box-shadow: 0px 0px 15px #040316;
-	border-radius: 10px;
+    position: fixed;
+    top: 0;
+    left: -100%; /* caché à gauche */
+    width: 35%;
+    height: 100%;
+    background-color: var(--color-background);
+    box-shadow: 2px 0px 15px #040316;
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 8000;
+}
+.filter-form.open {
+    left: 0;
+}
+
+@media (max-width: 600px) {
+    .filter-form {
+        width: 70%;
+    }
+    
+}
+
+/* Bouton de fermeture (croix) */
+.filter-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 40px;
+    cursor: pointer;
 }
 
 .filter-form h3 {
@@ -203,6 +222,7 @@ header {
 .filter-form label {
 	font-size: 16px;
 }
+
 
 /*Slider**/
 
@@ -1317,6 +1337,8 @@ p.cp_mobile_erreur {
 	gap: 10px;
 	width: 100%;
 	align-items: center;
+	margin: 20px auto;
+	padding: 20px auto;
 }
 
 /* Style de la carte de chaque offre */
@@ -3429,3 +3451,4 @@ input:checked + .sliderswitch:before {
         -webkit-overflow-scrolling: touch; /* Pour un scrolling fluide sur iOS */
     }
 }
+
