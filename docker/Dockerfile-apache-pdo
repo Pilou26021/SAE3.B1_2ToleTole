@@ -9,8 +9,8 @@ RUN docker-php-ext-install pdo_pgsql
 RUN git config --global http.proxy $http_proxy
 RUN git config --global https.proxy $https_proxy
 RUN git config --global init.defaultBranch dev
-RUN git config --global user.email "piel.mallet@gmail.com"
-RUN git config --global user.name "Piel-M"
+RUN git config --global user.email "mathieu.dekergariou@gmail.com"
+RUN git config --global user.name "mdekerga"
 
 
 WORKDIR /var/www/html

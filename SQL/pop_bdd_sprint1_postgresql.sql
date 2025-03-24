@@ -68,11 +68,12 @@ INSERT INTO _professionnel (idCompte, denominationPro, numSirenPro) VALUES
 
 -- 5. Insérer des données dans `_membre`
 INSERT INTO _membre (idCompte, pseudonyme) VALUES 
-(5, 'JohnnyHally'), -- 1
-(6, 'Piel'), -- 2
-(7, 'Janess'), -- 3
-(8, 'GaryBuss'), -- 4
-(9, 'Josetto'); -- 5
+(1, 'Anonymous'), -- 1
+(5, 'JohnnyHally'), -- 2
+(6, 'Piel'), -- 3
+(7, 'Janess'), -- 4
+(8, 'GaryBuss'), -- 5
+(9, 'Josetto'); -- 6
 
 -- 6. Insérer des données dans `_professionnelPublic`
 INSERT INTO _professionnelPublic (idPro) VALUES 
@@ -98,18 +99,18 @@ INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptio
 
 -- 9. Insérer des données dans `_avis`
 INSERT INTO _avis (idOffre, noteAvis, commentaireAvis, idMembre, dateAvis, dateVisiteAvis, blacklistAvis, reponsePro, scorePouce) VALUES 
-(1, 5, 'Excellente offre!', 1, '2023-05-15', '2023-05-10', FALSE, TRUE, 0),
-(2, 3, 'La piste pourrait être mieux indiquée', 4, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
-(2, 4, 'Super balade en famille !', 2, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
-(3, 4, 'Bonne offre! J''y retournerais sans problème !', 4, '2023-05-15', '2023-05-10', TRUE, FALSE, 1),
-(3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 3, '2023-04-23', '2023-04-23', FALSE, FALSE, 0),
-(3, 2, 'Pas encore ouvert :''(', 2, '1955-11-11', '1955-11-11', FALSE, FALSE, 0),
-(3, 4, 'Personnel professionnel et sympathique !', 5, '2022-09-12', '2022-09-12', FALSE, FALSE, 0),
-(4, 5, 'Bien gourmand 😋', 2, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
-(6, 2, 'Chaîne un peu trop détendue...', 5, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
-(6, 5, 'Professionnel et sécurité au top !', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
-(9, 4, 'Super oeuvres d''art', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
-(7, 4, 'Le paysage est vraiment magnifique, même malgré le mauvais temps.', 4, '2024-12-02', '2024-12-01', FALSE, FALSE, 0);
+(1, 5, 'Excellente offre!', 2, '2023-05-15', '2023-05-10', FALSE, TRUE, 0),
+(2, 3, 'La piste pourrait être mieux indiquée', 5, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
+(2, 4, 'Super balade en famille !', 3, '2023-06-15', '2023-06-10', FALSE, FALSE, 0),
+(3, 4, 'Bonne offre! J''y retournerais sans problème !', 5, '2023-05-15', '2023-05-10', TRUE, FALSE, 1),
+(3, 3, 'Les repas sont peu cher mais le choix laisse à désirer.', 4, '2023-04-23', '2023-04-23', FALSE, FALSE, 0),
+(3, 2, 'Pas encore ouvert :''(', 3, '1955-11-11', '1955-11-11', FALSE, FALSE, 0),
+(3, 4, 'Personnel professionnel et sympathique !', 6, '2022-09-12', '2022-09-12', FALSE, FALSE, 0),
+(4, 5, 'Bien gourmand 😋', 3, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(6, 2, 'Chaîne un peu trop détendue...', 6, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(6, 5, 'Professionnel et sécurité au top !', 5, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(9, 4, 'Super oeuvres d''art', 5, '2024-12-02', '2024-12-01', FALSE, FALSE, 0),
+(7, 4, 'Le paysage est vraiment magnifique, même malgré le mauvais temps.', 5, '2024-12-02', '2024-12-01', FALSE, FALSE, 0);
 
 -- 10. Insérer des données dans `_signalement`
 INSERT INTO _signalement (raison) VALUES 

@@ -36,20 +36,26 @@ function adjustDates() {
 }
 
 $(document).ready(function() {
-    // Lorsque l'utilisateur clique sur le bouton de filtre, affichez le pop-up
-    $("#filterBtn").click(function() {
-        $("#filterForm").fadeIn();
+    // Ouvrir le filtre
+    $("#filterBtn").click(function(event) {
+        event.stopPropagation();
+        $("#filterForm").addClass("open");
     });
 
-    // Lorsque l'utilisateur clique en dehors du pop-up des filtres, le fermer
+    // Fermer à l'aide de la croix
+    $(".filter-close").click(function(event) {
+        event.stopPropagation();
+        $("#filterForm").removeClass("open");
+    });
+
+    // Fermer en cliquant en dehors
     $(document).click(function(event) {
-        // Si le clic a eu lieu en dehors de #filterForm et #filterBtn
-        if (!$(event.target).closest('#filterForm').length && !$(event.target).closest('#filterBtn').length) {
-            $("#filterForm").fadeOut();  // Fermer le filtre
+        if (!$(event.target).closest("#filterForm, #filterBtn").length) {
+            $("#filterForm").removeClass("open");
         }
     });
 
-    // Empêcher le clic sur le filtre de fermer immédiatement le pop-up
+    // Empêcher le clic sur le panneau lui-même de fermer le panneau
     $("#filterForm").click(function(event) {
         event.stopPropagation();
     });
@@ -193,6 +199,8 @@ function showDateOuvert() {
     }
 }
 
+var map;
+
 // FILTRES
 
 async function applyFilters() {
@@ -249,7 +257,8 @@ async function applyFilters() {
             // Récupérer le contenu et l'injecter dans le DOM
             const data = await response.text();
             document.querySelector('.offres-display').innerHTML = data;
-            document.getElementById('map_offres').style.display = 'block';
+            toggleMap();
+            updateMap();
         } else {
             throw new Error('Erreur lors de la récupération des résultats.');
         }
@@ -258,36 +267,74 @@ async function applyFilters() {
     }
 }
 
-// Ajouter des écouteurs d'événements pour chaque filtre
-document.addEventListener('DOMContentLoaded', () => {
-    var locations = [
-        { lat: 48.8566, lng: 2.3522, name: "Paris" },
-        { lat: 45.7640, lng: 4.8357, name: "Lyon" },
-        { lat: 43.6047, lng: 1.4442, name: "Toulouse" },
-        { lat: 43.2965, lng: 5.3698, name: "Marseille" },
-        { lat: 50.6292, lng: 3.0573, name: "Lille" },
-        { lat: 47.2184, lng: -1.5536, name: "Nantes" },
-        { lat: 48.5734, lng: 7.7521, name: "Strasbourg" }
-    ];
+ 
+// Function to toggle the visibility of the map
+function toggleMap() {
+    var mapElement = document.getElementById('map_offres');
+    mapElement.style.display = 'block'; // Show the map
+    if (!map) {
+        // Initialize the map only once
+        initializeMap();
+    } else {
+        map.invalidateSize(); // Recalculate map size if already initialized
+    }
+}
+
+
+function initializeMap(){
 
         // Create the map and set the initial view
-    var map = L.map('map_offres', {
-        center: [locations[0].lat, locations[0].lng], // Starting center point
-        zoom: 13, // Starting zoom level
-    });
-
-    // Add tile layer (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    document.querySelectorAll('select, input').forEach(element => {
-        element.addEventListener('change', () => {
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 300);
+        map = L.map('map_offres', {
+            center: [48, 2], // Position initiale
+            zoom: 13, // Niveau de zoom initial
+            minZoom: 3, // Niveau de zoom minimum
+            maxZoom: 18, // Niveau de zoom maximum
+            maxBounds: [
+                [-90, -180], // Coin sud-ouest
+                [90, 180] // Coin nord-est
+            ],
+            maxBoundsViscosity: 1.0 // Empêche de trop sortir des limites
         });
-    });
+    
+        // Add tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    
+        document.querySelectorAll('select, input').forEach(element => {
+            element.addEventListener('change', () => {
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 300);
+            });
+        });  
+}
+
+// Création du groupe de clusters
+var markers = L.markerClusterGroup();
+
+
+function updateMap() {
+    // Effacer les anciens marqueurs
+    markers.clearLayers();
+    var div = document.getElementById("offres-data");
+
+    // Vérifier si l'élément existe
+    if (!div) {
+        console.error('L\'élément avec l\'ID "offres-data" n\'a pas été trouvé.');
+        return; // On sort de la fonction si l'élément n'existe pas
+    }
+
+    // Récupération des données JSON
+    var offres = JSON.parse(div.textContent); 
+
+    // Vérifier si le tableau 'offres' est vide ou invalide
+    if (!Array.isArray(offres) || offres.length === 0) {
+        console.log('Aucune offre disponible.');
+        markers.clearLayers(); // Efface les anciens marqueurs, même si aucun nouveau marqueur n'est ajouté
+        map.addLayer(markers); // Ajoute à la carte un cluster vide
+        return; // On sort de la fonction car il n'y a pas d'offres à afficher
+    }
 
     // Define the custom icon
     var customIcon = L.icon({
@@ -297,43 +344,47 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAnchor: [0, -32] 
     });
 
-    // Création du groupe de clusters
-    var markers = L.markerClusterGroup();
 
-    
 
-    // Add markers with the custom icon
-    locations.forEach(location => {
-        var content_popup = `
-            <div class="content_popup">
-                <img class="popup_image" src="icones/image18.png">
-                <div class="titre_note">
-                    <h3><a href="">Titre</a></h3>
-                    <div class="note_moy">
-                        <p>4</p>
-                        <img class="popup_image" src="icones/star-solid.svg">
+    offres.forEach(offre => {
+        if (offre.titre) {
+            // Création du marqueur (coordonnées fictives, remplace-les par les vraies)
+            const marker = L.marker([48, 2]).addTo(map);
+
+            // Lier un popup avec les détails de l'offre
+            marker.bindPopup(`
+                <div class="content_popup">
+                    <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
+                    <div class="titre_note">
+                        <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
+                        <div class="note_moy">
+                            <p>${offre.note || 'N/A'}</p>
+                            <img class="popup_image" src="img/icons/star-solid.svg">
+                        </div>
                     </div>
+                    <div>Créée le ${offre.date_creation || 'jj/mm/yyyy'}</div>
+                    <p>${offre.categorie || 'Catégorie inconnue'}</p>
+                    <p>${offre.adresse || 'Adresse non disponible'}</p>
+                    <p>Prix Min: ${offre.prix || 'N/A'} €</p>
                 </div>
-                <div>créée le jj/mm/yyyy</div>
-                <p>Catégorie</p>
-                <p>Adresse</p>
-                <p>Prix Min €</p>
-            </div>
-        `;
-        
-        var marker = L.marker([location.lat, location.lng], { icon: customIcon })
-            .bindPopup(content_popup);
+            `);
 
-        marker.on('click', function () {
-            marker.openPopup();
-        });
+            marker.on('click', function () {
+                marker.openPopup();
+            });
 
-        markers.addLayer(marker);
+            // Ajout du marqueur au cluster
+            markers.addLayer(marker);
+        }
     });
 
     // Ajout du cluster à la carte
     map.addLayer(markers);
+}
 
+// Ajouter des écouteurs d'événements pour chaque filtre
+document.addEventListener('DOMContentLoaded', () => {
+    initializeMap();
 
     document.getElementById('search-query').addEventListener('input', applyFilters);
     document.getElementById('category').addEventListener('change', applyFilters);
@@ -362,6 +413,24 @@ document.addEventListener('DOMContentLoaded', () => {
             mavantSelect.value = "Alaune";
             // Appeler applyFilters() pour mettre à jour les résultats
             applyFilters();
+            window.scrollTo(0, 0);
+
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Ajout de l'event listener pour le lien "voir plus"
+    const TprixLink = document.getElementById("Nouv");
+    const TprixSelect = document.getElementById("Tprix");
+    if (TprixLink && TprixSelect) {
+        TprixLink.addEventListener("click", function() {
+            // Définir le filtre à "À la Une"
+            TprixSelect.value = "Recent";
+            // Appeler applyFilters() pour mettre à jour les résultats
+            applyFilters();
+            window.scrollTo(0, 0);
         });
     }
 });
@@ -385,87 +454,6 @@ function validImages(inputElements) {
     return true;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const carousels = document.querySelectorAll('.carousel-container');
-
-    function updateCarouselBehavior() {
-        const isSmallScreen = window.innerWidth < 700;
-
-        carousels.forEach(carousel => {
-            const track = carousel.querySelector('.carousel-track');
-            const slides = track.querySelectorAll('.carousel-slide li');
-            const prevButton = carousel.querySelector('.prev-btn');
-            const nextButton = carousel.querySelector('.next-btn');
-            const slideWidth = slides[0].getBoundingClientRect().width;
-
-            // Remove cloned slides if screen width is below 700px
-            if (isSmallScreen) {
-                const clones = track.querySelectorAll('.carousel-slide li.clone');
-                clones.forEach(clone => clone.remove());
-                track.style.transform = 'translateX(0)';
-                track.style.transition = 'none';
-            } else {
-                // Clone slides to make the carousel infinite
-                slides.forEach(slide => {
-                    if (!slide.classList.contains('clone')) {
-                        const clone = slide.cloneNode(true);
-                        clone.classList.add('clone');
-                        track.appendChild(clone);
-                    }
-                });
-            }
-
-            let currentIndex = 0;
-
-            function moveToSlide(index) {
-                track.style.transform = `translateX(-${index * slideWidth}px)`;
-                currentIndex = index;
-            }
-
-            nextButton.addEventListener('click', () => {
-                if (isSmallScreen) {
-                    if (currentIndex < slides.length - 1) {
-                        moveToSlide(currentIndex + 1);
-                    }
-                } else {
-                    if (currentIndex >= slides.length) {
-                        track.style.transition = 'none';
-                        moveToSlide(0);
-                        setTimeout(() => {
-                            track.style.transition = 'transform 0.5s ease-in-out';
-                            moveToSlide(currentIndex + 1);
-                        }, 20);
-                    } else {
-                        moveToSlide(currentIndex + 1);
-                    }
-                }
-            });
-
-            prevButton.addEventListener('click', () => {
-                if (isSmallScreen) {
-                    if (currentIndex > 0) {
-                        moveToSlide(currentIndex - 1);
-                    }
-                } else {
-                    if (currentIndex <= 0) {
-                        track.style.transition = 'none';
-                        moveToSlide(slides.length);
-                        setTimeout(() => {
-                            track.style.transition = 'transform 0.5s ease-in-out';
-                            moveToSlide(currentIndex - 1);
-                        }, 20);
-                    } else {
-                        moveToSlide(currentIndex - 1);
-                    }
-                }
-            });
-        });
-    }
-
-    // Call the function on load and on resize
-    updateCarouselBehavior();
-    window.addEventListener('resize', updateCarouselBehavior);
-});
 
 
 // MODALE MENU AVIS
@@ -529,3 +517,138 @@ function openReplyForm(avisId) {
     replyB.style.margin = "10px 0px 5px 0px";
     arrow.style.transition = 'transform 0.3s ease';
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.carousel');
+    const container = document.querySelector('.carousel-container');
+    let slides = document.querySelectorAll('.slide');
+    const originalCount = slides.length; // nombre de slides initial
+    let currentIndex = 0;
+    const transitionTime = 500; // Durée de transition en ms
+    let autoSlideInterval = null;
+    let isDesktop = window.innerWidth >= 780;
+    let isDragging = false, startX = 0, currentX = 0;
+    
+    // Mise à jour de la position du carousel
+    function updateCarousel(animate = true) {
+        const slideWidth = slides[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(carousel).gap) || 0;
+        const step = slideWidth + gap;
+        carousel.style.transition = animate ? 'transform 0.5s ease' : 'none';
+        carousel.style.transform = 'translateX(' + (-step * currentIndex) + 'px)';
+    }
+    
+    // Gestion du mode desktop (auto-défilement)
+    function setupDesktop() {
+        // Dupliquer l'ensemble des slides pour un effet continu (si ce n'est pas déjà fait)
+        if (!carousel.dataset.duplicated) {
+            carousel.innerHTML += carousel.innerHTML;
+            slides = document.querySelectorAll('.slide');
+            carousel.dataset.duplicated = 'true';
+        }
+        // Désactiver les écouteurs tactiles
+        container.removeEventListener('touchstart', touchStartHandler);
+        container.removeEventListener('touchmove', touchMoveHandler);
+        container.removeEventListener('touchend', touchEndHandler);
+        // Lancer l'auto-défilement
+        if(autoSlideInterval) clearInterval(autoSlideInterval);
+        currentIndex = 0;
+        updateCarousel(false);
+        autoSlideInterval = setInterval(function() {
+            currentIndex++;
+            updateCarousel();
+            // Réinitialiser dès la fin des slides originales
+            if (currentIndex >= originalCount) {
+                setTimeout(function() {
+                    currentIndex = 0;
+                    updateCarousel(false);
+                }, transitionTime);
+            }
+        }, 2500);
+    }
+    
+    // Gestion des événements tactiles pour le mode mobile
+    function touchStartHandler(e) {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+    }
+    function touchMoveHandler(e) {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const deltaX = currentX - startX;
+        const slideWidth = slides[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(carousel).gap) || 0;
+        const step = slideWidth + gap;
+        carousel.style.transition = 'none';
+        carousel.style.transform = 'translateX(' + (-step * currentIndex + deltaX) + 'px)';
+    }
+    function touchEndHandler() {
+        isDragging = false;
+        const deltaX = currentX - startX;
+        // Seuil de 50px pour passer à la slide suivante ou précédente
+        if (deltaX < -50 && currentIndex < originalCount - 1) {
+            currentIndex++;
+        } else if (deltaX > 50 && currentIndex > 0) {
+            currentIndex--;
+        }
+        updateCarousel();
+    }
+    
+    function setupMobile() {
+        // Annuler auto-défilement s'il existe
+        if(autoSlideInterval) {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = null;
+        }
+        currentIndex = 0;
+        updateCarousel(false);
+        // Ajouter les écouteurs tactiles
+        container.addEventListener('touchstart', touchStartHandler);
+        container.addEventListener('touchmove', touchMoveHandler);
+        container.addEventListener('touchend', touchEndHandler);
+    }
+    
+    // Initialisation en fonction de la largeur actuelle
+    function initCarousel() {
+        if (window.innerWidth >= 780) {
+            isDesktop = true;
+            setupDesktop();
+        } else {
+            isDesktop = false;
+            setupMobile();
+        }
+    }
+    
+    initCarousel();
+    
+    // Réinitialisation dynamique lors du redimensionnement sans recharger la page
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            let newDesktop = window.innerWidth >= 780;
+            if(newDesktop !== isDesktop) {
+                // Reset l'index et réinitialise le carrousel dans le nouveau mode
+                currentIndex = 0;
+                initCarousel();
+            } else {
+                updateCarousel(false);
+            }
+        }, 250);
+    });
+});
+
+$(document).ready(function(){
+    $('.vertical-carousel').slick({
+         vertical: true,
+         centerMode: true,      // Active le centre
+         centerPadding: '0px',
+         arrows: false,
+         autoplay: true,
+         autoplaySpeed: 3000,
+         slidesToShow: 1,
+         slidesToScroll: 1,
+         pauseOnHover: false
+    });
+});
