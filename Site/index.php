@@ -569,14 +569,49 @@
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
                                         <?php if($membre){ ?>
-                                            <a href="favoris.php?idoffre=<?= $offre['idoffre'] ?>" class="favoris-coeur" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-                                                <?php if (in_array($offre['idoffre'], array_column($favoris_membre, 'idoffre'))) { ?>
-                                                    <img class="favoris_heart" src="./img/icons/full-heart.svg" alt="Favori">
-                                                <?php } else { ?>
-                                                    <img class="favoris_heart" src="./img/icons/empty-heart.svg" alt="Ajouter aux favoris">
-                                                <?php } ?>
-                                            </a>
+                                            <?php if (in_array($offre['idoffre'], array_column($favoris_membre, 'idoffre'))) { ?>
+                                                <a href="#" class="favoris-coeur" data-idoffre="<?= $offre['idoffre'] ?>" data-add="false" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                                    <img class="favoris_heart" id="favoris-<?= $offre['idoffre'] ?>" src="./img/icons/full-heart.svg" alt="Favori">
+                                                </a>
+                                            <?php } else { ?>
+                                                <a href="#" class="favoris-coeur" data-idoffre="<?= $offre['idoffre'] ?>" data-add="true" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                                    <img class="favoris_heart" id="favoris-<?= $offre['idoffre'] ?>" src="./img/icons/empty-heart.svg" alt="Ajouter aux favoris">
+                                                </a>
+                                            <?php } ?>
                                         <?php } ?>
+                                        <script>
+                                            $(document).ready(function() {
+                                                $('.favoris-coeur').on('click', function(e) {
+                                                    e.preventDefault();
+                                                    
+                                                    let idoffre = $(this).data('idoffre');
+                                                    let add = $(this).data('add');
+                                                    let $heart = $('#favoris-' + idoffre);
+
+                                                    $.ajax({
+                                                        url: 'update_favoris.php',
+                                                        method: 'GET',
+                                                        data: {
+                                                            idoffre: idoffre,
+                                                            add: add
+                                                        },
+                                                        success: function(response) {
+                                                            if (add === 'true') {
+                                                                $heart.attr('src', './img/icons/full-heart.svg');
+                                                                $heart.closest('.favoris-coeur').data('add', 'false');
+                                                            } else {
+                                                                $heart.attr('src', './img/icons/empty-heart.svg');
+                                                                $heart.closest('.favoris-coeur').data('add', 'true');
+                                                            }
+                                                        },
+                                                        error: function() {
+                                                            alert('Une erreur s\'est produite.');
+                                                        }
+                                                    });
+                                                });
+                                            });
+
+                                        </script>
                                         <?php if ($professionel && $offre['horsligne']) { ?>
                                             <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
                                             <div class="offre-hors-ligne">Hors ligne</div>
