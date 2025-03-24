@@ -1226,6 +1226,10 @@ p.cp_mobile_erreur {
 		flex-wrap: wrap;
     }
 
+	.offre-detail-img-desc{
+		flex-direction: column;
+	}
+
     .details-offre {
         width: 100%;
         margin-bottom: 20px;
