@@ -185,6 +185,7 @@ header {
     background-color: var(--color-background);
     box-shadow: 2px 0px 15px #040316;
     padding: 20px;
+	overflow-y: auto;
     transition: left 0.3s ease;
     z-index: 8000;
 }
@@ -1226,6 +1227,10 @@ p.cp_mobile_erreur {
 		flex-wrap: wrap;
     }
 
+	.offre-detail-img-desc{
+		flex-direction: column;
+	}
+
     .details-offre {
         width: 100%;
         margin-bottom: 20px;
@@ -1460,10 +1465,10 @@ p.cp_mobile_erreur {
 }
 
 .details-offre-image {
-	width: 700px;
-	height: 300px;
-	object-fit: cover;
-	border-radius: 10px;
+	width: 340px; /* Largeur fixe */
+    height: 225px; /* Hauteur fixe */
+    object-fit: cover; /* Ajuste l'image pour remplir le conteneur sans déformation */
+    border-radius: 10px; /* Coins arrondis pour un meilleur rendu */
 }
 
 /* Grille tarifaire */
@@ -1499,6 +1504,14 @@ td {
 .offre-details {
 	padding: 15px;
 	text-align: left;
+}
+
+.offre-detail-img-desc {
+    display: flex; /* Utilise Flexbox pour aligner les éléments horizontalement */
+    align-items: center; /* Aligne les éléments verticalement au centre */
+    justify-content: space-between; /* Ajoute de l'espace entre l'image et la description */
+    gap: 20px; /* Ajoute un espace entre l'image et la description */
+    margin: 20px 0; /* Ajoute un espacement vertical */
 }
 
 .offre-titre {
@@ -1609,10 +1622,11 @@ td {
 }
 
 .offre-description {
-	margin: 20px 0;
-	padding: 10px;
-	background-color: var(--color-background);
-	border-left: 5px solid var(--color-primary);
+    flex: 1; /* Permet à la description de prendre 1 part de l'espace disponible */
+    padding: 20px; /* Ajoute un espacement interne */
+    background-color: var(--color-background); /* Couleur de fond */
+    border-left: 5px solid var(--color-primary); /* Ajoute une bordure à gauche */
+    border-radius: 10px; /* Coins arrondis */
 }
 
 .offre-description h2 {
@@ -1623,6 +1637,7 @@ td {
 }
 
 .offre-description p {
+	margin-bottom: 10px; /* Ajoute un espacement entre les paragraphes */
 	font-size: 1em;
 	color: var(--color-text);
 	line-height: 1.5;
@@ -3487,16 +3502,83 @@ input:checked + .sliderswitch:before {
 .a-nouv{
 	text-decoration:none; 
 	display:flex; 
-	justify-content:center; 
 	width: 80%;
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+	border-radius: 10px;
 }
 
 .offre-image-1 {
-	width: 100%;
+	width: 50%;
 	height: 400px;
 	object-fit:cover;
-	border-radius: 10px;
+	border-radius: 10px 0 0 10px;
 	
+}
+
+.a-nouv:hover {
+	transform: scale(1.05);
+}
+
+.offres-details-1{
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.offre-titre-index-1{
+	font-size: 2em;
+	font-weight: bold;
+	color: var(--color-text);
+	text-align: left;
+	margin: 20px 0;
+}
+
+.offre-prix-1 {
+	font-size: 1.5em;
+	color: var(--color-primary);
+	font-weight: bold;
+}
+
+.offre-resume-1 , .offre-date-1 {
+	font-size: 1.5em;
+	color: #666;
+	margin-bottom: 10px;
+}
+
+.titre-moy-index-1 {
+	display: flex;
+	width: 200%;
+	gap : 3.5px;
+	height: 40px;
+}
+
+.titre-moy-index-1 p {
+	position: relative;
+	top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
+	color: #040316;
+}
+
+.offre-image-container._2 {
+    flex: 6; /* Permet à l'image de prendre 1 part de l'espace disponible */
+    max-width: 60%; /* Limite la largeur de l'image à 50% */
+    text-align: center; /* Centre l'image horizontalement */
+}
+
+.offre-image-container._2 img {
+    width: 100%; /* L'image occupe toute la largeur de son conteneur */
+    height: auto; /* Maintient les proportions de l'image */
+    border-radius: 10px; /* Ajoute des coins arrondis */
+    object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur sans déformation */
+}
+
+/* Exemple pour les conteneurs spécifiques */
+.details-offre-image{
+    width: 340px; /* Largeur fixe */
+    height: 225px; /* Hauteur fixe */
+    object-fit: cover; /* Ajuste l'image pour remplir le conteneur sans déformation */
+    border-radius: 10px; /* Coins arrondis */
 }
 
 @media (max-width: 780px) {
@@ -3515,7 +3597,40 @@ input:checked + .sliderswitch:before {
         justify-content: center;
         margin: 0 auto;
     }
+
+	.offre-titre-index-1{
+		font-size: 1.5em;
+	}
+
+	.offre-resume-1, .offre-date-1 {
+		font-size: 1.5em;
+	}
+
+	.offre-prix-1 {
+		font-size: 1.5em;
+	}
+	.titre-moy-index-1 {
+		display: none;
+	}
 }
 
+@media (max-width: 560px) {
+	.offre-resume-1 {
+		display: none;
+	}
+}
 
+.favoris_heart{
+	width: 48px;
+	height: 48px;
+	/*fond bland opaque*/
+	background-color: rgba(255, 255, 255, 0.2);
+	/*bordure arrondie*/
+	border-radius: 50%;
+}
 
+.favoris_heart:hover{
+	background-color: rgba(255, 255, 255, 0.8);
+	/*animation*/
+	animation: beat 0.5s infinite alternate;
+}
