@@ -311,7 +311,7 @@
                     <option value="Ancien">Tri par Date la plus Ancienne</option>
                 </select>
 
-                <div style="display: flex; justify-content: right;">
+                <div style="display: flex; justify-content: right; margin-bottom: 10px;">
                     <a href="index.php" class="button_2 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Reset</a>
                 </div>
 
@@ -485,9 +485,59 @@
                         if(!$professionel && $offre['horsligne'] == false ) { ?>
                                 <div class="offre-card-1" style=" position: relative; width: 100%; display:flex;  justify-content:center; margin: 40px auto;" >
                                     <a class="a-nouv" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
-                                        <!-- Affichage de l'image -->
-                                        <!-- <img class="nouv" src="img/icons/star-solid.svg" alt="star" style="width: 50px; height: 50px;"> -->
                                         <img class="offre-image-1" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                        <div class="offres-details-1">
+                                            <h2 class="offre-titre-index-1"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+                                            <!-- Résumé de l'offre -->
+                                            <p class="offre-resume-1"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
+                                                        
+                                            <!-- Prix minimum de l'offre -->
+                                            <p class="offre-prix-1 <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
+
+                                            <div class="titre-moy-index-1">
+                                                <p class="offre-resume-1"> <strong> Note : </strong></p>
+                                                <div class="texte_note_etoiles_container">
+
+                                                <?php if(!empty($offre['notemoyenneoffre'])){
+                                                        $noteMoyenne = $offre['notemoyenneoffre'];
+
+                                                        // Calcul des étoiles pleines
+                                                        $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
+                                                        if ($noteMoyenne - $etoilesCompletes > 0.705){
+                                                            $etoilesCompletes++;
+                                                        }
+                                                        for ($i = 0; $i < $etoilesCompletes; $i++) {
+                                                            ?> 
+                                                            <img src="./img/icons/star-solid.svg" alt="star checked" width="40" height="40">
+                                                            <?php
+                                                        }
+
+                                                        // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
+                                                        if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
+                                                            ?> 
+                                                            <img src="./img/icons/star-half.svg" alt="half star checked" width="40" height="40"> 
+                                                            <?php
+                                                            $i++; // Compter cette demi-étoile
+                                                        }
+
+                                                        // Compléter avec les étoiles vides jusqu'à 5
+                                                        for (; $i < 5; $i++) {
+                                                            ?> 
+                                                            <img src="./img/icons/star-regular.svg" alt="star unchecked" width="40" height="40"> 
+                                                            <?php
+                                                        }
+
+                                                        ?><p class="nombre_note" style="font-size:1.5em;" ><?=$offre['notemoyenneoffre']?>/5</p><?php
+
+                                                    } else {
+                                                        ?> <p style="font-size:1.5em;">Pas d'évaluations</p><?php
+                                                    }
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <p class="offre-date-1"><strong>Date:</strong> <?= !empty($offre['datecreationoffre']) ? htmlspecialchars($offre['datecreationoffre']) : 'Date non disponible' ?></p>
+                                        </div>
                                     </a>
                                 </div>
                                
