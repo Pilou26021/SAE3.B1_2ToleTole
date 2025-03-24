@@ -284,6 +284,7 @@ if (count($offres) > 0) {
         $offresData[] = [
             'id' => $offre['idoffre'],
             'titre' => htmlspecialchars($offre['titreoffre']),
+            'description' => $offre['resumeoffre'],
             'image' => $offre['pathimage'],
             'note' => $offre['notemoyenneoffre'],
             'prix' => $offre['prixminoffre'],
