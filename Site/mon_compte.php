@@ -1,3 +1,71 @@
+<style>
+    .modale {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        align-items: center;
+        justify-content: center;
+    }
+    #modale-content {
+        background: #f5f5e9;
+        border: 2px solid red;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 300px;
+    }
+    .modale button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: 1px solid red;
+        cursor: pointer;
+    }
+
+    #ouvrirModalSuppression{
+        border-color: red;
+    }
+
+    #ouvrirModalSuppression:hover{
+        background-color: red;
+    }
+    
+                .conteneur-confirmation{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                }
+                .warning {
+            font-size: 50px;
+            color: red;
+            text-align: center;
+            background-color: #F2F1E9;
+            border: none;
+            }
+
+            .loader {
+            margin-bottom: 10px;
+            border: 8px solid #F2F1E9; /* Couleur du fond */
+            border-top: 8px solid red; /* Couleur de l'animation */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite; /* Animation pour faire tourner le cercle */
+            }
+
+            /* Définir l'animation */
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+
+</style>
+
+
 <?php
 
     ob_start();
@@ -264,6 +332,7 @@
 
                         </section>
 
+
                         <!-- <a class="liens-boutons" href="">Consulter les signalements</a>
                         <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                     </div>
@@ -284,13 +353,135 @@
                             <a class="liens-boutons" href="">Aide</a> -->
                         <!-- </div> -->
                     </section>
+                    <section>
+                        <button id="ouvrirModalSuppression" class="liens-boutons" type="button">Supprimer mon compte</button>
+                    </section>
+
             
                     <!-- <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                 </div>
+                
             <?php
-            } ?>
+            } 
+
+
+
+            //Autre partie
+
+            
+
+
+
+
+            ?>
+
+
+
+            <div id="confirmationModal" class="modale">
+                <div id="modale-content">
+                    <section id="truc1">
+                        <form action="<?=($_SERVER['PHP_SELF'])?>" method="post">
+                            <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+                            <p>⚠ Cet action est irréversible</p>
+                            <input type="password" id="pswInput" name="pswInput">
+                            <button id="confirmerOui" type="submit">Oui</button>
+                            <button id="confirmerNon">Non</button> 
+                            <p id="messageIndication">Message info</p>
+                        </form>
+                        
+                    </section>
+                    <section id="redirection">
+                        <section class="conteneur-confirmation">
+                            <div class="loader"></div>
+                            <p style='color: red; font-size: 22px; margin: 0;'> Suppression de votre compte en cours ... <p>
+                            <p style='color: red; font-size: 22px; margin: 0;'> Vous allez être redirigé dans 3 secondes <p>
+
+                        </section>
+                    </section>
+                </div>
+            </div>
+
                 
         </main>
-        <div id="footer"></div>
+
+
+
+        
+
+    <script>
+                const modale = document.getElementById("confirmationModal");
+                const contenu = document.getElementById("modale-content");
+                const contenuBis = document.getElementById("redirection");
+                const boutonOuverture = document.getElementById("ouvrirModalSuppression");
+                const confirmerOui = document.getElementById("confirmerOui");
+                const confirmNo = document.getElementById("confirmNo");
+                const getMDP = document.getElementById("divMDP");
+                const getInput = document.getElementById("pswInput");
+                const msgIndication = document.getElementById("messageIndication");
+
+
+                // Ouvre la modale
+                boutonOuverture.addEventListener("click", () => {
+                    event.preventDefault();
+                    modale.style.display = "flex";
+                    contenuBis.style.display = "none";
+                });
+
+                // Si "Oui" est cliqué, affiche dans la console et ferme la modale
+             
+
+                    document.getElementById("confirmerOui").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    
+                    let motDePasse = document.getElementById("pswInput").value;
+
+
+
+                    let valeur = document.getElementById("pswInput").value;
+                    let formData = new FormData();
+                    formData.append("texte", valeur);
+
+                    fetch("unTest.php", {
+                        method: "POST",
+                        body: formData,
+                        credentials: "include",
+                    })
+                    .then(response => response.text()) // Ne récupère que la réponse, pas la page entière
+                    .then(data => {
+                        msgIndication.innerHTML = data; // Met à jour uniquement le texte
+                    })
+                    .catch(error => console.error("Erreur :", error));
+                    
+
+
+
+
+                    // fetch("verifier_mdp.php", {
+                    //     method: "POST",
+                    //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    //     body: "pswInput=" + encodeURIComponent(motDePasse)
+                    // })
+                    // .then(response => response.text())
+                    // .then(data => {
+                    //     if (data.trim() === "oui") {
+                    //         contenuBis.style.display = "flex";
+                    //         window.location.href = "suppression_compte.php"; // Redirection si succès
+                    //     } else {
+                    //         msgIndication.innerHTML = 'Nique ta mère';
+                    //     }
+                    // })
+                });
+
+
+                // Si "Non" est cliqué, ferme simplement la modale
+                confirmNo.addEventListener("click", () => {
+                    modale.style.display = "none";
+                });
+    </script>
+
+
+
+    
+    <div id="footer"></div>
     </body>
 </html>
