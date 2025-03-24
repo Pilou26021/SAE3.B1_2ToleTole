@@ -3523,9 +3523,7 @@ input:checked + .sliderswitch:before {
 }
 
 /* Exemple pour les conteneurs spécifiques */
-.offre-image-container img,
-.details-offre-image,
-.offre-image {
+.details-offre-image{
     width: 340px; /* Largeur fixe */
     height: 225px; /* Hauteur fixe */
     object-fit: cover; /* Ajuste l'image pour remplir le conteneur sans déformation */
