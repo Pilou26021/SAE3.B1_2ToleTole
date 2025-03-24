@@ -67,7 +67,7 @@
             $stmtFavoris = $conn->prepare($sqlFavoris);
             $stmtFavoris->bindValue(':idmembre', $idmembre, PDO::PARAM_INT);
             $stmtFavoris->execute();
-            $favoris = $stmtFavoris->fetchAll();
+            $favoris_membre = $stmtFavoris->fetchAll();
             print_r($favoris);
         }
 
@@ -518,9 +518,15 @@
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
-                                        <a href="favoris.php?idoffre=<?= $offre['idoffre'] ?>" class="favoris-coeur" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-                                            <img src="img/coeur.png" alt="Ajouter aux favoris" style="width: 24px; height: 24px; pointer-events: none;">
-                                        </a>
+                                        <?php if($membre){ ?>
+                                            <a href="favoris.php?idoffre=<?= $offre['idoffre'] ?>" class="favoris-coeur" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                                <?php if (in_array($offre['idoffre'], array_column($favoris_membre, 'idoffre'))) { ?>
+                                                    <img src="./img/icons/full-heart.svg" alt="Favori" style="width: 24px; height: 24px;">
+                                                <?php } else { ?>
+                                                    <img src="./img/icons/empty-heart.svg" alt="Ajouter aux favoris" style="width: 24px; height: 24px;">
+                                                <?php } ?>
+                                            </a>
+                                        <?php } ?>
                                         <?php if ($professionel && $offre['horsligne']) { ?>
                                             <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
                                             <div class="offre-hors-ligne">Hors ligne</div>
