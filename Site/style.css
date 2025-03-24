@@ -3452,3 +3452,43 @@ input:checked + .sliderswitch:before {
     }
 }
 
+
+.vertical-carousel{
+	margin: 20px auto;
+	padding: 20px auto;
+}
+.a-nouv{
+	text-decoration:none; 
+	display:flex; 
+	justify-content:center; 
+	width: 80%;
+}
+
+.offre-image-1 {
+	width: 100%;
+	height: 400px;
+	object-fit:cover;
+	border-radius: 10px;
+	
+}
+
+@media (max-width: 780px) {
+    /* Ajustements pour le conteneur du slider */
+    .vertical-carousel {
+        width: 100%;
+        margin: 10px auto;
+        padding: 10px 0;  /* Réduire le padding pour éviter des décalages */
+    }
+    
+    /* Centrer chaque slide */
+    .vertical-carousel .slick-slide {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+}
+
+
+

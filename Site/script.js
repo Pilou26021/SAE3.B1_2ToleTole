@@ -597,6 +597,8 @@ document.addEventListener('DOMContentLoaded', function() {
 $(document).ready(function(){
     $('.vertical-carousel').slick({
          vertical: true,
+         centerMode: true,      // Active le centre
+         centerPadding: '0px',
          arrows: false,
          autoplay: true,
          autoplaySpeed: 3000,

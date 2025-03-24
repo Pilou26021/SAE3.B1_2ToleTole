@@ -429,7 +429,7 @@
                     $maxOffresN = 5; // Limite du nombre d'offres à afficher
                     $countN = 0; 
                     $sqlN = "
-                        SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne,o.notemoyenneoffre,o.alauneoffre,o.datecreationoffre
+                        SELECT o.idOffre, o.titreOffre, o.resumeOffre, o.prixMinOffre, i.pathImage, o.horsligne,o.notemoyenneoffre,o.alauneoffre,o.enreliefoffre,o.datecreationoffre
                         FROM public._offre o
                         JOIN (
                             SELECT idOffre, MIN(idImage) AS firstImage
@@ -448,80 +448,26 @@
                         if ($countN >= $maxOffresN) {
                             break; // Arrêter le traitement après 10 offres
                         }
+
+                        // Style
+                        $style = "";
+                        if ($offre['enreliefoffre']==true) {
+                            if ($professionel) {
+                                $style = "style = 'border: 5px solid var(--color-accent-pro); border-radius: 10px;'";
+                            } else {
+                                $style = "style = 'border: 5px solid #36D673; border-radius: 15px;'";
+                            }
+                        }
+                        
                         if(!$professionel && $offre['horsligne'] == false ) { ?>
-                            <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
-                                <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
-                                    <div class="offre-image-container" style="position: relative;">
+                                <div class="offre-card-1" style=" position: relative; width: 100%; display:flex;  justify-content:center; margin: 40px auto;" >
+                                    <a class="a-nouv" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
                                         <!-- Affichage de l'image -->
-                                        <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
-                                        <?php if ($professionel && $offre['horsligne']) { ?>
-                                            <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
-                                            <div class="offre-hors-ligne">Hors ligne</div>
-                                        <?php } ?>
-                                    </div>
-                                    <div class="offre-details">
-                                        <!-- Titre de l'offre -->
-                                        <h2 class="offre-titre-index"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
-                                        
-                                        <!-- Résumé de l'offre -->
-                                        <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
-                                        
-                                        <!-- Prix minimum de l'offre -->
-                                        <p class="offre-prix <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>"><strong>Prix Minimum:</strong> <?= empty($offre['prixminoffre']) || $offre['prixminoffre'] <= 0 ? 'Gratuit' : $offre['prixminoffre'] . ' €' ?></p>
-
-                                        <div class="titre-moy-index">
-                                            <p class="offre-resume"> <strong> Note : </strong></p>
-                                            <div class="texte_note_etoiles_container">
-                                            <?php if(!empty($offre['notemoyenneoffre'])){
-                                                    $noteMoyenne = $offre['notemoyenneoffre'];
-
-                                                    // Calcul des étoiles pleines
-                                                    $etoilesCompletes = floor($noteMoyenne);  // on prend la partie entière de la moy
-                                                    if ($noteMoyenne - $etoilesCompletes > 0.705){
-                                                        $etoilesCompletes++;
-                                                    }
-                                                    for ($i = 0; $i < $etoilesCompletes; $i++) {
-                                                        ?> 
-                                                        <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20">
-                                                        <?php
-                                                    }
-
-                                                    // si la partie décimale est supérieure ou égale à 0.3 et inferieure ou égale à 0.7-> une demi étoile
-                                                    if ($noteMoyenne - $etoilesCompletes >= 0.295 && $noteMoyenne - $etoilesCompletes <= 0.705) {
-                                                        ?> 
-                                                        <img src="./img/icons/star-half.svg" alt="half star checked" width="20" height="20"> 
-                                                        <?php
-                                                        $i++; // Compter cette demi-étoile
-                                                    }
-
-                                                    // Compléter avec les étoiles vides jusqu'à 5
-                                                    for (; $i < 5; $i++) {
-                                                        ?> 
-                                                        <img src="./img/icons/star-regular.svg" alt="star unchecked" width="20" height="20"> 
-                                                        <?php
-                                                    }
-
-                                                    ?><p class="nombre_note"><?= $offre['notemoyenneoffre']?>/5</p><?php
-
-                                                } else {
-                                                    ?> <p>Pas d'évaluations</p><?php
-                                                }
-
-                                                ?>
-                                            </div>
-
-                                        </div>
-                                        <p class="offre-resume">Offre publié le : <?= !empty($offre['datecreationoffre']) ? htmlspecialchars($offre['datecreationoffre']) : 'Date non disponible' ?> </p>
-
-                                       <!-- bouton modifier offre seulement pour le professionel qui détient l'offre -->
-                                       <?php if ($professionel) { ?>
-                                            <a href="modifier_offre.php?idoffre=<?=$offre['idoffre']?>&origin=index" class="bouton-modifier-offre <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">Modifier</a>
-                                            <a href="delete_offer.php?idoffre=<?= $offre['idoffre'] ?>" class="bouton-supprimer-offre">Supprimer</a>
-                                        <?php } ?>
-
-                                    </div>
+                                        <!-- <img class="nouv" src="img/icons/star-solid.svg" alt="star" style="width: 50px; height: 50px;"> -->
+                                        <img class="offre-image-1" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                    </a>
                                 </div>
-                            </a>    
+                               
                         <?php } 
                         $countN++;
                         ?>
