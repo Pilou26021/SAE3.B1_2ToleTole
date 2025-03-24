@@ -213,8 +213,8 @@
         ?>
         
         <main>
-            <div style=" position:sticky; top:20px; left:20px; width: 100%;">
-                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="./index.php">&#8617;</a>
+            <div style=" position:sticky; top:20px; left:20px; width: 100%; z-index:500; ">
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer; " href="./index.php">&#8617;</a>
                 <!-- onclick="history.back(); -->
             </div>
 
