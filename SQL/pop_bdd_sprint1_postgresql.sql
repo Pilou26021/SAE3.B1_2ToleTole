@@ -29,7 +29,7 @@ INSERT INTO _image (pathImage) VALUES
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
 (1, '', 'Anonymous', 0, 'Anonymous', 'Anonymous', 'Anonymous'), -- 1
 (17, '', 'Rue de Trolay', 22700, 'Perros-Guirec', 'Bretagne', 'France'), -- 2
-(5, '', 'Place du Roi Saint-Judicael', 35380, 'Paimpont', 'Bretagne', 'France'), -- 3
+(5, '', 'Rue des forges', 35380, 'Paimpont', 'Bretagne', 'France'), -- 3
 (4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'), -- 4
 (7, '', 'Avenue Saint-Denis', 29000, 'Quimper', 'Finistère', 'France'), -- 5
 (6, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 6

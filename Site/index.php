@@ -48,6 +48,29 @@
             $idProoffre = $_SESSION['idpro'];
         }
 
+        //récupérer la liste des offres en favoris si c'est un membre
+        /*CREATE TABLE public._favoris (
+            idFavoris SERIAL PRIMARY KEY,
+            idMembre BIGINT NOT NULL,
+            idOffre BIGINT NOT NULL,
+            dateAjout TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre),
+            FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
+            CONSTRAINT unique_favoris UNIQUE (idMembre, idOffre)
+        );*/
+        if ($membre) {
+            $sqlFavoris = "
+                SELECT idOffre
+                FROM public._favoris
+                WHERE idMembre = :idmembre
+            ";
+            $stmtFavoris = $conn->prepare($sqlFavoris);
+            $stmtFavoris->bindValue(':idmembre', $idmembre, PDO::PARAM_INT);
+            $stmtFavoris->execute();
+            $favoris = $stmtFavoris->fetchAll();
+            print_r($favoris);
+        }
+
         // Construction de la requête SQL en fonction du type d'utilisateur
         if ($professionel) {
             // Si professionnel, n'afficher que ses offres
@@ -495,6 +518,9 @@
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                        <a href="favoris.php?idoffre=<?= $offre['idoffre'] ?>" class="favoris-coeur" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                            <img src="img/coeur.png" alt="Ajouter aux favoris" style="width: 24px; height: 24px; pointer-events: none;">
+                                        </a>
                                         <?php if ($professionel && $offre['horsligne']) { ?>
                                             <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
                                             <div class="offre-hors-ligne">Hors ligne</div>
