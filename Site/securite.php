@@ -205,11 +205,24 @@
                 };
             }
 
-            // Pop up pour activer la 2fa ainsi que l'apparation du qr code
-            function popup_2fa(){
-                window.open("./popup_setuptotp.php", "popup", "width=500, height=500");
+            function popup_2fa() {
+                var popup = document.querySelector('.display-none');
+                if (popup) {
+                    popup.style.display = 'block';
+                } else {
+                    console.error("L'élément .popup n'existe pas !");
+                }
             }
 
+            function popup_2fa2() {
+                var popup = document.querySelectorAll('.display-none');
+                if (popup.length > 1) {
+                    popup[0].style.display = 'none';
+                    popup[1].style.display = 'block';
+                } else {
+                    console.error("L'élément .popup n'existe pas !");
+                }
+            }
         </script>
 
 <main class="securite_main">
@@ -261,15 +274,114 @@
         </div>
     </div>
 </main>
-  <div id="footer"></div>
 
-        <!-- Script pour header et footer -->
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script>
-            $(function() {
-                $("#footer").load("./footer.html");
-            });
-        </script>
-        <script src="./script.js" ></script>
+<script>
+    function get_secret() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'api/auth_gensecret.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                document.querySelector('.popup-content-right-inner-qr img').src = response.qrcode;
+                document.getElementById('secret').innerText = response.secret;
+            }
+        };
+        xhr.send('idcompte=' + <?php echo $idcompte; ?>);
+    }
+    // array avec secret et qrcode
+    get_secret();
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.popup').style.display = 'block';
+    });
+
+    function etape_suivante() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'api/auth_paramsecret.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == 'true') {
+                    closePopup();
+                    window.location.href = 'index.php';
+                } else {
+                    alert('Code OTP invalide');
+                }
+            }
+        };
+        var codeotp = prompt('Entrez le code OTP');
+        if (codeotp != null) {
+            xhr.send('idcompte=' + <?php echo $idcompte; ?> + '&codeotp=' + codeotp);
+        }
+    }
+</script>
+<div class="display-none">
+    <div class="popup-header">
+        <h2>Authentification à deux facteurs</h2>
+        <button class="close-popup" onclick="closePopup();">X</button>
+    </div>
+    <div class="popup-body">
+        <div class="popup-content">
+            <div class="popup-content-inner">
+                <div class="popup-content-left">
+                    <div class="popup-content-left-inner">
+                        <h3>Étape 1: Installer une application d'authentification à deux facteurs</h3>
+                    </div>
+                </div>
+                <div class="popup-content-right">
+                    <div class="popup-content-right-inner">
+                        <h3>Étape 2: Scannez le code QR ou entrez la clé secrète ci-dessous</h3>
+                        <p>Ouvrir votre application d'authentification et scanner le code QR ci-dessous ou entrez la clé secrète manuellement.</p>
+                        <div class="popup-content-right-inner-qr">
+                            <img src="" alt="QR Code">
+                        </div>
+                        <div class="popup-content-right-inner-secret">
+                            <p>Clé secrète: <span id="secret"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-footer">
+        <button class="button button-primary" onclick="popup_2fa2();">Suivant</button>
+    </div>
+</div>
+
+<div class="display-none">
+    <div class="popup-header">
+        <h2>Authentification à deux facteurs</h2>
+        <button class="close-popup" onclick="closePopup();">X</button>
+    </div>
+    <div class="popup-body">
+        <div class="popup-content">
+            <div class="popup-content-inner">
+                <div class="popup-content-left">
+                    <div class="popup-content-left-inner">
+                        <h3>Étape 3: Entrez le code OTP</h3>
+                        <p>Entrez le code OTP généré par votre application d'authentification à deux facteurs.</p>
+                        <input type="text" id="otp" name="otp" placeholder="Code OTP">
+                        <button class="button button-primary" onclick="valider_otp();">Valider</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-footer">
+        <button class="button-blocked button-primary" onclick="etape_suivante();">Suivant</button>
+    </div>
+</div>
+    
+<div id="footer"></div>
+
+<!-- Script pour header et footer -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+    $(function() {
+        $("#footer").load("./footer.html");
+    });
+</script>
+<script src="./script.js" ></script>
     </body>
 </html>

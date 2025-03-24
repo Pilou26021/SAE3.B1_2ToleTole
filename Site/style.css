@@ -3634,3 +3634,8 @@ input:checked + .sliderswitch:before {
 	/*animation*/
 	animation: beat 0.5s infinite alternate;
 }
+
+/* pop-up 2fa */
+.display-none {
+	display: none;
+}
