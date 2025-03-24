@@ -199,6 +199,8 @@ function showDateOuvert() {
     }
 }
 
+var map;
+
 // FILTRES
 
 async function applyFilters() {
@@ -255,7 +257,8 @@ async function applyFilters() {
             // Récupérer le contenu et l'injecter dans le DOM
             const data = await response.text();
             document.querySelector('.offres-display').innerHTML = data;
-            document.getElementById('map_offres').style.display = 'block';
+            toggleMap();
+            updateMap();
         } else {
             throw new Error('Erreur lors de la récupération des résultats.');
         }
@@ -264,36 +267,74 @@ async function applyFilters() {
     }
 }
 
-// Ajouter des écouteurs d'événements pour chaque filtre
-document.addEventListener('DOMContentLoaded', () => {
-    var locations = [
-        { lat: 48.8566, lng: 2.3522, name: "Paris" },
-        { lat: 45.7640, lng: 4.8357, name: "Lyon" },
-        { lat: 43.6047, lng: 1.4442, name: "Toulouse" },
-        { lat: 43.2965, lng: 5.3698, name: "Marseille" },
-        { lat: 50.6292, lng: 3.0573, name: "Lille" },
-        { lat: 47.2184, lng: -1.5536, name: "Nantes" },
-        { lat: 48.5734, lng: 7.7521, name: "Strasbourg" }
-    ];
+ 
+// Function to toggle the visibility of the map
+function toggleMap() {
+    var mapElement = document.getElementById('map_offres');
+    mapElement.style.display = 'block'; // Show the map
+    if (!map) {
+        // Initialize the map only once
+        initializeMap();
+    } else {
+        map.invalidateSize(); // Recalculate map size if already initialized
+    }
+}
+
+
+function initializeMap(){
 
         // Create the map and set the initial view
-    var map = L.map('map_offres', {
-        center: [locations[0].lat, locations[0].lng], // Starting center point
-        zoom: 13, // Starting zoom level
-    });
-
-    // Add tile layer (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    document.querySelectorAll('select, input').forEach(element => {
-        element.addEventListener('change', () => {
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 300);
+        map = L.map('map_offres', {
+            center: [48, 2], // Position initiale
+            zoom: 13, // Niveau de zoom initial
+            minZoom: 3, // Niveau de zoom minimum
+            maxZoom: 18, // Niveau de zoom maximum
+            maxBounds: [
+                [-90, -180], // Coin sud-ouest
+                [90, 180] // Coin nord-est
+            ],
+            maxBoundsViscosity: 1.0 // Empêche de trop sortir des limites
         });
-    });
+    
+        // Add tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    
+        document.querySelectorAll('select, input').forEach(element => {
+            element.addEventListener('change', () => {
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 300);
+            });
+        });  
+}
+
+// Création du groupe de clusters
+var markers = L.markerClusterGroup();
+
+
+function updateMap() {
+    // Effacer les anciens marqueurs
+    markers.clearLayers();
+    var div = document.getElementById("offres-data");
+
+    // Vérifier si l'élément existe
+    if (!div) {
+        console.error('L\'élément avec l\'ID "offres-data" n\'a pas été trouvé.');
+        return; // On sort de la fonction si l'élément n'existe pas
+    }
+
+    // Récupération des données JSON
+    var offres = JSON.parse(div.textContent); 
+
+    // Vérifier si le tableau 'offres' est vide ou invalide
+    if (!Array.isArray(offres) || offres.length === 0) {
+        console.log('Aucune offre disponible.');
+        markers.clearLayers(); // Efface les anciens marqueurs, même si aucun nouveau marqueur n'est ajouté
+        map.addLayer(markers); // Ajoute à la carte un cluster vide
+        return; // On sort de la fonction car il n'y a pas d'offres à afficher
+    }
 
     // Define the custom icon
     var customIcon = L.icon({
@@ -303,43 +344,47 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAnchor: [0, -32] 
     });
 
-    // Création du groupe de clusters
-    var markers = L.markerClusterGroup();
 
-    
 
-    // Add markers with the custom icon
-    locations.forEach(location => {
-        var content_popup = `
-            <div class="content_popup">
-                <img class="popup_image" src="icones/image18.png">
-                <div class="titre_note">
-                    <h3><a href="">Titre</a></h3>
-                    <div class="note_moy">
-                        <p>4</p>
-                        <img class="popup_image" src="icones/star-solid.svg">
+    offres.forEach(offre => {
+        if (offre.titre) {
+            // Création du marqueur (coordonnées fictives, remplace-les par les vraies)
+            const marker = L.marker([48, 2]).addTo(map);
+
+            // Lier un popup avec les détails de l'offre
+            marker.bindPopup(`
+                <div class="content_popup">
+                    <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
+                    <div class="titre_note">
+                        <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
+                        <div class="note_moy">
+                            <p>${offre.note || 'N/A'}</p>
+                            <img class="popup_image" src="img/icons/star-solid.svg">
+                        </div>
                     </div>
+                    <div>Créée le ${offre.date_creation || 'jj/mm/yyyy'}</div>
+                    <p>${offre.categorie || 'Catégorie inconnue'}</p>
+                    <p>${offre.adresse || 'Adresse non disponible'}</p>
+                    <p>Prix Min: ${offre.prix || 'N/A'} €</p>
                 </div>
-                <div>créée le jj/mm/yyyy</div>
-                <p>Catégorie</p>
-                <p>Adresse</p>
-                <p>Prix Min €</p>
-            </div>
-        `;
-        
-        var marker = L.marker([location.lat, location.lng], { icon: customIcon })
-            .bindPopup(content_popup);
+            `);
 
-        marker.on('click', function () {
-            marker.openPopup();
-        });
+            marker.on('click', function () {
+                marker.openPopup();
+            });
 
-        markers.addLayer(marker);
+            // Ajout du marqueur au cluster
+            markers.addLayer(marker);
+        }
     });
 
     // Ajout du cluster à la carte
     map.addLayer(markers);
+}
 
+// Ajouter des écouteurs d'événements pour chaque filtre
+document.addEventListener('DOMContentLoaded', () => {
+    initializeMap();
 
     document.getElementById('search-query').addEventListener('input', applyFilters);
     document.getElementById('category').addEventListener('change', applyFilters);

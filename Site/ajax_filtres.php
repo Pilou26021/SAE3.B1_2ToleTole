@@ -257,7 +257,17 @@ $offres = $stmt->fetchAll();
 
 // Afficher les offres filtrées
 if (count($offres) > 0) {
+    $offresData = [];
     foreach ($offres as $offre) {
+        $offresData[] = [
+            'id' => $offre['idoffre'],
+            'titre' => htmlspecialchars($offre['titreoffre']),
+            'image' => $offre['pathimage'],
+            'note' => $offre['notemoyenneoffre'],
+            'prix' => $offre['prixminoffre']
+
+        ];
+
         if(!$professionel && $offre['horsligne'] == false || $professionel) {
         ?>
         <a style="text-decoration:none; color:#040316; font-family: regular;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
@@ -273,7 +283,7 @@ if (count($offres) > 0) {
                 <div class="offre-details">
                     <!-- Titre de l'offre -->
                     <h2 class="offre-titre-index"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
-                    
+
                     <!-- Résumé de l'offre -->
                     <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                     
@@ -339,3 +349,6 @@ if (count($offres) > 0) {
     echo "Aucune offre trouvée.";
 }
 ?>
+<div id="offres-data" style="display: none;">
+    <?= htmlspecialchars(json_encode($offresData)) ?>
+</div>
