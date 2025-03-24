@@ -3513,7 +3513,6 @@ input:checked + .sliderswitch:before {
 	
 }
 
-<<<<<<< HEAD
 .a-nouv:hover {
 	transform: scale(1.05);
 }
@@ -3555,7 +3554,8 @@ input:checked + .sliderswitch:before {
 	position: relative;
 	top: -10px; /* Ajuste cette valeur pour peaufiner l'alignement */
 	color: #040316;
-=======
+}
+
 .offre-image-container._2 {
     flex: 6; /* Permet à l'image de prendre 1 part de l'espace disponible */
     max-width: 60%; /* Limite la largeur de l'image à 50% */
@@ -3575,7 +3575,6 @@ input:checked + .sliderswitch:before {
     height: 225px; /* Hauteur fixe */
     object-fit: cover; /* Ajuste l'image pour remplir le conteneur sans déformation */
     border-radius: 10px; /* Coins arrondis */
->>>>>>> a0dc900c2b0c2886c5e5019aee19e127df8d161d
 }
 
 @media (max-width: 780px) {
