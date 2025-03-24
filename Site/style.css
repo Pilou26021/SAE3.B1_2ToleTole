@@ -259,22 +259,50 @@ main {
 }
 
 .recherche {
-	width: 80%;
-	text-align: center;
-	box-shadow: 0px 0px 15px #040316;
-	border-radius: 10px;
-	padding: 10px;
+    width: 80%;
+    text-align: center;
+    box-shadow: 0px 0px 15px var(--color-border);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: var(--color-background);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
+}
+
+.recherche:hover {
+    transform: scale(1.05); /* Agrandit légèrement la zone de recherche */
+    box-shadow: 0px 0px 25px var(--color-border); /* Ombre plus prononcée avec une teinte verte */
 }
 
 .recherche_top {
-	display: flex;
-	justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.recherche_top img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease; /* Transition fluide pour les icônes */
+}
+
+.recherche_top img:hover {
+    transform: scale(1.2); /* Agrandit légèrement les icônes au survol */
 }
 
 .input {
-	border: none;
-	background-color: var(--color-background);
-	width: 200px;
+    border: none;
+    background-color: var(--color-background);
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1); /* Ombre interne légère */
+    transition: box-shadow 0.3s ease; /* Transition fluide pour l'ombre */
+}
+
+.input:focus {
+    box-shadow: 0px 0px 10px var(--color-accent-hover); /* Ombre verte lors du focus */
+    outline: none; /* Supprime la bordure par défaut */
 }
 
 #map_offres {
