@@ -571,9 +571,9 @@
                                         <?php if($membre){ ?>
                                             <a href="favoris.php?idoffre=<?= $offre['idoffre'] ?>" class="favoris-coeur" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                                                 <?php if (in_array($offre['idoffre'], array_column($favoris_membre, 'idoffre'))) { ?>
-                                                    <img src="./img/icons/full-heart.svg" alt="Favori" style="width: 24px; height: 24px;">
+                                                    <img class="favoris_heart" src="./img/icons/full-heart.svg" alt="Favori">
                                                 <?php } else { ?>
-                                                    <img src="./img/icons/empty-heart.svg" alt="Ajouter aux favoris" style="width: 24px; height: 24px;">
+                                                    <img class="favoris_heart" src="./img/icons/empty-heart.svg" alt="Ajouter aux favoris">
                                                 <?php } ?>
                                             </a>
                                         <?php } ?>

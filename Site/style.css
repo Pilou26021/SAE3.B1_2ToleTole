@@ -3620,6 +3620,17 @@ input:checked + .sliderswitch:before {
 	}
 }
 
+.favoris_heart{
+	width: 48px;
+	height: 48px;
+	/*fond bland opaque*/
+	background-color: rgba(255, 255, 255, 0.2);
+	/*bordure arrondie*/
+	border-radius: 50%;
+}
 
-
-
+.favoris_heart:hover{
+	background-color: rgba(255, 255, 255, 0.8);
+	/*animation*/
+	animation: beat 0.5s infinite alternate;
+}
