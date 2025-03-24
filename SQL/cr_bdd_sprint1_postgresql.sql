@@ -314,6 +314,16 @@ CREATE TABLE public._paiement (
     FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
 );
 
+CREATE TABLE public._favoris (
+    idFavoris SERIAL PRIMARY KEY,
+    idMembre BIGINT NOT NULL,
+    idOffre BIGINT NOT NULL,
+    dateAjout TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre),
+    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
+    CONSTRAINT unique_favoris UNIQUE (idMembre, idOffre)
+);
+
 -- Système de facturation mensuelle
 
 -- vue offre avec adresse
