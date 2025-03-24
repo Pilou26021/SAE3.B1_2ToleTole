@@ -235,23 +235,26 @@
 
                     <?php if ($offre): ?>
                         <div class="offre-detail-container">
-                            <h1 class="offre-titre"><?= $offre['titreoffre'] ?></h1>
-                            <?php
-                                if ($offre["alauneoffre"]==true) {
-                            ?>
-                                <p class="offre-resume-detail <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" ><strong>Cette offre est à la Une</strong></p>
-                            <?php 
-                                }
-                            ?>
-                            <div class="offre-image-container _2" style="text-align:center;">
-                                <img class="details-offre-image anime" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                <h1 class="offre-titre"><?= $offre['titreoffre'] ?></h1>
+                                <?php
+                                    if ($offre["alauneoffre"]==true) {
+                                ?>
+                                    <p class="offre-resume-detail <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" ><strong>Cette offre est à la Une</strong></p>
+                                <?php 
+                                    }
+                                ?>
+                                
+                            <div class="offre-detail-img-desc">
+                                <div class="offre-image-container _2" style="text-align:center;">
+                                    <img class="details-offre-image anime" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                </div>
+                                <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                                <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
+                                <p><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
+                                <p><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
+                                </div>
                             </div>
-                            <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                            <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
-                            <p><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
-                            <p><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
-                            </div>
-                            
+
                             <p class="adresse-detail">Localisation de l'offre</p>
                             <div id="map" style="display:flex;align-items:center;justify-content:center;">
                                 <h2 id="text-chargement" >Chargement de la carte</h2>
