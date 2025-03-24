@@ -205,7 +205,10 @@
                 };
             }
 
-            // Pop up pou activer la 2fa ainsi que l'apparation du qr code
+            // Pop up pour activer la 2fa ainsi que l'apparation du qr code
+            function popup_2fa(){
+                window.open("./popup_setuptotp.php", "popup", "width=500, height=500");
+            }
 
         </script>
 
@@ -253,7 +256,7 @@
             <?php } else { ?>
                 <h2>Authentification à deux facteurs</h2>
                 <p>L'authentification à deux facteurs est désactivée pour votre compte. Pour l'activer, cliquez sur le bouton ci-dessous.</p>
-                <button class="securite_center" id="btn_activer" onclick="">Activer l'authentification à deux facteurs</button>
+                <button class="securite_center" id="btn_activer" onclick="popup_2fa()">Activer l'authentification à deux facteurs</button>
             <?php } ?>
         </div>
     </div>
