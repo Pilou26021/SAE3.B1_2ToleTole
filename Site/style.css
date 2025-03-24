@@ -1362,7 +1362,6 @@ p.cp_mobile_erreur {
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
-	gap: 10px;
 	width: 100%;
 	align-items: center;
 	margin: 20px auto;
