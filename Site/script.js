@@ -281,109 +281,145 @@ function toggleMap() {
 }
 
 
+
 function initializeMap(){
 
-        // Create the map and set the initial view
-        map = L.map('map_offres', {
-            center: [48.202047, -2.932644], // Position initiale
-            zoom: 8, // Niveau de zoom initial
-            minZoom: 3, // Niveau de zoom minimum
-            maxZoom: 18, // Niveau de zoom maximum
-            maxBounds: [
-                [-90, -180], // Coin sud-ouest
-                [90, 180] // Coin nord-est
-            ],
-            maxBoundsViscosity: 1.0 // Empêche de trop sortir des limites
-        });
-    
-        // Add tile layer (OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-    
-        document.querySelectorAll('select, input').forEach(element => {
-            element.addEventListener('change', () => {
-                setTimeout(() => {
-                    map.invalidateSize();
-                }, 300);
-            });
-        });  
+    // Create the map and set the initial view
+    map = L.map('map_offres', {
+        center: [48.202047, -2.932644], // Position initiale
+        zoom: 8, // Niveau de zoom initial
+        minZoom: 3, // Niveau de zoom minimum
+        maxZoom: 18, // Niveau de zoom maximum
+        maxBounds: [
+            [-90, -180], // Coin sud-ouest
+            [90, 180] // Coin nord-est
+        ],
+        maxBoundsViscosity: 1.0 // Empêche de trop sortir des limites
+    });
+
+    // Ajouter un fond de carte personnalisé (par exemple, CartoDB)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(map);
+
+    // Ajouter un marqueur à une position spécifique
+    var marker = L.marker([48.202047, -2.932644]).addTo(map);  // Coordonnées du marqueur
+
+    // Lier un popup avec les détails de l'offre
+    marker.bindPopup(`
+        <div class="content_popup">
+            <img class="popup_image" src="img/uploaded/image18.png">
+            <h3><a href="details_offre.php?idoffre=2">Titre gigalong pour test</a></h3>
+            <div class="note_moy">
+                <img class="popup_image" src="img/icons/star-solid.svg">
+                <img class="popup_image" src="img/icons/star-solid.svg">
+                <img class="popup_image" src="img/icons/star-solid.svg">
+                <img class="popup_image" src="img/icons/star-solid.svg">
+                <img class="popup_image" src="img/icons/star-regular.svg">
+            </div>
+            <p class="popup_description">Découvrez l'histoire Gauloise </p>
+            <p>Paris</p>
+            <p>Prix Min: 50e</p>
+        </div>
+    `);
 }
 
 // Création du groupe de clusters
 var markers = L.markerClusterGroup();
 
+window.addEventListener('resize', function () {
+    map.invalidateSize(); // Force la mise à jour de la carte après un redimensionnement
+});
 
-function updateMap() {
+async function updateMap() {
     map.setView([48.202047, -2.932644], 8);
 
-    // Effacer les anciens marqueurs
+    // Clear old markers
     markers.clearLayers();
     var div = document.getElementById("offres-data");
 
-    // Récupération des données JSON
-    var offres = JSON.parse(div.textContent); 
+    // Retrieve JSON data
+    var offres = JSON.parse(div.textContent);
 
-    // Vérifier si le tableau 'offres' est vide ou invalide
+    // Check if the 'offres' array is valid and not empty
     if (!Array.isArray(offres) || offres.length === 0) {
         console.log('Aucune offre disponible.');
-        markers.clearLayers(); // Efface les anciens marqueurs, même si aucun nouveau marqueur n'est ajouté
-        map.addLayer(markers); // Ajoute à la carte un cluster vide
-        return; // On sort de la fonction car il n'y a pas d'offres à afficher
+        markers.clearLayers(); // Clear any markers, even if no new ones are added
+        map.addLayer(markers); // Add the empty cluster layer to the map
+        return;
     }
 
-    offres.forEach(offre => {
-        if (offre.titre) {
-            var adresse = offre.adresse;
+    // Function to add a delay between geocoding requests
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
+    // Use async/await to handle asynchronous operations properly
+    for (const offre of offres) {
+        if (offre.titre) {
+            const adresse = offre.adresse;
+
+            // Create the content for the popup with stars
+            let stars = '';
+            const note = offre.note || 0; // Default to 0 if the note is invalid
+
+            // Add full stars based on the rating
+            for (let j = 0; j < Math.floor(note); j++) {
+                stars += `<img class="popup_image" src="img/icons/star-solid.svg" alt="star">`;
+            }
+
+            // Add half or empty stars if the rating is not an integer
+            if (note % 1 !== 0) {
+                stars += `<img class="popup_image" src="img/icons/star-half.svg" alt="half-star">`;
+            }
+
+            // Add empty stars to complete up to 5
+            for (let j = Math.ceil(note); j < 5; j++) {
+                stars += `<img class="popup_image" src="img/icons/star-regular.svg" alt="empty-star">`;
+            }
+
+            // Geocode the address to get latitude and longitude
             async function geocode(adresse) {
+                await delay(1000); // Wait for 1 second between requests
                 try {
                     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
                     return response.json();
                 } catch (error) {
                     console.error('Erreur de géocodage:', error);
+                    return []; // Return an empty array in case of error
                 }
             }
 
-            geocode(adresse).then(data => {
-                if (data && data.length > 0) {
-                    const lat = data[0].lat;
-                    const lon = data[0].lon;
+            const geocodeData = await geocode(adresse);
+            if (geocodeData.length > 0) {
+                const lat = geocodeData[0].lat;
+                const lon = geocodeData[0].lon;
 
-                    // Créer le marqueur ici après avoir récupéré les coordonnées
-                    var marker = L.marker([lat, lon]);
+                // Create the marker after getting the coordinates
+                const marker = L.marker([lat, lon]);
 
-                    // Lier un popup avec les détails de l'offre
-                    marker.bindPopup(`
-                        <div class="content_popup">
-                            <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
-                            <div class="titre_note">
-                                <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
-                                <div class="note_moy">
-                                    <p>${offre.note || 'N/A'}</p>
-                                    <img class="popup_image" src="img/icons/star-solid.svg">
-                                </div>
-                            </div>
-                            <p>${offre.categorie || 'Catégorie inconnue'}</p>
-                            <p>${offre.ville || 'Adresse non disponible'}</p>
-                            <p>Prix Min: ${offre.prix || 'N/A'} €</p>
+                // Bind the popup with offer details
+                marker.bindPopup(`
+                    <div class="content_popup">
+                        <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
+                        <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
+                        <div class="note_moy">
+                            <p>${stars || 'N/A'}</p>
                         </div>
-                    `);
+                        <p class="popup_description">${offre.description}</p>
+                        <p>${offre.ville || 'Adresse non disponible'}</p>
+                        <p>Prix Min: ${offre.prix|| 'N/A'} €</p>
+                    </div>
+                `);
 
-                    // Ajout d'un événement de clic sur le marqueur
-                    marker.on('click', function () {
-                        marker.openPopup();
-                    });
-
-                    // Ajout du marqueur au cluster
-                    markers.addLayer(marker);
-                }
-            });
+                // Add the marker to the markers layer
+                markers.addLayer(marker);
+            } else {
+                console.log(`Adresse non trouvée pour l'offre: ${offre.titre}`);
+            }
         }
-    });
+    }
 
-    // Ajout des marqueurs au cluster sur la carte
-    map.addLayer(markers); // Cela ajoute tous les marqueurs (maintenant dans `markers`) sur la carte
+    // Add markers to the cluster layer and then to the map
+    map.addLayer(markers);
 }
 
 // Ajouter des écouteurs d'événements pour chaque filtre

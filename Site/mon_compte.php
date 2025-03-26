@@ -9,7 +9,7 @@
         align-items: center;
         justify-content: center;
     }
-    #modale-content {
+    #modaleSupCompteContenu {
         background: #f5f5e9;
         border: 2px solid red;
         padding: 20px;
@@ -17,6 +17,14 @@
         text-align: center;
         min-width: 300px;
     }
+
+    #modaleSupCompteContenuBis {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
     .modale button {
         margin: 10px;
         padding: 10px 20px;
@@ -31,37 +39,30 @@
     #ouvrirModalSuppression:hover{
         background-color: red;
     }
-    
-                .conteneur-confirmation{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-direction: column;
-                }
-                .warning {
-            font-size: 50px;
-            color: red;
-            text-align: center;
-            background-color: #F2F1E9;
-            border: none;
-            }
 
-            .loader {
-            margin-bottom: 10px;
-            border: 8px solid #F2F1E9; /* Couleur du fond */
-            border-top: 8px solid red; /* Couleur de l'animation */
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite; /* Animation pour faire tourner le cercle */
-            }
+    .warning {
+    font-size: 50px;
+    color: red;
+    text-align: center;
+    background-color: #F2F1E9;
+    border: none;
+    }
 
-            /* Définir l'animation */
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
+    .loader {
+    margin-bottom: 10px;
+    border: 8px solid #F2F1E9; /* Couleur du fond */
+    border-top: 8px solid red; /* Couleur de l'animation */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite; /* Animation pour faire tourner le cercle */
+    }
 
+    /* Définir l'animation */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
 </style>
 
@@ -294,21 +295,13 @@
                                 <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="mes_infos.php">Gérer mes informations personnelles</a>
                                 <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
                                 <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="mes_infos_bancaires.php">Gérer mes coordonnées bancaires</a>
-                            <!-- </div> -->
 
-                            <!-- <div class="creer_colonne conteneur-droit"> -->
-                                <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
-                                <a class="liens-boutons" href="">Consulter les signalements</a>
-                                <a class="liens-boutons" href="">Ajouter une offre</a>   -->
-                            <!-- </div> -->
                         </section>
                         <section class="creer_ligne">
                             <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
                             <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="securite.php">Gérer mon mot de passe</a> 
                         </section>
 
-                        <!-- <a class="liens-boutons" href="">Mes factures</a>  
-                        <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                     </div>
                 <?php } ?>
 
@@ -316,15 +309,7 @@
                     <!-- Conteneur des boutons-liens -->
                     <div class="conteneur-boutons">
                         <section class="creer_ligne">
-                            <!-- <div class="creer_colonne conteneur-gauche"> -->
                                 <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="mes_infos.php">Gérer mes informations personnelles</a>
-                                <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
-                            <!-- </div> -->
-
-                            <!-- <div class="creer_colonne conteneur-droit"> -->
-                                <!-- <a class="liens-boutons" href="">Consulter mes offres</a>
-                                <a class="liens-boutons" href="">Ajouter une offre</a>   -->
-                            <!-- </div> -->
                         </section>
                         <section class="creer_ligne">
                             <a class="liens-boutons <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" href="avis_mes_offres.php">Consulter les avis sur mes offres</a>
@@ -332,156 +317,142 @@
 
                         </section>
 
-
-                        <!-- <a class="liens-boutons" href="">Consulter les signalements</a>
-                        <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                     </div>
                 <?php } ?>
             <?php 
+
             // Affichage du membre
             } else { ?>
                 <!-- Conteneur des boutons-liens -->
                 <div class="conteneur-boutons">
                     <section class="creer_ligne">
-                        <!-- <div class="creer_colonne conteneur-gauche"> -->
                             <a class="liens-boutons" href="mes_infos.php">Gérer mes informations personnelles</a>
                             <a class="liens-boutons" href="securite.php">Gérer la sécurité du compte</a> 
-                            <!-- <a class="liens-boutons" href="">Gérer mon mot de passe</a> -->
-                        <!-- </div> -->
-                        <!-- <div class="creer_colonne conteneur-droit"> -->
-                            <!-- <a class="liens-boutons" href="">Consulter mes visites</a>
-                            <a class="liens-boutons" href="">Aide</a> -->
-                        <!-- </div> -->
                     </section>
                     <section>
-                        <button id="ouvrirModalSuppression" class="liens-boutons" type="button">Supprimer mon compte</button>
+                        <button id="ouvrirModaleSuppression" class="liens-boutons" style="cursor: pointer;">Supprimer mon compte</button>
                     </section>
 
-            
-                    <!-- <a class="liens-boutons" href="">Supprimer mon compte</a> -->
                 </div>
                 
             <?php
             } 
-
-
-
-            //Autre partie
-
-            
-
-
-
-
             ?>
 
+            <!-- ====================================
+               PARTIE MODALE SUPPRESSION DU COMPTE
+            ===================================== -->
 
+            <div id="modaleSupCompte" class="modale">
+                <div id="modaleSupCompteContenu">
+                    <section  id="modaleSupCompteContenuPrincipal">
+                        <form style="display: flex; flex-direction: column; align-items: center;" action="<?=($_SERVER['PHP_SELF'])?>" method="post">
 
-            <div id="confirmationModal" class="modale">
-                <div id="modale-content">
-                    <section id="truc1">
-                        <form action="<?=($_SERVER['PHP_SELF'])?>" method="post">
-                            <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
-                            <p>⚠ Cet action est irréversible</p>
-                            <input type="password" id="pswInput" name="pswInput">
-                            <button id="confirmerOui" type="submit">Oui</button>
-                            <button id="confirmerNon">Non</button> 
-                            <p id="messageIndication">Message info</p>
+                            <div style="display:flex;flex-direction:row; align-items: center;">
+                                <p style="font-size: 17px; margin-right: 10px;">Saisissez votre mot de passe: </p>
+                                <input style="font-size: 17px; border-radius: 2px; height: 30px; background-color: #F2F1E9" type="password" id="pswInput" name="pswInput">
+                            </div>
+
+                            <p style="display: none; color: red;" id="messageIndication">Message info</p>
+                            <p style="font-weight: bold;">Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+
+                            <div style="display:flex;flex-direction:row; justify-content: center;">
+                                <button style="border-radius: 8px;" id="confirmerOui" type="submit">Oui</button>
+                                <button style="border-radius: 8px;" id="confirmerNon" type="button">Non</button>
+                            </div>
+                            
+                            <p style="color: red; font-size: 17px;">Vos données vont être anonymisées ou supprimées, <br> vous n’aurez aucun moyen de les récupérer.</p>
+
                         </form>
-                        
                     </section>
-                    <section id="redirection">
-                        <section class="conteneur-confirmation">
-                            <div class="loader"></div>
-                            <p style='color: red; font-size: 22px; margin: 0;'> Suppression de votre compte en cours ... <p>
-                            <p style='color: red; font-size: 22px; margin: 0;'> Vous allez être redirigé dans 3 secondes <p>
-
-                        </section>
+                    <section id="modaleSupCompteContenuBis" style="display: none;">
+                        <div class="loader"></div>
+                        <p style='color: red; font-size: 17px; margin: 0; font-weight: bold;'> Suppression de votre compte en cours... <br> Vous allez être redirigé dans 3 secondes <p>
                     </section>
                 </div>
             </div>
 
-                
         </main>
-
-
-
         
+        <script>    
+            // Modale qui s'affiche pour supprimer son compte
+            const modaleSupCompte = document.getElementById("modaleSupCompte");
 
-    <script>
-                const modale = document.getElementById("confirmationModal");
-                const contenu = document.getElementById("modale-content");
-                const contenuBis = document.getElementById("redirection");
-                const boutonOuverture = document.getElementById("ouvrirModalSuppression");
-                const confirmerOui = document.getElementById("confirmerOui");
-                const confirmNo = document.getElementById("confirmNo");
-                const getMDP = document.getElementById("divMDP");
-                const getInput = document.getElementById("pswInput");
-                const msgIndication = document.getElementById("messageIndication");
+            //La fenetre qui contient le contenu
+            const modaleSupCompteContenu = document.getElementById("modaleSupCompteContenu");
+
+            //Son contenu principal
+            const modaleSupCompteContenuPrincipal = document.getElementById("modaleSupCompteContenuPrincipal");
+
+            //Son contenu uniquement quand le compte est en cours de suppression
+            const modaleSupCompteContenuBis = document.getElementById("modaleSupCompteContenuBis");
+
+            //Bouton d'ouverture de la modale
+            const boutonOuverture = document.getElementById("ouvrirModaleSuppression");
+
+            const confirmerOui = document.getElementById("confirmerOui");
+            const confirmerNone = document.getElementById("confirmerNon");
+
+            const msgIndication = document.getElementById("messageIndication");
 
 
-                // Ouvre la modale
-                boutonOuverture.addEventListener("click", () => {
-                    event.preventDefault();
-                    modale.style.display = "flex";
-                    contenuBis.style.display = "none";
-                });
-
-                // Si "Oui" est cliqué, affiche dans la console et ferme la modale
-             
-
-                    document.getElementById("confirmerOui").addEventListener("click", function(event) {
+            // Ouverture de la modale
+            boutonOuverture.addEventListener("click", () => {
+                event.preventDefault();
+                modaleSupCompte.style.display = "flex";
+            });
+                // Ensuite, on regarde sur quel bouton l'utilisateur appuie
+                // Si "Oui" est cliqué, on vérifie que le mot de passe est valide, puis on supprime son compte
+                confirmerOui.addEventListener("click", function(event) {
                     event.preventDefault();
                     
                     let motDePasse = document.getElementById("pswInput").value;
 
+                    // On vérifie que l'utilisateur n'a pas laissé le mot de passe vide
+                    if (motDePasse == ""){
 
+                        msgIndication.style.display = "flex";
+                        msgIndication.innerHTML = "Le mot de passe ne peut pas être vide.";
 
-                    let valeur = document.getElementById("pswInput").value;
-                    let formData = new FormData();
-                    formData.append("texte", valeur);
+                    }
+                    else{
 
-                    fetch("unTest.php", {
-                        method: "POST",
-                        body: formData,
-                        credentials: "include",
-                    })
-                    .then(response => response.text()) // Ne récupère que la réponse, pas la page entière
-                    .then(data => {
-                        msgIndication.innerHTML = data; // Met à jour uniquement le texte
-                    })
-                    .catch(error => console.error("Erreur :", error));
-                    
+                        let formData = new FormData();
+                        formData.append("mdp", motDePasse);
 
+                        fetch("validerMDP.php", {
+                            method: "POST",
+                            body: formData,
+                            credentials: "include",
+                        })
+                        .then(response => response.text())
+                        .then(rep => {
+                            if (rep.trim() === "MotDePasseValide") {                        
+                                // Si la réponse est "oui", on peut supprimer le compte
+                                modaleSupCompteContenuBis.style.display = "flex";
+                                modaleSupCompteContenuPrincipal.style.display = "none"
 
+                                setTimeout(() => {
+                                    window.location.href = "suppression_compte.php";
+                                }, 3000);
 
-
-                    // fetch("verifier_mdp.php", {
-                    //     method: "POST",
-                    //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    //     body: "pswInput=" + encodeURIComponent(motDePasse)
-                    // })
-                    // .then(response => response.text())
-                    // .then(data => {
-                    //     if (data.trim() === "oui") {
-                    //         contenuBis.style.display = "flex";
-                    //         window.location.href = "suppression_compte.php"; // Redirection si succès
-                    //     } else {
-                    //         msgIndication.innerHTML = 'Nique ta mère';
-                    //     }
-                    // })
+                            } else {
+                                // Si la réponse est "non", on affiche un message d'erreur
+                                msgIndication.style.display = "flex";
+                                msgIndication.innerHTML = "Le mot de passe ne correspond pas";
+                            }
+                        })
+                        .catch(error => console.error("Erreur :", error));
+                    }
                 });
 
-
-                // Si "Non" est cliqué, ferme simplement la modale
-                confirmNo.addEventListener("click", () => {
-                    modale.style.display = "none";
+                // Si le bouton "non" est cliqué, on ferme simplement la modale
+                confirmerNon.addEventListener("click", () => {
+                    modaleSupCompte.style.display = "none";
                 });
-    </script>
 
-
-
+            </script>
     
-    <div id="footer"></div>
+        <div id="footer"></div>
     </body>
 </html>

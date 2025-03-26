@@ -311,6 +311,8 @@ main {
     margin : 5%;
     border: black 2px solid;
     border-radius: 8px;
+	width: 90%; 
+	border-radius: 8px;
 }
 
 #map_offres .leaflet-popup-content{
@@ -319,28 +321,43 @@ main {
 
 #map_offres .leaflet-popup-content .content_popup {
     font-family: Arial, sans-serif;
-    line-height: 0.5;
+    line-height: 1;
     box-sizing: border-box;
-    overflow: hidden;
     white-space: normal;
 }
 
 #map_offres .leaflet-popup-content p{
-    margin-bottom: 0.8em;
+	margin :  2% 0;
+}
+
+
+#map_offres .leaflet-popup-content h3{
+    margin:0;
+	margin-top: 5%;
+}
+
+#map_offres .leaflet-popup-content a{
+	color:black;
+	text-decoration: none;
+}
+
+#map_offres .leaflet-popup-content a:hover{
+	border-bottom: black solid 2px;
 }
 
 #map_offres .leaflet-popup-content .popup_image {
     width: 100%;
-    height: auto;
+    height: 120px;
+	border-radius: 15px;
+}
+
+#map_offres .leaflet-popup-content .popup_description{
+	color : #666;
 }
 
 #map_offres .leaflet-popup-content .note_moy {
     display: flex;
     align-items: center;
-}
-
-#map_offres .leaflet-popup-content .note_moy p{
-    margin-right: 2%;
 }
 
 #map_offres .leaflet-popup-content .note_moy img {
@@ -365,6 +382,12 @@ main {
     justify-content: space-between;
 }
 
+#map_offres .leaflet-popup-close-button {
+    width: 30px;  /* Largeur de la croix */
+    height: 30px; /* Hauteur de la croix */
+    font-size: 20px; /* Taille de la croix */
+    color: #333; /* Couleur de la croix */
+}
 /* Médias queries pour les écrans mobiles */
 @media (max-width: 768px) {
     #map_offres {
