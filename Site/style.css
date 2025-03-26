@@ -3637,6 +3637,8 @@ input:checked + .sliderswitch:before {
 	}
 }
 
+
+
 @media (max-width: 560px) {
 	.offre-resume-1 {
 		display: none;
@@ -3661,4 +3663,22 @@ input:checked + .sliderswitch:before {
 /* pop-up 2fa */
 .display-none {
 	display: none;
+}
+
+.Vudernier{
+	width: 100%; /* ou une autre largeur */
+    overflow-x:scroll;
+    white-space: nowrap;
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px auto;
+	margin: 20px auto;
+}
+
+.offre-item{
+	display: inline-block;
+    width: 100%;
 }

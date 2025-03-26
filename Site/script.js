@@ -696,7 +696,7 @@ $(document).ready(function(){
 
 function addToRecentlyViewed(offerId) {
     const cookieName = "recently_viewed";
-    const maxItems = 5; // Limite le nombre d'offres stockées
+    const maxItems = 10; // Limite le nombre d'offres stockées
 
     let recentlyViewed = getRecentlyViewed();
 
@@ -761,24 +761,75 @@ function displayOffers(offers) {
     offresContainer.innerHTML = ''; // Vider le conteneur avant de remplir
 
     offers.forEach(offre => {
-        const offreDiv = document.createElement('div');
-        offreDiv.classList.add('offre-card');
+        const offerElement = document.createElement('div');
+        offerElement.classList.add('offre-item');
 
-        offreDiv.innerHTML = `
-            <a href="details_offre.php?idoffre=${offre.idOffre}">
-                <img src="${offre.pathImage ? offre.pathImage : 'img/default.jpg'}" alt="Image de l'offre">
-                <div>
-                    <h2>${offre.titreOffre}</h2>
-                    <p><strong>Résumé:</strong> ${offre.resumeOffre}</p>
-                    <p><strong>Prix Minimum:</strong> ${offre.prixMinOffre > 0 ? offre.prixMinOffre + ' €' : 'Gratuit'}</p>
+        offerElement.innerHTML = `
+            <a onclick="addToRecentlyViewed(${offre.idoffre})" style="text-decoration:none;" href="details_offre.php?idoffre=${offre.idoffre}">
+                <div class="offre-card" ${offre.enreliefoffre ? "style='border: 3px solid #36D673;'" : ""}>
+                    <div class="offre-image-container" style="position: relative;">
+                        <!-- Affichage de l'image -->
+                        <img class="offre-image" src="${offre.pathimage ? offre.pathimage : 'img/default.jpg'}" alt="Image de l'offre">
+                    </div>
+                    <div class="offre-details">
+                        <!-- Titre de l'offre -->
+                        <h2 class="offre-titre-index">${offre.titreoffre ? offre.titreoffre : 'Titre non disponible'}</h2>
+                        
+                        <!-- Résumé de l'offre -->
+                        <p class="offre-resume"><strong>Résumé:</strong> ${offre.resumeoffre ? offre.resumeoffre : 'Résumé non disponible'}</p>
+                        
+                        <!-- Prix minimum de l'offre -->
+                        <p class="offre-prix"><strong>Prix Minimum:</strong> ${(!offre.prixminoffre || offre.prixminoffre <= 0) ? 'Gratuit' : offre.prixminoffre + ' €'}</p>
+
+                        <!-- Notes -->
+                        <div class="titre-moy-index">
+                            <p class="offre-resume"><strong>Note :</strong></p>
+                            <div class="texte_note_etoiles_container">
+                                ${generateStars(offre.notemoyenneoffre)}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </a>
         `;
         
-        offresContainer.appendChild(offreDiv);
+        offresContainer.appendChild(offerElement);
     });
+
+
 }
 
+
+function generateStars(rating) {
+    if (!rating) return '<p>Pas d\'évaluations</p>';
+    let starsHtml = '';
+    let noteMoyenne = parseFloat(rating);
+    let fullStars = Math.floor(noteMoyenne);
+
+    // Arrondir selon le seuil défini
+    if (noteMoyenne - fullStars > 0.705) {
+        fullStars++;
+    }
+
+    // Ajouter les étoiles pleines
+    for (let i = 0; i < fullStars; i++) {
+        starsHtml += `<img src="img/icons/star-solid.svg" alt="star checked" width="20" height="20">`;
+    }
+
+    // Si la partie décimale est comprise entre 0.295 et 0.705, ajouter une demi-étoile
+    if (noteMoyenne - fullStars >= 0.295 && noteMoyenne - fullStars <= 0.705) {
+        starsHtml += `<img src="img/icons/star-half.svg" alt="half star checked" width="20" height="20">`;
+        fullStars++;
+    }
+
+    // Compléter jusqu'à 5 étoiles
+    for (let i = fullStars; i < 5; i++) {
+        starsHtml += `<img src="img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">`;
+    }
+    
+    starsHtml += `<p class="nombre_note">${rating}/5</p>`;
+    return starsHtml;
+}
 
 
 

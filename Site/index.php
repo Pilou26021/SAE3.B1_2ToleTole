@@ -549,10 +549,10 @@
                 <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
                     <h1>Vu dernierement</h1>
                 </div>
-                <div id="offresContainer"></div>
+                <div class="Vudernier" id="offresContainer"></div>
                 
                 
-                <div style="padding: 20px 0;" >
+                <div style="padding: 20px 0;     width: 95%;" >
                     <h1>Toutes les Offres</h1>
                 </div>
                 <div class="offres-container">
