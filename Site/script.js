@@ -657,3 +657,97 @@ $(document).ready(function(){
          pauseOnHover: false
     });
 });
+
+function addToRecentlyViewed(offerId) {
+    const cookieName = "recently_viewed";
+    const maxItems = 5; // Limite le nombre d'offres stockées
+
+    let recentlyViewed = getRecentlyViewed();
+
+    // Supprimer l'offre si elle est déjà présente
+    recentlyViewed = recentlyViewed.filter(id => id !== offerId);
+
+    // Ajouter l'offre en tête de liste
+    recentlyViewed.unshift(offerId);
+
+    // Limiter la taille de la liste (FIFO)
+    if (recentlyViewed.length > maxItems) {
+        recentlyViewed.pop(); // Supprime le plus ancien (dernier élément)
+    }
+
+    // Stocker dans le cookie (valide pour 30 jours)
+    document.cookie = `${cookieName}=${JSON.stringify(recentlyViewed)}; path=/; max-age=${30 * 24 * 60 * 60}`;
+}
+
+// Fonction pour récupérer les offres stockées
+function getRecentlyViewed() {
+    const cookieName = "recently_viewed=";
+    const cookies = document.cookie.split("; ");
+
+    for (let cookie of cookies) {
+        if (cookie.startsWith(cookieName)) {
+            return JSON.parse(cookie.substring(cookieName.length));
+        }
+    }
+
+    return [];
+}
+
+function resetRecentlyViewed() {
+    document.cookie = "recently_viewed=[]; path=/; max-age=0"; // Supprime le cookie
+    console.log("Liste des offres consultées réinitialisée !");
+}
+
+// Récupérer les offres récemment consultées
+let recentlyViewedOffers = getRecentlyViewed(); // Exemple : [1, 2, 3, 4, 5]
+if (recentlyViewedOffers.length > 0) {
+    // Envoi des IDs au backend PHP
+    fetch('get_offres_details.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ offerIds: recentlyViewedOffers }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Manipuler les données (les offres récupérées)
+        displayOffers(data);
+    })
+    .catch(error => {
+        console.error('Erreur lors du chargement des offres:', error);
+    });
+}
+
+// Fonction pour afficher les offres dans l'interface utilisateur
+function displayOffers(offers) {
+    const offresContainer = document.getElementById('offresContainer');
+    offresContainer.innerHTML = ''; // Vider le conteneur avant de remplir
+
+    offers.forEach(offre => {
+        const offreDiv = document.createElement('div');
+        offreDiv.classList.add('offre-card');
+
+        offreDiv.innerHTML = `
+            <a href="details_offre.php?idoffre=${offre.idOffre}">
+                <img src="${offre.pathImage ? offre.pathImage : 'img/default.jpg'}" alt="Image de l'offre">
+                <div>
+                    <h2>${offre.titreOffre}</h2>
+                    <p><strong>Résumé:</strong> ${offre.resumeOffre}</p>
+                    <p><strong>Prix Minimum:</strong> ${offre.prixMinOffre > 0 ? offre.prixMinOffre + ' €' : 'Gratuit'}</p>
+                </div>
+            </a>
+        `;
+        
+        offresContainer.appendChild(offreDiv);
+    });
+}
+
+
+
+
+
+
+
+
+

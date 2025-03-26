@@ -357,7 +357,7 @@
 
                                     if(!$professionel && $offre['horsligne'] == false && $offre['alauneoffre']==True || $professionel && $offre['alauneoffre']==True ) { ?>
                                         <div class="slide">    
-                                            <a style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                                            <a onclick="addToRecentlyViewed(<?php echo $offre['idoffre']; ?>)" style="text-decoration:none; " href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
                                                 <div class="offre-card offer-alaune" <?php if ($offre["enreliefoffre"]==true) {echo $style;}?>>
                                                     <div class="offre-image-container" style="position: relative;">
                                                         <!-- Affichage de l'image -->
@@ -484,7 +484,7 @@
                         
                         if(!$professionel && $offre['horsligne'] == false ) { ?>
                                 <div class="offre-card-1" style=" position: relative; width: 100%; display:flex;  justify-content:center; margin: 40px auto;" >
-                                    <a class="a-nouv" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
+                                    <a onclick="addToRecentlyViewed(<?php echo $offre['idoffre']; ?>)" class="a-nouv" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
                                         <img class="offre-image-1" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
                                         <div class="offres-details-1">
                                             <h2 class="offre-titre-index-1"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
@@ -546,6 +546,11 @@
                         ?>
                     <?php endforeach; ?>
                 </div>
+                <div style=" display:flex; justify-content:space-between; width:95%; align-items:center; ">
+                    <h1>Vu dernierement</h1>
+                </div>
+                <div id="offresContainer"></div>
+                
                 
                 <div style="padding: 20px 0;" >
                     <h1>Toutes les Offres</h1>
@@ -563,7 +568,7 @@
                             }
                         ?>
                         <?php if(!$professionel && $offre['horsligne'] == false || $professionel) { ?>
-                            <a style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
+                            <a onclick="addToRecentlyViewed(<?php echo $offre['idoffre']; ?>)" style="text-decoration:none;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
                                 <div class="offre-card" <?php if ($offre["enreliefoffre"]==true) {echo $style;} ?>>
                                     <div class="offre-image-container" style="position: relative;">
                                         <!-- Affichage de l'image -->
