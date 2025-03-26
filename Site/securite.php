@@ -204,25 +204,6 @@
                     }
                 };
             }
-
-            function popup_2fa() {
-                var popup = document.querySelector('.display-none');
-                if (popup) {
-                    popup.style.display = 'block';
-                } else {
-                    console.error("L'élément .popup n'existe pas !");
-                }
-            }
-
-            function popup_2fa2() {
-                var popup = document.querySelectorAll('.display-none');
-                if (popup.length > 1) {
-                    popup[0].style.display = 'none';
-                    popup[1].style.display = 'block';
-                } else {
-                    console.error("L'élément .popup n'existe pas !");
-                }
-            }
         </script>
 
 <main class="securite_main">
@@ -276,6 +257,25 @@
 </main>
 
 <script>
+    function popup_2fa() {
+        var popup = document.querySelector('.display-none');
+        if (popup) {
+            popup.style.display = 'block';
+        } else {
+            console.error("L'élément .popup n'existe pas !");
+        }
+    }
+
+    function popup_2fa2() {
+        var popup = document.querySelectorAll('.display-none');
+        if (popup.length > 1) {
+            popup[0].style.display = 'none';
+            popup[1].style.display = 'block';
+        } else {
+            console.error("L'élément .popup n'existe pas !");
+        }
+    }
+
     function get_secret() {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'api/auth_gensecret.php', true);
@@ -315,6 +315,37 @@
             xhr.send('idcompte=' + <?php echo $idcompte; ?> + '&codeotp=' + codeotp);
         }
     }
+
+    function valider_otp() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'api/auth_paramotp.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == 'true') {
+                    var popup = document.querySelectorAll('.display-none');
+                    if (popup.length > 1) {
+                        popup[1].style.display = 'none';
+                        popup[2].style.display = 'block';
+                    } else {
+                        console.error("L'élément .popup n'existe pas !");
+                    }
+
+                    // Stock a value in the session
+                    sessionStorage.setItem('forceLogout', 'true');
+
+                    sleep(5000);
+                    // dans la session force la redirection vers la page deconnexion.php
+                    window.location.href = 'deconnexion.php';
+                } else {
+                    alert('Code OTP invalide');
+                }
+            }
+        };
+        var codeotp = document.getElementById('otp').value;
+        xhr.send('idcompte=' + <?php echo $idcompte; ?> + '&codeotp=' + codeotp);
+    }
+
 </script>
 <div class="display-none">
     <div class="popup-header">
@@ -368,8 +399,23 @@
             </div>
         </div>
     </div>
-    <div class="popup-footer">
-        <button class="button-blocked button-primary" onclick="etape_suivante();">Suivant</button>
+</div>
+
+<div class="display-none">
+    <div class="popup-header">
+        <h2>Authentification à deux facteurs</h2>
+    </div>
+    <div class="popup-body">
+        <div class="popup-content">
+            <div class="popup-content-inner">
+                <div class="popup-content-left">
+                    <div class="popup-content-left-inner">
+                        <h3>Authentification à deux facteurs activée</h3>
+                        <p>Vous allez être déconnecté. Veuillez vous reconnecter avec l'authentification à deux facteurs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
     

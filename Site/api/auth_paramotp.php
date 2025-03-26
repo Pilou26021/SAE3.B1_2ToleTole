@@ -14,7 +14,7 @@ $secret = $stmt->fetch(PDO::FETCH_ASSOC)['auth_secret'];
 $otp = TOTP::create($secret);
 if ($otp->verify($codeotp)) {
     echo "true";
-    $stmt = $conn->prepare("UPDATE _compte SET auth_paremetre = true WHERE idcompte = :idcompte");
+    $stmt = $conn->prepare("UPDATE _compte SET auth_parametre = true WHERE idcompte = :idcompte");
     $stmt->bindParam(':idcompte', $idcompte, PDO::PARAM_INT);
     $stmt->execute();
 } else {

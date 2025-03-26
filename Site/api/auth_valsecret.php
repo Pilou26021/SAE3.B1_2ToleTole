@@ -12,7 +12,8 @@ $stmt->execute();
 $secret = $stmt->fetch(PDO::FETCH_ASSOC)['auth_secret'];
 
 $otp = TOTP::create($secret);
-if ($otp->verify($codeotp)) {
+
+if ($otp->verify($codeotp, 30)) {
     echo "true";
 } else {
     echo "false";

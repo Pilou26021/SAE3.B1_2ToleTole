@@ -831,10 +831,8 @@ function generateStars(rating) {
     return starsHtml;
 }
 
-
-
-
-
-
-
-
+if (sessionStorage.getItem('forceLogout')) {
+    alert('Votre session a expiré. Veuillez vous reconnecter.');
+    window.location.href = 'deconnexion.php';
+    sessionStorage.removeItem('forceLogout');
+}
