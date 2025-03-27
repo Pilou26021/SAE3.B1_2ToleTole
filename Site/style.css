@@ -1403,7 +1403,7 @@ p.cp_mobile_erreur {
 	width: 330px;
 	border: 1px solid #e0e0e0;
 	border-radius: 10px;
-	margin:10px;
+	margin:20px 10px;
 	overflow: hidden;
 	background-color: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -3491,8 +3491,7 @@ input:checked + .sliderswitch:before {
     position: relative;
     overflow-x: scroll;
     width: 100%;
-    margin: 20px auto;
-    padding: 20px 20px;  /* Optionnel : ajoute un padding latéral */
+    margin: 20px auto;  /* Optionnel : ajoute un padding latéral */
 }
 .carousel {
     display: flex;
@@ -3675,9 +3674,9 @@ input:checked + .sliderswitch:before {
 /* vue récemment */
 
 .Vudernier{
-	width: 100%; /* ou une autre largeur */
+	 /* ou une autre largeur */
     overflow-x:scroll;
-    white-space: nowrap;
+	overflow-y: hidden;
 	display: flex;
 	flex-wrap: nowrap;
 	flex-direction: row;
