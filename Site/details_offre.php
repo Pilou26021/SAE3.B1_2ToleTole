@@ -980,10 +980,13 @@
 
             async function geocode(adresse) {
                 try {
+                    
                     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
+                    console.log(response);
                     return response.json();
                 } catch (error) {
                     console.error('Erreur de géocodage:', error);
+                    
                 }
             }
 

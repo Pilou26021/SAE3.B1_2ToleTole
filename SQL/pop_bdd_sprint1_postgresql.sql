@@ -32,7 +32,7 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (5, '', 'Rue des forges', 35380, 'Paimpont', 'Bretagne', 'France'), -- 3
 (4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'), -- 4
 (7, '', 'Avenue Saint-Denis', 29000, 'Quimper', 'Finistère', 'France'), -- 5
-(6, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 6
+(8, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 6
 (58, '', 'Rue Amiral Romain Desfosses', 29200, 'Brest', 'Finistère', 'France'), -- 7
 (43, '', 'Rue de la Fontaine', 56000, 'Vannes', 'Morbihan', 'France'), -- 8
 (35, '', 'Avenue Paul Cezanne', 56000, 'Vannes', 'Morbihan', 'France'), -- 9
