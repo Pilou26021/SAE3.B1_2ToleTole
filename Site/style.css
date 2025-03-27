@@ -3675,7 +3675,7 @@ input:checked + .sliderswitch:before {
 
 .Vudernier{
 	 /* ou une autre largeur */
-    overflow-x:scroll;
+    overflow-x:auto;
 	overflow-y: hidden;
 	display: flex;
 	flex-wrap: nowrap;
