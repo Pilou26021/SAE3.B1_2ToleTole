@@ -358,6 +358,13 @@ main {
 #map_offres .leaflet-popup-content .note_moy {
     display: flex;
     align-items: center;
+	justify-content: space-between;
+}
+
+#map_offres .resetzoom{
+	border: 2px solid rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
+	background-color: white;
 }
 
 #map_offres .leaflet-popup-content .note_moy img {

@@ -300,34 +300,80 @@ function initializeMap(){
     // Ajouter un fond de carte personnalisé (par exemple, CartoDB)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(map);
 
-    // Ajouter un marqueur à une position spécifique
-    var marker = L.marker([48.202047, -2.932644]).addTo(map);  // Coordonnées du marqueur
+    // Add custom Reset Zoom Control
+    (function() {
+        var control = new L.Control({position: 'topright'});
+        control.onAdd = function(map) {
+            var azoom = L.DomUtil.create('a', 'resetzoom');
+            
+            // Créer l'élément <img> et définir l'URL de l'image
+            var img = L.DomUtil.create('img', '', azoom);
+            img.src = 'img/icons/zoom-reset.png'; // Remplacez par le chemin de votre image
+            img.alt = 'Reset Zoom'; // Définir un texte alternatif pour l'image
 
-    // Lier un popup avec les détails de l'offre
-    marker.bindPopup(`
-        <div class="content_popup">
-            <img class="popup_image" src="img/uploaded/image18.png">
-            <h3><a href="details_offre.php?idoffre=2">Titre gigalong pour test</a></h3>
-            <div class="note_moy">
-                <img class="popup_image" src="img/icons/star-solid.svg">
-                <img class="popup_image" src="img/icons/star-solid.svg">
-                <img class="popup_image" src="img/icons/star-solid.svg">
-                <img class="popup_image" src="img/icons/star-solid.svg">
-                <img class="popup_image" src="img/icons/star-regular.svg">
-            </div>
-            <p class="popup_description">Découvrez l'histoire Gauloise </p>
-            <p>Paris</p>
-            <p>Prix Min: 50e</p>
-        </div>
-    `);
+            // Vous pouvez ajuster la taille de l'image si nécessaire
+            img.style.width = '25px'; // Par exemple, ajustez la largeur de l'image
+            img.style.height = '25px'; // Par exemple, ajustez la hauteur de l'image
+            img.style.cursor = "pointer";
+            img.style.padding = "4px";
+            
+            
+            L.DomEvent
+                .disableClickPropagation(azoom)
+                .addListener(azoom, 'click', function() {
+                    map.setView(map.options.center, map.options.zoom);
+                }, azoom);
+            return azoom;
+        };
+        control.addTo(map);
+    })();
+
 }
 
 // Création du groupe de clusters
 var markers = L.markerClusterGroup();
 
+
+// Fonction de debounce pour limiter la fréquence des appels
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
 window.addEventListener('resize', function () {
     map.invalidateSize(); // Force la mise à jour de la carte après un redimensionnement
 });
+
+// Objet de cache en mémoire pour stocker les résultats de géocodage
+const geocodeCache = {};
+
+async function geocode(adresse) {
+    // Vérifier si l'adresse est déjà dans le cache
+    if (geocodeCache[adresse]) {
+        return geocodeCache[adresse]; // Retourne les données du cache
+    }
+
+
+    // Si l'adresse n'est pas dans le cache, effectuer la requête API
+    try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
+        const data = await response.json();
+
+        // Si des résultats sont trouvés, les ajouter au cache
+        if (data.length > 0) {
+            geocodeCache[adresse] = data;
+            return data; 
+        } else {
+            return []; 
+        }
+    } catch (error) {
+        console.error('Erreur de géocodage:', error);
+        return []; // Retourner un tableau vide en cas d'erreur
+    }
+}
 
 async function updateMap() {
     map.setView([48.202047, -2.932644], 8);
@@ -347,15 +393,20 @@ async function updateMap() {
         return;
     }
 
-    // Function to add a delay between geocoding requests
-    function delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // Géocodage de toutes les adresses en parallèle
+    const geocodePromises = offres.map(offre => geocode(offre.adresse));
+    
+    // Attendre que toutes les promesses de géocodage soient résolues
+    const geocodeResults = await Promise.all(geocodePromises);
 
-    // Use async/await to handle asynchronous operations properly
-    for (const offre of offres) {
-        if (offre.titre) {
-            const adresse = offre.adresse;
+    // Ajouter les marqueurs après que tous les géocodages sont terminés
+    for (let i = 0; i < offres.length; i++) {
+        const offre = offres[i];
+        const geocodeData = geocodeResults[i];
+
+        if (geocodeData.length > 0) {
+            const lat = geocodeData[0].lat;
+            const lon = geocodeData[0].lon;
 
             // Create the content for the popup with stars
             let stars = '';
@@ -376,45 +427,27 @@ async function updateMap() {
                 stars += `<img class="popup_image" src="img/icons/star-regular.svg" alt="empty-star">`;
             }
 
-            // Geocode the address to get latitude and longitude
-            async function geocode(adresse) {
-                await delay(1000); // Wait for 1 second between requests
-                try {
-                    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
-                    return response.json();
-                } catch (error) {
-                    console.error('Erreur de géocodage:', error);
-                    return []; // Return an empty array in case of error
-                }
-            }
+            // Create the marker
+            const marker = L.marker([lat, lon]);
 
-            const geocodeData = await geocode(adresse);
-            if (geocodeData.length > 0) {
-                const lat = geocodeData[0].lat;
-                const lon = geocodeData[0].lon;
-
-                // Create the marker after getting the coordinates
-                const marker = L.marker([lat, lon]);
-
-                // Bind the popup with offer details
-                marker.bindPopup(`
-                    <div class="content_popup">
-                        <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
-                        <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
-                        <div class="note_moy">
-                            <p>${stars || 'N/A'}</p>
-                        </div>
-                        <p class="popup_description">${offre.description}</p>
-                        <p>${offre.ville || 'Adresse non disponible'}</p>
-                        <p>Prix Min: ${offre.prix|| 'N/A'} €</p>
+            // Bind the popup with offer details
+            marker.bindPopup(`
+                <div class="content_popup">
+                    <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
+                    <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
+                    <div class="note_moy">
+                        <p>${stars || 'N/A'}</p>
+                        <p class="offre-prix">${offre.prix+"€"|| 'GRATUIT'}</p>
                     </div>
-                `);
+                    <p class="popup_description">${offre.description}</p>
+                    <p>${offre.ville || 'Adresse non disponible'}</p>
+                </div>
+            `);
 
-                // Add the marker to the markers layer
-                markers.addLayer(marker);
-            } else {
-                console.log(`Adresse non trouvée pour l'offre: ${offre.titre}`);
-            }
+            // Add the marker to the markers layer
+            markers.addLayer(marker);
+        } else {
+            console.log(`Adresse non trouvée pour l'offre: ${offre.titre}`);
         }
     }
 
@@ -426,20 +459,23 @@ async function updateMap() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeMap();
 
-    document.getElementById('search-query').addEventListener('input', applyFilters);
-    document.getElementById('category').addEventListener('change', applyFilters);
-    document.getElementById('lieux').addEventListener('input', applyFilters);
-    document.getElementById('price-range-min').addEventListener("input", applyFilters);
-    document.getElementById('price-range-max').addEventListener("input", applyFilters);
-    document.getElementById('notemin').addEventListener("change", applyFilters);
-    document.getElementById('notemax').addEventListener("change", applyFilters);
-    document.getElementById('datedeb').addEventListener('change', applyFilters);
-    document.getElementById('datefin').addEventListener('change', applyFilters);
-    document.getElementById('Tprix').addEventListener('change', applyFilters);
-    document.getElementById('Mavant').addEventListener('change', applyFilters);
-    document.getElementById('type').addEventListener('change', applyFilters);
-    document.getElementById('ouvert').addEventListener('change', applyFilters);
-    });
+    const applyFiltersDebounced = debounce(applyFilters, 1); // Debounce de 500ms
+
+    document.getElementById('search-query').addEventListener('input', applyFiltersDebounced);
+    document.getElementById('category').addEventListener('change', applyFiltersDebounced);
+    document.getElementById('lieux').addEventListener('input', applyFiltersDebounced);
+    document.getElementById('price-range-min').addEventListener("input", applyFiltersDebounced);
+    document.getElementById('price-range-max').addEventListener("input", applyFiltersDebounced);
+    document.getElementById('notemin').addEventListener("change", applyFiltersDebounced);
+    document.getElementById('notemax').addEventListener("change", applyFiltersDebounced);
+    document.getElementById('datedeb').addEventListener('change', applyFiltersDebounced);
+    document.getElementById('datefin').addEventListener('change', applyFiltersDebounced);
+    document.getElementById('Tprix').addEventListener('change', applyFiltersDebounced);
+    document.getElementById('Mavant').addEventListener('change', applyFiltersDebounced);
+    document.getElementById('type').addEventListener('change', applyFiltersDebounced);
+    document.getElementById('ouvert').addEventListener('change', applyFiltersDebounced);
+});
+
 
 
 
