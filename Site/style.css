@@ -3665,6 +3665,15 @@ input:checked + .sliderswitch:before {
 	display: none;
 }
 
+#btn_des-activer {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	margin: auto;
+}
+
+/* vue récemment */
+
 .Vudernier{
 	width: 100%; /* ou une autre largeur */
     overflow-x:scroll;

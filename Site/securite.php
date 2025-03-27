@@ -246,11 +246,11 @@
             <?php if ($authParametre == true) { ?>
                 <h2>Authentification à deux facteurs</h2>
                 <p>L'authentification à deux facteurs est activée pour votre compte. Pour la désactiver, cliquez sur le bouton ci-dessous.</p>
-                <button id="btn_desactiver" onclick="">Désactiver l'authentification à deux facteurs</button>
+                <button id="btn_des-activer" onclick="">Désactiver l'authentification à deux facteurs</button>
             <?php } else { ?>
                 <h2>Authentification à deux facteurs</h2>
                 <p>L'authentification à deux facteurs est désactivée pour votre compte. Pour l'activer, cliquez sur le bouton ci-dessous.</p>
-                <button class="securite_center" id="btn_activer" onclick="popup_2fa()">Activer l'authentification à deux facteurs</button>
+                <button class="securite_center" id="btn_des-activer" onclick="popup_2fa()">Activer l'authentification à deux facteurs</button>
             <?php } ?>
         </div>
     </div>
@@ -334,7 +334,7 @@
                     // Stock a value in the session
                     sessionStorage.setItem('forceLogout', 'true');
 
-                    sleep(5000);
+                    sleep(500);
                     // dans la session force la redirection vers la page deconnexion.php
                     window.location.href = 'deconnexion.php';
                 } else {
