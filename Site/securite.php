@@ -346,21 +346,6 @@
         xhr.send('idcompte=' + <?php echo $idcompte; ?> + '&codeotp=' + codeotp);
     }
 
-    function popup_2fa() {
-        var popup = document.querySelector('.auth-container .display-none');
-        if (popup) {
-            popup.style.display = 'block'; // Affiche l'étape 1
-        } else {
-            console.error("L'élément .popup n'existe pas !");
-        }
-    }
-
-    function closePopup() {
-        var popup = document.querySelector('.auth-container .display-none');
-        if (popup) {
-            popup.style.display = 'none'; // Masque l'étape 1
-        }
-    }
 
 </script>
 <div class="auth-container">
