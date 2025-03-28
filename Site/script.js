@@ -432,17 +432,23 @@ async function updateMap() {
 
             // Bind the popup with offer details
             marker.bindPopup(`
-                <div class="content_popup">
-                    <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
-                    <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
-                    <div class="note_moy">
-                        <p>${stars || 'N/A'}</p>
-                        <p class="offre-prix">${offre.prix+"€"|| 'GRATUIT'}</p>
+                <a href="details_offre.php?idoffre=${offre.id}">
+                    <div class="content_popup">
+                        <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
+                        <h3>${offre.titre}</h3>
+                        <div class="note_moy">
+                            <p>${stars || 'N/A'}</p>
+                            <p class="offre-prix">${offre.prix+"€"|| 'GRATUIT'}</p>
+                        </div>
+                        <p class="popup_description">${offre.description}</p>
+                        <p>${offre.ville || 'Adresse non disponible'}</p>
                     </div>
-                    <p class="popup_description">${offre.description}</p>
-                    <p>${offre.ville || 'Adresse non disponible'}</p>
-                </div>
+                </a>
             `);
+
+            marker.on('mouseover', function(e){
+                marker.openPopup();
+            });
 
             // Add the marker to the markers layer
             markers.addLayer(marker);
@@ -459,21 +465,21 @@ async function updateMap() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeMap();
 
-    const applyFiltersDebounced = debounce(applyFilters, 1); // Debounce de 500ms
+    const applyFiltersDebounced = debounce(applyFilters, 500); // Debounce de 500ms
 
     document.getElementById('search-query').addEventListener('input', applyFiltersDebounced);
-    document.getElementById('category').addEventListener('change', applyFiltersDebounced);
-    document.getElementById('lieux').addEventListener('input', applyFiltersDebounced);
-    document.getElementById('price-range-min').addEventListener("input", applyFiltersDebounced);
-    document.getElementById('price-range-max').addEventListener("input", applyFiltersDebounced);
-    document.getElementById('notemin').addEventListener("change", applyFiltersDebounced);
-    document.getElementById('notemax').addEventListener("change", applyFiltersDebounced);
-    document.getElementById('datedeb').addEventListener('change', applyFiltersDebounced);
-    document.getElementById('datefin').addEventListener('change', applyFiltersDebounced);
-    document.getElementById('Tprix').addEventListener('change', applyFiltersDebounced);
-    document.getElementById('Mavant').addEventListener('change', applyFiltersDebounced);
-    document.getElementById('type').addEventListener('change', applyFiltersDebounced);
-    document.getElementById('ouvert').addEventListener('change', applyFiltersDebounced);
+    document.getElementById('category').addEventListener('change', applyFilters);
+    document.getElementById('lieux').addEventListener('input', applyFilters);
+    document.getElementById('price-range-min').addEventListener("input", applyFilters);
+    document.getElementById('price-range-max').addEventListener("input", applyFilters);
+    document.getElementById('notemin').addEventListener("change", applyFilters);
+    document.getElementById('notemax').addEventListener("change", applyFilters);
+    document.getElementById('datedeb').addEventListener('change', applyFilters);
+    document.getElementById('datefin').addEventListener('change', applyFilters);
+    document.getElementById('Tprix').addEventListener('change', applyFilters);
+    document.getElementById('Mavant').addEventListener('change', applyFilters);
+    document.getElementById('type').addEventListener('change', applyFilters);
+    document.getElementById('ouvert').addEventListener('change', applyFilters);
 });
 
 
