@@ -147,6 +147,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </main> 
     </body>
 </html>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("cpteSup") === "true") {
+                alert("Votre compte à bien été supprimé");
+            }
+        }, 1000);
+    });
+
+</script>
+
 <?php
 ob_end_flush();
 ?>
