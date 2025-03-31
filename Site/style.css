@@ -1232,7 +1232,7 @@ p.cp_mobile_erreur {
 }
 
 .reviews {
-	margin-top: 20px.
+	margin-top: 20px;
 }
 
 .review-summary {
@@ -1291,7 +1291,7 @@ p.cp_mobile_erreur {
     .details_offre_mobile_tarifs,
     .details_offre_mobile {
         width: 100%;
-        margin-bottom: 20px.
+        margin-bottom: 20px;
     }
 
     .details_offre_mobile table,
@@ -1348,7 +1348,7 @@ p.cp_mobile_erreur {
     .boutons-bas-offre {
         display: flex;
         flex-direction: column;
-        align-items: center.
+        align-items: center;
     }
 
     .boutons-bas-offre a,
@@ -1367,32 +1367,32 @@ p.cp_mobile_erreur {
 
 	.image-gallery {
 		flex-direction: column;
-		align-items: center.
+		align-items: center;
 	}
 
 	.image-gallery img {
 		width: 100%;
-		margin-bottom: 10px.
+		margin-bottom: 10px;
 	}
 
 	.map {
-		flex-direction: column.
+		flex-direction: column;
 	}
 
 	.map img,
 	.opening-hours {
 		width: 100%;
-		text-align: center.
+		text-align: center;
 	}
 
 	.pricing table,
 	.pricing button {
-		width: 100%.
+		width: 100%;
 	}
 
 	.review-summary {
 		flex-direction: column;
-		align-items: center.
+		align-items: center;
 	}
 }
 
