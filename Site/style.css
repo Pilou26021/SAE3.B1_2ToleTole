@@ -3244,6 +3244,95 @@ input:checked + .sliderswitch:before {
 	align-items: center;
 }
 
+/* Suite */
+.modale {
+	display: none;
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(5px);
+	align-items: center;
+	justify-content: center;
+}
+
+.modale button {
+	margin: 10px;
+	padding: 10px 20px;
+	border: 1px solid red;
+	cursor: pointer;
+}
+
+#modaleSupCompteContenu {
+	background: #f5f5e9;
+	border: 2px solid red;
+	padding: 20px;
+	border-radius: 10px;
+	text-align: center;
+	min-width: 300px;
+}
+
+#modaleSupCompteContenuBis {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#ouvrirModaleSuppression{
+	border-color: red;
+}
+
+#ouvrirModaleSuppression:hover{
+	background-color: red;
+}
+
+.loader {
+margin-bottom: 10px;
+border: 8px solid #F2F1E9;
+border-top: 8px solid red;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+/* Conteneur de la barre */
+.progress-container {
+		width: 100%;
+		background-color: #ddd;
+		border-radius: 10px;
+		overflow: hidden;
+		height: 20px;
+		box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		margin: 20px;
+	}
+
+/* Barre de chargement */
+.progress-bar {
+	width: 0%;
+	height: 100%;
+	background-color: red;
+	text-align: center;
+	line-height: 20px;
+	color: white;
+	font-weight: bold;
+	border-radius: 10px;
+	animation: load 3s ease-in 1s forwards;
+}
+
+/* Animation de remplissage */
+@keyframes load {
+	from { width: 0%; }
+	to { width: 100%; }
+}
+
 /* PAGE TOUS LES AVIS DES OFFRES */
 
 .AMO_main{
