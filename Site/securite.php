@@ -258,21 +258,26 @@
 
 <script>
     function popup_2fa() {
-        var popup = document.querySelector('.display-none');
+        var popup = document.querySelector('.auth-container .display-none');
+        var popup2 = document.querySelector('.auth-container');
+        if (popup2) {
+            popup2.style.display = 'block';
+        } else {
+            console.error("L'élément .auth-container n'existe pas !");
+        }
         if (popup) {
             popup.style.display = 'block';
         } else {
-            console.error("L'élément .popup n'existe pas !");
+            console.error("L'élément .display-none à l'intérieur de .auth-container n'existe pas !");
         }
     }
 
-    function popup_2fa2() {
-        var popup = document.querySelectorAll('.display-none');
-        if (popup.length > 1) {
-            popup[0].style.display = 'none';
-            popup[1].style.display = 'block';
+    function closePopup() {
+        var popup = document.querySelector('.auth-container');
+        if (popup) {
+            popup.style.display = 'none';
         } else {
-            console.error("L'élément .popup n'existe pas !");
+            console.error("L'élément .auth-container n'existe pas !");
         }
     }
 
@@ -296,26 +301,6 @@
         document.querySelector('.popup').style.display = 'block';
     });
 
-    function etape_suivante() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'api/auth_paramsecret.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText == 'true') {
-                    closePopup();
-                    window.location.href = 'index.php';
-                } else {
-                    alert('Code OTP invalide');
-                }
-            }
-        };
-        var codeotp = prompt('Entrez le code OTP');
-        if (codeotp != null) {
-            xhr.send('idcompte=' + <?php echo $idcompte; ?> + '&codeotp=' + codeotp);
-        }
-    }
-
     function valider_otp() {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'api/auth_paramotp.php', true);
@@ -334,9 +319,10 @@
                     // Stock a value in the session
                     sessionStorage.setItem('forceLogout', 'true');
 
-                    sleep(500);
-                    // dans la session force la redirection vers la page deconnexion.php
-                    window.location.href = 'deconnexion.php';
+                    setTimeout(function() {
+                        // Redirige vers la page de déconnexion
+                        window.location.replace('deconnexion.php');
+                    }, 5000); // 5 secondes
                 } else {
                     alert('Code OTP invalide');
                 }
@@ -348,7 +334,8 @@
 
 
 </script>
-<div class="auth-container">
+
+<div class="auth-container display-none">
     <div class="display-none">
         <div class="popup-header">
             <h2>Authentification à deux facteurs</h2>
@@ -374,22 +361,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="popup-footer">
-            <button class="button button-primary" onclick="popup_2fa2();">Suivant</button>
-        </div>
-    </div>
 
-    <div class="display-none">
-        <div class="popup-header">
-            <h2>Authentification à deux facteurs</h2>
-            <button class="close-popup" onclick="closePopup();">X</button>
-        </div>
-        <div class="popup-body">
-            <div class="popup-content">
-                <div class="popup-content-inner">
                     <div class="popup-content-left">
                         <div class="popup-content-left-inner">
                             <h3>Étape 3: Entrez le code OTP</h3>
@@ -402,6 +374,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="popup-footer">
+            <button class="button button-primary" onclick="popup_2fa2();">Suivant</button>
         </div>
     </div>
 

@@ -123,6 +123,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div>
                     <a style="display:flex;justify-content:center;" href="#" class="cp_mobile">Mot de passe oublié ?</a><br>
                 </div>
+
+                <label for="totp">Code OTP:</label><br>
+                <input type="text" id="totp" name="totp" placeholder="123456" class="cp_mobile">
+                <p>Si la double authentification est activée, entrez le code OTP générer par votre application d'authentification.</p>
+                <br>
+
             </section>
             
             <!-- Affichage des erreurs en rouge pastel -->

@@ -1232,7 +1232,7 @@ p.cp_mobile_erreur {
 }
 
 .reviews {
-	margin-top: 20px;
+	margin-top: 20px.
 }
 
 .review-summary {
@@ -1291,7 +1291,7 @@ p.cp_mobile_erreur {
     .details_offre_mobile_tarifs,
     .details_offre_mobile {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 20px.
     }
 
     .details_offre_mobile table,
@@ -1348,7 +1348,7 @@ p.cp_mobile_erreur {
     .boutons-bas-offre {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: center.
     }
 
     .boutons-bas-offre a,
@@ -1367,32 +1367,32 @@ p.cp_mobile_erreur {
 
 	.image-gallery {
 		flex-direction: column;
-		align-items: center;
+		align-items: center.
 	}
 
 	.image-gallery img {
 		width: 100%;
-		margin-bottom: 10px;
+		margin-bottom: 10px.
 	}
 
 	.map {
-		flex-direction: column;
+		flex-direction: column.
 	}
 
 	.map img,
 	.opening-hours {
 		width: 100%;
-		text-align: center;
+		text-align: center.
 	}
 
 	.pricing table,
 	.pricing button {
-		width: 100%;
+		width: 100%.
 	}
 
 	.review-summary {
 		flex-direction: column;
-		align-items: center;
+		align-items: center.
 	}
 }
 
@@ -3407,43 +3407,36 @@ input:checked + .sliderswitch:before {
 }
 
 .auth-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the pop-up */
     background-color: var(--color-background);
     border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 680px;
-    margin: 20px auto;
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.auth-container.active {
+    display: flex; /* Show the pop-up when active */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .auth-container .popup-header {
-	display: flex;
-	justify-content: center;
-	justify-content: space-between;
-	align-items: center;
-	max-width: 640px;
-	background-color: var(--color-primary);
-	color: var(--color-background);
-	padding: 10px;
-	border-radius: 8px 8px 0 0;
-	margin: 0 auto; /* Center the header */
-}
-
-.auth-container .popup-header h2 {
-    font-size: 20px;
-    margin: 0;
-}
-
-.auth-container .popup-header .close-popup {
-    background: none;
-    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-primary);
     color: var(--color-background);
-    font-size: 20px;
-    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
 }
 
 .auth-container .popup-body {
@@ -3451,108 +3444,10 @@ input:checked + .sliderswitch:before {
     text-align: center;
 }
 
-.auth-container .popup-content {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.auth-container .popup-content-inner {
-	display: flex;
-	flex-direction: column; /* Change to column to stack steps vertically */
-	justify-content: flex-start; /* Align items at the top */
-	gap: 20px;
-}
-
-
-
-.auth-container .popup-content-left,
-.auth-container .popup-content-right {
-	flex: 1;
-	max-width: 640px; /* Half of 640px to ensure both popups fit side by side */
-	box-sizing: border-box; /* Include padding and border in the width */
-}
-
-.auth-container .popup-content-left-inner,
-.auth-container .popup-content-right-inner {
-	padding: 10px;
-	background-color: var(--color-background);
-	border: 1px solid var(--color-border);
-	border-radius: 8px;
-	max-width: 100%; /* Ensure content stays within the container */
-}
-
-.auth-container .popup-content-right-inner-qr img {
-    max-width: 80%;
-    height: auto;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-}
-
 .auth-container .popup-footer {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-}
-
-.auth-container .popup-footer .button {
-    background-color: var(--color-primary);
-    color: var(--color-background);
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.auth-container .popup-footer .button:hover {
-    background-color: var(--color-primary-hover);
-}
-
-/* Style pour l'input de l'étape 3 */
-.auth-container .popup-content-left-inner input#otp {
-	width: 20%; /* Prend 50% de la largeur */
-	padding: 10px;
-	font-size: 16px;
-	border: 1px solid var(--color-border);
-	border-radius: 8px;
-	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-	transition: border-color 0.3s ease, box-shadow 0.3s ease;
-	text-align: center; /* Centre le texte */
-}
-
-/* Style pour le bouton de validation */
-.auth-container .popup-content-left-inner button.button-primary {
-	width: 20%; /* Prend 50% de la largeur */
-	padding: 10px;
-	font-size: 16px;
-	font-weight: bold;
-	color: var(--color-background);
-	background-color: var(--color-primary);
-	border: none;
-	border-radius: 8px;
-	cursor: pointer;
-	transition: background-color 0.3s ease, transform 0.2s ease;
-	text-align: center; /* Centre le texte */
-}
-
-/* Centrer et aligner les éléments */
-.input-row {
-	display: flex;
-	flex-direction: row; /* Aligne les éléments verticalement */
-	justify-content: center;
-	align-items: center; /* Centre horizontalement */
-	gap: 15px; /* Espace entre les éléments */
-}
-
-.auth-container .popup-content-left-inner button.button-primary:hover {
-    background-color: var(--color-primary-hover);
-    transform: scale(1.05);
-}
-
-.auth-container .popup-content-left-inner button.button-primary:active {
-    transform: scale(0.95);
 }
 
 /* Responsive Design pour les écrans de largeur <= 480px */
