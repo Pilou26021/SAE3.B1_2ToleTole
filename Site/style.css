@@ -3605,7 +3605,8 @@ input:checked + .sliderswitch:before {
         padding: 10px; /* Réduit le padding */
         border-radius: 5px; /* Coins légèrement arrondis */
         box-shadow: none; /* Supprime l'ombre pour un design plus simple */
-    }
+		height: 80vh;
+	}
 
     .auth-container .popup-header {
         flex-direction: column; /* Empile les éléments */
@@ -3633,7 +3634,6 @@ input:checked + .sliderswitch:before {
 
     .auth-container .popup-content-inner {
         flex-direction: column; /* Empile les éléments verticalement */
-        gap: 15px; /* Réduit l'espacement entre les sections */
     }
 
     .auth-container .popup-content-left,
@@ -3661,7 +3661,7 @@ input:checked + .sliderswitch:before {
     }
 
     .auth-container .popup-content-right-inner-qr img {
-        max-width: 100%; /* L'image prend toute la largeur disponible */
+        max-width: 30%; /* L'image prend toute la largeur disponible */
         height: auto; /* Maintient les proportions */
     }
 
