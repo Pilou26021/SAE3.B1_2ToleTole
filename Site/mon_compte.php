@@ -9,6 +9,14 @@
         align-items: center;
         justify-content: center;
     }
+
+    .modale button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: 1px solid red;
+        cursor: pointer;
+    }
+    
     #modaleSupCompteContenu {
         background: #f5f5e9;
         border: 2px solid red;
@@ -25,27 +33,12 @@
         flex-direction: column;
     }
 
-    .modale button {
-        margin: 10px;
-        padding: 10px 20px;
-        border: 1px solid red;
-        cursor: pointer;
-    }
-
-    #ouvrirModalSuppression{
+    #ouvrirModaleSuppression{
         border-color: red;
     }
 
-    #ouvrirModalSuppression:hover{
+    #ouvrirModaleSuppression:hover{
         background-color: red;
-    }
-
-    .warning {
-    font-size: 50px;
-    color: red;
-    text-align: center;
-    background-color: #F2F1E9;
-    border: none;
     }
 
     .loader {
@@ -58,11 +51,41 @@
     animation: spin 2s linear infinite; /* Animation pour faire tourner le cercle */
     }
 
-    /* Définir l'animation */
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+
+
+    /* Conteneur de la barre */
+    .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin: 20px;
+        }
+
+        /* Barre de chargement */
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: red;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            animation: load 3s ease-in 1s forwards;
+        }
+
+        /* Animation de remplissage */
+        @keyframes load {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
 
 </style>
 
@@ -361,13 +384,15 @@
                                 <button style="border-radius: 8px;" id="confirmerNon" type="button">Non</button>
                             </div>
                             
-                            <p style="color: red; font-size: 17px;">Vos données vont être anonymisées ou supprimées, <br> vous n’aurez aucun moyen de les récupérer.</p>
+                            <p style="color: red; font-size: 17px;">Vos données vont être anonymisées ou supprimées, <br> vous n’aurez aucun moyen de les récupérer</p>
 
                         </form>
                     </section>
                     <section id="modaleSupCompteContenuBis" style="display: none;">
-                        <div class="loader"></div>
-                        <p style='color: red; font-size: 17px; margin: 0; font-weight: bold;'> Suppression de votre compte en cours... <br> Vous allez être redirigé dans 3 secondes <p>
+                        <div class="progress-container">
+                            <div class="progress-bar"> </div>
+                        </div>
+                        <p id="msgInformationBis" style='color: red; font-size: 17px; margin: 0; font-weight: bold;'> Suppression de votre compte en cours...<p>
                     </section>
                 </div>
             </div>
@@ -433,7 +458,7 @@
                                 modaleSupCompteContenuPrincipal.style.display = "none"
 
                                 setTimeout(() => {
-                                    window.location.href = "suppression_compte.php";
+                                    //window.location.href = "suppression_compte.php";
                                 }, 3000);
 
                             } else {
@@ -444,6 +469,16 @@
                         })
                         .catch(error => console.error("Erreur :", error));
                     }
+                });
+
+                document.querySelector(".progress-bar").addEventListener("animationend", function() {
+                    modaleSupCompteContenu.style.border = "2px solid green";
+                    document.getElementsByClassName("progress-bar")[0].style.backgroundColor = "green";
+                    document.getElementById("msgInformationBis").style.color = "green";
+                    document.getElementById("msgInformationBis").innerHTML = "Vous allez être redirigé vers la page de connexion";
+                    setTimeout(() => {
+                                    window.location.href = "suppression_compte.php";
+                    }, 2000);
                 });
 
                 // Si le bouton "non" est cliqué, on ferme simplement la modale

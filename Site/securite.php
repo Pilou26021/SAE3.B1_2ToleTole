@@ -346,12 +346,12 @@
                 <div class="popup-content-inner">
                     <div class="popup-content-left">
                         <div class="popup-content-left-inner">
-                            <h3>Étape 1: Installer une application d'authentification à deux facteurs</h3>
+                            <h3 class="popup-title">Étape 1: Installer une application d'authentification à deux facteurs</h3>
                         </div>
                     </div>
                     <div class="popup-content-right">
                         <div class="popup-content-right-inner">
-                            <h3>Étape 2: Scannez le code QR ou entrez la clé secrète ci-dessous</h3>
+                            <h3 class="popup-title">Étape 2: Scannez le code QR ou entrez la clé secrète ci-dessous</h3>
                             <p>Ouvrir votre application d'authentification et scanner le code QR ci-dessous ou entrez la clé secrète manuellement.</p>
                             <div class="popup-content-right-inner-qr">
                                 <img src="" alt="QR Code">
@@ -364,7 +364,7 @@
 
                     <div class="popup-content-left">
                         <div class="popup-content-left-inner">
-                            <h3>Étape 3: Entrez le code OTP</h3>
+                            <h3 class="popup-title">Étape 3: Entrez le code OTP</h3>
                             <p>Entrez le code OTP généré par votre application d'authentification à deux facteurs.</p>
                             <div class="input-row">    
                                 <input type="text" id="otp" name="otp" placeholder="Code OTP">
@@ -374,9 +374,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="popup-footer">
-            <button class="button button-primary" onclick="popup_2fa2();">Suivant</button>
         </div>
     </div>
 
@@ -389,7 +386,7 @@
                 <div class="popup-content-inner">
                     <div class="popup-content-left">
                         <div class="popup-content-left-inner">
-                            <h3>Authentification à deux facteurs activée</h3>
+                            <h3 class="popup-title">Authentification à deux facteurs activée</h3>
                             <p>Vous allez être déconnecté. Veuillez vous reconnecter avec l'authentification à deux facteurs.</p>
                         </div>
                     </div>

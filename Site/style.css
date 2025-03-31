@@ -1170,9 +1170,16 @@ input[type="radio"]+label {
     }
 
     .offre-image-container._2 img {
-        width: 100%;
-        height: auto;
+		max-width: 100%;
+		width: 340px; /* Largeur fixe */
+		height: 425px;
     }
+
+	.offre-image-container._2 {
+		max-width: 100%;
+		width: 540px; /* Largeur fixe */
+		height: 325px; 
+	}
 
     .offre-description {
         padding: 10px;
@@ -3134,6 +3141,95 @@ input:checked + .sliderswitch:before {
 	align-items: center;
 }
 
+/* Suite */
+.modale {
+	display: none;
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(5px);
+	align-items: center;
+	justify-content: center;
+}
+
+.modale button {
+	margin: 10px;
+	padding: 10px 20px;
+	border: 1px solid red;
+	cursor: pointer;
+}
+
+#modaleSupCompteContenu {
+	background: #f5f5e9;
+	border: 2px solid red;
+	padding: 20px;
+	border-radius: 10px;
+	text-align: center;
+	min-width: 300px;
+}
+
+#modaleSupCompteContenuBis {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#ouvrirModaleSuppression{
+	border-color: red;
+}
+
+#ouvrirModaleSuppression:hover{
+	background-color: red;
+}
+
+.loader {
+margin-bottom: 10px;
+border: 8px solid #F2F1E9;
+border-top: 8px solid red;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+/* Conteneur de la barre */
+.progress-container {
+		width: 100%;
+		background-color: #ddd;
+		border-radius: 10px;
+		overflow: hidden;
+		height: 20px;
+		box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		margin: 20px;
+	}
+
+/* Barre de chargement */
+.progress-bar {
+	width: 0%;
+	height: 100%;
+	background-color: red;
+	text-align: center;
+	line-height: 20px;
+	color: white;
+	font-weight: bold;
+	border-radius: 10px;
+	animation: load 3s ease-in 1s forwards;
+}
+
+/* Animation de remplissage */
+@keyframes load {
+	from { width: 0%; }
+	to { width: 100%; }
+}
+
 /* PAGE TOUS LES AVIS DES OFFRES */
 
 .AMO_main{
@@ -3308,6 +3404,7 @@ input:checked + .sliderswitch:before {
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 680px;
+	max-height: 90vh; /* Limit the height of the pop-up */
     z-index: 1000; /* Ensure it appears above other elements */
 }
 
@@ -3322,7 +3419,7 @@ input:checked + .sliderswitch:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 97%;
     background-color: var(--color-primary);
     color: var(--color-background);
     padding: 10px;
@@ -3330,7 +3427,6 @@ input:checked + .sliderswitch:before {
 }
 
 .auth-container .popup-body {
-    padding: 20px;
     text-align: center;
 }
 
@@ -3339,6 +3435,123 @@ input:checked + .sliderswitch:before {
     justify-content: center;
     margin-top: 20px;
 }
+
+.popup-title {
+	font-size: smaller;
+}
+.auth-container .popup-header h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.auth-container .popup-header .close-popup {
+    background: none;
+    border: none;
+    color: var(--color-background);
+    font-size: 20px;
+    cursor: pointer;
+}
+.popup-content-right-inner p{
+	font-size: smaller;
+}
+.auth-container .popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-container .popup-content-inner {
+	display: flex;
+	flex-direction: column; /* Change to column to stack steps vertically */
+	justify-content: flex-start; /* Align items at the top */
+	gap: 1px;
+}
+
+
+
+.auth-container .popup-content-left,
+.auth-container .popup-content-right {
+	flex: 1;
+	max-width: 640px; /* Half of 640px to ensure both popups fit side by side */
+	box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.auth-container .popup-content-left-inner,
+.auth-container .popup-content-right-inner {
+	padding: 10px;
+	background-color: var(--color-background);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	max-width: 100%; /* Ensure content stays within the container */
+}
+
+.auth-container .popup-content-right-inner-qr img {
+    max-width: 30%;
+    height: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.auth-container .popup-footer .button {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.auth-container .popup-footer .button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Style pour l'input de l'étape 3 */
+.auth-container .popup-content-left-inner input#otp {
+	width: 20%; /* Prend 50% de la largeur */
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	text-align: center; /* Centre le texte */
+}
+
+/* Style pour le bouton de validation */
+.auth-container .popup-content-left-inner button.button-primary {
+	width: 20%; /* Prend 50% de la largeur */
+	padding: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	color: var(--color-background);
+	background-color: var(--color-primary);
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	text-align: center; /* Centre le texte */
+}
+
+/* Centrer et aligner les éléments */
+.input-row {
+	display: flex;
+	flex-direction: row; /* Aligne les éléments verticalement */
+	justify-content: center;
+	align-items: center; /* Centre horizontalement */
+	gap: 15px; /* Espace entre les éléments */
+}
+
+.auth-container .popup-content-left-inner button.button-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}
+
+.auth-container .popup-content-left-inner button.button-primary:active {
+    transform: scale(0.95);
+}
+
 
 /* Responsive Design pour les écrans de largeur <= 480px */
 @media (max-width: 480px) {
@@ -3378,7 +3591,8 @@ input:checked + .sliderswitch:before {
         padding: 10px; /* Réduit le padding */
         border-radius: 5px; /* Coins légèrement arrondis */
         box-shadow: none; /* Supprime l'ombre pour un design plus simple */
-    }
+		height: 80vh;
+	}
 
     .auth-container .popup-header {
         flex-direction: column; /* Empile les éléments */
@@ -3406,7 +3620,6 @@ input:checked + .sliderswitch:before {
 
     .auth-container .popup-content-inner {
         flex-direction: column; /* Empile les éléments verticalement */
-        gap: 15px; /* Réduit l'espacement entre les sections */
     }
 
     .auth-container .popup-content-left,
@@ -3434,7 +3647,7 @@ input:checked + .sliderswitch:before {
     }
 
     .auth-container .popup-content-right-inner-qr img {
-        max-width: 100%; /* L'image prend toute la largeur disponible */
+        max-width: 30%; /* L'image prend toute la largeur disponible */
         height: auto; /* Maintient les proportions */
     }
 
@@ -3613,6 +3826,8 @@ input:checked + .sliderswitch:before {
     flex: 6; /* Permet à l'image de prendre 1 part de l'espace disponible */
     max-width: 60%; /* Limite la largeur de l'image à 50% */
     text-align: center; /* Centre l'image horizontalement */
+	width: 540px; /* Largeur fixe */
+    height: 325px; 
 }
 
 .offre-image-container._2 img {
@@ -3620,12 +3835,12 @@ input:checked + .sliderswitch:before {
     height: auto; /* Maintient les proportions de l'image */
     border-radius: 10px; /* Ajoute des coins arrondis */
     object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur sans déformation */
+    height: 325px; 
 }
 
 /* Exemple pour les conteneurs spécifiques */
 .details-offre-image{
-    width: 340px; /* Largeur fixe */
-    height: 225px; /* Hauteur fixe */
+    /* Hauteur fixe */
     object-fit: cover; /* Ajuste l'image pour remplir le conteneur sans déformation */
     border-radius: 10px; /* Coins arrondis */
 }
