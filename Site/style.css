@@ -1273,9 +1273,16 @@ p.cp_mobile_erreur {
     }
 
     .offre-image-container._2 img {
-        width: 100%;
-        height: auto;
+		max-width: 100%;
+		width: 340px; /* Largeur fixe */
+		height: 425px;
     }
+
+	.offre-image-container._2 {
+		max-width: 100%;
+		width: 540px; /* Largeur fixe */
+		height: 325px; 
+	}
 
     .offre-description {
         padding: 10px;
@@ -3821,6 +3828,8 @@ input:checked + .sliderswitch:before {
     flex: 6; /* Permet à l'image de prendre 1 part de l'espace disponible */
     max-width: 60%; /* Limite la largeur de l'image à 50% */
     text-align: center; /* Centre l'image horizontalement */
+	width: 540px; /* Largeur fixe */
+    height: 325px; 
 }
 
 .offre-image-container._2 img {
@@ -3828,12 +3837,12 @@ input:checked + .sliderswitch:before {
     height: auto; /* Maintient les proportions de l'image */
     border-radius: 10px; /* Ajoute des coins arrondis */
     object-fit: cover; /* Ajuste l'image pour qu'elle remplisse le conteneur sans déformation */
+    height: 325px; 
 }
 
 /* Exemple pour les conteneurs spécifiques */
 .details-offre-image{
-    width: 340px; /* Largeur fixe */
-    height: 225px; /* Hauteur fixe */
+    /* Hauteur fixe */
     object-fit: cover; /* Ajuste l'image pour remplir le conteneur sans déformation */
     border-radius: 10px; /* Coins arrondis */
 }
