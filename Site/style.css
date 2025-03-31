@@ -3418,6 +3418,7 @@ input:checked + .sliderswitch:before {
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 680px;
+	max-height: 90vh; /* Limit the height of the pop-up */
     z-index: 1000; /* Ensure it appears above other elements */
 }
 
@@ -3432,7 +3433,7 @@ input:checked + .sliderswitch:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 97%;
     background-color: var(--color-primary);
     color: var(--color-background);
     padding: 10px;
@@ -3440,7 +3441,6 @@ input:checked + .sliderswitch:before {
 }
 
 .auth-container .popup-body {
-    padding: 20px;
     text-align: center;
 }
 
@@ -3449,6 +3449,123 @@ input:checked + .sliderswitch:before {
     justify-content: center;
     margin-top: 20px;
 }
+
+.popup-title {
+	font-size: smaller;
+}
+.auth-container .popup-header h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.auth-container .popup-header .close-popup {
+    background: none;
+    border: none;
+    color: var(--color-background);
+    font-size: 20px;
+    cursor: pointer;
+}
+.popup-content-right-inner p{
+	font-size: smaller;
+}
+.auth-container .popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-container .popup-content-inner {
+	display: flex;
+	flex-direction: column; /* Change to column to stack steps vertically */
+	justify-content: flex-start; /* Align items at the top */
+	gap: 1px;
+}
+
+
+
+.auth-container .popup-content-left,
+.auth-container .popup-content-right {
+	flex: 1;
+	max-width: 640px; /* Half of 640px to ensure both popups fit side by side */
+	box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.auth-container .popup-content-left-inner,
+.auth-container .popup-content-right-inner {
+	padding: 10px;
+	background-color: var(--color-background);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	max-width: 100%; /* Ensure content stays within the container */
+}
+
+.auth-container .popup-content-right-inner-qr img {
+    max-width: 30%;
+    height: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.auth-container .popup-footer .button {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.auth-container .popup-footer .button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Style pour l'input de l'étape 3 */
+.auth-container .popup-content-left-inner input#otp {
+	width: 20%; /* Prend 50% de la largeur */
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	text-align: center; /* Centre le texte */
+}
+
+/* Style pour le bouton de validation */
+.auth-container .popup-content-left-inner button.button-primary {
+	width: 20%; /* Prend 50% de la largeur */
+	padding: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	color: var(--color-background);
+	background-color: var(--color-primary);
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	text-align: center; /* Centre le texte */
+}
+
+/* Centrer et aligner les éléments */
+.input-row {
+	display: flex;
+	flex-direction: row; /* Aligne les éléments verticalement */
+	justify-content: center;
+	align-items: center; /* Centre horizontalement */
+	gap: 15px; /* Espace entre les éléments */
+}
+
+.auth-container .popup-content-left-inner button.button-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}
+
+.auth-container .popup-content-left-inner button.button-primary:active {
+    transform: scale(0.95);
+}
+
 
 /* Responsive Design pour les écrans de largeur <= 480px */
 @media (max-width: 480px) {
