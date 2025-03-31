@@ -296,26 +296,6 @@
         document.querySelector('.popup').style.display = 'block';
     });
 
-    function etape_suivante() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'api/auth_paramsecret.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                if (xhr.responseText == 'true') {
-                    closePopup();
-                    window.location.href = 'index.php';
-                } else {
-                    alert('Code OTP invalide');
-                }
-            }
-        };
-        var codeotp = prompt('Entrez le code OTP');
-        if (codeotp != null) {
-            xhr.send('idcompte=' + <?php echo $idcompte; ?> + '&codeotp=' + codeotp);
-        }
-    }
-
     function valider_otp() {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'api/auth_paramotp.php', true);
@@ -336,7 +316,8 @@
 
                     sleep(500);
                     // dans la session force la redirection vers la page deconnexion.php
-                    window.location.href = 'deconnexion.php';
+                    window.location.replace('deconnexion.php');
+
                 } else {
                     alert('Code OTP invalide');
                 }
