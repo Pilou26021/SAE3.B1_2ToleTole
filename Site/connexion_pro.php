@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $auth_parametre = $stmt->fetchColumn();
 
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
-        if ($auth_parametre == 'false') {
+        if ($auth_parametre === false || $auth_parametre === 'false') {
             // Si la connexion est réussie, définir la session
             $_SESSION['professionnel'] = $result['idcompte']; // on utilisez un autre champ pertinent
             $_SESSION['idpro'] = $result['idpro'];
