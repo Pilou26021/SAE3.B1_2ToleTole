@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <section class="cp_form">
         <h1 class="cp_mobile">Professionnel</h1>
-        <form action="connexion_membre.php" method="POST" class="cp_mobile">
+        <form action="connexion_pro.php" method="POST" class="cp_mobile">
             <input type="email" name="email_cp_mob" placeholder="Email" required>
             <input type="password" name="mdp_cp_mob" placeholder="Mot de passe" required>
             <p><a class="lien-creer" href="#">Mot de passe oublié ?</a></p>
@@ -168,8 +168,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php } ?>
             <input type="submit" value="Se connecter">
         </form>
-        <a class="cp_mobile_btn orange" href="creer_compte_membre.php">Créer un compte</a>
-        <a class="cp_mobile_btn" href="connexion_pro.php">Plateforme professionnelle</a>
+        <a class="cp_mobile_btn orange" href="creer_compte_pro.php">Créer un compte</a>
+        <a class="cp_mobile_btn" href="connexion_membre.php">Plateforme membre</a>
     </section>
 </body>
 </html>
