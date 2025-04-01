@@ -3,6 +3,8 @@ ob_start();
 session_start(); // Démarre la session
 
 include '../SQL/connection_local.php';
+require_once '../COMPOSE/vendor/autoload.php';
+use OTPHP\TOTP;
 
 if (isset($_SESSION['professionnel'])) {
     // Si l'utilisateur est déjà connecté, le rediriger vers la page d'accueil
@@ -10,10 +12,25 @@ if (isset($_SESSION['professionnel'])) {
     exit();
 }
 
+function getsecret($conn, $userId) {
+    $sql = "SELECT auth_secret FROM _compte WHERE idcompte = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+function updateLastConnection($conn, $userId) {
+    $sql = "UPDATE _compte   SET datederniereconnexioncompte = NOW() WHERE idcompte = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des données du formulaire
     $email = $_POST['email_cp_mob'];
     $motdepasse = $_POST['mdp_cp_mob'];
+    $otp = $_POST['otp_cp_mob'] ?? null; // OTP facultatif
 
     // Vérification de l'existence de l'utilisateur
     $sql = "SELECT * FROM professionnel WHERE mailcompte = :email";
@@ -22,27 +39,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Vérification du paramètre d'authentification
+    $sql = "SELECT auth_parametre FROM _compte WHERE idcompte = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(":id", $result['idcompte'], PDO::PARAM_INT);
+    $stmt->execute();
+    $auth_parametre = $stmt->fetchColumn();
+
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
-        // Si la connexion est réussie, définir la session
-        $_SESSION['professionnel'] = $result['idcompte']; // on utilisez un autre champ pertinent
-        $_SESSION['idpro'] = $result['idpro'];
+        if ($auth_parametre == 'false') {
+            // Si la connexion est réussie, définir la session
+            $_SESSION['professionnel'] = $result['idcompte']; // on utilisez un autre champ pertinent
+            $_SESSION['idpro'] = $result['idpro'];
+            updateLastConnection($conn, $result['idcompte']); // Mettre à jour la date de dernière connexion
 
-        //On regarde si c'est un pro public
-        $sql = "SELECT * FROM _professionnelpublic WHERE idpro = :idpro";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(":idpro", $_SESSION['idpro'], PDO::PARAM_INT);
-        $stmt->execute();
-        $ispropublic = $stmt->fetch(PDO::FETCH_ASSOC);
+            //On regarde si c'est un pro public
+            $sql = "SELECT * FROM _professionnelpublic WHERE idpro = :idpro";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(":idpro", $_SESSION['idpro'], PDO::PARAM_INT);
+            $stmt->execute();
+            $ispropublic = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($ispropublic){
-            $_SESSION['propublic'] = true;
+            if ($ispropublic){
+                $_SESSION['propublic'] = true;
+            } else {
+                $_SESSION['propublic'] = false;
+            }
+
+            header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
+            exit();
         } else {
-            $_SESSION['propublic'] = false;
+            if (!empty($otp)) { // Vérifie si l'OTP est fourni
+                // Vérification de l'OTP
+                $secret = getsecret($conn, $result['idcompte']);
+                $totp = TOTP::create($secret);
+                if ($totp->verify($otp, leeway: 15)) {
+                    // OTP valide, connexion réussie
+                    $_SESSION['professionnel'] = $result['idcompte'];
+                    $_SESSION['idpro'] = $result['idpro'];
+                    updateLastConnection($conn, $result['idcompte']); // Mettre à jour la date de dernière connexion
+
+                    //On regarde si c'est un pro public
+                    $sql = "SELECT * FROM _professionnelpublic WHERE idpro = :idpro";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(":idpro", $_SESSION['idpro'], PDO::PARAM_INT);
+                    $stmt->execute();
+                    $ispropublic = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($ispropublic){
+                        $_SESSION['propublic'] = true;
+                    } else {
+                        $_SESSION['propublic'] = false;
+                    }
+
+                    header('Location: index.php');
+                    exit();
+                } else {
+                    // OTP invalide
+                    $erreur = "L'OTP est incorrect.";
+                }
+            } else {
+                // OTP manquant
+                $erreur = "Veuillez entrer l'OTP.";
+            }
         }
-
-        header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
-        exit();
-
     } else {
         // Gérer l'erreur de connexion
         $erreur = "L'adresse email ou le mot de passe est incorrect.";
@@ -77,82 +137,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="fr">
-    
-    <head>
-        <meta charset="UTF-8">
-        <title>Connexion professionnelle</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion professionnelle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="fleche" href="index.php">&#8617;</a>
+    <?php
+        if (isset($_GET['success'])) {
+            // Pop up de succès
+            echo '<script>alerte("Votre compte a bien été créé. Vous pouvez maintenant vous connecter.")</script>';
+        }
+    ?>
 
+    <!-- Logo -->
+    <section class="cp_logo_nom">
+        <img src="img/logos/fond_remove_big.png" alt="Logo" style="width: 140px; height: auto;">
+    </section>
 
-    <body class="cp_mobile" style="overflow:hidden;">
-    <a style="position: absolute; top: 20px; left: 20px; text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="index.php">&#8617;</a>
-
-        <?php
-            if (isset($_GET['success'])) {
-                // Pop up de succès
-                echo '<script>alerte("Votre compte a bien été créé. Vous pouvez maintenant vous connecter.")</script>';
-            }
-        ?> 
-
-        <!-- Logo -->
-        <img src="img/logos/fond_remove_big.png" alt="Logo" style="width: 230px; height: auto;">
+    <section class="cp_form">
         <h1 class="cp_mobile">Professionnel</h1>
-
-        <form action="connexion_pro.php" method="POST" class="cp_mobile">
-
-            <!-- Section pour permettre l'alignement du texte -->
-            <section class="cp_mobile">
-                <label for="email_cp_mob">E-mail:</label><br>
-                <input type="email" id="email_cp_mob" name="email_cp_mob" placeholder="jeanDuchamp@exemple.com" required class="cp_mobile"><br>
-                
-                <p id="erreur_email" class="cp_mobile_erreur"></p>
-
-                <script>
-                    const validateEmail = (email) => {
-                        return String(email)
-                            .toLowerCase()
-                            .match(
-                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                        );
-                    };
-
-                    document.getElementById('email_cp_mob').addEventListener('input', function() {
-                        document.getElementById('erreur_email').innerHTML = '';
-                        if (!validateEmail(this.value)) {
-                            console.log('Adresse email invalide');
-                            document.getElementById('erreur_email').innerHTML = '⨯ Adresse email invalide';
-                        }
-                        else {
-                            document.getElementById('erreur_email').innerHTML = '';
-                        }
-                    });
-                </script>
-
-
-                <label for="mdp_cp_mob">Mot de passe:</label><br>
-                <input type="password" id="mdp_cp_mob" name="mdp_cp_mob" placeholder="***************" required class="cp_mobile">
-                <br>
-                <div>
-                    <a style="display:flex;justify-content:center;" href="#" class="cp_mobile">Mot de passe oublié ?</a><br>
-                </div>
-            </section>
-            
-            <!-- Affichage des erreurs en rouge pastel -->
-            <?php if (isset($erreur)) : ?>
-                <p class="cp_mobile_erreur"><?php echo $erreur; ?></p>
-            <?php endif; ?>
-
-            <!-- Bouton de validation -->
-            <input type="submit" value="Se connecter" class="cp_mobile_btn">
-               
-            <a class="lien-creer" href="creer_compte_pro.php" class="cp_mobile">Créer un compte professionnel</a>
-
+        <form action="connexion_membre.php" method="POST" class="cp_mobile">
+            <input type="email" name="email_cp_mob" placeholder="Email" required>
+            <input type="password" name="mdp_cp_mob" placeholder="Mot de passe" required>
+            <p><a class="lien-creer" href="#">Mot de passe oublié ?</a></p>
+            <input type="text" name="otp_cp_mob" placeholder="OTP (si activé)">
+            <?php if (isset($erreur)) { ?>
+                <div class="erreur"><?php echo $erreur; ?></div>
+            <?php } ?>
+            <input type="submit" value="Se connecter">
         </form>
-        <div>
-            <a class="offer-btn" style="text-decoration:none;" href="connexion_membre.php">Plateforme membre</a>
-        </div>
-    </body>
+        <a class="cp_mobile_btn orange" href="creer_compte_membre.php">Créer un compte</a>
+        <a class="cp_mobile_btn" href="connexion_pro.php">Plateforme professionnelle</a>
+    </section>
+</body>
 </html>
 <?php
 ob_end_flush();

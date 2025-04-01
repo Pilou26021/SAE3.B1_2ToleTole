@@ -41,8 +41,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Vérification du paramètre d'authentification
+    $sql = "SELECT auth_parametre FROM _compte WHERE idcompte = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(":id", $result['idcompte'], PDO::PARAM_INT);
+    $stmt->execute();
+    $auth_parametre = $stmt->fetchColumn();
+
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
-        if ($result['auth_parametre'] == 'false') {
+        if ($auth_parametre == 'false') {
             // Si la connexion est réussie, définir la session
             $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
             updateLastConnection($conn, $result['idcompte']); // Mettre à jour la date de dernière connexion
