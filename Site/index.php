@@ -621,50 +621,7 @@
                                             <?php } ?>
                                         <?php } ?>
                                         <script>
-                                            $(document).ready(function() {
-                                                $('.favoris-coeur').on('click', function(e) {
-                                                    e.preventDefault();
-                                                    
-                                                    let idoffre = $(this).data('idoffre');
-                                                    let add = $(this).data('add');
-                                                    let $heart = $('#favoris-' + idoffre);
-
-                                                    // Change the heart color immediately on click
-                                                    if (add === true) {
-                                                        $heart.attr('src', './img/icons/full-heart.svg');
-                                                        $(this).data('add', false);
-                                                    } else {
-                                                        $heart.attr('src', './img/icons/empty-heart.svg');
-                                                        $(this).data('add', true);
-                                                    }
-
-                                                    // Use POST instead of GET to avoid multiple identical requests
-                                                    $.ajax({
-                                                        url: 'update_favoris.php',
-                                                        method: 'POST',
-                                                        data: {
-                                                            idoffre: idoffre,
-                                                            add: add
-                                                        },
-                                                        success: function(response) {
-                                                            try {
-                                                                let jsonResponse = JSON.parse(response);
-                                                                if (jsonResponse.success) {
-                                                                    console.log('Favoris mis à jour avec succès.');
-                                                                } else {
-                                                                    console.error('Erreur lors de la mise à jour des favoris.');
-                                                                }
-                                                            } catch (e) {
-                                                                console.error('Réponse invalide du serveur.');
-                                                            }
-                                                        },
-                                                        error: function() {
-                                                            alert('Une erreur s\'est produite.');
-                                                        }
-                                                    });
-                                                });
-                                            });
-
+                                             
                                         </script>
                                         <?php if ($professionel && $offre['horsligne']) { ?>
                                             <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
