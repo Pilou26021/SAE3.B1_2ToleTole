@@ -95,8 +95,19 @@
     // 4. Suppression du compte
     //////////////////////////////
 
+        // 4.1. On commence par obtenir l'ID de la photo de profil
+        $requeteIDpdp = "SELECT idimagepdp
+                         FROM _compte
+                         WHERE idcompte = :idDuCompte;";
+
+        $executionRequeteIDpdp = $conn->prepare($requeteIDpdp);
+        $executionRequeteIDpdp->bindValue(':idDuCompte', $idCompte, PDO::PARAM_INT);
+        $executionRequeteIDpdp->execute();
+        $resultatRequeteIDpdp = $executionRequeteIDpdp->fetch();
+        $idPdp = $resultatRequeteIDpdp[0];
+
         // Finalement, on supprime le compte du membre
-        // 4.1. On commence par la table _membre
+        // 4.2. On commence par la table _membre
         $requeteSql5 = "DELETE
                         FROM _membre
                         WHERE idcompte = :id;";
@@ -105,7 +116,7 @@
         $executionRequete5->bindValue(':id', $idCompte, PDO::PARAM_INT);
         $executionRequete5->execute();
 
-        // 4.2. Et enfin, la table _compte
+        // 4.3. ... puis la table _compte
         $requeteSql6 = "DELETE
                         FROM _compte
                         WHERE idcompte = :id;";
@@ -115,9 +126,18 @@
         $executionRequete6->execute();
 
 
-        // 4.3. On redirige l'utilisateur vers la page de connexion
+        // 4.4. Et enfin on supprime la photo de profil
+        $requeteDelete = "DELETE
+                          FROM _image
+                          WHERE idimage = :idpdp;";
+
+        $executionRequeteDelete = $conn->prepare($requeteDelete);
+        $executionRequeteDelete->bindValue(':idpdp', $idPdp, PDO::PARAM_INT);
+        $executionRequeteDelete->execute();
+
+        // 4.5. On redirige l'utilisateur vers la page de connexion
         sleep(3);
         session_destroy();
-        header("Location: connexion_membre.php?cpteSup=true");
+        header("Location: connexion_membre.php");
         exit();
 ?>
