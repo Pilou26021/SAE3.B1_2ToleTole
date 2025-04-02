@@ -20,6 +20,7 @@
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
         $idcompte = $_SESSION['professionnel'];
+        $idpro = $_SESSION['idpro'];
     }
 
     //récupérer l'id du membre
@@ -48,7 +49,7 @@
         $stmt->execute();
         $idpro = $stmt->fetchColumn();
 
-        if ($idproOffre == $idcompte) {
+        if ($idproOffre == $idpro) {
             $bonProfessionnel = true; //variable pour vérifier que c'est le professionel qui a créé l'offre
         } elseif ($professionel) {
             header("Location: index.php");
