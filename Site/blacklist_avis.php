@@ -67,6 +67,7 @@
     }
 
     // Rediriger l'utilisateur vers la page précédente
+    echo "<script>window.history.back();</script>";
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit();
 

@@ -483,13 +483,6 @@ JOIN public._signalement s ON aa.idSignalement = s.idSignalement;
 CREATE OR REPLACE FUNCTION update_blacklist()
 RETURNS void AS $$
 BEGIN
-    -- Mettre à jour toutes les lignes d'avis
-    UPDATE public._avis
-    SET blacklistAvis = FALSE,
-        blacklistEndDate = NULL
-    WHERE blacklistEndDate IS NOT NULL 
-    AND blacklistEndDate <= CURRENT_TIMESTAMP;
-
     -- Ajouter un jeton à l'offre liée à chaque avis mis à jour
     UPDATE public._offre
     SET nbrJetonBlacklistageRestant = nbrJetonBlacklistageRestant + 1
@@ -498,5 +491,13 @@ BEGIN
         FROM public._avis
         WHERE blacklistEndDate IS NOT NULL AND blacklistEndDate <= CURRENT_TIMESTAMP
     );
+
+    -- Mettre à jour toutes les lignes d'avis
+    UPDATE public._avis
+    SET blacklistAvis = FALSE,
+        blacklistEndDate = NULL
+    WHERE blacklistEndDate IS NOT NULL 
+    AND blacklistEndDate <= CURRENT_TIMESTAMP;
+
 END;
 $$ LANGUAGE plpgsql;
