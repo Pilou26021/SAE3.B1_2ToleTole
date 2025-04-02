@@ -13,10 +13,6 @@
     $config = parse_ini_file('./.config');
     $nbr_blacklist = $config['nbr_blacklist'];  // ex "12"
     $unit_blacklist = $config['unit_blacklist'];  // ex "months"
-    ?> <script>alert(<?=var_dump($unit_blacklist)?>)</script>
-
-    <?php
-
 
      // Requête SQL pour récupérer les détails de l'offre
     $sql = "
