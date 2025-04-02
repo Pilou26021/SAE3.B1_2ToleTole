@@ -48,7 +48,7 @@
         $stmt->execute();
         $idpro = $stmt->fetchColumn();
 
-        if ($idproOffre == $idpro) {
+        if ($idproOffre == $idcompte) {
             $bonProfessionnel = true; //variable pour vérifier que c'est le professionel qui a créé l'offre
         } elseif ($professionel) {
             header("Location: index.php");
@@ -213,8 +213,8 @@
         ?>
         
         <main>
-            <div style=" position:sticky; top:20px; left:20px; width: 100%;">
-                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="./index.php">&#8617;</a>
+            <div style=" position:sticky; top:20px; left:20px; width: 100%; z-index:500; ">
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer; " href="./index.php">&#8617;</a>
                 <!-- onclick="history.back(); -->
             </div>
 
@@ -980,10 +980,13 @@
 
             async function geocode(adresse) {
                 try {
+                    
                     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
+                    console.log(response);
                     return response.json();
                 } catch (error) {
                     console.error('Erreur de géocodage:', error);
+                    
                 }
             }
 

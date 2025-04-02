@@ -21,6 +21,7 @@ $mettreEnLu = $conn->prepare($mettreEnLu);
 $mettreEnLu->bindValue(':idPro', $idcompte, PDO::PARAM_INT);
 $mettreEnLu->execute();
 
-header("Location: avis_mes_offres.php");
+header("Location: " . $_SERVER['HTTP_REFERER']);
+exit();
 
 ?>

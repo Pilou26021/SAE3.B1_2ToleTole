@@ -76,7 +76,7 @@ if (isset($_SESSION['membre'])) {
         </ul>
     </nav>
 
-    <span class="openbtn" onclick="openNav()">&#9776;</span>
+    <span id="boutonOuverture" class="openbtn" onclick="openNav()">&#9776;</span>
     <a href="index.php"> <img src="img/logos/fond_remove_big.png" alt="logo site noir" title="logo site noir" style="width: 90px; height: 90x;"></a>
   
 
@@ -124,14 +124,16 @@ if (isset($_SESSION['membre'])) {
             <div class="notif_surmodal">
                 <div class="notif_modal-content">
                     <!-- Croix pour fermer le modal -->
-                    <span class="notif_close">&times;</span>
+                     <div style="display: flex; justify-content: right;">
+                        <p style='margin: 5px;'>Lu</p>
+                        <span class="notif_close">&times;</span>
+                     </div>
 
                     <?php
                         $offre_affichee = null;
                         if ($notifications != NULL){
 
                             echo "<h3 style='text-align: center;'>Vous avez " . $compteur . " avis non-lu(s) !</h3>";
-                            echo "<a href='mise_en_lu.php' style='display: block; text-align: center; color: black;'>Cliquez ici pour consulter les avis sur vos offres</a>";
 
 
                             $dateDepart = Null;
@@ -183,7 +185,7 @@ if (isset($_SESSION['membre'])) {
     
 
                                 if ($mon_offre["idoffre"] != $offre_affichee) {
-                                    echo "<p> Offre: " . $mon_offre["titreoffre"] . "</p>";
+                                    echo "<p> Offre: " . "<a href=http://localhost:8080/details_offre.php?idoffre=" . $notif["idoffre"] . ">" . $mon_offre["titreoffre"] . "</a>". "</p>";
                                     // Mettre à jour l'ID de l'offre affichée
                                     $offre_affichee = $mon_offre["idoffre"];
                                 }
@@ -229,9 +231,22 @@ if (isset($_SESSION['membre'])) {
                 // Lorsque l'utilisateur clique sur la croix pour fermer le modal
                 span.onclick = function() {
                     modal.style.display = "none";
-
+                    window.location.href = 'mise_en_lu.php';
                 };
+            });
 
+            document.addEventListener('DOMContentLoaded', function () {
+                window.onclick = function(event) {
+                    var modal = document.getElementsByClassName("notif_modal-content")[0];
+                    var conteneurModal = document.getElementById("myModal");
+                    var boutonOuverture = document.getElementById("myBtn");
+
+                    if (event.target != modal && event.target != boutonOuverture) {
+                        if (conteneurModal.style.display === "block"){
+                            conteneurModal.style.display = "none";
+                        }
+                    }
+                };
             });
         </script>
 

@@ -200,6 +200,7 @@ function showDateOuvert() {
 }
 
 var map;
+let preloadedOffres = []; 
 
 // FILTRES
 
@@ -254,11 +255,10 @@ async function applyFilters() {
 
         // Vérifier la réponse
         if (response.ok) {
-            // Récupérer le contenu et l'injecter dans le DOM
             const data = await response.text();
             document.querySelector('.offres-display').innerHTML = data;
             toggleMap();
-            updateMap();
+            refreshMarkers();
         } else {
             throw new Error('Erreur lors de la récupération des résultats.');
         }
@@ -268,125 +268,211 @@ async function applyFilters() {
 }
 
  
-// Function to toggle the visibility of the map
 function toggleMap() {
-    var mapElement = document.getElementById('map_offres');
-    mapElement.style.display = 'block'; // Show the map
-    if (!map) {
-        // Initialize the map only once
-        initializeMap();
-    } else {
-        map.invalidateSize(); // Recalculate map size if already initialized
+    const mapElement = document.getElementById('map_offres');
+    if (mapElement.style.display !== 'block') {
+        mapElement.style.display = 'block';
+        if (!map) initializeMap();
+        else map.invalidateSize();
     }
 }
 
 
-function initializeMap(){
 
-        // Create the map and set the initial view
-        map = L.map('map_offres', {
-            center: [48, 2], // Position initiale
-            zoom: 13, // Niveau de zoom initial
-            minZoom: 3, // Niveau de zoom minimum
-            maxZoom: 18, // Niveau de zoom maximum
-            maxBounds: [
-                [-90, -180], // Coin sud-ouest
-                [90, 180] // Coin nord-est
-            ],
-            maxBoundsViscosity: 1.0 // Empêche de trop sortir des limites
-        });
-    
-        // Add tile layer (OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-    
-        document.querySelectorAll('select, input').forEach(element => {
-            element.addEventListener('change', () => {
-                setTimeout(() => {
-                    map.invalidateSize();
-                }, 300);
-            });
-        });  
+function initializeMap(){
+    if (map) return; 
+    map = L.map('map_offres', {
+        center: [48.202047, -2.932644], 
+        zoom: 8, 
+        minZoom: 3, 
+        maxZoom: 18, 
+        maxBounds: [
+            [-90, -180], 
+            [90, 180] 
+        ],
+        maxBoundsViscosity: 1.0 
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(map);
+
+    // Add custom Reset Zoom Control
+    (function() {
+        var control = new L.Control({position: 'topright'});
+        control.onAdd = function(map) {
+            var azoom = L.DomUtil.create('a', 'resetzoom');
+            
+
+            var img = L.DomUtil.create('img', '', azoom);
+            img.src = 'img/icons/zoom-reset.png'; 
+            img.alt = 'Reset Zoom'; 
+
+            img.style.width = '25px'; 
+            img.style.height = '25px'; 
+            img.style.cursor = "pointer";
+            img.style.padding = "4px";
+            
+            L.DomEvent
+                .disableClickPropagation(azoom)
+                .addListener(azoom, 'click', function() {
+                    map.setView(map.options.center, map.options.zoom);
+                }, azoom);
+            return azoom;
+        };
+        control.addTo(map);
+    })();
+
 }
 
 // Création du groupe de clusters
 var markers = L.markerClusterGroup();
 
 
-function updateMap() {
-    // Effacer les anciens marqueurs
+// Fonction de debounce pour limiter la fréquence des appels
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+window.addEventListener('resize', function () {
+    map.invalidateSize(); 
+});
+
+
+const geocodeCache = {};
+
+async function geocode(adresse) {
+    if (geocodeCache[adresse]) return geocodeCache[adresse];
+
+    try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
+        const data = await response.json();
+        return geocodeCache[adresse] = (data.length > 0) ? data : [];
+    } catch (error) {
+        console.error('Erreur de géocodage:', error);
+        return [];
+    }
+}
+
+
+
+function addMarkers(offres) {
     markers.clearLayers();
-    var div = document.getElementById("offres-data");
-
-    // Vérifier si l'élément existe
-    if (!div) {
-        console.error('L\'élément avec l\'ID "offres-data" n\'a pas été trouvé.');
-        return; // On sort de la fonction si l'élément n'existe pas
-    }
-
-    // Récupération des données JSON
-    var offres = JSON.parse(div.textContent); 
-
-    // Vérifier si le tableau 'offres' est vide ou invalide
-    if (!Array.isArray(offres) || offres.length === 0) {
-        console.log('Aucune offre disponible.');
-        markers.clearLayers(); // Efface les anciens marqueurs, même si aucun nouveau marqueur n'est ajouté
-        map.addLayer(markers); // Ajoute à la carte un cluster vide
-        return; // On sort de la fonction car il n'y a pas d'offres à afficher
-    }
-
-    // Define the custom icon
-    var customIcon = L.icon({
-        iconUrl: 'img/icons/poi/attraction.png',  
-        iconSize: [64, 64], 
-        iconAnchor: [16, 32], 
-        popupAnchor: [0, -32] 
-    });
-
-
 
     offres.forEach(offre => {
-        if (offre.titre) {
-            // Création du marqueur (coordonnées fictives, remplace-les par les vraies)
-            const marker = L.marker([48, 2]).addTo(map);
+        const marker = L.marker(offre.latlon);
 
-            // Lier un popup avec les détails de l'offre
-            marker.bindPopup(`
+
+        // Create the content for the popup with stars
+        let stars = '';
+        const note = offre.note || 0; // Default to 0 if the note is invalid
+
+        // Add full stars based on the rating
+        for (let j = 0; j < Math.floor(note); j++) {
+            stars += `<img class="popup_image" src="img/icons/star-solid.svg" alt="star">`;
+        }
+
+        // Add half or empty stars if the rating is not an integer
+        if (note % 1 !== 0) {
+            stars += `<img class="popup_image" src="img/icons/star-half.svg" alt="half-star">`;
+        }
+
+        // Add empty stars to complete up to 5
+        for (let j = Math.ceil(note); j < 5; j++) {
+            stars += `<img class="popup_image" src="img/icons/star-regular.svg" alt="empty-star">`;
+        }
+
+        // Bind the popup with offer details
+        marker.bindPopup(`
+            <a href="details_offre.php?idoffre=${offre.id}">
                 <div class="content_popup">
                     <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
-                    <div class="titre_note">
-                        <h3><a href="details_offre.php?idoffre=${offre.id}">${offre.titre}</a></h3>
-                        <div class="note_moy">
-                            <p>${offre.note || 'N/A'}</p>
-                            <img class="popup_image" src="img/icons/star-solid.svg">
-                        </div>
+                    <h3>${offre.titre}</h3>
+                    <div class="note_moy">
+                        <p>${stars || 'N/A'}</p>
+                        <p class="offre-prix">${offre.prix+"€"|| 'GRATUIT'}</p>
                     </div>
-                    <div>Créée le ${offre.date_creation || 'jj/mm/yyyy'}</div>
-                    <p>${offre.categorie || 'Catégorie inconnue'}</p>
-                    <p>${offre.adresse || 'Adresse non disponible'}</p>
-                    <p>Prix Min: ${offre.prix || 'N/A'} €</p>
+                    <p class="popup_description">${offre.description}</p>
+                    <p>${offre.ville || 'Adresse non disponible'}</p>
                 </div>
-            `);
+            </a>
+        `);
 
-            marker.on('click', function () {
-                marker.openPopup();
-            });
-
-            // Ajout du marqueur au cluster
-            markers.addLayer(marker);
-        }
+        marker.on("mouseover", () => marker.openPopup());
+        markers.addLayer(marker);
     });
 
-    // Ajout du cluster à la carte
     map.addLayer(markers);
 }
 
+async function fetchAndProcessOffers() {
+    try {
+        const div = document.getElementById("offres-data");
+        const offres = JSON.parse(div.textContent);
+
+        if (!Array.isArray(offres) || offres.length === 0) {
+            console.log("Aucune offre disponible.");
+            return [];
+        }
+
+        const geocodePromises = offres.map(offre => geocode(offre.adresse));
+        const geocodeResults = await Promise.all(geocodePromises);
+
+        return offres.map((offre, i) => ({
+            ...offre,
+            latlon: geocodeResults[i].length > 0 ? [geocodeResults[i][0].lat, geocodeResults[i][0].lon] : null
+        })).filter(offre => offre.latlon);
+
+    } catch (error) {
+        console.error("Erreur lors du chargement des données:", error);
+        return [];
+    }
+}
+
+
+async function preloadData() {
+    preloadedOffres = await fetchAndProcessOffers();
+}
+
+async function refreshMarkers() {
+    const offres = await fetchAndProcessOffers();
+    markers.clearLayers();
+    addMarkers(offres);
+}
+
+async function prepareDataAndShowMap() {
+    const offres = await fetchAndProcessOffers();
+    if (offres.length === 0) return;
+
+    initializeMap();
+    addMarkers(offres);
+    document.getElementById("map_offres").style.display = "block";
+}
+
+
+function showMapWithPreloadedData() {
+    if (preloadedOffres.length === 0) {
+        prepareDataAndShowMap();
+        return;
+    }
+
+    initializeMap();  
+    addMarkers(preloadedOffres); 
+
+    document.getElementById("map_offres").style.display = "block"; 
+}
+
+
 // Ajouter des écouteurs d'événements pour chaque filtre
 document.addEventListener('DOMContentLoaded', () => {
+    preloadData();
     initializeMap();
+    
+    const applyFiltersDebounced = debounce(applyFilters, 500); // Debounce de 500ms
 
-    document.getElementById('search-query').addEventListener('input', applyFilters);
+    document.getElementById('search-query').addEventListener('input', applyFiltersDebounced);
     document.getElementById('category').addEventListener('change', applyFilters);
     document.getElementById('lieux').addEventListener('input', applyFilters);
     document.getElementById('price-range-min').addEventListener("input", applyFilters);
@@ -399,7 +485,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('Mavant').addEventListener('change', applyFilters);
     document.getElementById('type').addEventListener('change', applyFilters);
     document.getElementById('ouvert').addEventListener('change', applyFilters);
-    });
+});
+
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -652,3 +740,146 @@ $(document).ready(function(){
          pauseOnHover: false
     });
 });
+
+function addToRecentlyViewed(offerId) {
+    const cookieName = "recently_viewed";
+    const maxItems = 10; // Limite le nombre d'offres stockées
+
+    let recentlyViewed = getRecentlyViewed();
+
+    // Supprimer l'offre si elle est déjà présente
+    recentlyViewed = recentlyViewed.filter(id => id !== offerId);
+
+    // Ajouter l'offre en tête de liste
+    recentlyViewed.unshift(offerId);
+
+    // Limiter la taille de la liste (FIFO)
+    if (recentlyViewed.length > maxItems) {
+        recentlyViewed.pop(); // Supprime le plus ancien (dernier élément)
+    }
+
+    // Stocker dans le cookie (valide pour 30 jours)
+    document.cookie = `${cookieName}=${JSON.stringify(recentlyViewed)}; path=/; max-age=${30 * 24 * 60 * 60}`;
+}
+
+// Fonction pour récupérer les offres stockées
+function getRecentlyViewed() {
+    const cookieName = "recently_viewed=";
+    const cookies = document.cookie.split("; ");
+
+    for (let cookie of cookies) {
+        if (cookie.startsWith(cookieName)) {
+            return JSON.parse(cookie.substring(cookieName.length));
+        }
+    }
+
+    return [];
+}
+
+function resetRecentlyViewed() {
+    document.cookie = "recently_viewed=[]; path=/; max-age=0"; // Supprime le cookie
+    console.log("Liste des offres consultées réinitialisée !");
+}
+
+// Récupérer les offres récemment consultées
+let recentlyViewedOffers = getRecentlyViewed(); // Exemple : [1, 2, 3, 4, 5]
+if (recentlyViewedOffers.length > 0) {
+    // Envoi des IDs au backend PHP
+    fetch('get_offres_details.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ offerIds: recentlyViewedOffers }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Manipuler les données (les offres récupérées)
+        displayOffers(data);
+    })
+    .catch(error => {
+        console.error('Erreur lors du chargement des offres:', error);
+    });
+}
+
+// Fonction pour afficher les offres dans l'interface utilisateur
+function displayOffers(offers) {
+    const offresContainer = document.getElementById('offresContainer');
+    offresContainer.innerHTML = ''; // Vider le conteneur avant de remplir
+
+    offers.forEach(offre => {
+        const offerElement = document.createElement('div');
+        offerElement.classList.add('offre-item');
+
+        offerElement.innerHTML = `
+            <a onclick="addToRecentlyViewed(${offre.idoffre})" style="text-decoration:none;" href="details_offre.php?idoffre=${offre.idoffre}">
+                <div class="offre-card" ${offre.enreliefoffre ? "style='border: 3px solid #36D673;'" : ""}>
+                    <div class="offre-image-container" style="position: relative;">
+                        <!-- Affichage de l'image -->
+                        <img class="offre-image" src="${offre.pathimage ? offre.pathimage : 'img/default.jpg'}" alt="Image de l'offre">
+                    </div>
+                    <div class="offre-details">
+                        <!-- Titre de l'offre -->
+                        <h2 class="offre-titre-index">${offre.titreoffre ? offre.titreoffre : 'Titre non disponible'}</h2>
+                        
+                        <!-- Résumé de l'offre -->
+                        <p class="offre-resume"><strong>Résumé:</strong> ${offre.resumeoffre ? offre.resumeoffre : 'Résumé non disponible'}</p>
+                        
+                        <!-- Prix minimum de l'offre -->
+                        <p class="offre-prix"><strong>Prix Minimum:</strong> ${(!offre.prixminoffre || offre.prixminoffre <= 0) ? 'Gratuit' : offre.prixminoffre + ' €'}</p>
+
+                        <!-- Notes -->
+                        <div class="titre-moy-index">
+                            <p class="offre-resume"><strong>Note :</strong></p>
+                            <div class="texte_note_etoiles_container">
+                                ${generateStars(offre.notemoyenneoffre)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        `;
+        
+        offresContainer.appendChild(offerElement);
+    });
+
+
+}
+
+
+function generateStars(rating) {
+    if (!rating) return '<p>Pas d\'évaluations</p>';
+    let starsHtml = '';
+    let noteMoyenne = parseFloat(rating);
+    let fullStars = Math.floor(noteMoyenne);
+
+    // Arrondir selon le seuil défini
+    if (noteMoyenne - fullStars > 0.705) {
+        fullStars++;
+    }
+
+    // Ajouter les étoiles pleines
+    for (let i = 0; i < fullStars; i++) {
+        starsHtml += `<img src="img/icons/star-solid.svg" alt="star checked" width="20" height="20">`;
+    }
+
+    // Si la partie décimale est comprise entre 0.295 et 0.705, ajouter une demi-étoile
+    if (noteMoyenne - fullStars >= 0.295 && noteMoyenne - fullStars <= 0.705) {
+        starsHtml += `<img src="img/icons/star-half.svg" alt="half star checked" width="20" height="20">`;
+        fullStars++;
+    }
+
+    // Compléter jusqu'à 5 étoiles
+    for (let i = fullStars; i < 5; i++) {
+        starsHtml += `<img src="img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">`;
+    }
+    
+    starsHtml += `<p class="nombre_note">${rating}/5</p>`;
+    return starsHtml;
+}
+
+if (sessionStorage.getItem('forceLogout')) {
+    alert('Votre session a expiré. Veuillez vous reconnecter.');
+    window.location.href = 'deconnexion.php';
+    sessionStorage.removeItem('forceLogout');
+}

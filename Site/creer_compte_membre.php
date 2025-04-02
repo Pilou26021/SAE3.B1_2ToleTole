@@ -211,9 +211,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="nom">Nom</label>
                         <div class="input-container">
                             <input type="text" id="nom" name="nom" placeholder="Votre nom" value="<?= htmlspecialchars($_POST['nom'] ?? '') ?>" required>
-                            <p class="error"><?= $errors['nom'] ?? '' ?></p>
+                            <p id="erreur_nom" class="cp_mobile_erreur"></p>
                             <span class="required">*</span>
                         </div>
+                        <script>
+                            const validateNom = (nom) => {
+                                return String(nom)
+                                    .toLowerCase()
+                                    .match(
+                                    /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/
+                                );
+                            };
+
+                            document.getElementById('nom').addEventListener('nom', function() {
+                                document.getElementById('erreur_nom').innerHTML = '';
+                                if (!validateNom(this.value)) {
+                                    document.getElementById('erreur_nom').innerHTML = '⨯ Nom invalide';
+                                }
+                                else {
+                                    document.getElementById('erreur_nom').innerHTML = '';
+                                }
+                            });
+                        </script>
                     </div>
 
                     <!-- Prénom -->
@@ -221,9 +240,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="prenom">Prénom</label>
                         <div class="input-container">
                             <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" value="<?= htmlspecialchars($_POST['prenom'] ?? '') ?>" required>
-                            <p class="error"><?= $errors['prenom'] ?? '' ?></p>
+                            <p id="erreur_prenom" class="cp_mobile_erreur"></p>
                             <span class="required">*</span>
                         </div>
+
+                        <script>
+                            const validatePrenom = (prenom) => {
+                                return String(prenom)
+                                    .toLowerCase()
+                                    .match(
+                                    /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/
+                                );
+                            };
+
+                            document.getElementById('prenom').addEventListener('prenom', function() {
+                                document.getElementById('erreur_prenom').innerHTML = '';
+                                if (!validatePrenom(this.value)) {
+                                    document.getElementById('erreur_prenom').innerHTML = '⨯ Prénom invalide';
+                                }
+                                else {
+                                    document.getElementById('erreur_prenom').innerHTML = '';
+                                }
+                            });
+                        </script>
+
                     </div>
                     </div>
 
@@ -232,12 +272,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="email">E-mail</label>
                         <div class="input-container">
                             <input type="email" id="email" name="email" placeholder="Votre email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
-                            <p class="error"><?= $errors['email'] ?? '' ?></p>   
+                            <p id="erreur_email" class="cp_mobile_erreur"></p>
                             <span class="required">*</span>
                         </div>
-                                        
-                        <p id="erreur_email" class="cp_mobile_erreur"></p>
-
+                                    
                         <script>
                             const validateEmail = (email) => {
                                 return String(email)
@@ -264,9 +302,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="tel">Téléphone</label>
                         <div class="input-container">
                             <input type="tel" id="tel" name="tel" placeholder="Votre téléphone" value="<?= htmlspecialchars($_POST['tel'] ?? '') ?>"required>
-                            <p class="error"><?= $errors['tel'] ?? '' ?></p>
+                            <p id="erreur_tel" class="cp_mobile_erreur"></p>
                             <span class="required">*</span>
                         </div>
+
+                        <script>
+                            const validateTel = (tel) => {
+                                return String(tel)
+                                    .toLowerCase()
+                                    .match(
+                                    /^[0-9]{10}$/
+                                );
+                            };
+
+                            document.getElementById('tel').addEventListener('input', function() {
+                                document.getElementById('erreur_tel').innerHTML = '';
+                                if (!validateTel(this.value)) {
+                                    document.getElementById('erreur_tel').innerHTML = '⨯ Numéro invalide';
+                                }
+                                else {
+                                    document.getElementById('erreur_tel').innerHTML = '';
+                                }
+                            });
+                        </script>
                     </div> 
 
                     <!-- Bouton suivant -->

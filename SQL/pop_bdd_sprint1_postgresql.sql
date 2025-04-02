@@ -32,7 +32,7 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (5, '', 'Rue des forges', 35380, 'Paimpont', 'Bretagne', 'France'), -- 3
 (4, '', 'Rue Edouard Branly', 22300, 'Lannion', 'Bretagne', 'France'), -- 4
 (7, '', 'Avenue Saint-Denis', 29000, 'Quimper', 'Finistère', 'France'), -- 5
-(6, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 6
+(8, '', 'Rue Neuve', 29200, 'Brest', 'Finistère', 'France'), -- 6
 (58, '', 'Rue Amiral Romain Desfosses', 29200, 'Brest', 'Finistère', 'France'), -- 7
 (43, '', 'Rue de la Fontaine', 56000, 'Vannes', 'Morbihan', 'France'), -- 8
 (35, '', 'Avenue Paul Cezanne', 56000, 'Vannes', 'Morbihan', 'France'), -- 9
@@ -47,6 +47,7 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (47, '', 'Rue Hubert de Lisle', 56100, 'Lorient', 'Morbihan', 'France'), -- 18
 (25, '', 'Avenue Jean Jaures', 56600, 'Lanester', 'Morbihan', 'France'), -- 19
 (14, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'); -- 20
+(18, '', 'Boulevard d"Armor', 22300, 'Lannion', 'Bretagne', 'France'); -- 21
 
 -- 3. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte, chat_cleApi) VALUES 
@@ -86,14 +87,14 @@ INSERT INTO _professionnelPrive (idPro, coordBancairesIBAN, coordBancairesBIC) V
 
 -- 8. Insérer des données dans `_offre`
 INSERT INTO _offre (idProPropose, idAdresse, titreOffre, resumeOffre, descriptionOffre, prixMinOffre, aLaUneOffre, enReliefOffre, typeOffre, siteWebOffre, noteMoyenneOffre, commentaireBlacklistable, dateCreationOffre, conditionAccessibilite, horsLigne) VALUES 
-(3, 1, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 15, TRUE, FALSE, 0, 'https://ilovemyself.com',0, FALSE, '2023-05-01', 'Accessible', FALSE),
-(2, 2, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 10, TRUE, TRUE, 2, 'https://pnevot.com',0, TRUE, '2023-06-01', 'Non accessible', FALSE),
-(1, 3, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 1, FALSE, FALSE, 2, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
-(3, 4, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 12, TRUE, FALSE, 0, 'https://boulangerie.example.com', 0, FALSE, '2023-07-10', 'Accessible', FALSE),
-(3, 1, 'Archipel de Bréhat en kayak', 'Découvrez l archipel en kayak', 'Les sorties sont limitées entre 15 et 20 km, adaptées aux familles avec pauses régulières. Accessibilité pour les personnes en situation de handicap.', 0, TRUE, FALSE, 0, 'https://planete-kayak.example.com', 0, FALSE, '2023-05-01', 'Accessible', FALSE),
-(2, 2, 'Balade familiale à vélo', 'Balade à vélo dans le Trégor', 'Une sortie sur de petites routes tranquilles, adaptée aux enfants à partir de 6 ans. Équipement requis pour les plus jeunes.', 0, TRUE, TRUE, 0, 'https://tregor-bicyclette.example.com', 0, FALSE, '2023-06-01', 'Accessible', FALSE),
-(1, 3, 'Découverte des Sept-Îles', 'Excursion vers les Sept-Îles', 'Découvrez la plus grande réserve ornithologique de France avec une visite guidée en bateau.', 15, TRUE, TRUE, 0, 'https://armor-navigation.example.com', 0, FALSE, '2023-06-15', 'Accessible avec fauteuil manuel', FALSE),
-(3, 4, 'La Magie des arbres', 'Un spectacle son et lumière', 'Un festival unique mêlant musique, lumière, et effets pyrotechniques sur la Côte de Granit Rose.', 5, TRUE, FALSE, 1, 'https://magie-des-arbres.example.com', 0, FALSE, '2023-07-26', 'Accessible', FALSE),
+(3, 2, 'Côtes de Granit Rose', 'Visiter les magnifiques cotes de granit rose', 'Description de l offre 1', 15, TRUE, FALSE, 0, 'https://ilovemyself.com',0, FALSE, '2023-05-01', 'Accessible', FALSE),
+(2, 3, 'Forêt de Brocéliande', 'Le celebre Jardin de Broceliande vous attend', 'Description de l offre 2', 10, TRUE, TRUE, 2, 'https://pnevot.com',0, TRUE, '2023-06-01', 'Non accessible', FALSE),
+(1, 4, 'Restaurant Universitaire', 'Venez déguster nos plats', 'Ici au RU, on vous propose des plats variés et équilibrés', 1, FALSE, FALSE, 2, 'https://www.crous-rennes.fr/restaurant/resto-u-branly-3/', 1.0, FALSE, '2023-06-01', 'Accessible', FALSE),
+(3, 14, 'Petit-déjeuner Gourmand', 'Savourez des viennoiseries fraîches', 'Une offre spéciale pour les amateurs de pâtisseries.', 12, TRUE, FALSE, 0, 'https://boulangerie.example.com', 0, FALSE, '2023-07-10', 'Accessible', FALSE),
+(3, 7, 'Archipel de Bréhat en kayak', 'Découvrez l archipel en kayak', 'Les sorties sont limitées entre 15 et 20 km, adaptées aux familles avec pauses régulières. Accessibilité pour les personnes en situation de handicap.', 0, TRUE, FALSE, 0, 'https://planete-kayak.example.com', 0, FALSE, '2023-05-01', 'Accessible', FALSE),
+(2, 21, 'Balade familiale à vélo', 'Balade à vélo dans le Trégor', 'Une sortie sur de petites routes tranquilles, adaptée aux enfants à partir de 6 ans. Équipement requis pour les plus jeunes.', 0, TRUE, TRUE, 0, 'https://tregor-bicyclette.example.com', 0, FALSE, '2023-06-01', 'Accessible', FALSE),
+(1, 9, 'Découverte des Sept-Îles', 'Excursion vers les Sept-Îles', 'Découvrez la plus grande réserve ornithologique de France avec une visite guidée en bateau.', 15, TRUE, TRUE, 0, 'https://armor-navigation.example.com', 0, FALSE, '2023-06-15', 'Accessible avec fauteuil manuel', FALSE),
+(3, 10, 'La Magie des arbres', 'Un spectacle son et lumière', 'Un festival unique mêlant musique, lumière, et effets pyrotechniques sur la Côte de Granit Rose.', 5, TRUE, FALSE, 1, 'https://magie-des-arbres.example.com', 0, FALSE, '2023-07-26', 'Accessible', FALSE),
 (2, 5, 'Le Village Gaulois', 'Découvrez l histoire Gauloise', 'Un parc d attractions immersif recréant la vie à l époque des Gaulois.', 10, FALSE, TRUE, 2, 'https://village-gaulois.example.com', 0, TRUE, '2023-08-01', 'Accessible', FALSE),
 (3, 6, 'La Ville Blanche', 'Une expérience gastronomique', 'Un restaurant au cœur du Trégor offrant des plats raffinés dans un cadre historique.', 50, FALSE, TRUE, 1, 'https://la-ville-blanche.example.com', 0, FALSE, '2023-09-15', 'Accessible', FALSE);
 
