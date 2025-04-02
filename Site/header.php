@@ -66,6 +66,7 @@ if (isset($_SESSION['membre'])) {
             <?php elseif ($membre): ?>
                 <li><a href="mon_compte.php">Mon compte</a></li>
                 <li><a href="mes_reservations.php">Mes réservations</a></li>
+                <li><a href="mes_favoris.php">Mes favoris</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="deconnexion.php">Déconnexion</a></li>
             <?php else: ?>

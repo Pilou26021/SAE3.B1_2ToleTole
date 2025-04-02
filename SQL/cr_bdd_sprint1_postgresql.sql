@@ -316,8 +316,8 @@ CREATE TABLE public._paiement (
 
 CREATE TABLE public._favoris (
     idFavoris SERIAL PRIMARY KEY,
-    idMembre BIGINT NOT NULL,
-    idOffre BIGINT NOT NULL,
+    idMembre INT NOT NULL,
+    idOffre INT NOT NULL,
     dateAjout TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),

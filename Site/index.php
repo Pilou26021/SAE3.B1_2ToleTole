@@ -611,18 +611,15 @@
                                         <img class="offre-image" src="<?= !empty($offre['pathimage']) ? htmlspecialchars($offre['pathimage']) : 'img/default.jpg' ?>" alt="Image de l'offre">
                                         <?php if($membre){ ?>
                                             <?php if (in_array($offre['idoffre'], array_column($favoris_membre, 'idoffre'))) { ?>
-                                                <a href="#" class="favoris-coeur" data-idoffre="<?= $offre['idoffre'] ?>" data-add="false" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                                <a href="update_favoris.php?idoffre=<?=$offre['idoffre']?>&add=false" class="favoris-coeur" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                                                     <img class="favoris_heart" id="favoris-<?= $offre['idoffre'] ?>" src="./img/icons/full-heart.svg" alt="Favori">
                                                 </a>
                                             <?php } else { ?>
-                                                <a href="#" class="favoris-coeur" data-idoffre="<?= $offre['idoffre'] ?>" data-add="true" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                                <a href="update_favoris.php?idoffre=<?=$offre['idoffre']?>&add=true" class="favoris-coeur" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                                                     <img class="favoris_heart" id="favoris-<?= $offre['idoffre'] ?>" src="./img/icons/empty-heart.svg" alt="Ajouter aux favoris">
                                                 </a>
                                             <?php } ?>
                                         <?php } ?>
-                                        <script>
-                                             
-                                        </script>
                                         <?php if ($professionel && $offre['horsligne']) { ?>
                                             <!-- Affichage de "Hors ligne" sur l'image si l'offre est hors ligne -->
                                             <div class="offre-hors-ligne">Hors ligne</div>

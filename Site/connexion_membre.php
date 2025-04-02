@@ -49,13 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $auth_parametre = $stmt->fetchColumn();
     
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
-<<<<<<< HEAD
         // Si la connexion est réussie, définir la session
         $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
         $_SESSION['idmembre'] = $result['idmembre'];
         header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
         exit();
-=======
+
         if ($auth_parametre === false || $auth_parametre === 'false') {
             // Si la connexion est réussie, définir la session
             $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
@@ -82,7 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $erreur = "Veuillez entrer l'OTP.";
             }
         }
->>>>>>> ad46d8dd60f6b780b273f0eded6d8e87caeb54ac
     } else {
         // Gérer l'erreur de connexion
         $erreur = "L'adresse email ou le mot de passe est incorrect.";

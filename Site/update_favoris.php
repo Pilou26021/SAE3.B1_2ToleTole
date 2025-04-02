@@ -3,11 +3,16 @@
     session_start();
 
     // connecteur pour requête
-    include "../SQL/connection_local.php";   
+    include "../SQL/connection_local.php";
+    
+    var_dump($_SESSION);
+    var_dump($_GET);
 
-    if (isset($_POST['idoffre']) && isset($_POST['add'])) {
-        $idoffre = $_POST['idoffre'];
-        $add = $_POST['add'] === 'true';
+    if (isset($_GET['idoffre']) && isset($_GET['add'])) {
+        $idoffre = $_GET['idoffre'];
+        $add = $_GET['add'] === 'true';
+        var_dump($idoffre);
+        var_dump($add);
 
         if ($add) {
             // Ajoute l'offre aux favoris
@@ -24,11 +29,10 @@
             $stmt->execute();
         }
 
-        // Réponse JSON
-        echo json_encode(['status' => 'success']);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit();
     } else {
-        echo json_encode(['status' => 'error']);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit();
     }
 ?>
