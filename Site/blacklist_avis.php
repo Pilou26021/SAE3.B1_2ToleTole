@@ -6,7 +6,6 @@
 
     //récupération du post
     $idavis = $_POST['idavis'];
-    print_r($_POST);
     $idoffre = $_POST['idoffre'];
 
     //recuperation de la config
