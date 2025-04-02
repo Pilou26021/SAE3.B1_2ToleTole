@@ -233,3 +233,27 @@ INSERT INTO _constPrix (dateTarif, prixSTDht, prixSTDttc, prixPREMht, prixPREMtt
 INSERT INTO _facture (idproprive, idconstprix, datefacture, montantht, montantttc, nbjoursmisehorsligne) VALUES 
 (1, 1, '2024-12-01', 2000, 2400, 0),
 (1, 1, '2025-01-01-', 1000, 1200, 0);
+
+
+
+
+
+-- Jeu de test anonymisation
+-- On ajoute la photo de profil du compte à supprimer:
+INSERT INTO _image (pathimage) VALUES
+('./img/uploaded/image22.png');
+
+-- On définit anonymous et compte à supprimer:
+INSERT INTO _compte (nomcompte,prenomcompte,mailcompte,numtelcompte,idimagepdp,hashmdpcompte,idadresse,datecreationcompte,datederniereconnexioncompte,chat_cleapi,chat_cledevoile,auth_parametre) VALUES
+-- compte à supprimer
+('Pierre','Jeanne','jeanne.pierre@example.com','0100100100',22,'$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6',19,DATE '2023-01-15',DATE '2025-01-15','rw-39d2fe11-39b2-4a55-b2d8-ca72ebeaf9db',false,false);
+
+-- On rajoute les comptes aux membres:
+INSERT INTO _membre (idcompte,pseudonyme) VALUES
+(10,'jp');
+
+-- On rajoute les avis virulents du compte à supprimer:
+INSERT INTO _avis (idoffre,noteavis,commentaireavis,idmembre,dateavis,datevisiteavis,reponsepro,scorepouce,blacklistavis,blacklistenddate) VALUES
+(6,3,'Balade bucolique',7,DATE '2024-12-02',DATE '2024-12-01',false,0,false,NULL),
+(7,2,'Convenable.',7,DATE '2024-12-02',DATE '2024-12-01',false,0,false,NULL),
+(4,1,'Immonde.',7,DATE '2025-03-18',DATE '2025-03-14',false,0,true,NULL);
