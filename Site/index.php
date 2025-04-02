@@ -557,7 +557,43 @@
                     <h1>Toutes les Offres</h1>
                 </div>
                 <div class="offres-container">
-                    <?php foreach ($offres as $offre): ?>
+                    <?php $offresData = []; ?>
+                    <?php foreach ($offres as $offre): 
+
+                        $recherche_adresse = $conn -> prepare("SELECT numrue, supplementadresse, adresse, codepostal, ville, departement, pays
+                        FROM public.offreadresse o
+                        WHERE o.idoffre = :idoffre");
+
+                        $recherche_adresse->bindValue(':idoffre', $offre['idoffre'], PDO::PARAM_INT);
+                        $recherche_adresse->execute();
+                        $adresse_offre = $recherche_adresse->fetch();
+
+
+                        $rue = $adresse_offre["numrue"]; // Numéro de la rue
+                        $code_postal = $adresse_offre["codepostal"]; // Code postal
+                        $adresserue = $adresse_offre["adresse"]; // Adresse
+                        $ville = ucfirst($adresse_offre["ville"]); // Ville + passage en majuscule
+                        $departement = ucfirst($adresse_offre["departement"]); // Département (ex : Bretagne) + passage en majuscule
+                        $pays = ucfirst($adresse_offre["pays"]); // Pays + passage en majuscule
+
+                        // Adresse pour l'affichage sur la carte
+                        $adresse = trim("$rue $adresserue, $code_postal $ville, $departement, $pays");
+
+
+                        $offresData[] = [
+                            'id' => $offre['idoffre'],
+                            'titre' => htmlspecialchars($offre['titreoffre']),
+                            'description' => $offre['resumeoffre'],
+                            'image' => $offre['pathimage'],
+                            'note' => $offre['notemoyenneoffre'],
+                            'prix' => $offre['prixminoffre'],
+                            'ville' => $adresse_offre["ville"],
+                            'adresse' => $adresse
+                        ];
+
+
+
+                        ?>
                         <?php
                             $style = "";
                             if ($offre['enreliefoffre']==true) {
@@ -691,6 +727,10 @@
             <?php else: ?>
                 <p>Aucune offre disponible pour le moment.</p>
             <?php endif; ?>
+        </div>
+
+        <div id="offres-data" style="display: none;">
+            <?= htmlspecialchars(json_encode($offresData)) ?>
         </div>
     </main>
     

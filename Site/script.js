@@ -200,6 +200,7 @@ function showDateOuvert() {
 }
 
 var map;
+let preloadedOffres = []; 
 
 // FILTRES
 
@@ -254,11 +255,10 @@ async function applyFilters() {
 
         // Vérifier la réponse
         if (response.ok) {
-            // Récupérer le contenu et l'injecter dans le DOM
             const data = await response.text();
             document.querySelector('.offres-display').innerHTML = data;
             toggleMap();
-            updateMap();
+            refreshMarkers();
         } else {
             throw new Error('Erreur lors de la récupération des résultats.');
         }
@@ -268,36 +268,31 @@ async function applyFilters() {
 }
 
  
-// Function to toggle the visibility of the map
 function toggleMap() {
-    var mapElement = document.getElementById('map_offres');
-    mapElement.style.display = 'block'; // Show the map
-    if (!map) {
-        // Initialize the map only once
-        initializeMap();
-    } else {
-        map.invalidateSize(); // Recalculate map size if already initialized
+    const mapElement = document.getElementById('map_offres');
+    if (mapElement.style.display !== 'block') {
+        mapElement.style.display = 'block';
+        if (!map) initializeMap();
+        else map.invalidateSize();
     }
 }
 
 
 
 function initializeMap(){
-
-    // Create the map and set the initial view
+    if (map) return; 
     map = L.map('map_offres', {
-        center: [48.202047, -2.932644], // Position initiale
-        zoom: 8, // Niveau de zoom initial
-        minZoom: 3, // Niveau de zoom minimum
-        maxZoom: 18, // Niveau de zoom maximum
+        center: [48.202047, -2.932644], 
+        zoom: 8, 
+        minZoom: 3, 
+        maxZoom: 18, 
         maxBounds: [
-            [-90, -180], // Coin sud-ouest
-            [90, 180] // Coin nord-est
+            [-90, -180], 
+            [90, 180] 
         ],
-        maxBoundsViscosity: 1.0 // Empêche de trop sortir des limites
+        maxBoundsViscosity: 1.0 
     });
 
-    // Ajouter un fond de carte personnalisé (par exemple, CartoDB)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(map);
 
     // Add custom Reset Zoom Control
@@ -306,17 +301,15 @@ function initializeMap(){
         control.onAdd = function(map) {
             var azoom = L.DomUtil.create('a', 'resetzoom');
             
-            // Créer l'élément <img> et définir l'URL de l'image
-            var img = L.DomUtil.create('img', '', azoom);
-            img.src = 'img/icons/zoom-reset.png'; // Remplacez par le chemin de votre image
-            img.alt = 'Reset Zoom'; // Définir un texte alternatif pour l'image
 
-            // Vous pouvez ajuster la taille de l'image si nécessaire
-            img.style.width = '25px'; // Par exemple, ajustez la largeur de l'image
-            img.style.height = '25px'; // Par exemple, ajustez la hauteur de l'image
+            var img = L.DomUtil.create('img', '', azoom);
+            img.src = 'img/icons/zoom-reset.png'; 
+            img.alt = 'Reset Zoom'; 
+
+            img.style.width = '25px'; 
+            img.style.height = '25px'; 
             img.style.cursor = "pointer";
             img.style.padding = "4px";
-            
             
             L.DomEvent
                 .disableClickPropagation(azoom)
@@ -344,127 +337,139 @@ function debounce(func, wait) {
 }
 
 window.addEventListener('resize', function () {
-    map.invalidateSize(); // Force la mise à jour de la carte après un redimensionnement
+    map.invalidateSize(); 
 });
 
-// Objet de cache en mémoire pour stocker les résultats de géocodage
+
 const geocodeCache = {};
 
 async function geocode(adresse) {
-    // Vérifier si l'adresse est déjà dans le cache
-    if (geocodeCache[adresse]) {
-        return geocodeCache[adresse]; // Retourne les données du cache
-    }
+    if (geocodeCache[adresse]) return geocodeCache[adresse];
 
-
-    // Si l'adresse n'est pas dans le cache, effectuer la requête API
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
         const data = await response.json();
-
-        // Si des résultats sont trouvés, les ajouter au cache
-        if (data.length > 0) {
-            geocodeCache[adresse] = data;
-            return data; 
-        } else {
-            return []; 
-        }
+        return geocodeCache[adresse] = (data.length > 0) ? data : [];
     } catch (error) {
         console.error('Erreur de géocodage:', error);
-        return []; // Retourner un tableau vide en cas d'erreur
+        return [];
     }
 }
 
-async function updateMap() {
-    map.setView([48.202047, -2.932644], 8);
 
-    // Clear old markers
+
+function addMarkers(offres) {
     markers.clearLayers();
-    var div = document.getElementById("offres-data");
 
-    // Retrieve JSON data
-    var offres = JSON.parse(div.textContent);
+    offres.forEach(offre => {
+        const marker = L.marker(offre.latlon);
 
-    // Check if the 'offres' array is valid and not empty
-    if (!Array.isArray(offres) || offres.length === 0) {
-        console.log('Aucune offre disponible.');
-        markers.clearLayers(); // Clear any markers, even if no new ones are added
-        map.addLayer(markers); // Add the empty cluster layer to the map
-        return;
-    }
 
-    // Géocodage de toutes les adresses en parallèle
-    const geocodePromises = offres.map(offre => geocode(offre.adresse));
-    
-    // Attendre que toutes les promesses de géocodage soient résolues
-    const geocodeResults = await Promise.all(geocodePromises);
+        // Create the content for the popup with stars
+        let stars = '';
+        const note = offre.note || 0; // Default to 0 if the note is invalid
 
-    // Ajouter les marqueurs après que tous les géocodages sont terminés
-    for (let i = 0; i < offres.length; i++) {
-        const offre = offres[i];
-        const geocodeData = geocodeResults[i];
-
-        if (geocodeData.length > 0) {
-            const lat = geocodeData[0].lat;
-            const lon = geocodeData[0].lon;
-
-            // Create the content for the popup with stars
-            let stars = '';
-            const note = offre.note || 0; // Default to 0 if the note is invalid
-
-            // Add full stars based on the rating
-            for (let j = 0; j < Math.floor(note); j++) {
-                stars += `<img class="popup_image" src="img/icons/star-solid.svg" alt="star">`;
-            }
-
-            // Add half or empty stars if the rating is not an integer
-            if (note % 1 !== 0) {
-                stars += `<img class="popup_image" src="img/icons/star-half.svg" alt="half-star">`;
-            }
-
-            // Add empty stars to complete up to 5
-            for (let j = Math.ceil(note); j < 5; j++) {
-                stars += `<img class="popup_image" src="img/icons/star-regular.svg" alt="empty-star">`;
-            }
-
-            // Create the marker
-            const marker = L.marker([lat, lon]);
-
-            // Bind the popup with offer details
-            marker.bindPopup(`
-                <a href="details_offre.php?idoffre=${offre.id}">
-                    <div class="content_popup">
-                        <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
-                        <h3>${offre.titre}</h3>
-                        <div class="note_moy">
-                            <p>${stars || 'N/A'}</p>
-                            <p class="offre-prix">${offre.prix+"€"|| 'GRATUIT'}</p>
-                        </div>
-                        <p class="popup_description">${offre.description}</p>
-                        <p>${offre.ville || 'Adresse non disponible'}</p>
-                    </div>
-                </a>
-            `);
-
-            marker.on('mouseover', function(e){
-                marker.openPopup();
-            });
-
-            // Add the marker to the markers layer
-            markers.addLayer(marker);
-        } else {
-            console.log(`Adresse non trouvée pour l'offre: ${offre.titre}`);
+        // Add full stars based on the rating
+        for (let j = 0; j < Math.floor(note); j++) {
+            stars += `<img class="popup_image" src="img/icons/star-solid.svg" alt="star">`;
         }
-    }
 
-    // Add markers to the cluster layer and then to the map
+        // Add half or empty stars if the rating is not an integer
+        if (note % 1 !== 0) {
+            stars += `<img class="popup_image" src="img/icons/star-half.svg" alt="half-star">`;
+        }
+
+        // Add empty stars to complete up to 5
+        for (let j = Math.ceil(note); j < 5; j++) {
+            stars += `<img class="popup_image" src="img/icons/star-regular.svg" alt="empty-star">`;
+        }
+
+        // Bind the popup with offer details
+        marker.bindPopup(`
+            <a href="details_offre.php?idoffre=${offre.id}">
+                <div class="content_popup">
+                    <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
+                    <h3>${offre.titre}</h3>
+                    <div class="note_moy">
+                        <p>${stars || 'N/A'}</p>
+                        <p class="offre-prix">${offre.prix+"€"|| 'GRATUIT'}</p>
+                    </div>
+                    <p class="popup_description">${offre.description}</p>
+                    <p>${offre.ville || 'Adresse non disponible'}</p>
+                </div>
+            </a>
+        `);
+
+        marker.on("mouseover", () => marker.openPopup());
+        markers.addLayer(marker);
+    });
+
     map.addLayer(markers);
 }
 
+async function fetchAndProcessOffers() {
+    try {
+        const div = document.getElementById("offres-data");
+        const offres = JSON.parse(div.textContent);
+
+        if (!Array.isArray(offres) || offres.length === 0) {
+            console.log("Aucune offre disponible.");
+            return [];
+        }
+
+        const geocodePromises = offres.map(offre => geocode(offre.adresse));
+        const geocodeResults = await Promise.all(geocodePromises);
+
+        return offres.map((offre, i) => ({
+            ...offre,
+            latlon: geocodeResults[i].length > 0 ? [geocodeResults[i][0].lat, geocodeResults[i][0].lon] : null
+        })).filter(offre => offre.latlon);
+
+    } catch (error) {
+        console.error("Erreur lors du chargement des données:", error);
+        return [];
+    }
+}
+
+
+async function preloadData() {
+    preloadedOffres = await fetchAndProcessOffers();
+}
+
+async function refreshMarkers() {
+    const offres = await fetchAndProcessOffers();
+    markers.clearLayers();
+    addMarkers(offres);
+}
+
+async function prepareDataAndShowMap() {
+    const offres = await fetchAndProcessOffers();
+    if (offres.length === 0) return;
+
+    initializeMap();
+    addMarkers(offres);
+    document.getElementById("map_offres").style.display = "block";
+}
+
+
+function showMapWithPreloadedData() {
+    if (preloadedOffres.length === 0) {
+        prepareDataAndShowMap();
+        return;
+    }
+
+    initializeMap();  
+    addMarkers(preloadedOffres); 
+
+    document.getElementById("map_offres").style.display = "block"; 
+}
+
+
 // Ajouter des écouteurs d'événements pour chaque filtre
 document.addEventListener('DOMContentLoaded', () => {
+    preloadData();
     initializeMap();
-
+    
     const applyFiltersDebounced = debounce(applyFilters, 500); // Debounce de 500ms
 
     document.getElementById('search-query').addEventListener('input', applyFiltersDebounced);
