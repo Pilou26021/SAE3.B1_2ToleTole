@@ -747,7 +747,7 @@
                                                     ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                             }
                                             ?>
-                                            <p>Score de pertinence : <?= $scorePouce ?> </p>
+                                            <p>Score de l'avis : <?= $scorePouce ?> </p>
                                         </div>
                                         <div class="suppr-avis">
                                             <a class="bouton-supprimer-avis" href="delete_avis.php?idoffre=<?=$idoffre?>&idmembre=<?=$idmembre?>&idavis=<?=$avis_membre['idavis']?>">Supprimer mon avis</a>
@@ -889,12 +889,12 @@
                                                     ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                                 }
                                             ?>
-                                            <p>Score de pertinence : <?= $scorePouce ?> </p>
+                                            <p>Score de l'avis : <?= $scorePouce ?> </p>
                                         </div>
                                         <?php if(!$professionel) { ?>
                                             <div class="scorePouce">
-                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=plus" id="thumbs-up-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-up.svg" alt="Avis pertinent">Pertinent</a>
-                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=moins" id="thumbs-down-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-down.svg" alt="Avis non-pertinent">Non pertinent</a>
+                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=plus" id="thumbs-up-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-up.svg" alt="Avis pertinent">J'aime</a>
+                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=moins" id="thumbs-down-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-down.svg" alt="Avis non-pertinent">Je n'aime pas</a>
                                             </div>
                                         <?php } ?>
 
