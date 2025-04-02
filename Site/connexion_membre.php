@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
         // Si la connexion est réussie, définir la session
         $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
+        $_SESSION['idmembre'] = $result['idmembre'];
         header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
         exit();
     } else {

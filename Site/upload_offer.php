@@ -9,7 +9,7 @@
     if (isset($_SESSION['professionnel'])) {
         $professionel = true;
         //récupération de l'id du pro
-        $idProPropose = $_SESSION['professionnel'];
+        $idProPropose = $_SESSION['idpro'];
     } else {
         header('Location: index.php');
     }

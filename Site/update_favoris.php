@@ -1,21 +1,34 @@
 <?php
-if (isset($_GET['idoffre']) && isset($_GET['add']) && $membre) {
-    $idoffre = $_GET['idoffre'];
-    $add = $_GET['add'] === 'true';
+    ob_start();
+    session_start();
 
-    if ($add) {
-        // Ajoute l'offre aux favoris
-        // Ton code pour ajouter l'offre aux favoris
+    // connecteur pour requête
+    include "../SQL/connection_local.php";   
+
+    if (isset($_POST['idoffre']) && isset($_POST['add'])) {
+        $idoffre = $_POST['idoffre'];
+        $add = $_POST['add'] === 'true';
+
+        if ($add) {
+            // Ajoute l'offre aux favoris
+            $stmt = $conn->prepare("INSERT INTO _favoris (idmembre, idoffre, dateajout) VALUES (:idmembre, :idoffre, NOW())");
+            $stmt->bindParam(':idmembre', $_SESSION['idmembre']);
+            $stmt->bindParam(':idoffre', $idoffre);
+            $stmt->execute();
+
+        } else {
+            // Supprime l'offre des favoris
+            $stmt = $conn->prepare("DELETE FROM _favoris WHERE idmembre = :idmembre AND idoffre = :idoffre");
+            $stmt->bindParam(':idmembre', $_SESSION['idmembre']);
+            $stmt->bindParam(':idoffre', $idoffre);
+            $stmt->execute();
+        }
+
+        // Réponse JSON
+        echo json_encode(['status' => 'success']);
+        exit();
     } else {
-        // Supprime l'offre des favoris
-        // Ton code pour supprimer l'offre des favoris
+        echo json_encode(['status' => 'error']);
+        exit();
     }
-
-    // Réponse JSON
-    echo json_encode(['status' => 'success']);
-    exit();
-} else {
-    echo json_encode(['status' => 'error']);
-    exit();
-}
 ?>

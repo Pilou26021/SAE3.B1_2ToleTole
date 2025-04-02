@@ -41,7 +41,7 @@
 
         if (isset($_SESSION['membre'])) {
             $membre = true;
-            $idmembre = $_SESSION['membre'];
+            $idmembre = $_SESSION['idmembre'];
         } elseif (isset($_SESSION['professionnel'])) {
             $professionel = true;
             $idpro = $_SESSION['professionnel'];
@@ -68,7 +68,6 @@
             $stmtFavoris->bindValue(':idmembre', $idmembre, PDO::PARAM_INT);
             $stmtFavoris->execute();
             $favoris_membre = $stmtFavoris->fetchAll();
-            print_r($favoris);
         }
 
         // Construction de la requête SQL en fonction du type d'utilisateur
@@ -588,20 +587,33 @@
                                                     let add = $(this).data('add');
                                                     let $heart = $('#favoris-' + idoffre);
 
+                                                    // Change the heart color immediately on click
+                                                    if (add === true) {
+                                                        $heart.attr('src', './img/icons/full-heart.svg');
+                                                        $(this).data('add', false);
+                                                    } else {
+                                                        $heart.attr('src', './img/icons/empty-heart.svg');
+                                                        $(this).data('add', true);
+                                                    }
+
+                                                    // Use POST instead of GET to avoid multiple identical requests
                                                     $.ajax({
                                                         url: 'update_favoris.php',
-                                                        method: 'GET',
+                                                        method: 'POST',
                                                         data: {
                                                             idoffre: idoffre,
                                                             add: add
                                                         },
                                                         success: function(response) {
-                                                            if (add === 'true') {
-                                                                $heart.attr('src', './img/icons/full-heart.svg');
-                                                                $heart.closest('.favoris-coeur').data('add', 'false');
-                                                            } else {
-                                                                $heart.attr('src', './img/icons/empty-heart.svg');
-                                                                $heart.closest('.favoris-coeur').data('add', 'true');
+                                                            try {
+                                                                let jsonResponse = JSON.parse(response);
+                                                                if (jsonResponse.success) {
+                                                                    console.log('Favoris mis à jour avec succès.');
+                                                                } else {
+                                                                    console.error('Erreur lors de la mise à jour des favoris.');
+                                                                }
+                                                            } catch (e) {
+                                                                console.error('Réponse invalide du serveur.');
                                                             }
                                                         },
                                                         error: function() {
