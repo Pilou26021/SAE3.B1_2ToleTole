@@ -292,7 +292,7 @@
                                 <button style="border-radius: 8px;" id="confirmerNon" type="button">Non</button>
                             </div>
                             
-                            <p style="color: red; font-size: 17px;">Vos données vont être anonymisées ou supprimées, <br> vous n’aurez aucun moyen de les récupérer</p>
+                            <p style="color: red; font-size: 17px;">Vos données vont être anonymisées ou supprimées, <br> vous n’aurez aucun moyen de les récupérer.</p>
 
                         </form>
                     </section>
@@ -383,7 +383,7 @@
                     modaleSupCompteContenu.style.border = "2px solid green";
                     document.getElementsByClassName("progress-bar")[0].style.backgroundColor = "green";
                     document.getElementById("msgInformationBis").style.color = "green";
-                    document.getElementById("msgInformationBis").innerHTML = "Vous allez être redirigé vers la page de connexion";
+                    document.getElementById("msgInformationBis").innerHTML = "Votre compte a été supprimé. <br> Vous allez être redirigé vers la page de connexion.";
                     setTimeout(() => {
                                     window.location.href = "suppression_compte.php";
                     }, 2000);
@@ -392,6 +392,7 @@
                 // Si le bouton "non" est cliqué, on ferme simplement la modale
                 confirmerNon.addEventListener("click", () => {
                     modaleSupCompte.style.display = "none";
+                    document.getElementById("pswInput").value = "";
                 });
 
             </script>
