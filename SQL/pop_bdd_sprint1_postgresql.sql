@@ -23,7 +23,9 @@ INSERT INTO _image (pathImage) VALUES
 ('./img/uploaded/image18.png'),
 ('./img/uploaded/image19.png'),
 ('./img/uploaded/image20.png'),
-('./img/uploaded/image21.png'); -- carte parc d'attraction Le Village Gaulois
+('./img/uploaded/image21.png'), -- carte parc d'attraction Le Village Gaulois
+('./img/uploaded/image22.png'), -- 
+('./img/uploaded/image23.png'); -- imageAnonymous
 
 -- 2. Insérer des données dans `_adresse`
 INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, departement, pays) VALUES 
@@ -51,7 +53,7 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 
 -- 3. Insérer des données dans `_compte`
 INSERT INTO _compte (nomCompte, prenomCompte, mailCompte, numTelCompte, idImagePdp, hashMdpCompte, idAdresse, dateCreationCompte, dateDerniereConnexionCompte, chat_cleApi) VALUES 
-('Anonymous', '', 'anonymous@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '1970-01-01', '1970-01-01', '0'),
+('Anonymous', '', 'anonymous@example.com', '0123456789', 23, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 1, '1970-01-01', '1970-01-01', '0'),
 ('Smith', 'John', 'john.smith@example.com', '0123456789', 3, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 13, '2023-01-15', '2025-01-15', 'rwd-b894e4c2-6eee-4b9c-b01e-456b8b45e28b'),
 ('Le Verge', 'Lou', 'lou.leverge@example.com', '0123456789', 6, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 14, '2023-01-15', '2025-01-15', 'rw-89af9b99-ad08-4a93-b8c9-d8398c18c016'),
 ('Denis', 'Liam', 'liamdenis35@gmail.com', '0987654321', 7, '$2y$10$RkM09lrLhpt74shzr/w0Euihc4LraI0K2fSg3WNbzoDsbg7kFKsC6', 15, '2023-02-20', '2025-02-20', 'rw-6488bd30-b1fa-4dc6-be1c-b4bc16d261e8'),
