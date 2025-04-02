@@ -46,7 +46,7 @@ INSERT INTO _adresse (numRue, supplementAdresse, adresse, codePostal, ville, dep
 (77, '', 'Avenue de Provence', 56000, 'Vannes', 'Morbihan', 'France'), -- 17
 (47, '', 'Rue Hubert de Lisle', 56100, 'Lorient', 'Morbihan', 'France'), -- 18
 (25, '', 'Avenue Jean Jaures', 56600, 'Lanester', 'Morbihan', 'France'), -- 19
-(14, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'); -- 20
+(14, '', 'Rue Victor Hugo', 29900, 'Concarneau', 'Finistère', 'France'), -- 20
 (18, '', 'Boulevard d"Armor', 22300, 'Lannion', 'Bretagne', 'France'); -- 21
 
 -- 3. Insérer des données dans `_compte`
