@@ -36,20 +36,26 @@ function adjustDates() {
 }
 
 $(document).ready(function() {
-    // Lorsque l'utilisateur clique sur le bouton de filtre, affichez le pop-up
-    $("#filterBtn").click(function() {
-        $("#filterForm").fadeIn();
+    // Ouvrir le filtre
+    $("#filterBtn").click(function(event) {
+        event.stopPropagation();
+        $("#filterForm").addClass("open");
     });
 
-    // Lorsque l'utilisateur clique en dehors du pop-up des filtres, le fermer
+    // Fermer à l'aide de la croix
+    $(".filter-close").click(function(event) {
+        event.stopPropagation();
+        $("#filterForm").removeClass("open");
+    });
+
+    // Fermer en cliquant en dehors
     $(document).click(function(event) {
-        // Si le clic a eu lieu en dehors de #filterForm et #filterBtn
-        if (!$(event.target).closest('#filterForm').length && !$(event.target).closest('#filterBtn').length) {
-            $("#filterForm").fadeOut();  // Fermer le filtre
+        if (!$(event.target).closest("#filterForm, #filterBtn").length) {
+            $("#filterForm").removeClass("open");
         }
     });
 
-    // Empêcher le clic sur le filtre de fermer immédiatement le pop-up
+    // Empêcher le clic sur le panneau lui-même de fermer le panneau
     $("#filterForm").click(function(event) {
         event.stopPropagation();
     });
@@ -193,6 +199,9 @@ function showDateOuvert() {
     }
 }
 
+var map;
+let preloadedOffres = []; 
+
 // FILTRES
 
 async function applyFilters() {
@@ -246,9 +255,10 @@ async function applyFilters() {
 
         // Vérifier la réponse
         if (response.ok) {
-            // Récupérer le contenu et l'injecter dans le DOM
             const data = await response.text();
             document.querySelector('.offres-display').innerHTML = data;
+            toggleMap();
+            refreshMarkers();
         } else {
             throw new Error('Erreur lors de la récupération des résultats.');
         }
@@ -257,9 +267,212 @@ async function applyFilters() {
     }
 }
 
+ 
+function toggleMap() {
+    const mapElement = document.getElementById('map_offres');
+    if (mapElement.style.display !== 'block') {
+        mapElement.style.display = 'block';
+        if (!map) initializeMap();
+        else map.invalidateSize();
+    }
+}
+
+
+
+function initializeMap(){
+    if (map) return; 
+    map = L.map('map_offres', {
+        center: [48.202047, -2.932644], 
+        zoom: 8, 
+        minZoom: 3, 
+        maxZoom: 18, 
+        maxBounds: [
+            [-90, -180], 
+            [90, 180] 
+        ],
+        maxBoundsViscosity: 1.0 
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(map);
+
+    // Add custom Reset Zoom Control
+    (function() {
+        var control = new L.Control({position: 'topright'});
+        control.onAdd = function(map) {
+            var azoom = L.DomUtil.create('a', 'resetzoom');
+            
+
+            var img = L.DomUtil.create('img', '', azoom);
+            img.src = 'img/icons/zoom-reset.png'; 
+            img.alt = 'Reset Zoom'; 
+
+            img.style.width = '25px'; 
+            img.style.height = '25px'; 
+            img.style.cursor = "pointer";
+            img.style.padding = "4px";
+            
+            L.DomEvent
+                .disableClickPropagation(azoom)
+                .addListener(azoom, 'click', function() {
+                    map.setView(map.options.center, map.options.zoom);
+                }, azoom);
+            return azoom;
+        };
+        control.addTo(map);
+    })();
+
+}
+
+// Création du groupe de clusters
+var markers = L.markerClusterGroup();
+
+
+// Fonction de debounce pour limiter la fréquence des appels
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+window.addEventListener('resize', function () {
+    map.invalidateSize(); 
+});
+
+
+const geocodeCache = {};
+
+async function geocode(adresse) {
+    if (geocodeCache[adresse]) return geocodeCache[adresse];
+
+    try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
+        const data = await response.json();
+        return geocodeCache[adresse] = (data.length > 0) ? data : [];
+    } catch (error) {
+        console.error('Erreur de géocodage:', error);
+        return [];
+    }
+}
+
+
+
+function addMarkers(offres) {
+    markers.clearLayers();
+
+    offres.forEach(offre => {
+        const marker = L.marker(offre.latlon);
+
+
+        // Create the content for the popup with stars
+        let stars = '';
+        const note = offre.note || 0; // Default to 0 if the note is invalid
+
+        // Add full stars based on the rating
+        for (let j = 0; j < Math.floor(note); j++) {
+            stars += `<img class="popup_image" src="img/icons/star-solid.svg" alt="star">`;
+        }
+
+        // Add half or empty stars if the rating is not an integer
+        if (note % 1 !== 0) {
+            stars += `<img class="popup_image" src="img/icons/star-half.svg" alt="half-star">`;
+        }
+
+        // Add empty stars to complete up to 5
+        for (let j = Math.ceil(note); j < 5; j++) {
+            stars += `<img class="popup_image" src="img/icons/star-regular.svg" alt="empty-star">`;
+        }
+
+        // Bind the popup with offer details
+        marker.bindPopup(`
+            <a href="details_offre.php?idoffre=${offre.id}">
+                <div class="content_popup">
+                    <img class="popup_image" src="${offre.image || 'img/icons/image18.png'}">
+                    <h3>${offre.titre}</h3>
+                    <div class="note_moy">
+                        <p>${stars || 'N/A'}</p>
+                        <p class="offre-prix">${offre.prix+"€"|| 'GRATUIT'}</p>
+                    </div>
+                    <p class="popup_description">${offre.description}</p>
+                    <p>${offre.ville || 'Adresse non disponible'}</p>
+                </div>
+            </a>
+        `);
+
+        marker.on("mouseover", () => marker.openPopup());
+        markers.addLayer(marker);
+    });
+
+    map.addLayer(markers);
+}
+
+async function fetchAndProcessOffers() {
+    try {
+        const div = document.getElementById("offres-data");
+        const offres = JSON.parse(div.textContent);
+
+        if (!Array.isArray(offres) || offres.length === 0) {
+            console.log("Aucune offre disponible.");
+            return [];
+        }
+
+        const geocodePromises = offres.map(offre => geocode(offre.adresse));
+        const geocodeResults = await Promise.all(geocodePromises);
+
+        return offres.map((offre, i) => ({
+            ...offre,
+            latlon: geocodeResults[i].length > 0 ? [geocodeResults[i][0].lat, geocodeResults[i][0].lon] : null
+        })).filter(offre => offre.latlon);
+
+    } catch (error) {
+        console.error("Erreur lors du chargement des données:", error);
+        return [];
+    }
+}
+
+
+async function preloadData() {
+    preloadedOffres = await fetchAndProcessOffers();
+}
+
+async function refreshMarkers() {
+    const offres = await fetchAndProcessOffers();
+    markers.clearLayers();
+    addMarkers(offres);
+}
+
+async function prepareDataAndShowMap() {
+    const offres = await fetchAndProcessOffers();
+    if (offres.length === 0) return;
+
+    initializeMap();
+    addMarkers(offres);
+    document.getElementById("map_offres").style.display = "block";
+}
+
+
+function showMapWithPreloadedData() {
+    if (preloadedOffres.length === 0) {
+        prepareDataAndShowMap();
+        return;
+    }
+
+    initializeMap();  
+    addMarkers(preloadedOffres); 
+
+    document.getElementById("map_offres").style.display = "block"; 
+}
+
+
 // Ajouter des écouteurs d'événements pour chaque filtre
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('search-query').addEventListener('input', applyFilters);
+    preloadData();
+    initializeMap();
+    
+    const applyFiltersDebounced = debounce(applyFilters, 500); // Debounce de 500ms
+
+    document.getElementById('search-query').addEventListener('input', applyFiltersDebounced);
     document.getElementById('category').addEventListener('change', applyFilters);
     document.getElementById('lieux').addEventListener('input', applyFilters);
     document.getElementById('price-range-min').addEventListener("input", applyFilters);
@@ -272,16 +485,46 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('Mavant').addEventListener('change', applyFilters);
     document.getElementById('type').addEventListener('change', applyFilters);
     document.getElementById('ouvert').addEventListener('change', applyFilters);
-    });
-
-    document.getElementById('Alaune').addEventListener('click', function () {
-        // Définir une valeur par défaut pour le champ Mavant
-        const mavantSelect = document.getElementById('Mavant');
-        mavantSelect.value = 'Alaune'; // Définir "true" ou une valeur par défaut
-
-        // Appeler la fonction applyFilters pour appliquer les filtres
-        applyFilters();
 });
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Ajout de l'event listener pour le lien "voir plus"
+    const alauneLink = document.getElementById("Alaune");
+    const mavantSelect = document.getElementById("Mavant");
+    if (alauneLink && mavantSelect) {
+        alauneLink.addEventListener("click", function() {
+            // Définir le filtre à "À la Une"
+            mavantSelect.value = "Alaune";
+            // Appeler applyFilters() pour mettre à jour les résultats
+            applyFilters();
+            window.scrollTo(0, 0);
+
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Ajout de l'event listener pour le lien "voir plus"
+    const TprixLink = document.getElementById("Nouv");
+    const TprixSelect = document.getElementById("Tprix");
+    if (TprixLink && TprixSelect) {
+        TprixLink.addEventListener("click", function() {
+            // Définir le filtre à "À la Une"
+            TprixSelect.value = "Recent";
+            // Appeler applyFilters() pour mettre à jour les résultats
+            applyFilters();
+            window.scrollTo(0, 0);
+        });
+    }
+});
+
+
+
 
 
 
@@ -299,85 +542,37 @@ function validImages(inputElements) {
     return true;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const track = document.querySelector('.carousel-track');
-    const slides = document.querySelectorAll('.offer-alaune');
-    const slideWidth = 371; // Largeur de chaque carte
-    let currentIndex = 0;
-    let cardsPerView = calculateCardsPerView()-1;
 
-    // Fonction pour calculer le nombre de cartes visibles
-    function calculateCardsPerView() {
-        const containerWidth = document.querySelector('.carousel-container').offsetWidth;
-        return Math.floor(containerWidth / slideWidth);
-    }
-
-    // Fonction pour mettre à jour la visibilité des boutons
-    function updateButtonVisibility() {
-        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
-        if (currentIndex === 0) {
-            prevBtn.classList.add('hidden');
-        } else {
-            prevBtn.classList.remove('hidden');
-        }
-
-        if (currentIndex === maxIndex) {
-            nextBtn.classList.add('hidden');
-        } else {
-            nextBtn.classList.remove('hidden');
-        }
-    }
-
-    // Fonction pour gérer le changement de la taille de la fenêtre
-    function onResize() {
-        cardsPerView = calculateCardsPerView();
-        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
-        if (currentIndex > maxIndex) {
-            currentIndex = maxIndex; // Réinitialiser l'index si nécessaire
-        }
-        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        updateButtonVisibility();
-    }
-
-    // Initialiser la visibilité des boutons et écouter le redimensionnement
-    updateButtonVisibility();
-    window.addEventListener('resize', onResize);
-
-    // Événements de clic pour faire défiler le slider
-    nextBtn.addEventListener('click', () => {
-        const maxIndex = Math.max(0, Math.ceil((slides.length - cardsPerView) / 1));
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            updateButtonVisibility();
-        }
-    });
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            updateButtonVisibility();
-        }
-    });
-});
 
 // MODALE MENU AVIS
-function openModalAvis() {
+function openModalAvis(idavis) {
     document.getElementById("modalAvis").style.display = "block";
+    document.getElementById("reportjsavisid").value = idavis;
 }
+
+document.querySelector("form").addEventListener("submit", function(event) {
+    console.log("idavis value: ", document.querySelector('input[name="idavis"]').value);
+});
+
 
 // fermer la fenêtre
 function closeModalAvis() {
     document.getElementById("modalAvis").style.display = "none";
 }
 
-function submitSignalementAvis(idAvis) {
-    
-    
+// MODALE blacklist
+function openModalBlacklist(idavis) {
+    console.log("idavis value: ", idavis);
+    document.getElementById("modalBlacklist").style.display = "block";
+    document.getElementById("blacklistjsavisid").value = idavis;
+}
 
+// fermer la fenêtre
+function closeModalBlacklist() {
+    document.getElementById("modalBlacklist").style.display = "none";
+}
+
+function submitSignalementAvis(idAvis) {
     alert('Le signalement a bien été pris en compte.');
 }
 
@@ -409,4 +604,282 @@ function openReplyForm(avisId) {
     }
     replyB.style.margin = "10px 0px 5px 0px";
     arrow.style.transition = 'transform 0.3s ease';
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.carousel');
+    const container = document.querySelector('.carousel-container');
+    let slides = document.querySelectorAll('.slide');
+    const originalCount = slides.length; // nombre de slides initial
+    let currentIndex = 0;
+    const transitionTime = 500; // Durée de transition en ms
+    let autoSlideInterval = null;
+    let isDesktop = window.innerWidth >= 780;
+    let isDragging = false, startX = 0, currentX = 0;
+    
+    // Mise à jour de la position du carousel
+    function updateCarousel(animate = true) {
+        const slideWidth = slides[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(carousel).gap) || 0;
+        const step = slideWidth + gap;
+        carousel.style.transition = animate ? 'transform 0.5s ease' : 'none';
+        carousel.style.transform = 'translateX(' + (-step * currentIndex) + 'px)';
+    }
+    
+    // Gestion du mode desktop (auto-défilement)
+    function setupDesktop() {
+        // Dupliquer l'ensemble des slides pour un effet continu (si ce n'est pas déjà fait)
+        if (!carousel.dataset.duplicated) {
+            carousel.innerHTML += carousel.innerHTML;
+            slides = document.querySelectorAll('.slide');
+            carousel.dataset.duplicated = 'true';
+        }
+        // Désactiver les écouteurs tactiles
+        container.removeEventListener('touchstart', touchStartHandler);
+        container.removeEventListener('touchmove', touchMoveHandler);
+        container.removeEventListener('touchend', touchEndHandler);
+        // Lancer l'auto-défilement
+        if(autoSlideInterval) clearInterval(autoSlideInterval);
+        currentIndex = 0;
+        updateCarousel(false);
+        autoSlideInterval = setInterval(function() {
+            currentIndex++;
+            updateCarousel();
+            // Réinitialiser dès la fin des slides originales
+            if (currentIndex >= originalCount) {
+                setTimeout(function() {
+                    currentIndex = 0;
+                    updateCarousel(false);
+                }, transitionTime);
+            }
+        }, 2500);
+    }
+    
+    // Gestion des événements tactiles pour le mode mobile
+    function touchStartHandler(e) {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+    }
+    function touchMoveHandler(e) {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const deltaX = currentX - startX;
+        const slideWidth = slides[0].offsetWidth;
+        const gap = parseInt(window.getComputedStyle(carousel).gap) || 0;
+        const step = slideWidth + gap;
+        carousel.style.transition = 'none';
+        carousel.style.transform = 'translateX(' + (-step * currentIndex + deltaX) + 'px)';
+    }
+    function touchEndHandler() {
+        isDragging = false;
+        const deltaX = currentX - startX;
+        // Seuil de 50px pour passer à la slide suivante ou précédente
+        if (deltaX < -50 && currentIndex < originalCount - 1) {
+            currentIndex++;
+        } else if (deltaX > 50 && currentIndex > 0) {
+            currentIndex--;
+        }
+        updateCarousel();
+    }
+    
+    function setupMobile() {
+        // Annuler auto-défilement s'il existe
+        if(autoSlideInterval) {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = null;
+        }
+        currentIndex = 0;
+        updateCarousel(false);
+        // Ajouter les écouteurs tactiles
+        container.addEventListener('touchstart', touchStartHandler);
+        container.addEventListener('touchmove', touchMoveHandler);
+        container.addEventListener('touchend', touchEndHandler);
+    }
+    
+    // Initialisation en fonction de la largeur actuelle
+    function initCarousel() {
+        if (window.innerWidth >= 780) {
+            isDesktop = true;
+            setupDesktop();
+        } else {
+            isDesktop = false;
+            setupMobile();
+        }
+    }
+    
+    initCarousel();
+    
+    // Réinitialisation dynamique lors du redimensionnement sans recharger la page
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            let newDesktop = window.innerWidth >= 780;
+            if(newDesktop !== isDesktop) {
+                // Reset l'index et réinitialise le carrousel dans le nouveau mode
+                currentIndex = 0;
+                initCarousel();
+            } else {
+                updateCarousel(false);
+            }
+        }, 250);
+    });
+});
+
+$(document).ready(function(){
+    $('.vertical-carousel').slick({
+         vertical: true,
+         centerMode: true,      // Active le centre
+         centerPadding: '0px',
+         arrows: false,
+         autoplay: true,
+         autoplaySpeed: 3000,
+         slidesToShow: 1,
+         slidesToScroll: 1,
+         pauseOnHover: false
+    });
+});
+
+function addToRecentlyViewed(offerId) {
+    const cookieName = "recently_viewed";
+    const maxItems = 10; // Limite le nombre d'offres stockées
+
+    let recentlyViewed = getRecentlyViewed();
+
+    // Supprimer l'offre si elle est déjà présente
+    recentlyViewed = recentlyViewed.filter(id => id !== offerId);
+
+    // Ajouter l'offre en tête de liste
+    recentlyViewed.unshift(offerId);
+
+    // Limiter la taille de la liste (FIFO)
+    if (recentlyViewed.length > maxItems) {
+        recentlyViewed.pop(); // Supprime le plus ancien (dernier élément)
+    }
+
+    // Stocker dans le cookie (valide pour 30 jours)
+    document.cookie = `${cookieName}=${JSON.stringify(recentlyViewed)}; path=/; max-age=${30 * 24 * 60 * 60}`;
+}
+
+// Fonction pour récupérer les offres stockées
+function getRecentlyViewed() {
+    const cookieName = "recently_viewed=";
+    const cookies = document.cookie.split("; ");
+
+    for (let cookie of cookies) {
+        if (cookie.startsWith(cookieName)) {
+            return JSON.parse(cookie.substring(cookieName.length));
+        }
+    }
+
+    return [];
+}
+
+function resetRecentlyViewed() {
+    document.cookie = "recently_viewed=[]; path=/; max-age=0"; // Supprime le cookie
+    console.log("Liste des offres consultées réinitialisée !");
+}
+
+// Récupérer les offres récemment consultées
+let recentlyViewedOffers = getRecentlyViewed(); // Exemple : [1, 2, 3, 4, 5]
+if (recentlyViewedOffers.length > 0) {
+    // Envoi des IDs au backend PHP
+    fetch('get_offres_details.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ offerIds: recentlyViewedOffers }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Manipuler les données (les offres récupérées)
+        displayOffers(data);
+    })
+    .catch(error => {
+        console.error('Erreur lors du chargement des offres:', error);
+    });
+}
+
+// Fonction pour afficher les offres dans l'interface utilisateur
+function displayOffers(offers) {
+    const offresContainer = document.getElementById('offresContainer');
+    offresContainer.innerHTML = ''; // Vider le conteneur avant de remplir
+
+    offers.forEach(offre => {
+        const offerElement = document.createElement('div');
+        offerElement.classList.add('offre-item');
+
+        offerElement.innerHTML = `
+            <a onclick="addToRecentlyViewed(${offre.idoffre})" style="text-decoration:none;" href="details_offre.php?idoffre=${offre.idoffre}">
+                <div class="offre-card" ${offre.enreliefoffre ? "style='border: 3px solid #36D673;'" : ""}>
+                    <div class="offre-image-container" style="position: relative;">
+                        <!-- Affichage de l'image -->
+                        <img class="offre-image" src="${offre.pathimage ? offre.pathimage : 'img/default.jpg'}" alt="Image de l'offre">
+                    </div>
+                    <div class="offre-details">
+                        <!-- Titre de l'offre -->
+                        <h2 class="offre-titre-index">${offre.titreoffre ? offre.titreoffre : 'Titre non disponible'}</h2>
+                        
+                        <!-- Résumé de l'offre -->
+                        <p class="offre-resume"><strong>Résumé:</strong> ${offre.resumeoffre ? offre.resumeoffre : 'Résumé non disponible'}</p>
+                        
+                        <!-- Prix minimum de l'offre -->
+                        <p class="offre-prix"><strong>Prix Minimum:</strong> ${(!offre.prixminoffre || offre.prixminoffre <= 0) ? 'Gratuit' : offre.prixminoffre + ' €'}</p>
+
+                        <!-- Notes -->
+                        <div class="titre-moy-index">
+                            <p class="offre-resume"><strong>Note :</strong></p>
+                            <div class="texte_note_etoiles_container">
+                                ${generateStars(offre.notemoyenneoffre)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        `;
+        
+        offresContainer.appendChild(offerElement);
+    });
+
+
+}
+
+
+function generateStars(rating) {
+    if (!rating) return '<p>Pas d\'évaluations</p>';
+    let starsHtml = '';
+    let noteMoyenne = parseFloat(rating);
+    let fullStars = Math.floor(noteMoyenne);
+
+    // Arrondir selon le seuil défini
+    if (noteMoyenne - fullStars > 0.705) {
+        fullStars++;
+    }
+
+    // Ajouter les étoiles pleines
+    for (let i = 0; i < fullStars; i++) {
+        starsHtml += `<img src="img/icons/star-solid.svg" alt="star checked" width="20" height="20">`;
+    }
+
+    // Si la partie décimale est comprise entre 0.295 et 0.705, ajouter une demi-étoile
+    if (noteMoyenne - fullStars >= 0.295 && noteMoyenne - fullStars <= 0.705) {
+        starsHtml += `<img src="img/icons/star-half.svg" alt="half star checked" width="20" height="20">`;
+        fullStars++;
+    }
+
+    // Compléter jusqu'à 5 étoiles
+    for (let i = fullStars; i < 5; i++) {
+        starsHtml += `<img src="img/icons/star-regular.svg" alt="star unchecked" width="20" height="20">`;
+    }
+    
+    starsHtml += `<p class="nombre_note">${rating}/5</p>`;
+    return starsHtml;
+}
+
+if (sessionStorage.getItem('forceLogout')) {
+    alert('Votre session a expiré. Veuillez vous reconnecter.');
+    window.location.href = 'deconnexion.php';
+    sessionStorage.removeItem('forceLogout');
 }

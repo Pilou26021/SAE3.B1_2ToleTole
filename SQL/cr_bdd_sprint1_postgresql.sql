@@ -38,6 +38,8 @@ CREATE TABLE public._compte (
     dateDerniereConnexionCompte DATE NOT NULL,
     chat_cleApi TEXT,
     chat_cledevoile BOOLEAN DEFAULT FALSE,
+    auth_secret TEXT,
+    auth_parametre BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (idImagePdp) REFERENCES public._image(idImage),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
@@ -149,6 +151,7 @@ CREATE TABLE public._offre (
     dateCreationOffre DATE NOT NULL,
     conditionAccessibilite TEXT NOT NULL,
     horsLigne BOOLEAN NOT NULL,
+    nbrJetonBlacklistageRestant INT NOT NULL DEFAULT 3 CHECK (nbrJetonBlacklistageRestant >= 0),
     FOREIGN KEY (idProPropose) REFERENCES public._professionnel(idPro),
     FOREIGN KEY (idAdresse) REFERENCES public._adresse(idAdresse)
 );
@@ -161,9 +164,10 @@ CREATE TABLE public._avis (
     idMembre BIGINT NOT NULL,
     dateAvis DATE NOT NULL,
     dateVisiteAvis DATE NOT NULL,
-    blacklistAvis BOOLEAN NOT NULL,
     reponsePro BOOLEAN NOT NULL,
     scorePouce INT NOT NULL,
+    blacklistAvis BOOLEAN NOT NULL,
+    blacklistEndDate TIMESTAMP DEFAULT NULL,
     CONSTRAINT unique_avis UNIQUE (idAvis, idOffre, idMembre),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre)
@@ -308,6 +312,16 @@ CREATE TABLE public._paiement (
     CONSTRAINT pk_paiement PRIMARY KEY (idOffre, idFacture, idConstPrix),
     FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
     FOREIGN KEY (idFacture) REFERENCES public._facture(idFacture)
+);
+
+CREATE TABLE public._favoris (
+    idFavoris SERIAL PRIMARY KEY,
+    idMembre INT NOT NULL,
+    idOffre INT NOT NULL,
+    dateAjout TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idMembre) REFERENCES public._membre(idMembre),
+    FOREIGN KEY (idOffre) REFERENCES public._offre(idOffre),
+    CONSTRAINT unique_favoris UNIQUE (idMembre, idOffre)
 );
 
 -- Système de facturation mensuelle
@@ -463,3 +477,27 @@ SELECT a.idAvis, a.idOffre, a.noteAvis, a.commentaireAvis, a.idMembre, a.dateAvi
 FROM public._avis a
 JOIN public._alerterAvis aa ON a.idAvis = aa.idAvis
 JOIN public._signalement s ON aa.idSignalement = s.idSignalement;
+
+
+-- Trigger et fonction pour le blacklistage
+CREATE OR REPLACE FUNCTION update_blacklist()
+RETURNS void AS $$
+BEGIN
+    -- Ajouter un jeton à l'offre liée à chaque avis mis à jour
+    UPDATE public._offre
+    SET nbrJetonBlacklistageRestant = nbrJetonBlacklistageRestant + 1
+    WHERE idOffre IN (
+        SELECT DISTINCT idOffre
+        FROM public._avis
+        WHERE blacklistEndDate IS NOT NULL AND blacklistEndDate <= CURRENT_TIMESTAMP
+    );
+
+    -- Mettre à jour toutes les lignes d'avis
+    UPDATE public._avis
+    SET blacklistAvis = FALSE,
+        blacklistEndDate = NULL
+    WHERE blacklistEndDate IS NOT NULL 
+    AND blacklistEndDate <= CURRENT_TIMESTAMP;
+
+END;
+$$ LANGUAGE plpgsql;

@@ -20,6 +20,7 @@
     } elseif (isset($_SESSION['professionnel'])) {
         $professionel = true;
         $idcompte = $_SESSION['professionnel'];
+        $idpro = $_SESSION['idpro'];
     }
 
     //récupérer l'id du membre
@@ -31,6 +32,13 @@
         $idmembre = $stmt->fetchColumn();
     }
 
+    //récupérer l'id du pro qui a créé l'offre
+    $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
+    $stmt->execute();
+    $idproOffre = $stmt->fetchColumn();
+
     // Vérification que c'est bien le professionel connecté qui a créé l'offre
     if ($professionel) {
 
@@ -41,12 +49,6 @@
         $stmt->execute();
         $idpro = $stmt->fetchColumn();
 
-        
-        $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
-        $stmt->execute();
-        $idproOffre = $stmt->fetchColumn();
         if ($idproOffre == $idpro) {
             $bonProfessionnel = true; //variable pour vérifier que c'est le professionel qui a créé l'offre
         } elseif ($professionel) {
@@ -61,13 +63,6 @@
         }
         unset($_SESSION['signalement_avis_ok']);
     }
-
-    //récupérer l'id du pro qui a créé l'offre
-    $sql = "SELECT idpropropose FROM public._offre WHERE idoffre = :idoffre";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindValue(':idoffre', $_GET['idoffre'], PDO::PARAM_INT);
-    $stmt->execute();
-    $idproOffre = $stmt->fetchColumn();
 
     //récupérer les infos du pro
     $sql = "SELECT * from public.professionnel where idpro = :idproOffre";
@@ -102,7 +97,7 @@
 
                 // Requête SQL pour récupérer les détails de l'offre
                 $sql = "
-                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite
+                    SELECT o.idoffre, o.titreoffre, o.resumeoffre, o.descriptionoffre, o.prixminoffre, o.horsligne, i.pathimage, o.siteweboffre, o.alauneoffre, o.conditionAccessibilite, o.typeoffre, o.nbrjetonblacklistagerestant 
                     FROM public._offre o
                     JOIN (
                         SELECT idoffre, MIN(idImage) AS firstImage
@@ -120,6 +115,10 @@
 
                 // Récupérer les détails de l'offre
                 $offre = $stmt->fetch();
+
+                if ($offre['typeoffre'] == 2){
+                    $offrepremium = true;
+                }
             } else {
                 // Redirection si l'ID de l'offre n'est pas fourni
                 header("Location: index.php");
@@ -215,8 +214,8 @@
         ?>
         
         <main>
-            <div style=" position:sticky; top:20px; left:20px; width: 100%;">
-                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer;" href="./index.php">&#8617;</a>
+            <div style=" position:sticky; top:20px; left:20px; width: 100%; z-index:500; ">
+                <a style="text-decoration: none; font-size: 30px; color: #040316; cursor: pointer; " href="./index.php">&#8617;</a>
                 <!-- onclick="history.back(); -->
             </div>
 
@@ -237,20 +236,25 @@
 
                     <?php if ($offre): ?>
                         <div class="offre-detail-container">
-                            <h1 class="offre-titre"><?= $offre['titreoffre'] ?></h1>
-                            <?php
-                                if ($offre["alauneoffre"]==true) {
-                            ?>
-                                <p style="color:#36D673;" class="offre-resume-detail" ><strong>Cette offre est à la Une</strong></p>
-                            <?php 
-                                }
-                            ?>
-                            <div class="offre-image-container" style="text-align:center;">
-                                <img class="details-offre-image" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                <h1 class="offre-titre"><?= $offre['titreoffre'] ?></h1>
+                                <?php
+                                    if ($offre["alauneoffre"]==true) {
+                                ?>
+                                    <p class="offre-resume-detail <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>" ><strong>Cette offre est à la Une</strong></p>
+                                <?php 
+                                    }
+                                ?>
+                                
+                            <div class="offre-detail-img-desc">
+                                <div class="offre-image-container _2" style="text-align:center;">
+                                    <img class="details-offre-image anime" src="<?= !empty($offre['pathimage']) ? $offre['pathimage'] : 'img/default.jpg' ?>" alt="Image de l'offre">
+                                </div>
+                                <div class="offre-description <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                                <p><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
+                                <p><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
+                                <p><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
+                                </div>
                             </div>
-                            <p class="offre-resume-detail"><strong>Résumé:</strong> <?= $offre['resumeoffre'] ?></p>
-                            <p class="offre-resume-detail"><strong>Description:</strong> <?= $offre['descriptionoffre'] ?></p>
-                            <p class="offre-resume-detail"><strong>Accessibilité :</strong> <?= $offre['conditionaccessibilite'] ?></p>
 
                             <p class="adresse-detail">Localisation de l'offre</p>
                             <div id="map" style="display:flex;align-items:center;justify-content:center;">
@@ -521,14 +525,14 @@
                     <?php
                         if($membre){
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur sauf pour l'utilisateur connecté
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, a.blacklistavis, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre AND m.idmembre <> :conn_membre
                             ORDER BY a.scorepouce DESC";
 
-                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql_only_member = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, a.blacklistavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
@@ -537,12 +541,12 @@
                             
                         } else {
                             // Requête SQL pour récupérer les avis sur l'offre et le profil de l'utilisateur
-                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, m.nomcompte, m.prenomcompte, i.pathimage
+                            $sql = "SELECT a.idavis, a.commentaireavis, a.noteavis, a.dateavis, a.scorepouce, a.reponsepro, a.blacklistavis, m.nomcompte, m.prenomcompte, i.pathimage
                             FROM public._avis a
                             JOIN public.membre m ON a.idmembre = m.idmembre
                             JOIN public._image i ON m.idimagepdp = i.idimage
                             WHERE a.idoffre = :idoffre
-                            ORDER BY a.scorepouce DESC";
+                            ORDER BY a.scorepouce DESC, a.dateavis DESC";
                         }
                         
 
@@ -743,7 +747,7 @@
                                                     ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                             }
                                             ?>
-                                            <p>Score de pertinence : <?= $scorePouce ?> </p>
+                                            <p>Score de l'avis : <?= $scorePouce ?> </p>
                                         </div>
                                         <div class="suppr-avis">
                                             <a class="bouton-supprimer-avis" href="delete_avis.php?idoffre=<?=$idoffre?>&idmembre=<?=$idmembre?>&idavis=<?=$avis_membre['idavis']?>">Supprimer mon avis</a>
@@ -756,20 +760,24 @@
                             }
                             
                             if ($avis) {
-                                foreach ($avis as $avis) {
+                                foreach ($avis as $avi) {
+                                    if($avi['blacklistavis'] == true){
+                                        continue;
+                                    }
                                     $hasReponse = false;
-                                    if($avis['reponsepro'] == true){
+                                    if($avi['reponsepro'] == true){
                                         $hasReponse = true;
                                     }
-                                    $avisId = $avis['idavis'];
-                                    $scorePouce = $avis['scorepouce'];
+                                    $avisId = $avi['idavis'];
+                                    
+                                    $scorePouce = $avi['scorepouce'];
                                     if(isset($_SESSION['thumbed'][$avisId]) && $_SESSION['thumbed'][$avisId] == true){
                                         $thumbsClicked[$avisId] = true;
                                     } else {
                                         $thumbsClicked[$avisId] = false;
                                     }
 
-                                    $date_formated = date("d/m/Y", strtotime($avis['dateavis']));
+                                    $date_formated = date("d/m/Y", strtotime($avi['dateavis']));
 
                                     //recuperer les infos de la réponse si il y en a une
                                     $sql = "SELECT * from avisreponse where idavis = :idavis";
@@ -786,12 +794,19 @@
                                     <div class="avis">
                                         <div class="container_pdp-name-date_options">
                                             <p class="pdp-name-date">
-                                                <img class="pdp-avis" src="<?php echo $avis['pathimage'] ?>" alt="image utilisateur">
-                                                <strong style="margin-right:3px;"><?= $avis['nomcompte'] . ' ' . $avis['prenomcompte'] ?></strong> - <?= $date_formated ?>
+                                                <img class="pdp-avis" src="<?php echo $avi['pathimage'] ?>" alt="image utilisateur">
+                                                <strong style="margin-right:3px;"><?= $avi['nomcompte'] . ' ' . $avi['prenomcompte'] ?></strong> - <?= $date_formated ?>
                                             </p>
-                                            <a class="avis_options" onclick="openModalAvis(event)">
-                                                <img src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
-                                            </a>
+                                            <div class="buttons_avis">
+                                                <?php if($bonProfessionnel && $offrepremium){ ?>
+                                                    <a class="avis_blacklist" onclick="openModalBlacklist(<?= $avisId ?>)">
+                                                        <img class="report_avis" src="./img/icons/blacklist.svg"  width="18px" height="18px" alt="blacklist icon">
+                                                    </a>
+                                                <?php } ?>
+                                                <a class="avis_options" onclick="openModalAvis(<?= $avisId ?>)">
+                                                    <img class="report_avis" src="./img/icons/report.svg" width="20px" height="20px" alt="report icon">
+                                                </a>
+                                            </div>
                                         </div>
 
                                         <!-- option avis modale -->
@@ -799,7 +814,7 @@
                                             <div class="modal_avis-content">
                                                 <span class="close_avis" onclick="closeModalAvis()">&times;</span>
                                                 <form action="report_avis.php" method="POST">
-                                                    <input type="hidden" name="idavis" value="<?=$avisId?>">
+                                                    <input id="reportjsavisid" type="hidden" name="idavis" value="">
                                                     <div class="form_avis_signalement">
                                                         <h2>Signaler l'avis aux administrateurs ?</h2><br>
                                                         <select class="dropdown-signalement" name="raison" id="raison">
@@ -823,32 +838,63 @@
                                             </div>
                                         </div>
 
+                                        <?php if($bonProfessionnel && $offrepremium){ ?>
+                                            
+
+                                            <div id="modalBlacklist" class="modal_avis">
+                                                <div class="modal_avis-content">
+                                                    <span class="close_avis" onclick="closeModalBlacklist()">&times;</span>
+                                                    <form action="blacklist_avis.php" method="POST">
+                                                        <input id="blacklistjsavisid" type="hidden" name="idavis" value="">
+                                                        <input type="hidden" name="idoffre" value="<?=$idoffre?>">
+                                                        <div class="form_avis_signalement">
+                                                            <h2>Blacklister l'avis ?</h2>
+                                                            <div style="display:flex; flex-direction:row; align-items:center;">
+                                                                <p style="padding-right:5px;">Vous disposez de <?= $offre['nbrjetonblacklistagerestant'] ?> jetons pour cette offre.</p>
+                                                                <div class="tooltip_jetons">
+                                                                    <img src="./img/icons/infos.svg" width=20px height=20px alt="infos">
+                                                                    <div class="tooltip_text">
+                                                                    Les jetons de blacklistage vous permettent de recourir à votre droit de veto sur un avis, vous récupérez des jetons quand la durée de blacklistage arrive à son terme (12 mois) ou si l'utilisateur supprime son avis blacklisté.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button type="submit" class="bouton-blacklist-avis">Blacklister l'avis</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        
+                                        <?php } ?>
+
                                         <script>
-                                            //fermer la modale si clic en dehors de la modale
+                                            //fermer les modales si clic en dehors d'une modale
                                             window.onclick = function(event) {
-                                                var modal = document.getElementById("modalAvis");
-                                                if (event.target === modal) {
-                                                    closeModalAvis();
+                                                var modals = document.getElementsByClassName("modal_avis");
+                                                for (var i = 0; i < modals.length; i++) {
+                                                    var modal = modals[i];
+                                                    if (event.target == modal) {
+                                                        modal.style.display = "none";
+                                                    }
                                                 }
                                             }
                                         </script>
 
-                                        <p><?= $avis['commentaireavis'] ?></p>
+                                        <p><?= $avi['commentaireavis'] ?></p>
                                         <div class="avis_stars_score">
                                             <?php
-                                                for ($i = 0; $i < $avis['noteavis']; $i++) {
+                                                for ($i = 0; $i < $avi['noteavis']; $i++) {
                                                     ?> <img src="./img/icons/star-solid.svg" alt="star checked" width="20" height="20"> <?php
                                                 }
-                                                for ($i = $avis['noteavis']; $i < 5; $i++) {
+                                                for ($i = $avi['noteavis']; $i < 5; $i++) {
                                                     ?> <img src="./img/icons/star-regular.svg" alt="star checked" width="20" height="20"> <?php
                                                 }
                                             ?>
-                                            <p>Score de pertinence : <?= $scorePouce ?> </p>
+                                            <p>Score de l'avis : <?= $scorePouce ?> </p>
                                         </div>
                                         <?php if(!$professionel) { ?>
                                             <div class="scorePouce">
-                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=plus" id="thumbs-up-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-up.svg" alt="Avis pertinent">Pertinent</a>
-                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=moins" id="thumbs-down-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-down.svg" alt="Avis non-pertinent">Non pertinent</a>
+                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=plus" id="thumbs-up-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-up.svg" alt="Avis pertinent">J'aime</a>
+                                                <a href="update_score_avis.php?id_avis=<?=$avisId?>&score=moins" id="thumbs-down-<?=$avisId?>" <?php if($thumbsClicked[$avisId]==true){echo 'style="pointer-events: none; opacity: 0.5;"';}?>><img src="./img/icons/thumbs-down.svg" alt="Avis non-pertinent">Je n'aime pas</a>
                                             </div>
                                         <?php } ?>
 
@@ -935,10 +981,13 @@
 
             async function geocode(adresse) {
                 try {
+                    
                     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(adresse)}&format=json&limit=1`);
+                    console.log(response);
                     return response.json();
                 } catch (error) {
                     console.error('Erreur de géocodage:', error);
+                    
                 }
             }
 

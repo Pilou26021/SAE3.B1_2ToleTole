@@ -169,13 +169,6 @@ if (!empty($lieux)) {
     $bindings[':lieux'] = $lieux;
 }
 
-if (!empty($search)) {
-    $whereConditions[] = "(LOWER(o.titreoffre) LIKE LOWER(:search) 
-                         OR LOWER(o.resumeoffre) LIKE LOWER(:search))
-                         OR LOWER(oa.ville) = LOWER(:search)";
-    $bindings[':search'] = '%' . $search . '%';
-}
-
 if(!empty($startDate)) {
     $whereConditions[] = "o.dateCreationOffre >= :startDate";
     $bindings[":startDate"] = $startDate;
@@ -196,6 +189,14 @@ if (!empty($mavant)) {
             break;
     }
 }
+
+if (!empty($search)) {
+    $whereConditions[] = "(LOWER(o.titreoffre) LIKE LOWER(:search) 
+                         OR LOWER(o.resumeoffre) LIKE LOWER(:search))
+                         OR LOWER(oa.ville) = LOWER(:search)";
+    $bindings[':search'] = '%' . $search . '%';
+}
+
 
 if (!empty($type)) {
     switch ($type) {
@@ -256,7 +257,41 @@ $offres = $stmt->fetchAll();
 
 // Afficher les offres filtrées
 if (count($offres) > 0) {
+    $offresData = [];
     foreach ($offres as $offre) {
+
+
+        $recherche_adresse = $conn -> prepare("SELECT numrue, supplementadresse, adresse, codepostal, ville, departement, pays
+                            FROM public.offreadresse o
+                            WHERE o.idoffre = :idoffre");
+        
+        $recherche_adresse->bindValue(':idoffre', $offre['idoffre'], PDO::PARAM_INT);
+        $recherche_adresse->execute();
+        $adresse_offre = $recherche_adresse->fetch();
+
+
+        $rue = $adresse_offre["numrue"]; // Numéro de la rue
+        $code_postal = $adresse_offre["codepostal"]; // Code postal
+        $adresserue = $adresse_offre["adresse"]; // Adresse
+        $ville = ucfirst($adresse_offre["ville"]); // Ville + passage en majuscule
+        $departement = ucfirst($adresse_offre["departement"]); // Département (ex : Bretagne) + passage en majuscule
+        $pays = ucfirst($adresse_offre["pays"]); // Pays + passage en majuscule
+        
+        // Adresse pour l'affichage sur la carte
+        $adresse = trim("$rue $adresserue, $code_postal $ville, $departement, $pays");
+
+
+        $offresData[] = [
+            'id' => $offre['idoffre'],
+            'titre' => htmlspecialchars($offre['titreoffre']),
+            'description' => $offre['resumeoffre'],
+            'image' => $offre['pathimage'],
+            'note' => $offre['notemoyenneoffre'],
+            'prix' => $offre['prixminoffre'],
+            'ville' => $adresse_offre["ville"],
+            'adresse' => $adresse
+        ];
+
         if(!$professionel && $offre['horsligne'] == false || $professionel) {
         ?>
         <a style="text-decoration:none; color:#040316; font-family: regular;" href="details_offre.php?idoffre=<?php echo $offre['idoffre'];?>">
@@ -271,8 +306,8 @@ if (count($offres) > 0) {
                 </div>
                 <div class="offre-details">
                     <!-- Titre de l'offre -->
-                    <h2 class="offre-titre"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
-                    
+                    <h2 class="offre-titre-index"><?= !empty($offre['titreoffre']) ? htmlspecialchars($offre['titreoffre']) : 'Titre non disponible' ?></h2>
+
                     <!-- Résumé de l'offre -->
                     <p class="offre-resume"><strong>Résumé:</strong> <?= !empty($offre['resumeoffre']) ? htmlspecialchars($offre['resumeoffre']) : 'Résumé non disponible' ?></p>
                     
@@ -338,3 +373,6 @@ if (count($offres) > 0) {
     echo "Aucune offre trouvée.";
 }
 ?>
+<div id="offres-data" style="display: none;">
+    <?= htmlspecialchars(json_encode($offresData)) ?>
+</div>

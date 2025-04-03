@@ -31,6 +31,13 @@
         $professionel = true;
         $typecompte = "professionel";
     }
+
+    // On récupère si l'authentifikator est activé
+    $stmt = $conn->prepare("SELECT auth_parametre FROM _compte WHERE idcompte = ?");
+    $stmt->bindParam(1, $idCompte, PDO::PARAM_INT);
+    $stmt->execute();
+    $authParametre = $stmt->fetch(PDO::FETCH_ASSOC);
+    $authParametre = $authParametre['auth_parametre'];
 ?>  
 
 <!DOCTYPE html>
@@ -199,51 +206,204 @@
             }
         </script>
 
-        <main class = "securite_main">
-            <!-- Modification du mot de passe -->
-            <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                <h2>Modifier le mot de passe</h2>
-                <form>
-                    <label for="mdp">Mot de passe actuel</label>
-                    <input type="password" id="mdp" name="mdp" required>
-                    <br>
-                    <label for="mdp1">Nouveau mot de passe</label>
-                    <input type="password" id="mdp1" name="mdp1" required oninput="verifierComplexiteMdp()">
-                    <small id="complexiteMessage" class="message-erreur"></small>
-                    <br>
-                    <label for="mdp2">Confirmer le mot de passe</label>
-                    <input type="password" id="mdp2" name="mdp2" required oninput="verifierCorrespondanceMdp()">
-                    <small id="correspondanceMessage" class="message-erreur"></small>
-                    <br>
-                    <button type="button" onclick="verifierMotDePasse()">Modifier</button>
-                </form>
-                <section class="alerte_mdp <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                    <p>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.</p>
-                </section>
-            </div>
+<main class="securite_main">
+    <div class="securite_container">
+        <!-- Modification du mot de passe -->
+        <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+            <h2>Modifier le mot de passe</h2>
+            <form>
+                <label for="mdp">Mot de passe actuel</label>
+                <input type="password" id="mdp" name="mdp" required>
+                <br>
+                <label for="mdp1">Nouveau mot de passe</label>
+                <input type="password" id="mdp1" name="mdp1" required oninput="verifierComplexiteMdp()">
+                <small id="complexiteMessage" class="message-erreur"></small>
+                <br>
+                <label for="mdp2">Confirmer le mot de passe</label>
+                <input type="password" id="mdp2" name="mdp2" required oninput="verifierCorrespondanceMdp()">
+                <small id="correspondanceMessage" class="message-erreur"></small>
+                <br>
+                <button type="button" onclick="verifierMotDePasse()">Modifier</button>
+            </form>
+            <section class="alerte_mdp <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+                <p>Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.</p>
+            </section>
+        </div>
 
+        <!-- Clé API -->
+        <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
+            <h2>Clé API</h2>
+            <div class="securite_center">
+            <div class="cleapi floutage">
+                <p>xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</p>
             </div>
-            <div class="securite_div <?php echo $professionel ? 'professionnel' : ($membre ? 'membre' : 'guest'); ?>">
-                <h2>Clé API</h2>
-                <div class="cleapi floutage">
-                    <p>xxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</p>
+            <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
+            <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
+            </div>
+            <p>Conservez cette clé API en lieu sûr. Elle vous permet d'accéder à l'API de notre site. Une fois générée, vous ne pourrez plus la voir en clair.</p>
+            <p>Si vous avez perdu votre clé API, vous pouvez en générer une nouvelle en cliquant sur le bouton "Regénérer la clé API".</p>
+            <hr class="securite_hr">
+            <?php if ($authParametre == true) { ?>
+                <h2>Authentification à deux facteurs</h2>
+                <p>L'authentification à deux facteurs est activée pour votre compte. Pour la désactiver, cliquez sur le bouton ci-dessous.</p>
+                <button id="btn_des-activer" onclick="">Désactiver l'authentification à deux facteurs</button>
+            <?php } else { ?>
+                <h2>Authentification à deux facteurs</h2>
+                <p>L'authentification à deux facteurs est désactivée pour votre compte. Pour l'activer, cliquez sur le bouton ci-dessous.</p>
+                <button class="securite_center" id="btn_des-activer" onclick="popup_2fa()">Activer l'authentification à deux facteurs</button>
+            <?php } ?>
+        </div>
+    </div>
+</main>
+
+<script>
+    function popup_2fa() {
+        var popup = document.querySelector('.auth-container .display-none');
+        var popup2 = document.querySelector('.auth-container');
+        if (popup2) {
+            popup2.style.display = 'block';
+        } else {
+            console.error("L'élément .auth-container n'existe pas !");
+        }
+        if (popup) {
+            popup.style.display = 'block';
+        } else {
+            console.error("L'élément .display-none à l'intérieur de .auth-container n'existe pas !");
+        }
+    }
+
+    function closePopup() {
+        var popup = document.querySelector('.auth-container');
+        if (popup) {
+            popup.style.display = 'none';
+        } else {
+            console.error("L'élément .auth-container n'existe pas !");
+        }
+    }
+
+    function get_secret() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'api/auth_gensecret.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                document.querySelector('.popup-content-right-inner-qr img').src = response.qrcode;
+                document.getElementById('secret').innerText = response.secret;
+            }
+        };
+        xhr.send('idcompte=' + <?php echo $idcompte; ?>);
+    }
+    // array avec secret et qrcode
+    get_secret();
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.popup').style.display = 'block';
+    });
+
+    function valider_otp() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'api/auth_paramotp.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == 'true') {
+                    var popup = document.querySelectorAll('.display-none');
+                    if (popup.length > 1) {
+                        popup[1].style.display = 'none';
+                        popup[2].style.display = 'block';
+                    } else {
+                        console.error("L'élément .popup n'existe pas !");
+                    }
+
+                    // Stock a value in the session
+                    sessionStorage.setItem('forceLogout', 'true');
+
+                    setTimeout(function() {
+                        // Redirige vers la page de déconnexion
+                        window.location.replace('deconnexion.php');
+                    }, 5000); // 5 secondes
+                } else {
+                    alert('Code OTP invalide');
+                }
+            }
+        };
+        var codeotp = document.getElementById('otp').value;
+        xhr.send('idcompte=' + <?php echo $idcompte; ?> + '&codeotp=' + codeotp);
+    }
+
+
+</script>
+
+<div class="auth-container display-none">
+    <div class="display-none">
+        <div class="popup-header">
+            <h2>Authentification à deux facteurs</h2>
+            <button class="close-popup" onclick="closePopup();">X</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-content">
+                <div class="popup-content-inner">
+                    <div class="popup-content-left">
+                        <div class="popup-content-left-inner">
+                            <h3 class="popup-title">Étape 1: Installer une application d'authentification à deux facteurs</h3>
+                        </div>
+                    </div>
+                    <div class="popup-content-right">
+                        <div class="popup-content-right-inner">
+                            <h3 class="popup-title">Étape 2: Scannez le code QR ou entrez la clé secrète ci-dessous</h3>
+                            <p>Ouvrir votre application d'authentification et scanner le code QR ci-dessous ou entrez la clé secrète manuellement.</p>
+                            <div class="popup-content-right-inner-qr">
+                                <img src="" alt="QR Code">
+                            </div>
+                            <div class="popup-content-right-inner-secret">
+                                <p>Clé secrète: <span id="secret"></span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="popup-content-left">
+                        <div class="popup-content-left-inner">
+                            <h3 class="popup-title">Étape 3: Entrez le code OTP</h3>
+                            <p>Entrez le code OTP généré par votre application d'authentification à deux facteurs.</p>
+                            <div class="input-row">    
+                                <input type="text" id="otp" name="otp" placeholder="Code OTP">
+                                <button class="button button-primary" onclick="valider_otp();">Valider</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button id="btn_regenerer" onclick="regenerer_cleapi()">Regénérer la clé API</button>
-                <button id="btn_afficher" onclick="afficher_cleapi()">Afficher la clé API</button>
-                <p>Conservez cette clé API en lieu sûr. Elle vous permet d'accéder à l'API de notre site. Une fois générée, vous ne pourrez plus la voir en clair.</p>
-                <p>Si vous avez perdu votre clé API, vous pouvez en générer une nouvelle en cliquant sur le bouton "Regénérer la clé API".</p>
             </div>
+        </div>
+    </div>
 
-        </main>
-        <div id="footer"></div>
+    <div class="display-none">
+        <div class="popup-header">
+            <h2>Authentification à deux facteurs</h2>
+        </div>
+        <div class="popup-body">
+            <div class="popup-content">
+                <div class="popup-content-inner">
+                    <div class="popup-content-left">
+                        <div class="popup-content-left-inner">
+                            <h3 class="popup-title">Authentification à deux facteurs activée</h3>
+                            <p>Vous allez être déconnecté. Veuillez vous reconnecter avec l'authentification à deux facteurs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer"></div>
 
-        <!-- Script pour header et footer -->
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script>
-            $(function() {
-                $("#footer").load("./footer.html");
-            });
-        </script>
-        <script src="./script.js" ></script>
+<!-- Script pour header et footer -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+    $(function() {
+        $("#footer").load("./footer.html");
+    });
+</script>
+<script src="./script.js" ></script>
     </body>
 </html>
