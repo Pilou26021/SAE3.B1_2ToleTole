@@ -49,16 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $auth_parametre = $stmt->fetchColumn();
     
     if ($result && password_verify($motdepasse, $result['hashmdpcompte'])) {
-        // Si la connexion est réussie, définir la session
-        $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
-        $_SESSION['idmembre'] = $result['idmembre'];
-        header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
-        exit();
-
         if ($auth_parametre === false || $auth_parametre === 'false') {
             // Si la connexion est réussie, définir la session
             $_SESSION['membre'] = $result['idcompte']; // on utilise un autre champ pertinent
-            updateLastConnection($conn, $result['idcompte']); // Mettre à jour la date de dernière connexion
+            $_SESSION['idmembre'] = $result['idmembre'];
             header('Location: index.php'); // Redirection vers la page d'accueil ou une autre page
             exit();
         } else {
@@ -69,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($totp->verify($otp, leeway: 15)) {
                     // OTP valide, connexion réussie
                     $_SESSION['membre'] = $result['idcompte'];
+                    $_SESSION['idmembre'] = $result['idmembre'];
                     updateLastConnection($conn, $result['idcompte']); // Mettre à jour la date de dernière connexion
                     header('Location: index.php');
                     exit();
